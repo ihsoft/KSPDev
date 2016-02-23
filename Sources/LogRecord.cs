@@ -1,0 +1,119 @@
+﻿// Kerbal Development tools.
+// Author: igor.zavoychinskiy@gmail.com a.k.a. "ihsoft"
+// This software is distributed under Public domain license.
+
+using UnityEngine;
+using System;
+using System.Text;
+
+namespace KSPDev {
+
+/// <summary>A wrapper class to hold log record(s).</summary>
+public class LogRecord {
+  // Log text generation constnats.
+  private const string InfoPrefix = "INFO";
+  private const string WarningPrefix = "WARNING";
+  private const string ErrorPrefix = "ERROR";
+  private const string ExceptionPrefix = "EXCEPTION";
+  private const string RepeatedPrefix = "REPEATED:";
+  
+  /// <summary>Format of a timestamp in the logs.</summary>
+  private const string TimestampFormat = "yyMMdd\\THHmmss.fff";
+
+  /// <summary>A maximum size of title of a regular log record.</summary>
+  /// <remarks>Used to reserve memory when building log text. Too big value will waste memory and
+  /// too small value may impact performance. Keep it reasonable.</remarks>
+  private const int TitleMaxSize = 200;
+
+  /// <summary>An original Unity log record.</summary>  
+  public readonly LogInterceptor.Log srcLog;
+
+  /// <summary>A unique ID of the log.</summary>
+  /// <remarks>Don't use it for ordering since it's not defined how this ID is generated.</remarks>
+  public int lastId {
+    get { return _lastId; }
+  }
+  private int _lastId;
+
+  /// <summary>Timestamp of the log in local world (non-game) time.</summary>
+  public DateTime timestamp {
+    get { return _timestamp; }
+  }
+  private DateTime _timestamp;
+
+  /// <summary>NUmber of logs merged into this record so far.</summary>   
+  private int mergedLogs = 1;
+  
+  /// <summary>A lazzy cache for the log hash code.</summary>
+  private int? hashCode;
+  
+  
+  /// <summary>A generic wrapper for Unity log records.</summary>
+  /// <param name="log">A Unity log record.</param>
+  public LogRecord(LogInterceptor.Log log) {
+    srcLog = log;
+    _lastId = log.id;
+    _timestamp = log.timestamp;
+  }
+
+  public override int GetHashCode() {
+    // Don't add timestamp and ID since we want similar records to have the same code.
+    if (!hashCode.HasValue) {
+      hashCode = (srcLog.source + srcLog.type + srcLog.message).GetHashCode();
+    }
+    return hashCode.Value;
+  }
+
+  /// <summary>Merges repeated log into an existing record.</summary>
+  /// <remarks>Only does merging of ID and the timestamp. caller is responsible for updating other
+  /// fields.</remarks>
+  /// <param name="log">A log record to merge.</param>
+  public void MergeRepeated(LogRecord log) {
+    _lastId = log.srcLog.id;
+    _timestamp = log._timestamp.Ticks > _timestamp.Ticks ? log.timestamp : _timestamp;
+    ++mergedLogs;
+  }
+
+  /// <summary>Gives log's timestamp in a unified <seealso cref="TimestampFormat"/>.</summary>
+  /// <returns></returns>
+  public string FormatTimestamp() {
+    return _timestamp.ToString(TimestampFormat);
+  }
+
+  /// <summary>Returns a text form of the log.</summary>
+  /// <remarks>Not supposed to have stack trace.</remarks>
+  /// <returns>A string that describes the event.</returns>
+  public string MakeTitle() {
+    var titleBuilder = new StringBuilder(TitleMaxSize);
+    titleBuilder.Append(FormatTimestamp()).Append(" [");
+    // Not using a dict lookup to save performance.
+    switch (srcLog.type) {
+      case LogType.Log:
+        titleBuilder.Append(InfoPrefix);
+        break;
+      case LogType.Warning:
+        titleBuilder.Append(WarningPrefix);
+        break;
+      case LogType.Error:
+        titleBuilder.Append(ErrorPrefix);
+        break;
+      case LogType.Exception:
+        titleBuilder.Append(ExceptionPrefix);
+        break;
+      default:
+        titleBuilder.Append(srcLog.type);
+        break;
+    }
+    titleBuilder.Append("] ");
+    if (mergedLogs > 1) {
+      titleBuilder.Append('[').Append(RepeatedPrefix).Append(mergedLogs).Append("] ");
+    }
+    if (srcLog.source.Length > 0) {
+      titleBuilder.Append('[').Append(srcLog.source).Append("] ");
+    }
+    titleBuilder.Append(srcLog.message);
+    return titleBuilder.ToString();
+  }
+}
+
+} // namespace KSPDev
