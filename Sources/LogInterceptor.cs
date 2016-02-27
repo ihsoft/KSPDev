@@ -9,14 +9,13 @@ using System.Collections;
 using System.Text;
 using System.IO;
 using StackTrace = System.Diagnostics.StackTrace;
-using BindingFlags = System.Reflection.BindingFlags;
+using Logger = KSPDev.LogUtils.Logger;
 
 namespace KSPDev {
   
 /// <summary>An alternative log processor that allows better logs handling.</summary>
 /// <remarks>Keep it static!</remarks>
-//TODO: Non need to be a mono behavior
-public class LogInterceptor : MonoBehaviour {
+public static class LogInterceptor {
   /// <summary>Says if logs are being written into a disk file.</summary>
   /// <remarks>State can only be changed via a config since game restart is required.</remarks>
   public static bool persistentLogsEnabled {
@@ -24,9 +23,10 @@ public class LogInterceptor : MonoBehaviour {
   }
   private static bool _persistentLogsEnabled = true;
   
+  // FIXME: Deprecate persistent logger.
   // FIXME: Rename, cutify, etc.
   public static float persistentLogsFlushPeriod = 0.2f;  // Seconds.
-  private const string logfilePath = "logs";
+  private const string logfilePath = "GameData/KSPDev/logs";
   private const string logfilePrefix = "KSPDev-LOG";
   private static StreamWriter infoLogWriter;
   private static StreamWriter warningLogWriter;
@@ -48,18 +48,10 @@ public class LogInterceptor : MonoBehaviour {
   public static int maxLogLines = 1000;
 
   /// <summary>Intercepting mode. When disabled all logs go to the system.</summary>
-  public static bool isEnabled {
-    get { return _isEnabled; }
-    set {
-      if (value) {
-        StartIntercepting();
-      } else {
-        StopIntercepting();
-      }
-      _isEnabled = value;
-    }
+  public static bool isStarted {
+    get { return _isStarted; }
   }
-  private static bool _isEnabled = false;
+  private static bool _isStarted = false;
 
   /// <summary>Shifts stack trace forward by the exact source match.</summary>
   /// <remarks>Use this filter to skip well-known methods that wrap logging. Due to hash-match this
@@ -95,7 +87,8 @@ public class LogInterceptor : MonoBehaviour {
   /// from different methods. This filter is handled via "full scan" approach so, having it too big
   /// may result in a degraded application performance.</remarks>
   public static readonly List<string> prefixMatchOverride = new List<string>() {
-      //"KSPDev.Logger.",  // Own KSPDev logging methods.
+      "KSPDev.Logger.",  // Own KSPDev logging methods.
+      "KSPDev.DevLogger.",  // Own KSPDev logging methods.
   };
 
   /// <summary>Latest log records.</summary>
@@ -135,9 +128,12 @@ public class LogInterceptor : MonoBehaviour {
 
   /// <summary>Installs interceptor callback and disables system debug log.</summary>
   public static void StartIntercepting() {
+    if (_isStarted) {
+      return;  // NOOP of already started.
+    }
     Logger.logWarning("Debug output intercepted by KSPDev. Open its UI to see the logs"
                       + " (it usually opens with a 'backquote' hotkey)");
-    _isEnabled = true;
+    _isStarted = true;
     Application.RegisterLogCallback(HandleLog);
     if (skipStackFrames == -1) {
       // Write a detection pattern to figure out stack frame depth.
@@ -149,10 +145,13 @@ public class LogInterceptor : MonoBehaviour {
 
   /// <summary>Removes log interceptor and allows logs flowing into the system.</summary>
   public static void StopIntercepting() {
+    if (!_isStarted) {
+      return;  // NOOP of already stopped.
+    }
     Debug.LogWarning("Debug output returned back to the system."
                      + " Use system's console to see the logs");
     Application.RegisterLogCallback(null);
-    _isEnabled = false;
+    _isStarted = false;
     Debug.LogWarning("Debug output returned back from KSPDev to the system");
   }
   
@@ -181,8 +180,11 @@ public class LogInterceptor : MonoBehaviour {
   }
 
   /// <summary>Internal method. Don't call it!</summary>
-  protected static void Initialize() {
-    //LogFilter.LoadFilters();
+  /// FIXME: Deprecate in favor of start intercepting.
+  public static void Initialize() {
+    if (_isStarted) {
+      return;  // NOOP if already initalized.
+    }
     if (_persistentLogsEnabled) {
       if (logfilePath.Length > 0) {
         Directory.CreateDirectory(logfilePath);
@@ -196,8 +198,10 @@ public class LogInterceptor : MonoBehaviour {
           Path.Combine(logfilePath, String.Format("{0}.{1}.ERROR.txt", logfilePrefix, tsSuffix)));
     }
 
-    // TODO: Read from config.
-    isEnabled = true;
+    StartIntercepting();
+    _isStarted = true;
+//    // TODO: Read from config.
+//    isEnabled = true;
   }
 
   /// <summary>Records a log from the log callback.</summary>
@@ -414,10 +418,9 @@ public class LogInterceptor : MonoBehaviour {
 /// initalization once the game is loaded. After that functionality will be served via static
 /// methods.</remarks>
 [KSPAddon(KSPAddon.Startup.Instantly, true /*once*/)]
-internal class KSPDevLogLoader : LogInterceptor {
+internal class KSPDevLogLoader : MonoBehaviour {
   void Awake() {
-    Initialize();
-    LogFilter.LoadFilters();
+    //LogInterceptor.Initialize();
   }
 }
 
@@ -425,7 +428,7 @@ internal class KSPDevLogLoader : LogInterceptor {
 /// A helper class to flush persistent logs when scene changes (or game exists).
 /// </summary>
 [KSPAddon(KSPAddon.Startup.EveryScene, false /*once*/)]
-internal class KSPDevLogFlusher : LogInterceptor {
+internal class KSPDevLogFlusher : MonoBehaviour {
   void Awake() {
     if (LogInterceptor.persistentLogsEnabled) {
       StartCoroutine(FlushLogsCoroutine());

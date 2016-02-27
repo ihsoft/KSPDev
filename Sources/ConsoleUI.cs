@@ -28,7 +28,6 @@ internal class ConsoleUI : MonoBehaviour {
   private static bool showWarning = true;
   private static bool showError = true;
   private static bool showException = true;
-  private const bool showAsserts = true;
   
   // Display mode constants.
   // TODO: Use enum.  
@@ -44,18 +43,37 @@ internal class ConsoleUI : MonoBehaviour {
   private static int selectedLogRecordId = -1;
 
   /// <summary>
-  /// If <c>true</c> the UI updates are frozen and only a napshot of logs is presented.
+  /// Indicates that visible log records should be queried from
+  /// <seealso cref="snapshotLogAggregator"/>.
   /// </summary>
   private static bool logUpdateIsPaused = false;
   
+  /// <summary>Idicates that logs from the current aggergator need to be requeried.</summary>
+  private static bool logsViewChanged = false;
+  
+  /// <summary>A logger that keeps records on th disk.</summary>
+  internal static PersistentLogAggregator diskLogAggregator = new PersistentLogAggregator();
+  /// <summary>A logger to show when <seealso cref="ShowModeRaw"/> is selected.</summary>
+  internal static PlainLogAggregator rawLogAggregator = new PlainLogAggregator();
+  /// <summary>A logger to show when <seealso cref="ShowModeCollapse"/> is selected.</summary>
+  internal static CollapseLogAggregator collapseLogAggregator = new CollapseLogAggregator();
   /// <summary>A logger to show when <seealso cref="ShowModeSmart"/> is selected.</summary>
   internal static SmartLogAggregator smartLogAggregator = new SmartLogAggregator();
+  /// <summary>A logger to show a static snapshot.</summary>
+  internal static SnapshotLogAggregator snapshotLogAggregator = new SnapshotLogAggregator();
+
+  // TODO: Annotate
+  internal static IEnumerable<LogRecord> logsToShow = new LogRecord[0];
+  internal static int infoLogs = 0;
+  internal static int warningLogs = 0;
+  internal static int errorLogs = 0;
+  internal static int exceptionLogs = 0;
 
   /// <summary>Console widnow margin on the screen.</summary>
   private const int Margin = 20;
   
   /// <summary>For every UI window Unity needs a unique ID. This is the one.</summary>
-  private const int WindowId = 1945;
+  private const int WindowId = 19450509;
 
   /// <summary>Actual screen position of the console window.</summary>
   private Rect windowRect =
@@ -65,13 +83,6 @@ internal class ConsoleUI : MonoBehaviour {
   private Rect titleBarRect = new Rect(0, 0, 10000, 20);
   private readonly GUIContent clearLabel =
       new GUIContent("Clear", "Clear the contents of the console.");
-  private readonly GUIContent showInfoLabel = new GUIContent("INFO", "Show records of type Log.");
-  private readonly GUIContent showWarningLabel =
-      new GUIContent("WARNING", "Show records of type Warning.");
-  private readonly GUIContent showErrorLabel =
-      new GUIContent("ERROR", "Show records of type Error.");
-  private readonly GUIContent showExceptionLabel =
-      new GUIContent("EXCEPTION", "Show records of type Exception.");
   private readonly GUIContent[] logShowingModes = {
       new GUIContent("Raw"),
       new GUIContent("Collapsed"),
@@ -103,7 +114,7 @@ internal class ConsoleUI : MonoBehaviour {
     }
     windowRect = GUILayout.Window(WindowId, windowRect, MakeConsoleWindow, "Debug logs");
   }
-  
+
   /// <summary>Verifies if level of the log record is needed by the UI.</summary>
   /// <param name="log">A log record to verify.</param>
   /// <returns><c>true</c> if this level is visible.</returns>
@@ -111,39 +122,20 @@ internal class ConsoleUI : MonoBehaviour {
     return log.srcLog.type == LogType.Exception && showException
         || log.srcLog.type == LogType.Error && showError
         || log.srcLog.type == LogType.Warning && showWarning
-        || log.srcLog.type == LogType.Log && showInfo
-        || log.srcLog.type == LogType.Assert && showAsserts;
+        || log.srcLog.type == LogType.Log && showInfo;
   }
 
-  private delegate void GUIAction();
-  private readonly List<GUIAction> guiActions = new List<GUIAction>();
+  private readonly GUIUtils.GuiActionsList guiActions = new GUIUtils.GuiActionsList();
   
   /// <summary>Shows a window that displays the recorded logs.</summary>
   /// <param name="windowID">Window ID.</param>
   void MakeConsoleWindow(int windowID) {
+    
     // Only update GUI state in a Layout pass which is the first pass in the frame. There may be
     // several different passes in OnGUI within the same frame, and in all the passes number/type of
     // GUI controls must match.
-    if (Event.current.type == EventType.Layout) {
-      // Apply GUI actions from the previous frame.
-      if (guiActions.Any()) {
-        foreach (var action in guiActions) {
-          action();
-        }
-        guiActions.Clear();
-      }
-      smartLogAggregator.FlushBufferedLogs();
-
-//      if (!logUpdateIsPaused) {
-//        // Update log records.
-//        if (logShowMode == ShowModeRaw) {
-//          UpdateRawView();
-//        } else if (logShowMode == ShowModeCollapse) {
-//          UpdateCollapsedView();
-//        } else if (logShowMode == ShowModeSmart) {
-//          UpdateSmartView();
-//        }
-//      }
+    if (guiActions.ExecutePendingGuiActions()) {
+      UpdateLogsView(forceUpdate: logUpdateIsPaused);
     }
 
     scrollPosition = GUILayout.BeginScrollView(scrollPosition);
@@ -152,15 +144,7 @@ internal class ConsoleUI : MonoBehaviour {
     };
     var minSizeLayout = GUILayout.ExpandWidth(false);
     
-    // TODO: make in configurable via UI
-//    const bool reverseOrder = true;
-//    var logsToRender = logRecords.Where(LogLevelFilter);
-    var logs = smartLogAggregator.GetLogRecords().Where(LogLevelFilter);
-//    IEnumerable<LogRecord> logs = reverseOrder ? logsToRender.Reverse() : logsToRender;
-
-    // Iterate through the recorded logs and add item into the scrolling control.
-    //var newSelectedLogRecord = selectedLogRecord;
-    foreach (var log in logs) {
+    foreach (var log in logsToShow.Where(LogLevelFilter)) {
       var recordMsg = log.MakeTitle()
           + (selectedLogRecordId == log.srcLog.id ? ":\n" + log.srcLog.stackTrace : "");
       GUI.contentColor = logTypesColor[log.srcLog.type];
@@ -168,13 +152,11 @@ internal class ConsoleUI : MonoBehaviour {
 
       // Check if log record is selected.
       if (Event.current.type == EventType.MouseDown) {
-        //TODO: using Input.MouseDown may be better idea.
-        //Pos.y = Screen.height - Pos.y;
         Rect logBoxRect = GUILayoutUtility.GetLastRect();
         if (GUILayoutUtility.GetLastRect().Contains(Event.current.mousePosition)) {
           // Toggle selection.
           var newSelectedId = selectedLogRecordId == log.srcLog.id ? -1 : log.srcLog.id;
-          guiActions.Add(() => selectedLogRecordId = newSelectedId);
+          guiActions.Add(() => GuiActionSelectLog(newSelectedId));
         }
       }
       
@@ -184,15 +166,7 @@ internal class ConsoleUI : MonoBehaviour {
         GUILayout.BeginHorizontal();
         GUILayout.Label("Silence: source", minSizeLayout);
         if (GUILayout.Button(log.srcLog.source, minSizeLayout)) {
-          guiActions.Add(() => {
-              LogFilter.AddSilenceBySource(log.srcLog.source);
-              LogFilter.SaveFilters();
-          });
-          //UNDONE: temp solution. make a new buttion.
-//          Type T = typeof(GUIUtility);
-//          var systemCopyBufferProperty = T.GetProperty("systemCopyBuffer");
-//          systemCopyBufferProperty.SetValue(null, "bla bla", null);
-          //System.Windows.Clipboard.SetText(log.MakeTitle() + "\n" + log.srcLog.stackTrace);
+          guiActions.Add(() => GuiActionAddSilence(log.srcLog.source, isPrefix: false));
         }
         var sourceParts = log.srcLog.source.Split('.');
         if (sourceParts.Length > 1) {
@@ -200,11 +174,7 @@ internal class ConsoleUI : MonoBehaviour {
           for (var i = sourceParts.Length - 1; i > 0; --i) {
             var prefix = String.Join(".", sourceParts.Take(i).ToArray()) + '.';
             if (GUILayout.Button(prefix, minSizeLayout)) {
-              guiActions.Add(() => {
-                  LogFilter.AddSilenceByPrefix(prefix);
-                  smartLogAggregator.UpdateFilter();
-                  LogFilter.SaveFilters();
-              });
+              guiActions.Add(() => GuiActionAddSilence(prefix, isPrefix: true));
             }
           }
         }
@@ -225,37 +195,127 @@ internal class ConsoleUI : MonoBehaviour {
 
     // Bottom menu.
     GUILayout.BeginHorizontal();
+    
+    // Clear logs in the current aggregator. 
     if (GUILayout.Button(clearLabel)) {
-      guiActions.Add(smartLogAggregator.ClearAllLogs);
+      guiActions.Add(GuiActionClearLogs);
     }
-
-    // Draw logs mode controls and refresh logs on mode change.
-    var oldShowMode = logShowMode;
-    logShowMode = GUILayout.SelectionGrid(
+    
+    // Log mode selection. 
+    GUI.changed = false;
+    var showMode = GUILayout.SelectionGrid(
         logShowMode, logShowingModes, logShowingModes.Length, GUILayout.ExpandWidth(false));
-    if (oldShowMode != logShowMode) {
-      //UNDONE: debug
-      Debug.LogWarning(String.Format("Refresh due to mode change: {0}=>{1}", oldShowMode, logShowMode));
+    logsViewChanged |= GUI.changed;
+    if (GUI.changed) {
+      guiActions.Add(() => GuiActionSetMode(mode: showMode));
     }
 
     //FIXME: make it a button
+    GUI.changed = false;
     logUpdateIsPaused = GUILayout.Toggle(logUpdateIsPaused, "PAUSED", GUILayout.ExpandWidth(false));
+    if (GUI.changed) {
+      guiActions.Add(() => GuiActionSetPaused(isPaused: logUpdateIsPaused));
+    }
     
     // Draw logs filter by level and refresh logs when filter changes.
     GUI.changed = false;
-    showInfo = GUILayout.Toggle(showInfo, showInfoLabel, GUILayout.ExpandWidth(false));
-    showWarning = GUILayout.Toggle(showWarning, showWarningLabel, GUILayout.ExpandWidth(false));
-    showError = GUILayout.Toggle(showError, showErrorLabel, GUILayout.ExpandWidth(false));
-    showException = GUILayout.Toggle(showException, showExceptionLabel, GUILayout.ExpandWidth(false));
-    if (GUI.changed) {
-      //UNDONE: debug
-      Debug.LogWarning(String.Format("Refresh due to filter change: {0}", logShowMode));
-    }
-
+    showInfo = MakeFormattedToggle(
+        showInfo, logTypesColor[LogType.Log], "INFO ({0})", infoLogs);
+    showWarning = MakeFormattedToggle(
+        showWarning, logTypesColor[LogType.Warning], "WARNING ({0})", warningLogs);
+    showError = MakeFormattedToggle(
+        showError, logTypesColor[LogType.Error], "ERROR ({0})", errorLogs);
+    showException = MakeFormattedToggle(
+        showException, logTypesColor[LogType.Exception], "EXCEPTION ({0})", exceptionLogs);
+    logsViewChanged |= GUI.changed;
     GUILayout.EndHorizontal();
 
     // Allow the window to be dragged by its title bar.
     GUI.DragWindow(titleBarRect);
+  }
+
+  /// <summary>Makes a standard toggle GUI element.</summary>
+  /// <param name="value">A toggle initial state.</param>
+  /// <param name="color">A toggle color foreground.</param>
+  /// <param name="fmt">A formatting string for the toggle caption</param>
+  /// <param name="args">Arguments for the formatting string.</param>
+  /// <returns></returns>
+  private bool MakeFormattedToggle(bool value, Color color, string fmt, params object[] args) {
+    GUI.contentColor = color;
+    return GUILayout.Toggle(value, string.Format(fmt, args), GUILayout.ExpandWidth(false));
+  }
+
+  /// <summary>Populates <seealso cref="logsToShow"/> and stats numbers.</summary>
+  /// <remarks>Current aggregator is determined from <seealso cref="logShowMode"/> and
+  /// <seealso cref="logUpdateIsPaused"/></remarks>
+  /// <param name="forceUpdate">If <c>false</c> then logs view will only be updated if there were
+  /// newly aggregated records in teh current aggregator.</param>
+  private void UpdateLogsView(bool forceUpdate = false) {
+    BaseLogAggregator currentAggregator = GetCurrentAggregator();
+    if (currentAggregator.FlushBufferedLogs() || logsViewChanged || forceUpdate) {
+      logsToShow = currentAggregator.GetLogRecords();
+      infoLogs = currentAggregator.infoLogs;
+      warningLogs = currentAggregator.warningLogs;
+      errorLogs = currentAggregator.errorLogs;
+      exceptionLogs = currentAggregator.exceptionLogs;
+    }
+    logsViewChanged = false;
+  }
+  
+  /// <summary>Returns an aggregator for teh currentkly selected mode.</summary>
+  /// <param name="ignorePaused">If <c>true</c> then snapshot aggregator is not considered.</param>
+  /// <returns>An aggregator.</returns>
+  private BaseLogAggregator GetCurrentAggregator(bool ignorePaused = false) {
+    BaseLogAggregator currentAggregator = snapshotLogAggregator;
+    if (ignorePaused || !logUpdateIsPaused) {
+      if (logShowMode == ShowModeRaw) {
+        currentAggregator = rawLogAggregator;
+      } else if (logShowMode == ShowModeCollapse) {
+        currentAggregator = collapseLogAggregator;
+      } else {
+        currentAggregator = smartLogAggregator;
+      }
+    }
+    return currentAggregator;
+  }
+  
+  private void GuiActionSetPaused(bool isPaused) {
+    if (isPaused) {
+      snapshotLogAggregator.LoadLogs(GetCurrentAggregator(ignorePaused: true));
+    }
+    logUpdateIsPaused = isPaused;
+    logsViewChanged = true;
+  }
+
+  private void GuiActionClearLogs() {
+    GuiActionSetPaused(isPaused: false);
+    GetCurrentAggregator().ClearAllLogs();
+    logsViewChanged = true;
+  }
+  
+  private void GuiActionSelectLog(int newSelectedId) {
+    selectedLogRecordId = newSelectedId;
+  }
+  
+  private void GuiActionAddSilence(string pattern, bool isPrefix) {
+    if (isPrefix) {
+      LogFilter.AddSilenceByPrefix(pattern);
+    } else {
+      LogFilter.AddSilenceBySource(pattern);
+    }
+    LogFilter.SaveFilters();
+
+    rawLogAggregator.UpdateFilter();
+    collapseLogAggregator.UpdateFilter();
+    smartLogAggregator.UpdateFilter();
+    snapshotLogAggregator.UpdateFilter();
+    logsViewChanged = true;
+  }
+  
+  private void GuiActionSetMode(int mode) {
+    logShowMode = mode;
+    GuiActionSetPaused(isPaused: false);  // New mode invalidates snapshot.
+    logsViewChanged = true;
   }
 }
 
@@ -263,6 +323,12 @@ internal class ConsoleUI : MonoBehaviour {
 [KSPAddon(KSPAddon.Startup.Instantly, true /*once*/)]
 internal class AggregationStarter : MonoBehaviour {
   void Awake() {
+    // First, ensure log innterception is started.
+    LogInterceptor.Initialize();
+    ConsoleUI.diskLogAggregator.StartCapture();
+    LogFilter.LoadFilters();
+    ConsoleUI.rawLogAggregator.StartCapture();
+    ConsoleUI.collapseLogAggregator.StartCapture();
     ConsoleUI.smartLogAggregator.StartCapture();
   }
 }

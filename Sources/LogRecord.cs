@@ -41,12 +41,11 @@ public class LogRecord {
   }
   private DateTime _timestamp;
 
-  /// <summary>NUmber of logs merged into this record so far.</summary>   
+  /// <summary>Number of logs merged into this record so far.</summary>   
   private int mergedLogs = 1;
   
   /// <summary>A lazzy cache for the log hash code.</summary>
   private int? hashCode;
-  
   
   /// <summary>A generic wrapper for Unity log records.</summary>
   /// <param name="log">A Unity log record.</param>
@@ -56,6 +55,18 @@ public class LogRecord {
     _timestamp = log.timestamp;
   }
 
+  /// <summary>Makes a copy of the existing LogRecord.</summary>
+  public LogRecord(LogRecord logRecord) {
+    srcLog = logRecord.srcLog;
+    _lastId = logRecord._lastId;
+    _timestamp = logRecord.timestamp;
+    mergedLogs = logRecord.mergedLogs;
+    hashCode = logRecord.hashCode;
+  }
+
+  /// <summary>This method will ikely be called very frequiently so, cache the code.</summary>
+  /// <returns>A hash code of the *similar* fields.</returns>
+  /// FIXME: Don't overrdie standard method to allow using reocrd in hash sets.
   public override int GetHashCode() {
     // Don't add timestamp and ID since we want similar records to have the same code.
     if (!hashCode.HasValue) {
@@ -67,15 +78,16 @@ public class LogRecord {
   /// <summary>Merges repeated log into an existing record.</summary>
   /// <remarks>Only does merging of ID and the timestamp. caller is responsible for updating other
   /// fields.</remarks>
-  /// <param name="log">A log record to merge.</param>
+  /// <param name="log">A log record to merge. This is a readonly parameter!</param>
   public void MergeRepeated(LogRecord log) {
     _lastId = log.srcLog.id;
-    _timestamp = log._timestamp.Ticks > _timestamp.Ticks ? log.timestamp : _timestamp;
+    // Math.Max() won't work for DateTime.
+    _timestamp = log._timestamp > _timestamp ? log.timestamp : _timestamp;
     ++mergedLogs;
   }
 
   /// <summary>Gives log's timestamp in a unified <seealso cref="TimestampFormat"/>.</summary>
-  /// <returns></returns>
+  /// <returns>A human readable timestamp string.</returns>
   public string FormatTimestamp() {
     return _timestamp.ToString(TimestampFormat);
   }

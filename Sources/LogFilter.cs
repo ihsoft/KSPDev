@@ -2,16 +2,16 @@
 // Author: igor.zavoychinskiy@gmail.com a.k.a. "ihsoft"
 // This software is distributed under Public domain license.
 
-using UnityEngine;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Logger = KSPDev.LogUtils.Logger;
 
 namespace KSPDev {
 
 /// <summary>Keeps and controls filters to apply to the incoming logs.</summary>
 [KSPAddon(KSPAddon.Startup.Instantly, true /*once*/)]
-internal abstract class LogFilter {
+internal static class LogFilter {
   /// <summary>Sources that starts from any of the strings in the filter will be ingored.</summary>
   /// <remarks>Walking thru this filter requires full scan (in a worst case) so, it should be of a
   /// reasonable size.</remarks>
@@ -25,7 +25,7 @@ internal abstract class LogFilter {
   private const string SourcePrefixKeyName = "sourcePrefix";
   private const string ExactMatchFilterNodeName = "ExactMatchFilter";
   private const string SourceKeyName = "source";
-  private const string FiltersFilePath = "/GameData/KSPDev/LogConsole-filters.cfg";
+  private const string FiltersFilePath = "GameData/KSPDev/LogConsole-filters.cfg";
 
   /// <summary>Adds a new filter by exact match of the source.</summary>
   /// <param name="source"></param>
@@ -48,7 +48,7 @@ internal abstract class LogFilter {
   /// <summary>Loads saved filters.</summary>
   public static void LoadFilters() {
     var filtersPath = KSPUtil.ApplicationRootPath + FiltersFilePath;
-    Logger.logWarning("***** Loading filters from {0}...", filtersPath);
+    Logger.logInfo("Loading filters from {0}...", filtersPath);
     ConfigNode node = ConfigNode.Load(filtersPath);
     if (node == null) {
       return;
@@ -57,16 +57,14 @@ internal abstract class LogFilter {
     var prefixMatchNode = node.GetNode(PrefixMatchFilterNodeName);
     if (prefixMatchNode != null) {
       var cfgPrefixFilter = prefixMatchNode.GetValues(SourcePrefixKeyName);
-      // FIXME
-      //Logger.logInfo("Read prefix matches: {0}", String.Join(", ", cfgPrefixFilter));
-      Logger.logInfo("Read prefix matches: {0}", cfgPrefixFilter);
+      Logger.logInfo("Read prefix matches: {0}", String.Join(", ", cfgPrefixFilter));
       prefixFilter = cfgPrefixFilter.ToList();
     }
 
     var exactMatchNode = node.GetNode(ExactMatchFilterNodeName);
     if (exactMatchNode != null) {
       var cfgExactFilter = exactMatchNode.GetValues(SourceKeyName);
-      Logger.logInfo("Read exact matches: {0}", cfgExactFilter);
+      Logger.logInfo("Read exact matches: {0}", String.Join(", ", cfgExactFilter));
       exactFilter = new HashSet<string>(cfgExactFilter);
     }
   }
@@ -97,7 +95,7 @@ internal abstract class LogFilter {
   /// <summary>Verifies if <paramref name="log"/> macthes the filters.</summary>
   /// <param name="log">A log record to check.</param>
   /// <returns><c>true</c> if any of the filters matched.</returns>
-  public static bool CheckIsFiltered(LogInterceptor.Log log) {
+  public static bool CheckLogForFilter(LogInterceptor.Log log) {
     return exactFilter.Contains(log.source) || prefixFilter.Any(log.source.StartsWith);
   }
 }

@@ -12,7 +12,7 @@ namespace KSPDev {
 public abstract class BaseLogAggregator {
   /// <summary>Defines how many records of each type to keep in memory.</summary>
   // TODO: read it from the config file.
-  private const int MaxLogRecords = 1000;
+  private const int MaxLogRecords = 300;
   
   /// <summary>Maximum number of chached (and non-aggregated) records.</summary>
   /// <remarks>Once the limit is reached all the cached records get aggregated via
@@ -27,10 +27,25 @@ public abstract class BaseLogAggregator {
   protected LinkedList<LogRecord> logRecords = new LinkedList<LogRecord>();
   
   // Counters for every type of the logs. Descendants are responsible to keep them up to date.
-  private int infoLogs = 0;
-  private int warningLogs = 0;
-  private int errorLogs = 0;
-  private int exceptionLogs = 0;
+  public int infoLogs {
+    get { return _infoLogs; }
+  }
+  private int _infoLogs = 0;
+  
+  public int warningLogs {
+    get { return _warningLogs; }
+  }
+  private int _warningLogs = 0;
+
+  public int errorLogs {
+    get { return _errorLogs; }
+  }
+  private int _errorLogs = 0;
+  
+  public int exceptionLogs {
+    get { return _exceptionLogs; }
+  }
+  private int _exceptionLogs = 0;
 
   /// <summary>A buffer to keep unaggregated <seealso cref="LogInterceptor"/> log records.</summary>
   /// <remarks>Call <seealso cref="FlushBufferedLogs"/> before accessing aggregated logs to have up
@@ -39,7 +54,7 @@ public abstract class BaseLogAggregator {
 
   /// <summary>Returns aggregated logs.</summary>
   /// <remarks>Implementation decides how exactly <seealso cref="logRecords"/> are returned to the
-  /// consumer. Main requirement: it must *NOT* change once returned. I.e. returning a list copy is
+  /// consumer. Main requirement: it must *NOT* change once returned. I.e. returning a copy is
   /// highly encouraged.</remarks>
   /// <returns>A list of records.</returns>
   public abstract IEnumerable<LogRecord> GetLogRecords();
@@ -57,17 +72,19 @@ public abstract class BaseLogAggregator {
   /// <summary>Adds a new log record to the aggregation.</summary>
   /// <remarks>Parent calls this method when it wants a record to be counted. It's up to the
   /// implementation what to do with the record.</remarks>
-  /// <param name="logRecord">A log from the <seealso cref="LogInterceptor"/>.</param>
+  /// <param name="logRecord">A log from the <seealso cref="LogInterceptor"/>. Do NOT store this
+  /// instance! If tjhis log record needs to be stored make a copy via <seealso cref="LogRecord"/>
+  /// constructor.</param>
   protected abstract void AggregateLogRecord(LogRecord logRecord);
   
   /// <summary>Initiates log capturing by this aggergator.</summary>
   /// <remarks>It's ok to call this method multiple times.</remarks>
-  public void StartCapture() {
+  public virtual void StartCapture() {
     LogInterceptor.RegisterPreviewCallback(LogPreview);
   }
 
   /// <summary>Stops log capturing by this aggergator.</summary>
-  public void StopCapture() {
+  public virtual void StopCapture() {
     LogInterceptor.UnregisterPreviewCallback(LogPreview);
     FlushBufferedLogs();
   }
@@ -75,20 +92,22 @@ public abstract class BaseLogAggregator {
   /// <summary>Re-scans aggregated logs applying the current filters.</summary>
   /// <remarks>Call it when settings in <seealso cref="LogFilter"/> has changed, and log records
   /// that matched the new filters need to be removed.</remarks>
-  public void UpdateFilter() {
+  public virtual void UpdateFilter() {
     FlushBufferedLogs();
     LinkedListNode<LogRecord> node = logRecords.First;
     while (node != null) {
       LinkedListNode<LogRecord> removeNode = node;
       node = node.Next;
-      if (LogFilter.CheckIsFiltered(removeNode.Value.srcLog)) {
+      if (CheckIsFiltered(removeNode.Value.srcLog)) {
         DropAggregatedLogRecord(removeNode);
       }
     }
   }
 
   /// <summary>Flushes all unaggregated logs.</summary>
-  public void FlushBufferedLogs() {
+  /// <returns><c>true</c> if there were pending changes.</returns>
+  public virtual bool FlushBufferedLogs() {
+    bool res = rawLogsBuffer.Count > 0;
     if (rawLogsBuffer.Count > 0) {
       // Get a snapshot to not get affected by the updates.
       var rawLogsCopy = rawLogsBuffer.ToArray();
@@ -99,16 +118,24 @@ public abstract class BaseLogAggregator {
       }
       DropExcessiveRecords();
     }
+    return res;
+  }
+
+  /// <summary>Verifies if <paramref name="log"/> matches the filters.</summary>
+  /// <param name="log">A log record to check.</param>
+  /// <returns><c>true</c> if any of the filters matched.</returns>
+  protected virtual bool CheckIsFiltered(LogInterceptor.Log log) {
+    return LogFilter.CheckLogForFilter(log);
   }
 
   /// <summary>Resets all log counters to zero.</summary>
   /// <remarks>If implementation calls this method then all aggregated logs must be cleared as well.
   /// </remarks>
   protected void ResetLogCounters() {
-    infoLogs = 0;
-    warningLogs = 0;
-    errorLogs = 0;
-    exceptionLogs = 0;
+    _infoLogs = 0;
+    _warningLogs = 0;
+    _errorLogs = 0;
+    _exceptionLogs = 0;
   }
   
   /// <summary>Updates counters for the log record type.</summary>
@@ -119,16 +146,16 @@ public abstract class BaseLogAggregator {
   protected void UpdateLogCounter(LogRecord logRecord, int delta) {
     switch (logRecord.srcLog.type) {
       case LogType.Log:
-        infoLogs += delta;
+        _infoLogs += delta;
         break;
       case LogType.Warning:
-        warningLogs += delta;
+        _warningLogs += delta;
         break;
       case LogType.Error: 
-        errorLogs += delta; 
+        _errorLogs += delta; 
         break;
       case LogType.Exception: 
-        exceptionLogs += delta; 
+        _exceptionLogs += delta; 
         break;
     }
   }
@@ -138,15 +165,15 @@ public abstract class BaseLogAggregator {
   private void DropExcessiveRecords() {
     if (logRecords.Count > 0) {
       LinkedListNode<LogRecord> node = logRecords.First;
-      while (infoLogs > MaxLogRecords || warningLogs > MaxLogRecords
-             || errorLogs > MaxLogRecords || exceptionLogs > MaxLogRecords) {
+      while (_infoLogs > MaxLogRecords || _warningLogs > MaxLogRecords
+             || _errorLogs > MaxLogRecords || _exceptionLogs > MaxLogRecords) {
         LinkedListNode<LogRecord> removeNode = node;
         node = node.Next;
         var logType = removeNode.Value.srcLog.type;
-        if (logType == LogType.Log && infoLogs > MaxLogRecords
-            || logType == LogType.Warning && warningLogs > MaxLogRecords
-            || logType == LogType.Error && errorLogs > MaxLogRecords
-            || logType == LogType.Exception && exceptionLogs > MaxLogRecords) {
+        if (logType == LogType.Log && _infoLogs > MaxLogRecords
+            || logType == LogType.Warning && _warningLogs > MaxLogRecords
+            || logType == LogType.Error && _errorLogs > MaxLogRecords
+            || logType == LogType.Exception && _exceptionLogs > MaxLogRecords) {
           DropAggregatedLogRecord(removeNode);
         }
       }
@@ -161,7 +188,7 @@ public abstract class BaseLogAggregator {
   /// </remarks>
   /// <param name="log">Raw log record.</param>
   private void LogPreview(LogInterceptor.Log log) {
-    if (LogFilter.CheckIsFiltered(log)) {
+    if (CheckIsFiltered(log)) {
       return;
     }
     // Override unsupported log types.

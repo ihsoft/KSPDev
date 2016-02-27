@@ -10,9 +10,9 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyTitle ("KSPDev")]
 [assembly: AssemblyDescription ("A set of development tools for KSP")]
 [assembly: AssemblyConfiguration ("")]
-[assembly: AssemblyCompany ("")]
+[assembly: AssemblyCompany ("IHSoft")]
 [assembly: AssemblyProduct ("")]
-[assembly: AssemblyCopyright ("Copyright 2016 by ihsoft")]
+[assembly: AssemblyCopyright ("Public domain license")]
 [assembly: AssemblyTrademark ("")]
 [assembly: AssemblyCulture ("")]
 // This sets the default COM visibility of types in the assembly to invisible.
@@ -24,6 +24,6 @@ using System.Runtime.InteropServices;
 //
 // You can specify all the values or you can use the default the Revision and 
 // Build Numbers by using the '*' as shown below:
-[assembly: AssemblyVersion ("1.0.*")]
+[assembly: AssemblyVersion ("1.0.0")]
 [assembly: Guid ("4a5a3eab-4159-4375-8329-4f739fcb6226")]
 [assembly: AssemblyFlags (AssemblyNameFlags.PublicKey | AssemblyNameFlags.EnableJITcompileOptimizer)]

@@ -14,7 +14,7 @@ internal class SmartLogAggregator : BaseLogAggregator {
       new Dictionary<int, LinkedListNode<LogRecord>>();
  
   public override IEnumerable<LogRecord> GetLogRecords() {
-    return logRecords.Reverse();
+    return logRecords.ToArray().Reverse();
   }
   
   public override void ClearAllLogs() {
@@ -36,7 +36,7 @@ internal class SmartLogAggregator : BaseLogAggregator {
       existingNode.Value.MergeRepeated(logRecord);
       logRecords.AddLast(existingNode);
     } else {
-      var node = logRecords.AddLast(logRecord);
+      var node = logRecords.AddLast(new LogRecord(logRecord));
       logRecordsIndex.Add(logRecord.GetHashCode(), node);
       UpdateLogCounter(logRecord, 1);
     }

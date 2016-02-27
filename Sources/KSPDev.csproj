@@ -62,17 +62,23 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BaseLogAggregator.cs" />
+    <Compile Include="CollapseLogAggregator.cs" />
     <Compile Include="ConsoleUI.cs" />
     <Compile Include="LogFilter.cs" />
     <Compile Include="LogInterceptor.cs" />
     <Compile Include="LogRecord.cs" />
+    <Compile Include="PersistentLogAggregator.cs" />
+    <Compile Include="PlainLogAggregator.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SmartLogAggregator.cs" />
-    <Compile Include="Utils\Logger.cs" />
+    <Compile Include="SnapshotLogAggreator.cs" />
+    <Compile Include="Utils\GUIUtils\GuiActionsList.cs" />
+    <Compile Include="Utils\LogUtils\Logger.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Client" />
     <Folder Include="Utils" />
+    <Folder Include="Utils\GUIUtils" />
+    <Folder Include="Utils\LogUtils" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>

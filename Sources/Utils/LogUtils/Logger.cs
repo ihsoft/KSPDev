@@ -4,7 +4,7 @@
 
 using System;
 
-namespace KSPDev {
+namespace KSPDev.LogUtils {
 
 /// <summary>
 /// A development logger that respects logging level and supports string formatting.
