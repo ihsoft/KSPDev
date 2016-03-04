@@ -45,7 +45,7 @@ public class LogRecord {
   private int mergedLogs = 1;
   
   /// <summary>A lazzy cache for the log hash code.</summary>
-  private int? hashCode;
+  private int? similarityHash;
   
   /// <summary>A generic wrapper for Unity log records.</summary>
   /// <param name="log">A Unity log record.</param>
@@ -61,18 +61,18 @@ public class LogRecord {
     _lastId = logRecord._lastId;
     _timestamp = logRecord.timestamp;
     mergedLogs = logRecord.mergedLogs;
-    hashCode = logRecord.hashCode;
+    similarityHash = logRecord.similarityHash;
   }
 
-  /// <summary>This method will ikely be called very frequiently so, cache the code.</summary>
+  /// <summary>Returns a hash code that is indentical for the *similar* log records.</summary>
+  /// <remarks>This method is supposed to be called very frequiently so, caching the code is a good
+  /// idea.</remarks>
   /// <returns>A hash code of the *similar* fields.</returns>
-  /// FIXME: Don't overrdie standard method to allow using record in hash sets.
-  public override int GetHashCode() {
-    // Don't add timestamp and ID since we want similar records to have the same code.
-    if (!hashCode.HasValue) {
-      hashCode = (srcLog.source + srcLog.type + srcLog.message).GetHashCode();
+  public int GetSimilarityHash() {
+    if (!similarityHash.HasValue) {
+      similarityHash = (srcLog.source + srcLog.type + srcLog.message).GetHashCode();
     }
-    return hashCode.Value;
+    return similarityHash.Value;
   }
 
   /// <summary>Merges repeated log into an existing record.</summary>

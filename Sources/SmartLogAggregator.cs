@@ -25,19 +25,19 @@ internal class SmartLogAggregator : BaseLogAggregator {
   
   protected override void DropAggregatedLogRecord(LinkedListNode<LogRecord> node) {
     logRecords.Remove(node);
-    logRecordsIndex.Remove(node.Value.GetHashCode());
+    logRecordsIndex.Remove(node.Value.GetSimilarityHash());
     UpdateLogCounter(node.Value, -1);
   }
 
   protected override void AggregateLogRecord(LogRecord logRecord) {
     LinkedListNode<LogRecord> existingNode;
-    if (logRecordsIndex.TryGetValue(logRecord.GetHashCode(), out existingNode)) {
+    if (logRecordsIndex.TryGetValue(logRecord.GetSimilarityHash(), out existingNode)) {
       logRecords.Remove(existingNode);
       existingNode.Value.MergeRepeated(logRecord);
       logRecords.AddLast(existingNode);
     } else {
       var node = logRecords.AddLast(new LogRecord(logRecord));
-      logRecordsIndex.Add(logRecord.GetHashCode(), node);
+      logRecordsIndex.Add(logRecord.GetSimilarityHash(), node);
       UpdateLogCounter(logRecord, 1);
     }
   }

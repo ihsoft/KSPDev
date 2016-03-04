@@ -25,7 +25,8 @@ internal class CollapseLogAggregator : BaseLogAggregator {
   }
 
   protected override void AggregateLogRecord(LogRecord logRecord) {
-    if (logRecords.Any() && logRecords.Last().GetHashCode() == logRecord.GetHashCode()) {
+    if (logRecords.Any()
+        && logRecords.Last().GetSimilarityHash() == logRecord.GetSimilarityHash()) {
       logRecords.Last().MergeRepeated(logRecord);
     } else {
       logRecords.AddLast(new LogRecord(logRecord));
