@@ -324,7 +324,7 @@ internal class ConsoleUI : MonoBehaviour {
 internal class AggregationStarter : MonoBehaviour {
   void Awake() {
     // First, ensure log innterception is started.
-    LogInterceptor.Initialize();
+    LogInterceptor.StartIntercepting();
     ConsoleUI.diskLogAggregator.StartCapture();
     LogFilter.LoadFilters();
     ConsoleUI.rawLogAggregator.StartCapture();

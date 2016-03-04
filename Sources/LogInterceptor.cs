@@ -2,36 +2,17 @@
 // Author: igor.zavoychinskiy@gmail.com a.k.a. "ihsoft"
 // This software is distributed under Public domain license.
 
-using System.Collections.Generic;
-using UnityEngine;
-using System;
-using System.Collections;
-using System.Text;
-using System.IO;
+using KSPDev.LogUtils;
 using StackTrace = System.Diagnostics.StackTrace;
-using Logger = KSPDev.LogUtils.Logger;
+using System.Collections.Generic;
+using System;
+using UnityEngine;
 
 namespace KSPDev {
   
 /// <summary>An alternative log processor that allows better logs handling.</summary>
 /// <remarks>Keep it static!</remarks>
 public static class LogInterceptor {
-  /// <summary>Says if logs are being written into a disk file.</summary>
-  /// <remarks>State can only be changed via a config since game restart is required.</remarks>
-  public static bool persistentLogsEnabled {
-    get { return _persistentLogsEnabled; }
-  }
-  private static bool _persistentLogsEnabled = true;
-  
-  // FIXME: Deprecate persistent logger.
-  // FIXME: Rename, cutify, etc.
-  public static float persistentLogsFlushPeriod = 0.2f;  // Seconds.
-  private const string logfilePath = "GameData/KSPDev/logs";
-  private const string logfilePrefix = "KSPDev-LOG";
-  private static StreamWriter infoLogWriter;
-  private static StreamWriter warningLogWriter;
-  private static StreamWriter errorLogWriter;
-  
   // TODO: Make them all readonly. Would require a constructor. 
   public struct Log {
     public int id;
@@ -45,6 +26,7 @@ public static class LogInterceptor {
   /// <summary>Maximum number of lines to keep in memory.</summary>
   /// <remarks>Setting to a lower setting doesn't have immediate effect. It's undefined when
   /// excessive log records get cleaned up from <seealso cref="logs"/>.</remarks>
+  /// TODO: read from config.
   public static int maxLogLines = 1000;
 
   /// <summary>Intercepting mode. When disabled all logs go to the system.</summary>
@@ -87,13 +69,13 @@ public static class LogInterceptor {
   /// from different methods. This filter is handled via "full scan" approach so, having it too big
   /// may result in a degraded application performance.</remarks>
   public static readonly List<string> prefixMatchOverride = new List<string>() {
-      "KSPDev.Logger.",  // Own KSPDev logging methods.
-      "KSPDev.DevLogger.",  // Own KSPDev logging methods.
+      "KSPDev.LogUtils.Logger.",  // Own KSPDev logging methods.
+      // FIXME: Deprecate once KIS is migrated into KSPDev package.
+      "KSPDev.DevLogger.",  // Legacy version: Own KSPDev logging methods.
   };
 
   /// <summary>Latest log records.</summary>
   /// <remarks>List contains at maximum <seealso cref="maxLogLines"/> records.</remarks>
-  //public static readonly List<Log> logs = new List<Log>();
   public static readonly Queue<Log> logs = new Queue<Log>(maxLogLines);
 
   public delegate void PreviewCallback(Log log);
@@ -119,9 +101,7 @@ public static class LogInterceptor {
   /// <remarks>Expected that nobody will log this string alone in a normal flow.</remarks>
   private const string SkipStackFramesDetectionStr = "##-KSPDev-##";
 
-  /// <summary>A full source expected during the detection.</summary>
-  /// <remarks>It depends on namepsace, class and method name. Must be adjusted if wny of them
-  /// changed.</remarks>
+  /// <summary>A name of the method that sends frame detection signature.</summary>
   private const string SkipStackFramesDetectionSource = "StartIntercepting";
 
   private static int lastLogId = 1;
@@ -129,30 +109,30 @@ public static class LogInterceptor {
   /// <summary>Installs interceptor callback and disables system debug log.</summary>
   public static void StartIntercepting() {
     if (_isStarted) {
-      return;  // NOOP of already started.
+      return;  // NOOP if already started.
     }
     Logger.logWarning("Debug output intercepted by KSPDev. Open its UI to see the logs"
                       + " (it usually opens with a 'backquote' hotkey)");
     _isStarted = true;
     Application.RegisterLogCallback(HandleLog);
     if (skipStackFrames == -1) {
-      // Write a detection pattern to figure out stack frame depth.
-      // Use raw logging method to not get affected by the wrappers.
-      Debug.Log(SkipStackFramesDetectionStr);
+      // Write a detection signature to figure out stack frame depth.
+      Logger.logInfo(SkipStackFramesDetectionStr);
     }
     Logger.logWarning("Debug log transferred from system to the KSPDev");
   }
 
   /// <summary>Removes log interceptor and allows logs flowing into the system.</summary>
+  /// <remarks>Doesn't work properly for KSP since the game won't pickup the logs back.</remarks>
   public static void StopIntercepting() {
     if (!_isStarted) {
-      return;  // NOOP of already stopped.
+      return;  // NOOP if already stopped.
     }
-    Debug.LogWarning("Debug output returned back to the system."
-                     + " Use system's console to see the logs");
+    Logger.logWarning(
+        "Debug output returned back to the system. Use system's console to see the logs");
     Application.RegisterLogCallback(null);
     _isStarted = false;
-    Debug.LogWarning("Debug output returned back from KSPDev to the system");
+    Logger.logWarning("Debug output returned back from KSPDev to the system");
   }
   
   /// <summary>Registers a callaback that is called on every log record intercepted.</summary>
@@ -167,41 +147,6 @@ public static class LogInterceptor {
   /// <param name="previewCallback">A callback to unregister.</param>
   public static void UnregisterPreviewCallback(PreviewCallback previewCallback) {
     previewCallbacks.Remove(previewCallback);
-  }
-
-  /// <summary>Flushes all unsaved logs to disk.</summary>
-  /// <remarks>NO-OP if <seealso cref="persistentLogsEnabled"/> is <c>false</c></remarks>
-  public static void FlushPersistentLogs() {
-    if (_persistentLogsEnabled) {
-      infoLogWriter.Flush();
-      warningLogWriter.Flush();
-      errorLogWriter.Flush();
-    }
-  }
-
-  /// <summary>Internal method. Don't call it!</summary>
-  /// FIXME: Deprecate in favor of start intercepting.
-  public static void Initialize() {
-    if (_isStarted) {
-      return;  // NOOP if already initalized.
-    }
-    if (_persistentLogsEnabled) {
-      if (logfilePath.Length > 0) {
-        Directory.CreateDirectory(logfilePath);
-      }
-      var tsSuffix = DateTime.Now.ToString("yyMMdd\\THHmmss");
-      infoLogWriter = new StreamWriter(
-          Path.Combine(logfilePath, String.Format("{0}.{1}.INFO.txt", logfilePrefix, tsSuffix)));
-      warningLogWriter = new StreamWriter(
-          Path.Combine(logfilePath, String.Format("{0}.{1}.WARNING.txt", logfilePrefix, tsSuffix)));
-      errorLogWriter = new StreamWriter(
-          Path.Combine(logfilePath, String.Format("{0}.{1}.ERROR.txt", logfilePrefix, tsSuffix)));
-    }
-
-    StartIntercepting();
-    _isStarted = true;
-//    // TODO: Read from config.
-//    isEnabled = true;
   }
 
   /// <summary>Records a log from the log callback.</summary>
@@ -231,9 +176,6 @@ public static class LogInterceptor {
         type = type,
         source = source,
     };
-    if (_persistentLogsEnabled) {
-      WriteToPersistentLog(log);
-    }
 
     // Notify preview handlers. Do an exception check and exclude preview callbacks that cause
     // errors.
@@ -341,8 +283,8 @@ public static class LogInterceptor {
   /// <param name="frame">A stack frame to make string from.</param>
   /// <returns>A source string.</returns>
   private static string MakeSourceFromFrame(System.Diagnostics.StackFrame frame) {
-      var chkMethod = frame.GetMethod();
-      return chkMethod.DeclaringType + "." + chkMethod.Name;
+    var chkMethod = frame.GetMethod();
+    return chkMethod.DeclaringType + "." + chkMethod.Name;
   }
 
   /// <summary>A helper method to do logging from the interceptor class.</summary>
@@ -361,55 +303,6 @@ public static class LogInterceptor {
         source = "KSPDev-Internal",
     };
     logs.Enqueue(log);
-    if (_persistentLogsEnabled) {
-      WriteToPersistentLog(log);
-    }
-  }
-  
-  /// <summary>Writes log record into a file if it's enabled.</summary>
-  /// <param name="log">A record to write.</param>
-  private static void WriteToPersistentLog(Log log) {
-    try {
-      var messageBuilder = new StringBuilder(200);
-      messageBuilder.Append(log.timestamp.ToString("yyMMdd\\THHmmss.fff")).Append(' ');
-      switch (log.type) {
-        case LogType.Log:
-          messageBuilder.Append("[INFO] ");
-          break;
-        case LogType.Warning:
-          messageBuilder.Append("[WARNING] ");
-          break;
-        case LogType.Error:
-          messageBuilder.Append("[ERROR] ");
-          break;
-        case LogType.Exception:
-          messageBuilder.Append("[EXCEPTION] ");
-          break;
-        default:
-          messageBuilder.Append('[').Append(log.type).Append("] ");
-          break;
-      }
-      if (log.source.Length > 0) {
-        messageBuilder.Append('[').Append(log.source).Append("] ");
-      }
-      messageBuilder.Append(log.message);
-      if (log.type == LogType.Exception && log.stackTrace.Length > 0) {
-        messageBuilder.Append("\n").Append(log.stackTrace);
-      }
-
-      infoLogWriter.WriteLine(messageBuilder);
-      if (log.type == LogType.Warning || log.type == LogType.Error
-          || log.type == LogType.Exception) {
-        warningLogWriter.WriteLine(messageBuilder);
-      }
-      if (log.type == LogType.Error || log.type == LogType.Exception) {
-        errorLogWriter.WriteLine(messageBuilder);
-      }
-    } catch (Exception ex) {
-      _persistentLogsEnabled = false;
-      InternalLog("Persistent log record failed. Writing to file has been disabled",
-                  stackTrace:ex.StackTrace, type:LogType.Exception);
-    }
   }
 }
 
@@ -420,32 +313,7 @@ public static class LogInterceptor {
 [KSPAddon(KSPAddon.Startup.Instantly, true /*once*/)]
 internal class KSPDevLogLoader : MonoBehaviour {
   void Awake() {
-    //LogInterceptor.Initialize();
-  }
-}
-
-/// <summary>
-/// A helper class to flush persistent logs when scene changes (or game exists).
-/// </summary>
-[KSPAddon(KSPAddon.Startup.EveryScene, false /*once*/)]
-internal class KSPDevLogFlusher : MonoBehaviour {
-  void Awake() {
-    if (LogInterceptor.persistentLogsEnabled) {
-      StartCoroutine(FlushLogsCoroutine());
-    }
-  }
-
-  void OnDestroy() {
-    LogInterceptor.FlushPersistentLogs();
-  }
-
-  /// <summary>Flushes written logs to disk periodically.</summary>
-  /// <returns>Delay till next flush.</returns>
-  private IEnumerator FlushLogsCoroutine() {
-    while (true) {
-      yield return new WaitForSeconds(LogInterceptor.persistentLogsFlushPeriod);
-      LogInterceptor.FlushPersistentLogs();
-    }
+    LogInterceptor.StartIntercepting();
   }
 }
 
