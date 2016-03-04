@@ -25,7 +25,7 @@ internal class PersistentLogAggregator : BaseLogAggregator {
   
   // FIXME: Rename, cutify, etc.
   private const string logfilePath = "GameData/KSPDev/logs";
-  private const string logfilePrefix = "KSPDev-LOG-PERS";
+  private const string logfilePrefix = "KSPDev-LOG";
   private const string LogTsFormat = "yyMMdd\\THHmmss";
   
   private const string ConfigFilePath = "GameData/KSPDev/PersistentLog-settings.cfg";
