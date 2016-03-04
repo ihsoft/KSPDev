@@ -18,9 +18,16 @@ internal class ConsoleUI : MonoBehaviour {
 
   // Display log level selection.
   // TODO: Read from config.  
+  /// <summary>Specifies if INFO logs should be shown.</summary>
   private static bool showInfo = false;
+  
+  /// <summary>Specifies if WARNING logs should be shown.</summary>
   private static bool showWarning = true;
+  
+  /// <summary>Specifies if ERROR logs should be shown.</summary>
   private static bool showError = true;
+  
+  /// <summary>Specifies if EXCEPTION logs should be shown.</summary>
   private static bool showException = true;
   
   /// <summary>Log scrool box position.</summary>
