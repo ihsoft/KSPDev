@@ -16,12 +16,6 @@ internal class ConsoleUI : MonoBehaviour {
   /// TODO: Read it from config.
   private static KeyCode toggleKey = KeyCode.BackQuote;
 
-  /// <summary>Log scrool box position.</summary>
-  private static Vector2 scrollPosition;
-  
-  /// <summary>Specifies if debug console is visible.</summary>
-  private static bool showConsole = false;
-
   // Display log level selection.
   // TODO: Read from config.  
   private static bool showInfo = false;
@@ -29,6 +23,12 @@ internal class ConsoleUI : MonoBehaviour {
   private static bool showError = true;
   private static bool showException = true;
   
+  /// <summary>Log scrool box position.</summary>
+  private static Vector2 scrollPosition;
+  
+  /// <summary>Specifies if debug console is visible.</summary>
+  private static bool isConsoleVisible = false;
+
   // Display mode constants.
   // TODO: Use enum.  
   private const int ShowModeRaw = 0;
@@ -103,13 +103,14 @@ internal class ConsoleUI : MonoBehaviour {
   /// <summary>Only used to capture console toggle key.</summary>
   void Update() {
     if (Input.GetKeyDown(toggleKey)) {
-      showConsole = !showConsole;
+      isConsoleVisible = !isConsoleVisible;
+    }
     }
   }
 
   /// <summary>Actually renders the console window.</summary>
   void OnGUI() {
-    if (!showConsole) {
+    if (!isConsoleVisible) {
       return;
     }
     windowRect = GUILayout.Window(WindowId, windowRect, MakeConsoleWindow, "Debug logs");
