@@ -30,6 +30,9 @@ internal class ConsoleUI : MonoBehaviour {
   /// <summary>Specifies if EXCEPTION logs should be shown.</summary>
   private static bool showException = true;
   
+  /// <summary>Current display mode.</summary>
+  private static int logShowMode = ShowModeSmart;
+
   /// <summary>Log scrool box position.</summary>
   private static Vector2 scrollPosition;
   
@@ -42,9 +45,6 @@ internal class ConsoleUI : MonoBehaviour {
   private const int ShowModeCollapse = 1;
   private const int ShowModeSmart = 2;
   
-  /// <summary>Current display mode.</summary>
-  private static int logShowMode = ShowModeSmart;
-
   /// <summary>ID of the curently selected log record.</summary>
   /// <remarks>It shows expanded.</remarks>
   private static int selectedLogRecordId = -1;
@@ -67,14 +67,14 @@ internal class ConsoleUI : MonoBehaviour {
   /// <summary>A logger to show when <seealso cref="ShowModeSmart"/> is selected.</summary>
   internal static SmartLogAggregator smartLogAggregator = new SmartLogAggregator();
   /// <summary>A logger to show a static snapshot.</summary>
-  internal static SnapshotLogAggregator snapshotLogAggregator = new SnapshotLogAggregator();
+  private static SnapshotLogAggregator snapshotLogAggregator = new SnapshotLogAggregator();
 
-  // TODO: Annotate
-  internal static IEnumerable<LogRecord> logsToShow = new LogRecord[0];
-  internal static int infoLogs = 0;
-  internal static int warningLogs = 0;
-  internal static int errorLogs = 0;
-  internal static int exceptionLogs = 0;
+  // TODO: add comments
+  private static IEnumerable<LogRecord> logsToShow = new LogRecord[0];
+  private static int infoLogs = 0;
+  private static int warningLogs = 0;
+  private static int errorLogs = 0;
+  private static int exceptionLogs = 0;
 
   /// <summary>Console widnow margin on the screen.</summary>
   private const int Margin = 20;
