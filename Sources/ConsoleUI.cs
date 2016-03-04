@@ -254,10 +254,10 @@ internal class ConsoleUI : MonoBehaviour {
     BaseLogAggregator currentAggregator = GetCurrentAggregator();
     if (currentAggregator.FlushBufferedLogs() || logsViewChanged || forceUpdate) {
       logsToShow = currentAggregator.GetLogRecords();
-      infoLogs = currentAggregator.infoLogs;
-      warningLogs = currentAggregator.warningLogs;
-      errorLogs = currentAggregator.errorLogs;
-      exceptionLogs = currentAggregator.exceptionLogs;
+      infoLogs = currentAggregator.infoLogsCount;
+      warningLogs = currentAggregator.warningLogsCount;
+      errorLogs = currentAggregator.errorLogsCount;
+      exceptionLogs = currentAggregator.exceptionLogsCount;
     }
     logsViewChanged = false;
   }

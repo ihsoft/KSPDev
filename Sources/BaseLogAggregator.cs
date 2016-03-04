@@ -2,9 +2,9 @@
 // Author: igor.zavoychinskiy@gmail.com a.k.a. "ihsoft"
 // This software is distributed under Public domain license.
 
-using UnityEngine;
 using System.Collections.Generic;
 using System.Linq;
+using UnityEngine;
 
 namespace KSPDev {
 
@@ -26,36 +26,43 @@ public abstract class BaseLogAggregator {
   /// methods.</remarks>
   protected LinkedList<LogRecord> logRecords = new LinkedList<LogRecord>();
   
-  // Counters for every type of the logs. Descendants are responsible to keep them up to date.
-  public int infoLogs {
-    get { return _infoLogs; }
+  /// <summary>A number of INFO logs that this aggregator currently holds.</summary>
+  /// <remarks>Also counts anything that is not ERROR, WARNING or EXCEPTION.</remarks>
+  public int infoLogsCount {
+    get { return _infoLogsCount; }
   }
-  private int _infoLogs = 0;
+  private int _infoLogsCount = 0;
   
-  public int warningLogs {
-    get { return _warningLogs; }
+  /// <summary>A number of WARNING logs that this aggregator currently holds.</summary>
+  public int warningLogsCount {
+    get { return _warningLogsCount; }
   }
-  private int _warningLogs = 0;
+  private int _warningLogsCount = 0;
 
-  public int errorLogs {
-    get { return _errorLogs; }
+  /// <summary>A number of ERROR logs that this aggregator currently holds.</summary>
+  public int errorLogsCount {
+    get { return _errorLogsCount; }
   }
-  private int _errorLogs = 0;
+  private int _errorLogsCount = 0;
   
-  public int exceptionLogs {
-    get { return _exceptionLogs; }
+  /// <summary>A number of EXCEPTION logs that this aggregator currently holds.</summary>
+  public int exceptionLogsCount {
+    get { return _exceptionLogsCount; }
   }
-  private int _exceptionLogs = 0;
+  private int _exceptionLogsCount = 0;
 
   /// <summary>A buffer to keep unaggregated <seealso cref="LogInterceptor"/> log records.</summary>
   /// <remarks>Call <seealso cref="FlushBufferedLogs"/> before accessing aggregated logs to have up
   /// to date state.</remarks>
-  private List<LogInterceptor.Log> rawLogsBuffer = new List<LogInterceptor.Log>();
+  private readonly List<LogInterceptor.Log> rawLogsBuffer = new List<LogInterceptor.Log>();
 
   /// <summary>Returns aggregated logs.</summary>
   /// <remarks>Implementation decides how exactly <seealso cref="logRecords"/> are returned to the
-  /// consumer. Main requirement: it must *NOT* change once returned. I.e. returning a copy is
-  /// highly encouraged.</remarks>
+  /// consumer. Main requirement: the collection must *NOT* change once returned. Returning a
+  /// collection copy is highly encouraged.
+  /// <para>Note: changing of the items in the collection is acceptable. Deep copy is not required.
+  /// </para>
+  /// </remarks>
   /// <returns>A list of records.</returns>
   public abstract IEnumerable<LogRecord> GetLogRecords();
   
@@ -132,10 +139,10 @@ public abstract class BaseLogAggregator {
   /// <remarks>If implementation calls this method then all aggregated logs must be cleared as well.
   /// </remarks>
   protected void ResetLogCounters() {
-    _infoLogs = 0;
-    _warningLogs = 0;
-    _errorLogs = 0;
-    _exceptionLogs = 0;
+    _infoLogsCount = 0;
+    _warningLogsCount = 0;
+    _errorLogsCount = 0;
+    _exceptionLogsCount = 0;
   }
   
   /// <summary>Updates counters for the log record type.</summary>
@@ -146,16 +153,16 @@ public abstract class BaseLogAggregator {
   protected void UpdateLogCounter(LogRecord logRecord, int delta) {
     switch (logRecord.srcLog.type) {
       case LogType.Log:
-        _infoLogs += delta;
+        _infoLogsCount += delta;
         break;
       case LogType.Warning:
-        _warningLogs += delta;
+        _warningLogsCount += delta;
         break;
       case LogType.Error: 
-        _errorLogs += delta; 
+        _errorLogsCount += delta; 
         break;
       case LogType.Exception: 
-        _exceptionLogs += delta; 
+        _exceptionLogsCount += delta; 
         break;
     }
   }
@@ -165,15 +172,15 @@ public abstract class BaseLogAggregator {
   private void DropExcessiveRecords() {
     if (logRecords.Count > 0) {
       LinkedListNode<LogRecord> node = logRecords.First;
-      while (_infoLogs > MaxLogRecords || _warningLogs > MaxLogRecords
-             || _errorLogs > MaxLogRecords || _exceptionLogs > MaxLogRecords) {
+      while (_infoLogsCount > MaxLogRecords || _warningLogsCount > MaxLogRecords
+             || _errorLogsCount > MaxLogRecords || _exceptionLogsCount > MaxLogRecords) {
         LinkedListNode<LogRecord> removeNode = node;
         node = node.Next;
         var logType = removeNode.Value.srcLog.type;
-        if (logType == LogType.Log && _infoLogs > MaxLogRecords
-            || logType == LogType.Warning && _warningLogs > MaxLogRecords
-            || logType == LogType.Error && _errorLogs > MaxLogRecords
-            || logType == LogType.Exception && _exceptionLogs > MaxLogRecords) {
+        if (logType == LogType.Log && _infoLogsCount > MaxLogRecords
+            || logType == LogType.Warning && _warningLogsCount > MaxLogRecords
+            || logType == LogType.Error && _errorLogsCount > MaxLogRecords
+            || logType == LogType.Exception && _exceptionLogsCount > MaxLogRecords) {
           DropAggregatedLogRecord(removeNode);
         }
       }
@@ -182,7 +189,8 @@ public abstract class BaseLogAggregator {
 
   /// <summary>A callback handler for incoming Unity log records.</summary>
   /// <remarks>
-  /// <para>The record is only stored if it's not banned by <seealso cref="LogFilter"/>.</para>
+  /// <para>The record is only stored if it's not banned by <seealso cref="CheckIsFiltered"/>.
+  /// </para>
   /// <para>The incoming records are buffered in a list, and get aggregated when the buffer is
   /// exhausted. Such apporach saves CPU when no log console UI is presented.</para>
   /// </remarks>
@@ -191,10 +199,10 @@ public abstract class BaseLogAggregator {
     if (CheckIsFiltered(log)) {
       return;
     }
-    // Override unsupported log types.
+    // Override unsupported log types into INFO.
     if (log.type != LogType.Log && log.type != LogType.Warning
         && log.type != LogType.Error && log.type != LogType.Exception) {
-      log.type = LogType.Error;
+      log.type = LogType.Log;
     }
     rawLogsBuffer.Add(log);
     if (rawLogsBuffer.Count >= RawBufferSize) {

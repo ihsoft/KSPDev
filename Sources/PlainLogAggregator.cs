@@ -7,7 +7,7 @@ using System.Linq;
 
 namespace KSPDev {
 
-/// <summary>A log capturer that just accumulates all logs as is.</summary>
+/// <summary>A log capturer that just accumulates all logs in a plain list.</summary>
 internal class PlainLogAggregator : BaseLogAggregator {
  
   public override IEnumerable<LogRecord> GetLogRecords() {

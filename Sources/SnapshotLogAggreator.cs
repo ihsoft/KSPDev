@@ -7,10 +7,13 @@ using System.Linq;
 
 namespace KSPDev {
 
-/// <summary>A simple wrapper to hold static logs copy.</summary>
+/// <summary>
+/// A simple wrapper to hold static logs copy originated from any other aggreator.
+/// </summary>
 internal class SnapshotLogAggregator : BaseLogAggregator {
   
   /// <summary>Makes copies of the log records from <paramref name="srcAggregator"/>.</summary>
+  /// <remarks>Does a deep copy of every record.</remarks>
   /// <param name="srcAggregator">An aggregator to get log records from.</param>
   public void LoadLogs(BaseLogAggregator srcAggregator) {
     ClearAllLogs();

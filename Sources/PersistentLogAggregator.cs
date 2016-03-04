@@ -2,21 +2,23 @@
 // Author: igor.zavoychinskiy@gmail.com a.k.a. "ihsoft"
 // This software is distributed under Public domain license.
 
-using System.Linq;
+using KSPDev.LogUtils;
 using System.Collections.Generic;
-using UnityEngine;
-using System;
 using System.Collections;
 using System.IO;
-using StackTrace = System.Diagnostics.StackTrace;
-using Logger = KSPDev.LogUtils.Logger;
+using System.Linq;
+using System;
+using UnityEngine;
 
 namespace KSPDev {
 
 /// <summary>A log capturer that writes logs on disk.</summary>
 /// <remarks>
-/// <para>Three files are created: <c>INFO</c> that includes all logs, <c>WARNING</c> which captures
-/// warnings and errors, and <c>ERROR</c> for the errors (including exceptions).</para>
+/// <para>Three files are created: <list type="bullet">
+/// <item><c>INFO</c> that includes all logs;</item>
+/// <item><c>WARNING</c> which captures warnings and errors;</item>
+/// <item><c>ERROR</c> for the errors (including exceptions).</item>
+/// </list></para>
 /// <para>Persistent logging must be explicitly enabled via <c>PersistentLogs-settings.cfg</c>
 /// </para>
 /// </remarks>
@@ -24,17 +26,30 @@ internal class PersistentLogAggregator : BaseLogAggregator {
   private bool logEnabled = false;
   
   // FIXME: Rename, cutify, etc.
+  // TODO: read from config.
   private const string logfilePath = "GameData/KSPDev/logs";
-  private const string logfilePrefix = "KSPDev-LOG";
-  private const string LogTsFormat = "yyMMdd\\THHmmss";
   
+  /// <summary>Prefix for every log file name.</summary>
+  private const string logfilePrefix = "KSPDev-LOG";
+  
+  /// <summary>Format of the timestamp in the file.</summary>
+  private const string LogTsFormat = "yyMMdd\\THHmmss";
+
+  /// <summary>Config file location relative to the KSP folder.</summary>
   private const string ConfigFilePath = "GameData/KSPDev/PersistentLog-settings.cfg";
+  
+  // FIXME: Drop once config utils used.
   private const string ConfigGeneralNode = "GeneralSettings";
   private const string ConfigGeneralEnabled = "enabled";
   private const string ConfigGeneralPath = "logRelativePath";
-  
+
+  /// <summary>A writer that gets all the logs.</summary>  
   private StreamWriter infoLogWriter;
+  
+  /// <summary>A writer for <c>WARNING</c>, <c>ERROR</c> and <c>EXCEPTION</c> logs.</summary>
   private StreamWriter warningLogWriter;
+
+  /// <summary>Writer for <c>ERROR</c> and <c>EXCEPTION</c> logs.</summary>
   private StreamWriter errorLogWriter;
 
   public override IEnumerable<LogRecord> GetLogRecords() {
@@ -42,12 +57,12 @@ internal class PersistentLogAggregator : BaseLogAggregator {
   }
   
   public override void ClearAllLogs() {
-    // Cannot clear persistent log so, restart log files instead.
+    // Cannot clear persistent log so, restart the files instead.
     StartLogFiles();
   }
   
   protected override void DropAggregatedLogRecord(LinkedListNode<LogRecord> node) {
-    // No memory state so, do nothing.
+    // Do nothing since there is no memory state in the aggregator.
   }
 
   protected override void AggregateLogRecord(LogRecord logRecord) {
@@ -189,6 +204,7 @@ internal class PersistentLogAggregatorFlusher : MonoBehaviour {
   }
   
   /// <summary>Flushes logs to disk periodically.</summary>
+  /// <remarks>This method never returns.</remarks>
   /// <returns>Delay till next flush.</returns>
   private IEnumerator FlushLogsCoroutine() {
     while (true) {
