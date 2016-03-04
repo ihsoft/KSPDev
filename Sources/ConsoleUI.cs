@@ -33,6 +33,14 @@ internal class ConsoleUI : MonoBehaviour {
   /// <summary>Current display mode.</summary>
   private static int logShowMode = ShowModeSmart;
 
+  private static Color infoLogColor = Color.white;
+  
+  private static Color warningLogColor = Color.yellow;
+
+  private static Color errorLogColor = Color.red;
+
+  private static Color exceptionLogColor = Color.magenta;
+
   /// <summary>Log scrool box position.</summary>
   private static Vector2 scrollPosition;
   
@@ -95,17 +103,19 @@ internal class ConsoleUI : MonoBehaviour {
       new GUIContent("Collapsed"),
       new GUIContent("Smart"),
   };
-  
-  /// <summary>Color settings for every type of the log.</summary>
-  /// TODO: Read from config.
-  private static readonly Dictionary<LogType, Color> logTypesColor =
-      new Dictionary<LogType, Color>() {
-          { LogType.Log, Color.white},
-          { LogType.Warning, Color.yellow},
-          { LogType.Error, Color.red},
-          { LogType.Exception, Color.magenta},
-          { LogType.Assert, Color.gray},
-      };
+
+  /// <summary>Gives a color for the requested log type.</summary>
+  /// <param name="type">A log type to get color for.</param>
+  /// <returns>A color for the type.</returns>
+  private static Color GetLogTypeColor(LogType type) {
+    switch (type) {
+    case LogType.Log: return infoLogColor;
+    case LogType.Warning: return warningLogColor;
+    case LogType.Error: return errorLogColor;
+    case LogType.Exception: return exceptionLogColor;
+    }
+    return Color.gray;
+  }
 
   /// <summary>Only used to capture console toggle key.</summary>
   void Update() {
@@ -155,7 +165,7 @@ internal class ConsoleUI : MonoBehaviour {
     foreach (var log in logsToShow.Where(LogLevelFilter)) {
       var recordMsg = log.MakeTitle()
           + (selectedLogRecordId == log.srcLog.id ? ":\n" + log.srcLog.stackTrace : "");
-      GUI.contentColor = logTypesColor[log.srcLog.type];
+      GUI.contentColor = GetLogTypeColor(log.srcLog.type);
       GUILayout.Box(recordMsg, logRecordStyle);
 
       // Check if log record is selected.
@@ -227,14 +237,11 @@ internal class ConsoleUI : MonoBehaviour {
     
     // Draw logs filter by level and refresh logs when filter changes.
     GUI.changed = false;
-    showInfo = MakeFormattedToggle(
-        showInfo, logTypesColor[LogType.Log], "INFO ({0})", infoLogs);
-    showWarning = MakeFormattedToggle(
-        showWarning, logTypesColor[LogType.Warning], "WARNING ({0})", warningLogs);
-    showError = MakeFormattedToggle(
-        showError, logTypesColor[LogType.Error], "ERROR ({0})", errorLogs);
-    showException = MakeFormattedToggle(
-        showException, logTypesColor[LogType.Exception], "EXCEPTION ({0})", exceptionLogs);
+    showInfo = MakeFormattedToggle(showInfo, infoLogColor, "INFO ({0})", infoLogs);
+    showWarning = MakeFormattedToggle(showWarning, warningLogColor, "WARNING ({0})", warningLogs);
+    showError = MakeFormattedToggle(showError, errorLogColor, "ERROR ({0})", errorLogs);
+    showException =
+        MakeFormattedToggle(showException, exceptionLogColor, "EXCEPTION ({0})", exceptionLogs);
     logsViewChanged |= GUI.changed;
     GUILayout.EndHorizontal();
 
