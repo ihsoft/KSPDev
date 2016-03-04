@@ -10,7 +10,7 @@ namespace KSPDev {
 
 /// <summary>A wrapper class to hold log record(s).</summary>
 public class LogRecord {
-  // Log text generation constnats.
+  // Log text generation constants.
   private const string InfoPrefix = "INFO";
   private const string WarningPrefix = "WARNING";
   private const string ErrorPrefix = "ERROR";
@@ -66,7 +66,7 @@ public class LogRecord {
 
   /// <summary>This method will ikely be called very frequiently so, cache the code.</summary>
   /// <returns>A hash code of the *similar* fields.</returns>
-  /// FIXME: Don't overrdie standard method to allow using reocrd in hash sets.
+  /// FIXME: Don't overrdie standard method to allow using record in hash sets.
   public override int GetHashCode() {
     // Don't add timestamp and ID since we want similar records to have the same code.
     if (!hashCode.HasValue) {
