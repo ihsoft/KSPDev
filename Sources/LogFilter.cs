@@ -5,7 +5,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using Logger = KSPDev.LogUtils.Logger;
+using KSPDev.LogUtils;
 
 namespace KSPDev {
 
@@ -25,7 +25,7 @@ internal static class LogFilter {
   private const string SourcePrefixKeyName = "sourcePrefix";
   private const string ExactMatchFilterNodeName = "ExactMatchFilter";
   private const string SourceKeyName = "source";
-  private const string FiltersFilePath = "GameData/KSPDev/LogConsole-filters.cfg";
+  private const string FiltersFilePath = "GameData/KSPDev/LogFilter-settings.cfg";
 
   /// <summary>Adds a new filter by exact match of the source.</summary>
   /// <param name="source"></param>
