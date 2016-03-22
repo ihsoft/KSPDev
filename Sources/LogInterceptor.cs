@@ -13,14 +13,25 @@ namespace KSPDev {
 /// <summary>An alternative log processor that allows better logs handling.</summary>
 /// <remarks>Keep it static!</remarks>
 public static class LogInterceptor {
-  // TODO: Make them all readonly. Would require a constructor. 
-  public struct Log {
-    public int id;
-    public DateTime timestamp;
-    public string message;
-    public string stackTrace;
-    public string source;
-    public LogType type;
+
+  /// <summary>A basic container for the incoming logs. Immutable.</summary>
+  public class Log {
+    public readonly int id;
+    public readonly DateTime timestamp;
+    public readonly string message;
+    public readonly string stackTrace;
+    public readonly string source;
+    public readonly LogType type;
+    
+    internal Log(int id, DateTime timestamp, string message,
+                 string stackTrace, string source, LogType type) {
+      this.id = id;
+      this.timestamp = timestamp;
+      this.message = message;
+      this.stackTrace = stackTrace;
+      this.source = source;
+      this.type = type;
+    }
   }
 
   /// <summary>Maximum number of lines to keep in memory.</summary>
@@ -38,29 +49,27 @@ public static class LogInterceptor {
   /// <summary>Shifts stack trace forward by the exact source match.</summary>
   /// <remarks>Use this filter to skip well-known methods that wrap logging. Due to hash-match this
   /// set can be reasonable big without significant impact to the application performance.</remarks>
-  /// 
-  //FIXME: Drop number of frames. It's always 1.
-  public static readonly Dictionary<string, int> exactMatchOverride =
-      new Dictionary<string, int>() {
-          {"UnityEngine.MonoBehaviour.print", 1},  // Unity std I/O method.
-          // KAC logging core.
-          {"KSPPluginFramework.MonoBehaviourExtended.LogFormatted", 1},
-          {"TWP_KACWrapper.KACWrapper.LogFormatted", 1},
-          {"KAC_KERWrapper.KERWrapper.LogFormatted", 1},
-          {"KAC_VOIDWrapper.VOIDWrapper.LogFormatted", 1},
-          // SCANsat logging core.
-          {"SCANsat.SCANUtil.SCANlog", 1},
-          {"SCANsat.SCANmainMenuLoader.debugWriter", 1},
-          // KAS logging core.
-          {"KAS.KAS_Shared.DebugLog", 1},
-          {"KAS.KAS_Shared.DebugError", 1},
-          // Infernal robotics logging core.
-          {"InfernalRobotics.Logger.Log", 1},
-          // KER logging core.
-          {"KerbalEngineer.Logger.Flush", 1},
-          // AVC logging core.
-          {"MiniAVC.Logger.Flush", 1},
-      };
+  /// TODO: Read from config. 
+  public static readonly HashSet<string> exactMatchOverride = new HashSet<string>() {
+      "UnityEngine.MonoBehaviour.print",  // Unity std I/O method.
+      // KAC logging core.
+      "KSPPluginFramework.MonoBehaviourExtended.LogFormatted",
+      "TWP_KACWrapper.KACWrapper.LogFormatted",
+      "KAC_KERWrapper.KERWrapper.LogFormatted",
+      "KAC_VOIDWrapper.VOIDWrapper.LogFormatted",
+      // SCANsat logging core.
+      "SCANsat.SCANUtil.SCANlog",
+      "SCANsat.SCANmainMenuLoader.debugWriter",
+      // KAS logging core.
+      "KAS.KAS_Shared.DebugLog",
+      "KAS.KAS_Shared.DebugError",
+      // Infernal robotics logging core.
+      "InfernalRobotics.Logger.Log",
+      // KER logging core.
+      "KerbalEngineer.Logger.Flush",
+      // AVC logging core.
+      "MiniAVC.Logger.Flush",
+  };
 
   /// <summary>
   /// Skips all the matched prefixes up in the stack trace until a non-macthing one is found.
@@ -70,7 +79,7 @@ public static class LogInterceptor {
   /// may result in a degraded application performance.</remarks>
   public static readonly List<string> prefixMatchOverride = new List<string>() {
       "KSPDev.LogUtils.Logger.",  // Own KSPDev logging methods.
-      // FIXME: Deprecate once KIS is migrated into KSPDev package.
+      // TODO: Deprecate once KIS is migrated into KSPDev package.
       "KSPDev.DevLogger.",  // Legacy version: Own KSPDev logging methods.
   };
 
@@ -78,15 +87,15 @@ public static class LogInterceptor {
   /// <remarks>List contains at maximum <seealso cref="maxLogLines"/> records.</remarks>
   public static readonly Queue<Log> logs = new Queue<Log>(maxLogLines);
 
+  /// <summary>A callback type for the log listeners.</summary>
+  /// <param name="log">An immutable KSPDev log record.</param>
   public delegate void PreviewCallback(Log log);
   private static HashSet<PreviewCallback> previewCallbacks = new HashSet<PreviewCallback>();
 
-  /// <summary>
-  /// A utility collection to accumulate callbacks that throw errors. 
-  /// </summary>
+  /// <summary>A  collection to accumulate callbacks that throw errors.</summary>
   /// <remarks>A preview callback that throws an exception is unregistered immideately to minimize
-  /// the impact. To save performance this collection is made static, and it's pre-allocated size
-  /// reasonable.</remarks>
+  /// the impact. This collection is used locally only in <seealso cref="HandleLog"/> but to save
+  /// performance it's created statically with a reasonable pre-allocated size.</remarks>
   private static List<PreviewCallback> badCallbacks = new List<PreviewCallback>(10);
 
   /// <summary>
@@ -167,15 +176,7 @@ public static class LogInterceptor {
       // the Unity engine, and the provided stack trace should be used. 
       source = GetSourceAndStackTrace(ref stackTrace);
     }
-
-    var log = new Log() {
-        id = lastLogId++,
-        timestamp = DateTime.Now,
-        message = message,
-        stackTrace = stackTrace,
-        type = type,
-        source = source,
-    };
+    var log = new Log(lastLogId++, DateTime.Now, message, stackTrace, source, type);
 
     // Notify preview handlers. Do an exception check and exclude preview callbacks that cause
     // errors.
@@ -245,11 +246,10 @@ public static class LogInterceptor {
       }
       source = MakeSourceFromFrame(st.GetFrame(0));
 
-      // Check if this source needs a different frame for the source caclculation.
-      int skipMoreFrames;
-      if (exactMatchOverride.TryGetValue(source, out skipMoreFrames) && skipMoreFrames > 0) {
-        skipFramesExtra += skipMoreFrames;
-        continue;  // There is an exact match, re-try other exact match filters.
+      // Check if exactly this source is blacklisted.
+      if (exactMatchOverride.Contains(source)) {
+        ++skipFramesExtra;
+        continue;  // Re-run overrides for the new source.
       }
 
       // Check if the whole namespace prefix needs to be skipped in the trace.
@@ -294,14 +294,9 @@ public static class LogInterceptor {
   /// </param>
   private static void InternalLog(string message,
                                   LogType type = LogType.Log, string stackTrace = null) {
-    var log = new Log() {
-        id = lastLogId++,
-        timestamp = DateTime.Now,
-        message = message,
-        stackTrace = stackTrace ?? new StackTrace(true).ToString(),
-        type = type,
-        source = "KSPDev-Internal",
-    };
+    var log = new Log(lastLogId++, DateTime.Now,
+                      message, stackTrace ?? new StackTrace(true).ToString(), "KSPDev-Internal",
+                      type);
     logs.Enqueue(log);
   }
 }
