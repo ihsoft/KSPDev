@@ -1,5 +1,5 @@
 ﻿// KSP Development tools.
-// Author: igor.zavoychinskiy@gmail.com a.k.a. "ihsoft"
+// Author: igor.zavoychinskiy@gmail.com
 // This software is distributed under Public domain license.
 
 using KSPDev.LogUtils;
