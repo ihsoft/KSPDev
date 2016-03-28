@@ -5,51 +5,59 @@
 using System;
 
 namespace KSPDev.ConfigUtils {
-  
-/// <summary>An annotation for fields that needs (de)serialization.</summary>
-/// <remarks>See help topics and examples in <seealso cref="ConfigReader"/>.</remarks>
-[AttributeUsage(AttributeTargets.Field)]
-public class PersistentFieldAttribute : Attribute {
+
+/// <summary>Base for any persitent field annotation.</summary>
+/// <remarks>Descendands must initialize at least <seealso cref="_ordinaryValueProto"/> field. If
+/// <seealso cref="_repeatedValueProto"/> is set then the field is considered a persistent
+/// collection of values.
+/// <para>See more details and examples in <seealso cref="ConfigReader"/> module.</para>
+/// </remarks>
+public abstract class AbstractPersistentFieldAttribute : Attribute {
   public readonly string[] path;
   public string group = "";
-  public Type valueHandler;
-  public Type repetableHandler;
+
+  protected Type _ordinaryValueProto;
+  protected Type _repeatedValueProto;
   
-  public bool isRepeatable {
-    set {
-      repetableHandler = value ? typeof(GenericContainerHandler) : null;
-    }
-    get {
-      return repetableHandler != null;
-    }
-  }
-  
-  public bool isCompound {
-    set {
-      valueHandler = value ? typeof(CompoundValueHandler) : typeof(TrivialValueHandler);      
-    }
-    get {
-      // FIXME: Check for subclasses
-      return valueHandler == typeof(CompoundValueHandler)
-          || valueHandler.IsSubclassOf(typeof(CompoundValueHandler));
-    }
-  }
-  
-  /// <summary>
-  /// 
-  /// </summary>
-  /// <param name="cfgPath">A relative path to the the value in the config file. The config root
-  /// depends on the annotation context.</param>
-  /// <param name="group">A name of the group to consider annotaned fields for.</param>
-  /// <param name="repeatable">If <c>true</c> than field's value is treated as a generic container
-  /// which single argument is the item's type. The container must have exactly one template
-  /// parameter.</param>
-  /// <param name="compound">TBD</param>
-  public PersistentFieldAttribute(string cfgPath) {
+  protected AbstractPersistentFieldAttribute(string cfgPath) {
     this.path = cfgPath.Split('/');
-    isRepeatable = false;
-    isCompound = false;
   }
 }
+
+/// <summary>An attribute for fields that needs (de)serialization.</summary>
+/// <remarks>
+/// This form allows adjusting any <seealso cref="AbstractPersistentFieldAttribute"/> property
+/// in the annotation, and has a shortcut to mark field as repeatable
+/// (<c><seealso cref="isRepeatable"/> = true</c>).
+/// <para> By default ordial values are handled via <seealso cref="StandardOrdinaryTypesProto"/>
+/// and repeated fields via <seealso cref="GenericCollectionTypeProto"/>. These proto handlers can
+/// be changed in the annotation by assigning values to properties
+/// <seealso cref="ordinaryValueProto"/> and/or <seealso cref="repeatedValueProto"/>.</para>
+/// <para>See more details and examples in <seealso cref="ConfigReader"/> module.</para>
+/// </remarks>
+[AttributeUsage(AttributeTargets.Field)]
+public sealed class PersistentFieldAttribute : AbstractPersistentFieldAttribute {
+  public Type ordinaryValueProto {
+    set { _ordinaryValueProto = value; }
+    get { return _ordinaryValueProto; }
+  }
+  public Type repeatedValueProto {
+    set { _repeatedValueProto = value; }
+    get { return _repeatedValueProto; }
+  }
+  public bool isRepeatable {
+    set {
+      repeatedValueProto = value ? typeof(GenericCollectionTypeProto) : null;
+    }
+    get {
+      return repeatedValueProto != null;
+    }
+  }
   
+  public PersistentFieldAttribute(string cfgPath) : base(cfgPath) {
+    ordinaryValueProto = typeof(StandardOrdinaryTypesProto);
+    isRepeatable = false;
+  }
+}
+
 }  // namespace

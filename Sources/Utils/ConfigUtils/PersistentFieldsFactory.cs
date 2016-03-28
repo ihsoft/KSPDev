@@ -1,116 +1,85 @@
-﻿using System;
-using System.Reflection;
-using System.Linq;
-using KSPDev.LogUtils;
+﻿// Kerbal Development tools.
+// Author: igor.zavoychinskiy@gmail.com
+// This software is distributed under Public domain license.
+
+using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Collections;
+using System.Linq;
+using System.Reflection;
+using KSPDev.LogUtils;
 
 namespace KSPDev.ConfigUtils {
 
-//TODO: add help
-//TODO: rename file
-public static class PersistentFieldsFactory {
-    
-  //public readonly List<PersistentField> fields = new List<PersistentField>();
-
-  /// <summary>Determines which field modifiers are to be considered in the traversing.</summary>
-  /// <remarks>If the found field modifier is incompatible with the traverse mode then an error is
-  /// generated, and the field is ignored.</remarks>
-  private enum FieldModifiers {
-    /// <summary>Consider both <c>static</c> and <c>non-static</c> fields.</summary>
-    ANY,
-    /// <summary>Consider only <c>static</c> and ignore <c>non-static</c> fields.</summary>
-    STATIC_ONLY,
-    /// <summary>Consider only <c>non-static</c> and ignore <c>static</c> fields.</summary>
-    INSTANCE_ONLY,
-  }
-
+/// <summary>A helper class to gather persitent field attributes.</summary>
+internal static class PersistentFieldsFactory {
+  /// <summary>Gathers persitent fields for an instance of a type.</summary>
+  /// <remarks>Static and instance fields are gathered.</remarks>
+  /// <param name="obj">An instance of the object to gather persistent fields for.</param>
+  /// <param name="group">A filter group for the persitent fields. Note that group is ignored for
+  /// the compound type fields.</param>
+  /// <returns>List of persitent fields.</returns>
   public static List<PersistentField> GetPersistentFields(object obj, string group = null) {
-    return GetPersistentFields(obj.GetType(), FieldModifiers.ANY, group);
+    return GetPersistentFields(obj.GetType(), BindingFlags.Static | BindingFlags.Instance, group);
   }
 
+  /// <summary>Gathers persitent fields for a type.</summary>
+  /// <remarks>Only static fields are gathered.</remarks>
+  /// <param name="type">A type of to gather persistent fields for.</param>
+  /// <param name="group">A filter group for the persitent fields. Note that group is ignored for
+  /// the compound type fields.</param>
+  /// <returns>List of persitent fields.</returns>
   public static List<PersistentField> GetPersistentFields(Type type, string group = null) {
-    return GetPersistentFields(type, FieldModifiers.STATIC_ONLY, group);
+    return GetPersistentFields(type, BindingFlags.Static, group);
   }
 
-  private static List<PersistentField> GetPersistentFields(
-      Type type, FieldModifiers modifiers, string group) {
+  /// <summary>Gathers persitent fields for a type.</summary>
+  /// <remarks>Gives static or/and instance fields depedning on
+  /// <paramref name="fieldModifierFlags"/>.</remarks>
+  /// <param name="type">A type of to gather persistent fields for.</param>
+  /// <param name="fieldModifierFlags">A set of field modifiers to fetch.</param>
+  /// <param name="group">A filter group for the persitent fields. Note that group is ignored for
+  /// the compound type fields.</param>
+  /// <returns>List of persitent fields.</returns>
+  public static List<PersistentField> GetPersistentFields(
+      Type type, BindingFlags fieldModifierFlags, string group) {
     var result = new List<PersistentField>();
-
-    //UNDONE
-    Logger.logWarning("Looking ro fields of group {0} in type {1}", group, type);
-    var fieldsInfo = FindAnnotatedFields(type, modifiers, group);
-    //UNDONE
-    Logger.logWarning("Found {0} fields for {1}", fieldsInfo.Count(), type);
-
+    var fieldsInfo = FindAnnotatedFields(type, fieldModifierFlags, group);
     foreach (var fieldInfo in fieldsInfo) {
-      //UNDONE
-      Logger.logWarning("Handling {0}.{1}...", type.FullName, fieldInfo.Name);
-
       var fieldAttr =
-          fieldInfo.GetCustomAttributes(typeof(PersistentFieldAttribute), true).First()
+          fieldInfo.GetCustomAttributes(typeof(AbstractPersistentFieldAttribute), true).First()
           as PersistentFieldAttribute;
-
-      // FIXME: pass annotation instead of cfg path.
-      var persistentField = new PersistentField(fieldInfo, fieldAttr.path);
-      
-      // Determine if field has value handler annotation.
       try {
-        var valueType = persistentField.fieldInfo.FieldType;
-          
-        // If field is repeatable then create the appropriate handler.
-        if (fieldAttr.isRepeatable) {
-          persistentField.repeatableFieldHandler =
-              (RepeatableFieldHandler) Activator.CreateInstance(fieldAttr.repetableHandler,
-                                                                new object[] { persistentField });
-          valueType = persistentField.repeatableFieldHandler.GetItemType();
-        }
-
-        // Create value handler.
-        var valueHandler = Activator.CreateInstance(fieldAttr.valueHandler,
-                                                    new object[] { persistentField });
-        if (fieldAttr.isCompound) {
-          persistentField.compoundValueHandler = (CompoundValueHandler) valueHandler;
-          // Read non-static fields from the compound type. Ignore static fields of the type since
-          // it can be used by multiple persistent fields or as an item in a repeated field.          
-          persistentField.compoundTypeFields =
-              GetPersistentFields(valueType, FieldModifiers.INSTANCE_ONLY, group).ToArray();
-        } else {
-          persistentField.simpleValueHandler = (SimpleValueHandler) valueHandler;
-        }
+        var persistentField = new PersistentField(fieldInfo, fieldAttr);
+        result.Add(persistentField);
       } catch (Exception ex) {
-        Logger.logError("Ignoring field {0}.{1}: {2}", type.FullName, fieldInfo.Name, ex.Message);
-        continue;
+        Logger.logError("Ignoring field {0}.{1}: {2}\n{3}",
+                        type.FullName, fieldInfo.Name, ex.Message, ex.StackTrace);
       }
-      result.Add(persistentField);
     }
+    
+    // Sort by config path to ensure the most top level nodes are handeled before the children.
+    result = result.OrderBy(x => string.Join("/", x.cfgPath)).ToList();
 
     return result;
   }
 
+  /// <summary>Finds and returns peristent fields of the requested group.</summary>
   private static IEnumerable<FieldInfo> FindAnnotatedFields(
-      IReflect type, FieldModifiers modifiers = FieldModifiers.ANY,
-      string group = null) {
-    // Don't consider inherited fields.  
-    BindingFlags flags = BindingFlags.NonPublic | BindingFlags.Public | BindingFlags.DeclaredOnly;
-    if (modifiers == FieldModifiers.ANY || modifiers == FieldModifiers.STATIC_ONLY) {
-      flags |= BindingFlags.Static;
-    }
-    if (modifiers == FieldModifiers.ANY || modifiers == FieldModifiers.INSTANCE_ONLY) {
-      flags |= BindingFlags.Instance;
-    }
-    return type.GetFields(flags).Where(f => GroupFilter(f, group));
+      IReflect type, BindingFlags fieldModifierFlags, string group = null) {
+    BindingFlags flags = fieldModifierFlags
+        | BindingFlags.NonPublic | BindingFlags.Public | BindingFlags.DeclaredOnly;
+    return type.GetFields(flags).Where(f => FieldFilter(f, group));
   }
 
-  private static bool GroupFilter(ICustomAttributeProvider fieldInfo, string group) {
-    // We need descendants of PersistentFieldAttribute as well.
-    var attributes = fieldInfo.GetCustomAttributes(typeof(PersistentFieldAttribute), true);
+  /// <summary>Filters only persitent fields of the required group.</summary>
+  private static bool FieldFilter(ICustomAttributeProvider fieldInfo, string group) {
+    // We need descendants of AbstractPersistentFieldAttribute as well.
+    var attributes = fieldInfo.GetCustomAttributes(typeof(AbstractPersistentFieldAttribute), true)
+        as AbstractPersistentFieldAttribute[];
     if (attributes.Length == 0) {
       return false;
     }
-    var annotation = attributes[0] as PersistentFieldAttribute;
-    return group == null || annotation.group.Equals(group);
+    return group == null || attributes[0].group.Equals(group);
   }
 }
 

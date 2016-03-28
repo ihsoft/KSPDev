@@ -72,6 +72,17 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SmartLogAggregator.cs" />
     <Compile Include="SnapshotLogAggreator.cs" />
+    <Compile Include="Utils\ConfigUtils\AbstractProtos.cs" />
+    <Compile Include="Utils\ConfigUtils\GenericCollectionTypeProto.cs" />
+    <Compile Include="Utils\ConfigUtils\OrdinaryFieldHandler.cs" />
+    <Compile Include="Utils\ConfigUtils\PrimitiveTypesProto.cs" />
+    <Compile Include="Utils\ConfigUtils\StandardOrdinaryTypesProto.cs" />
+    <Compile Include="Utils\ConfigUtils\ConfigAccessor.cs" />
+    <Compile Include="Utils\ConfigUtils\RepeatedFieldHandler.cs" />
+    <Compile Include="Utils\ConfigUtils\PersistentFieldsFactory.cs" />
+    <Compile Include="Utils\ConfigUtils\PersistentField.cs" />
+    <Compile Include="Utils\ConfigUtils\PersistentFieldAttribute.cs" />
+    <Compile Include="Utils\ConfigUtils\KspTypesProto.cs" />
     <Compile Include="Utils\GUIUtils\GuiActionsList.cs" />
     <Compile Include="Utils\LogUtils\Logger.cs" />
   </ItemGroup>
@@ -79,6 +90,7 @@
     <Folder Include="Utils" />
     <Folder Include="Utils\GUIUtils" />
     <Folder Include="Utils\LogUtils" />
+    <Folder Include="Utils\ConfigUtils" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
