@@ -1,5 +1,5 @@
 ﻿// Kerbal Development tools.
-// Author: igor.zavoychinskiy@gmail.com a.k.a. "ihsoft"
+// Author: igor.zavoychinskiy@gmail.com
 // This software is distributed under Public domain license.
 
 using UnityEngine;
@@ -59,7 +59,7 @@ internal class ConsoleUI : MonoBehaviour {
 
   /// <summary>
   /// Indicates that visible log records should be queried from
-  /// <seealso cref="snapshotLogAggregator"/>.
+  /// <see cref="snapshotLogAggregator"/>.
   /// </summary>
   private static bool logUpdateIsPaused = false;
   
@@ -68,11 +68,11 @@ internal class ConsoleUI : MonoBehaviour {
   
   /// <summary>A logger that keeps records on th disk.</summary>
   internal static PersistentLogAggregator diskLogAggregator = new PersistentLogAggregator();
-  /// <summary>A logger to show when <seealso cref="ShowModeRaw"/> is selected.</summary>
+  /// <summary>A logger to show when <see cref="ShowModeRaw"/> is selected.</summary>
   internal static PlainLogAggregator rawLogAggregator = new PlainLogAggregator();
-  /// <summary>A logger to show when <seealso cref="ShowModeCollapse"/> is selected.</summary>
+  /// <summary>A logger to show when <see cref="ShowModeCollapse"/> is selected.</summary>
   internal static CollapseLogAggregator collapseLogAggregator = new CollapseLogAggregator();
-  /// <summary>A logger to show when <seealso cref="ShowModeSmart"/> is selected.</summary>
+  /// <summary>A logger to show when <see cref="ShowModeSmart"/> is selected.</summary>
   internal static SmartLogAggregator smartLogAggregator = new SmartLogAggregator();
   /// <summary>A logger to show a static snapshot.</summary>
   private static SnapshotLogAggregator snapshotLogAggregator = new SnapshotLogAggregator();
@@ -197,14 +197,6 @@ internal class ConsoleUI : MonoBehaviour {
           }
         }
         GUILayout.EndHorizontal();
-
-//        //TODO: parse frames (need stack) and suggest rewritings.
-//        GUILayout.BeginHorizontal();
-//        GUILayout.Label("Skip frames:", minSizeLayout);
-//        GUILayout.Button("To KAS.Blah.Blah", GUILayout.ExpandWidth(false));
-//        GUILayout.Button("By prefix: KIS.", GUILayout.ExpandWidth(false));
-//        GUILayout.Button("By prefix: KIS.Some.", GUILayout.ExpandWidth(false));
-//        GUILayout.EndHorizontal();
       }
     }
     GUILayout.EndScrollView();
@@ -260,9 +252,9 @@ internal class ConsoleUI : MonoBehaviour {
     return GUILayout.Toggle(value, string.Format(fmt, args), GUILayout.ExpandWidth(false));
   }
 
-  /// <summary>Populates <seealso cref="logsToShow"/> and stats numbers.</summary>
-  /// <remarks>Current aggregator is determined from <seealso cref="logShowMode"/> and
-  /// <seealso cref="logUpdateIsPaused"/></remarks>
+  /// <summary>Populates <see cref="logsToShow"/> and stats numbers.</summary>
+  /// <remarks>Current aggregator is determined from <see cref="logShowMode"/> and
+  /// <see cref="logUpdateIsPaused"/></remarks>
   /// <param name="forceUpdate">If <c>false</c> then logs view will only be updated if there were
   /// newly aggregated records in teh current aggregator.</param>
   private void UpdateLogsView(bool forceUpdate = false) {
