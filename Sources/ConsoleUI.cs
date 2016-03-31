@@ -104,18 +104,7 @@ internal class ConsoleUI : MonoBehaviour {
       new GUIContent("Smart"),
   };
 
-  /// <summary>Gives a color for the requested log type.</summary>
-  /// <param name="type">A log type to get color for.</param>
-  /// <returns>A color for the type.</returns>
-  private static Color GetLogTypeColor(LogType type) {
-    switch (type) {
-    case LogType.Log: return infoLogColor;
-    case LogType.Warning: return warningLogColor;
-    case LogType.Error: return errorLogColor;
-    case LogType.Exception: return exceptionLogColor;
-    }
-    return Color.gray;
-  }
+  private readonly GUIUtils.GuiActionsList guiActions = new GUIUtils.GuiActionsList();
 
   /// <summary>Only used to capture console toggle key.</summary>
   void Update() {
@@ -133,18 +122,6 @@ internal class ConsoleUI : MonoBehaviour {
     windowRect = GUILayout.Window(WindowId, windowRect, MakeConsoleWindow, "Debug logs");
   }
 
-  /// <summary>Verifies if level of the log record is needed by the UI.</summary>
-  /// <param name="log">A log record to verify.</param>
-  /// <returns><c>true</c> if this level is visible.</returns>
-  private static bool LogLevelFilter(LogRecord log) {
-    return log.srcLog.type == LogType.Exception && showException
-        || log.srcLog.type == LogType.Error && showError
-        || log.srcLog.type == LogType.Warning && showWarning
-        || log.srcLog.type == LogType.Log && showInfo;
-  }
-
-  private readonly GUIUtils.GuiActionsList guiActions = new GUIUtils.GuiActionsList();
-  
   /// <summary>Shows a window that displays the recorded logs.</summary>
   /// <param name="windowID">Window ID.</param>
   void MakeConsoleWindow(int windowID) {
@@ -239,6 +216,29 @@ internal class ConsoleUI : MonoBehaviour {
 
     // Allow the window to be dragged by its title bar.
     GUI.DragWindow(titleBarRect);
+  }
+
+  /// <summary>Verifies if level of the log record is needed by the UI.</summary>
+  /// <param name="log">A log record to verify.</param>
+  /// <returns><c>true</c> if this level is visible.</returns>
+  private static bool LogLevelFilter(LogRecord log) {
+    return log.srcLog.type == LogType.Exception && showException
+        || log.srcLog.type == LogType.Error && showError
+        || log.srcLog.type == LogType.Warning && showWarning
+        || log.srcLog.type == LogType.Log && showInfo;
+  }
+
+  /// <summary>Gives a color for the requested log type.</summary>
+  /// <param name="type">A log type to get color for.</param>
+  /// <returns>A color for the type.</returns>
+  private static Color GetLogTypeColor(LogType type) {
+    switch (type) {
+    case LogType.Log: return infoLogColor;
+    case LogType.Warning: return warningLogColor;
+    case LogType.Error: return errorLogColor;
+    case LogType.Exception: return exceptionLogColor;
+    }
+    return Color.gray;
   }
 
   /// <summary>Makes a standard toggle GUI element.</summary>
