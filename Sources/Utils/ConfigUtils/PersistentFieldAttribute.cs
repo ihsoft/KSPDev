@@ -13,10 +13,29 @@ namespace KSPDev.ConfigUtils {
 /// <para>See more details and examples in <see cref="ConfigAccessor"/> module.</para>
 /// </remarks>
 public abstract class AbstractPersistentFieldAttribute : Attribute {
+  /// <summary>Relative path to the value or node. Case-insensitive.</summary>
+  /// <remarks>Absolute path depend on the context.
+  /// <list type="bullet">
+  /// <item>For simple types root is counted from the node in
+  /// <see cref="ConfigAccessor.ReadConfigFromNode"/> or from the root node of the file.</item>
+  /// <item>For repeated fields and compound types root is counted from the owner field.</item>
+  /// </list>
+  /// </remarks>
+  /// FIXME: Fix when file name annotation is supported.
   public readonly string[] path;
+
+  /// <summary>A tag to separate set of fields into different configuration groups.</summary>
+  /// <remarks>Group name can be used when reading/writing values via <see cref="ConfigAccessor"/>
+  /// to process only a subset of the persistent fields of the class.</remarks>
+  /// FIXME: Fix when file name annotation is supported.
   public string group = "";
 
+  /// <summary>
+  /// A proto to use to handle types that can be (de)serialized as a simple string.
+  /// </summary>
   protected Type _ordinaryValueProto;
+
+  /// <summary>A proto to treat fields values as a collection of persistent values.</summary>
   protected Type _repeatedValueProto;
   
   protected AbstractPersistentFieldAttribute(string cfgPath) {
