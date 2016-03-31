@@ -268,15 +268,4 @@ public static class LogInterceptor {
   }
 }
 
-/// <summary>Main loader class.</summary>
-/// <remarks>The class will be loaded only once and die immediately. Though, all we need is
-/// initalization once the game is loaded. After that functionality will be served via static
-/// methods.</remarks>
-[KSPAddon(KSPAddon.Startup.Instantly, true /*once*/)]
-internal class KSPDevLogLoader : MonoBehaviour {
-  void Awake() {
-    LogInterceptor.StartIntercepting();
-  }
-}
-
 } // namespace KSPDev

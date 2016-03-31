@@ -328,15 +328,14 @@ internal class ConsoleUI : MonoBehaviour {
 
 /// <summary>Only used to start logs aggregations earlier.</summary>
 [KSPAddon(KSPAddon.Startup.Instantly, true /*once*/)]
-internal class AggregationStarter : MonoBehaviour {
+internal sealed class AggregationStarter : MonoBehaviour {
   void Awake() {
-    // First, ensure log innterception is started.
-    LogInterceptor.StartIntercepting();
-    ConsoleUI.diskLogAggregator.StartCapture();
-    LogFilter.LoadFilters();
     ConsoleUI.rawLogAggregator.StartCapture();
     ConsoleUI.collapseLogAggregator.StartCapture();
     ConsoleUI.smartLogAggregator.StartCapture();
+    ConsoleUI.diskLogAggregator.StartCapture();
+    LogInterceptor.StartIntercepting();
+    LogFilter.LoadFilters();
   }
 }
 
