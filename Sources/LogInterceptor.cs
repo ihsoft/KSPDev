@@ -51,6 +51,7 @@ public static class LogInterceptor {
   /// set can be reasonable big without significant impact to the application performance.</remarks>
   /// TODO: Read from config. 
   public static readonly HashSet<string> exactMatchOverride = new HashSet<string>() {
+      "UnityEngine.Application.CallLogCallback",  // Unity debug log handler.
       "UnityEngine.MonoBehaviour.print",  // Unity std I/O method.
       // KAC logging core.
       "KSPPluginFramework.MonoBehaviourExtended.LogFormatted",
@@ -78,6 +79,7 @@ public static class LogInterceptor {
   /// from different methods. This filter is handled via "full scan" approach so, having it too big
   /// may result in a degraded application performance.</remarks>
   public static readonly List<string> prefixMatchOverride = new List<string>() {
+      "UnityEngine.Debug.",  // Unity debug logs wrapper.
       "KSPDev.LogUtils.Logger.",  // Own KSPDev logging methods.
       // TODO: Deprecate once KIS is migrated into KSPDev package.
       "KSPDev.DevLogger.",  // Legacy version: Own KSPDev logging methods.
@@ -98,21 +100,6 @@ public static class LogInterceptor {
   /// performance it's created statically with a reasonable pre-allocated size.</remarks>
   private static List<PreviewCallback> badCallbacks = new List<PreviewCallback>(10);
 
-  /// <summary>
-  /// Number of stack frames between <seealso cref="HandleLog"/> and the logging source code.
-  /// </summary>
-  /// <remarks>
-  /// Autodetected on the first run and then used to properly calculate log recordsource.
-  /// </remarks>
-  private static int skipStackFrames = -1;
-
-  /// <summary>A pattern string used to detect skipping frames.</summary>
-  /// <remarks>Expected that nobody will log this string alone in a normal flow.</remarks>
-  private const string SkipStackFramesDetectionStr = "##-KSPDev-##";
-
-  /// <summary>A name of the method that sends frame detection signature.</summary>
-  private const string SkipStackFramesDetectionSource = "StartIntercepting";
-
   private static int lastLogId = 1;
 
   /// <summary>Installs interceptor callback and disables system debug log.</summary>
@@ -124,10 +111,6 @@ public static class LogInterceptor {
                       + " (it usually opens with a 'backquote' hotkey)");
     _isStarted = true;
     Application.RegisterLogCallback(HandleLog);
-    if (skipStackFrames == -1) {
-      // Write a detection signature to figure out stack frame depth.
-      Logger.logInfo(SkipStackFramesDetectionStr);
-    }
     Logger.logWarning("Debug log transferred from system to the KSPDev");
   }
 
@@ -165,15 +148,9 @@ public static class LogInterceptor {
   private static void HandleLog(string message, string stackTrace, LogType type) {
     var source = "";
 
-    if (skipStackFrames == -1 && message == SkipStackFramesDetectionStr) {
-      // Detect stack frame depth to properly skip internal Unity and addons stuff.
-      DetectSkipFrames(new StackTrace(true));
-      if (skipStackFrames >= 0) {
-        return;  // Counter detected sucessfully.
-      }
-    } else if (type != LogType.Exception) {
-      // Detect source and stack trace for logs other than exceptions. Exceptions are logged from
-      // the Unity engine, and the provided stack trace should be used. 
+    // Detect source and stack trace for logs other than exceptions. Exceptions are logged from
+    // the Unity engine, and the provided stack trace should be used. 
+    if (type != LogType.Exception) {
       source = GetSourceAndStackTrace(ref stackTrace);
     }
     var log = new Log(lastLogId++, DateTime.Now, message, stackTrace, source, type);
@@ -200,18 +177,6 @@ public static class LogInterceptor {
     }
   }
 
-  /// <summary>Detects a calling depth of <seealso cref="HandleLog"/>.</summary>
-  /// <remarks>Knowing this depth is needed to omit unneeded stack trace records.</remarks>
-  /// <param name="st">A stack trace to analyze.</param>
-  private static void DetectSkipFrames(StackTrace st) {
-    for (int i = 0; i < st.FrameCount; ++i) {
-      if (st.GetFrame(i).GetMethod().Name == SkipStackFramesDetectionSource) {
-        skipStackFrames = i;
-        break;
-      }
-    }
-  }
-
   /// <summary>Calculates log source and the related stack trace.</summary>
   /// <remarks>The stack trace grabbed from the current calling point can be really big because it
   /// usually comes from a generic Unity methods, KSP libraries, or an addon debug wrapper modules.
@@ -221,25 +186,27 @@ public static class LogInterceptor {
   /// a problem. This method does checks for exact (<see cref="exactMatchOverride"/>) and prefix
   /// (<see cref="prefixMatchOverride"/>) matches of the source to exclude sources that don't
   /// make sense. Finetuning of the matches is required to have perfectly clear logs.</remarks>
+  /// <para>This method assumes it's two levels down in the calling stack from the last Unity's
+  /// method (which is <c>UnityEngine.Application.CallLogCallback</c> for now).</para>
   /// <param name="stackTrace">[ref] A string representation of the applicable stack strace.</param>
   /// <returns>A string that identifies a meaningful piece of code that triggered the log.</returns>
   private static string GetSourceAndStackTrace(ref string stackTrace) {
     StackTrace st = null;
     string source = "";
 
-    int skipFramesExtra = 1;  // +1 for calling from HandleLogs().
+    int skipFrames = 2;  // +1 for calling from HandleLogs(), +1 for Unity last method.
     while (true) {
-      st = new StackTrace(skipStackFrames + skipFramesExtra, true);
+      st = new StackTrace(skipFrames, true);
       if (st.FrameCount == 0) {
-        if (skipFramesExtra == 1) {
-          // If filters haven't affected frame count then it's a rare situation of stack overflow
-          // error. In such cases stack trace is either not available or not relevant. Report this
-          // situation separately.
-          stackTrace = "<Unknown>";
-          return "SystemError";
+        if (skipFrames == 2) {
+          // If filters haven't affected frame count and still it's zero then it's a rare situation
+          // of stack overflow error. Just give the best we can as stack trace but set source to
+          // UNKNOWN.
+          stackTrace = new StackTrace(true).ToString();
+          return "UNKNOWN";
         }
         // Fallback in a case of weird filters endining up in filtering everything out.
-        st = new StackTrace(skipStackFrames, true);
+        st = new StackTrace(true);
         stackTrace = st.ToString();
         InternalLog("Stack trace is exhausted during filters processing. Use original.");
         return MakeSourceFromFrame(st.GetFrame(0));
@@ -248,7 +215,7 @@ public static class LogInterceptor {
 
       // Check if exactly this source is blacklisted.
       if (exactMatchOverride.Contains(source)) {
-        ++skipFramesExtra;
+        ++skipFrames;
         continue;  // Re-run overrides for the new source.
       }
 
@@ -257,12 +224,12 @@ public static class LogInterceptor {
       foreach (var prefix in prefixMatchOverride) {
         if (source.StartsWith(prefix)) {
           prefixFound = true;
-          ++skipFramesExtra;
+          ++skipFrames;
           for (var frameNum = 1; frameNum < st.FrameCount; ++frameNum) {
             if (!MakeSourceFromFrame(st.GetFrame(frameNum)).StartsWith(prefix)) {
               break;
             }
-            ++skipFramesExtra;
+            ++skipFrames;
           }
           break;
         }
