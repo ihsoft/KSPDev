@@ -16,7 +16,7 @@ public abstract class BaseLogAggregator {
   
   /// <summary>Maximum number of chached (and non-aggregated) records.</summary>
   /// <remarks>Once the limit is reached all the cached records get aggregated via
-  /// <seealso cref="AggregateLogRecord"/> method.</remarks>
+  /// <see cref="AggregateLogRecord"/> method.</remarks>
   /// TODO: Get it from the config.
   private const int RawBufferSize = 1000;
 
@@ -51,13 +51,13 @@ public abstract class BaseLogAggregator {
   }
   private int _exceptionLogsCount = 0;
 
-  /// <summary>A buffer to keep unaggregated <seealso cref="LogInterceptor"/> log records.</summary>
-  /// <remarks>Call <seealso cref="FlushBufferedLogs"/> before accessing aggregated logs to have up
+  /// <summary>A buffer to keep unaggregated <see cref="LogInterceptor"/> log records.</summary>
+  /// <remarks>Call <see cref="FlushBufferedLogs"/> before accessing aggregated logs to have up
   /// to date state.</remarks>
   private readonly List<LogInterceptor.Log> rawLogsBuffer = new List<LogInterceptor.Log>();
 
   /// <summary>Returns aggregated logs.</summary>
-  /// <remarks>Implementation decides how exactly <seealso cref="logRecords"/> are returned to the
+  /// <remarks>Implementation decides how exactly <see cref="logRecords"/> are returned to the
   /// consumer. Main requirement: the collection must *NOT* change once returned. Returning a
   /// collection copy is highly encouraged.
   /// <para>Note: changing of the items in the collection is acceptable. Deep copy is not required.
@@ -67,10 +67,10 @@ public abstract class BaseLogAggregator {
   public abstract IEnumerable<LogRecord> GetLogRecords();
   
   /// <summary>Clears all currently aggregated logs.</summary>
-  /// <remarks>Must at least clear <seealso cref="logRecords"/> and reset counters.</remarks>
+  /// <remarks>Must at least clear <see cref="logRecords"/> and reset counters.</remarks>
   public abstract void ClearAllLogs();
 
-  /// <summary>Drops an aggregated log in <seealso cref="logRecords"/>.</summary>
+  /// <summary>Drops an aggregated log in <see cref="logRecords"/>.</summary>
   /// <remarks>Called by the parent when it decides a log record must be dropped. Implementation
   /// must obey.</remarks>
   /// <param name="node">A list node to remove.</param>
@@ -79,8 +79,8 @@ public abstract class BaseLogAggregator {
   /// <summary>Adds a new log record to the aggregation.</summary>
   /// <remarks>Parent calls this method when it wants a record to be counted. It's up to the
   /// implementation what to do with the record.</remarks>
-  /// <param name="logRecord">A log from the <seealso cref="LogInterceptor"/>. Do NOT store this
-  /// instance! If tjhis log record needs to be stored make a copy via <seealso cref="LogRecord"/>
+  /// <param name="logRecord">A log from the <see cref="LogInterceptor"/>. Do NOT store this
+  /// instance! If tjhis log record needs to be stored make a copy via <see cref="LogRecord"/>
   /// constructor.</param>
   protected abstract void AggregateLogRecord(LogRecord logRecord);
   
@@ -97,7 +97,7 @@ public abstract class BaseLogAggregator {
   }
   
   /// <summary>Re-scans aggregated logs applying the current filters.</summary>
-  /// <remarks>Call it when settings in <seealso cref="LogFilter"/> has changed, and log records
+  /// <remarks>Call it when settings in <see cref="LogFilter"/> has changed, and log records
   /// that matched the new filters need to be removed.</remarks>
   public virtual void UpdateFilter() {
     FlushBufferedLogs();
@@ -147,7 +147,7 @@ public abstract class BaseLogAggregator {
   
   /// <summary>Updates counters for the log record type.</summary>
   /// <remarks>Implementation must call this method every time when number of record in
-  /// <seealso cref="logRecords"/> changes.</remarks>
+  /// <see cref="logRecords"/> changes.</remarks>
   /// <param name="logRecord">A log record to get type from.</param>
   /// <param name="delta">Delta to add to the current counter.</param>
   protected void UpdateLogCounter(LogRecord logRecord, int delta) {
@@ -168,7 +168,7 @@ public abstract class BaseLogAggregator {
   }
 
   /// <summary>Cleanups extra log records.</summary>
-  /// <remarks>Limit of <seealso cref="MaxLogRecords"/> is applied per type.</remarks>
+  /// <remarks>Limit of <see cref="MaxLogRecords"/> is applied per type.</remarks>
   private void DropExcessiveRecords() {
     if (logRecords.Count > 0) {
       LinkedListNode<LogRecord> node = logRecords.First;
@@ -189,7 +189,7 @@ public abstract class BaseLogAggregator {
 
   /// <summary>A callback handler for incoming Unity log records.</summary>
   /// <remarks>
-  /// <para>The record is only stored if it's not banned by <seealso cref="CheckIsFiltered"/>.
+  /// <para>The record is only stored if it's not banned by <see cref="CheckIsFiltered"/>.
   /// </para>
   /// <para>The incoming records are buffered in a list, and get aggregated when the buffer is
   /// exhausted. Such apporach saves CPU when no log console UI is presented.</para>

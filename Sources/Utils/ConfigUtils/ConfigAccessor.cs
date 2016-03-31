@@ -264,7 +264,7 @@ public sealed class ConfigAccessor {
   /// <param name="value">A value to store. The <paramref name="typeProto"/> handler must know how
   /// to convert the value into string.</param>
   /// <param name="typeProto">A proto capable to handle the type of <paramref name="value"/>. If not
-  /// set then <seealso cref="StandardOrdinaryTypesProto"/> is used.</param>
+  /// set then <see cref="StandardOrdinaryTypesProto"/> is used.</param>
   public static void SetValueByPath<T>(ConfigNode node, string path, T value,
                                        AbstractOrdinaryValueTypeProto typeProto = null) {
     SetValueByPath(node, path.Split('/'), value, typeProto);
@@ -277,7 +277,7 @@ public sealed class ConfigAccessor {
   /// <param name="value">A value to store. The <paramref name="typeProto"/> handler must know how
   /// to convert value's type into string.</param>
   /// <param name="typeProto">A proto capable to handle the type of <paramref name="value"/>. If not
-  /// set then <seealso cref="StandardOrdinaryTypesProto"/> is used.</param>
+  /// set then <see cref="StandardOrdinaryTypesProto"/> is used.</param>
   public static void SetValueByPath<T>(ConfigNode node, string[] pathKeys, T value,
                                        AbstractOrdinaryValueTypeProto typeProto = null) {
     if (typeProto == null) {
@@ -294,7 +294,7 @@ public sealed class ConfigAccessor {
   /// <param name="value">A variable to read value into. The <paramref name="typeProto"/> handler
   /// must know how to convert value's type from string.</param>
   /// <param name="typeProto">A proto capable to handle the type of <paramref name="value"/>. If not
-  /// set then <seealso cref="StandardOrdinaryTypesProto"/> is used.</param>
+  /// set then <see cref="StandardOrdinaryTypesProto"/> is used.</param>
   /// <returns><c>true</c> if value was successfully read and stored.</returns>
   public static bool GetValueByPath<T>(ConfigNode node, string path, ref T value,
                                        AbstractOrdinaryValueTypeProto typeProto = null) {
@@ -308,7 +308,7 @@ public sealed class ConfigAccessor {
   /// <param name="value">A variable to read value into. The <paramref name="typeProto"/> handler
   /// must know how to convert value's type from string.</param>
   /// <param name="typeProto">A proto capable to handle the type of <paramref name="value"/>. If not
-  /// set then <seealso cref="StandardOrdinaryTypesProto"/> is used.</param>
+  /// set then <see cref="StandardOrdinaryTypesProto"/> is used.</param>
   /// <returns><c>true</c> if value was successfully read and stored.</returns>
   public static bool GetValueByPath<T>(ConfigNode node, string[] pathKeys, ref T value,
                                        AbstractOrdinaryValueTypeProto typeProto = null) {

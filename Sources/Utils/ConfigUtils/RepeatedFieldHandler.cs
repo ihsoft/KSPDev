@@ -29,7 +29,7 @@ internal sealed class RepeatedFieldHandler {
 
   /// <summary>Stores collection values into a config node.</summary>
   /// <param name="node">A node to add values into.</param>
-  /// <param name="value">A collection instance of type <seealso cref="containerType"/> to get
+  /// <param name="value">A collection instance of type <see cref="containerType"/> to get
   /// values from.</param>
   public void SerializeValues(ConfigNode node, object value) {
     var proto = repeatedProto as GenericCollectionTypeProto;
@@ -50,7 +50,7 @@ internal sealed class RepeatedFieldHandler {
   
   /// <summary>Creates a collection from the config node.</summary>
   /// <param name="node">A node to read data from.</param>
-  /// <returns>An collection instance of type <seealso cref="containerType"/>.</returns>
+  /// <returns>An collection instance of type <see cref="containerType"/>.</returns>
   public object DeserializeValues(ConfigNode node) {
     object instance = null;
     var values = persistentField.ordinaryFieldHandler.IsCompound()

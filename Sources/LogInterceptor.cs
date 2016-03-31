@@ -36,7 +36,7 @@ public static class LogInterceptor {
 
   /// <summary>Maximum number of lines to keep in memory.</summary>
   /// <remarks>Setting to a lower setting doesn't have immediate effect. It's undefined when
-  /// excessive log records get cleaned up from <seealso cref="logs"/>.</remarks>
+  /// excessive log records get cleaned up from <see cref="logs"/>.</remarks>
   /// TODO: read from config.
   public static int maxLogLines = 1000;
 
@@ -84,8 +84,8 @@ public static class LogInterceptor {
   };
 
   /// <summary>Latest log records.</summary>
-  /// <remarks>List contains at maximum <seealso cref="maxLogLines"/> records.</remarks>
-  public static readonly Queue<Log> logs = new Queue<Log>(maxLogLines);
+  /// <remarks>List contains at maximum <see cref="maxLogLines"/> records.</remarks>
+  private static readonly Queue<Log> logs = new Queue<Log>(maxLogLines);
 
   /// <summary>A callback type for the log listeners.</summary>
   /// <param name="log">An immutable KSPDev log record.</param>
@@ -94,7 +94,7 @@ public static class LogInterceptor {
 
   /// <summary>A  collection to accumulate callbacks that throw errors.</summary>
   /// <remarks>A preview callback that throws an exception is unregistered immideately to minimize
-  /// the impact. This collection is used locally only in <seealso cref="HandleLog"/> but to save
+  /// the impact. This collection is used locally only in <see cref="HandleLog"/> but to save
   /// performance it's created statically with a reasonable pre-allocated size.</remarks>
   private static List<PreviewCallback> badCallbacks = new List<PreviewCallback>(10);
 
@@ -218,8 +218,8 @@ public static class LogInterceptor {
   /// While it's just inconvinient when investigating the logs it's a huge problem when calculating
   /// the "source", a meaningful piece of code that actually did the logging. In normal case it's a
   /// full method name but when logging is wrapped in several helper methods deducting it may become
-  /// a problem. This method does checks for exact (<seealso cref="exactMatchOverride"/>) and prefix
-  /// (<seealso cref="prefixMatchOverride"/>) matches of the source to exclude sources that don't
+  /// a problem. This method does checks for exact (<see cref="exactMatchOverride"/>) and prefix
+  /// (<see cref="prefixMatchOverride"/>) matches of the source to exclude sources that don't
   /// make sense. Finetuning of the matches is required to have perfectly clear logs.</remarks>
   /// <param name="stackTrace">[ref] A string representation of the applicable stack strace.</param>
   /// <returns>A string that identifies a meaningful piece of code that triggered the log.</returns>

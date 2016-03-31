@@ -10,7 +10,7 @@ namespace KSPDev.ConfigUtils {
 
 /// <summary>A repeated field proto that handles simple generic collections.</summary>
 /// <remarks>Generic must have exactly one arguent, implement method <c>Add</c> for adding new
-/// items, and implement <seealso cref="IEnumerable"/>.</remarks>
+/// items, and implement <see cref="IEnumerable"/>.</remarks>
 public sealed class GenericCollectionTypeProto : AbstractCollectionTypeProto {
   private readonly Type itemType;
   private readonly MethodInfo addMethod;

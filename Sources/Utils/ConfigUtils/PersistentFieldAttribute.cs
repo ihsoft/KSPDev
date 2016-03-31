@@ -7,10 +7,10 @@ using System;
 namespace KSPDev.ConfigUtils {
 
 /// <summary>Base for any persitent field annotation.</summary>
-/// <remarks>Descendands must initialize at least <seealso cref="_ordinaryValueProto"/> field. If
-/// <seealso cref="_repeatedValueProto"/> is set then the field is considered a persistent
+/// <remarks>Descendands must initialize at least <see cref="_ordinaryValueProto"/> field. If
+/// <see cref="_repeatedValueProto"/> is set then the field is considered a persistent
 /// collection of values.
-/// <para>See more details and examples in <seealso cref="ConfigReader"/> module.</para>
+/// <para>See more details and examples in <see cref="ConfigAccessor"/> module.</para>
 /// </remarks>
 public abstract class AbstractPersistentFieldAttribute : Attribute {
   public readonly string[] path;
@@ -26,14 +26,14 @@ public abstract class AbstractPersistentFieldAttribute : Attribute {
 
 /// <summary>An attribute for fields that needs (de)serialization.</summary>
 /// <remarks>
-/// This form allows adjusting any <seealso cref="AbstractPersistentFieldAttribute"/> property
+/// This form allows adjusting any <see cref="AbstractPersistentFieldAttribute"/> property
 /// in the annotation, and has a shortcut to mark field as repeatable
-/// (<c><seealso cref="isRepeatable"/> = true</c>).
-/// <para> By default ordial values are handled via <seealso cref="StandardOrdinaryTypesProto"/>
-/// and repeated fields via <seealso cref="GenericCollectionTypeProto"/>. These proto handlers can
+/// (<c><see cref="isRepeatable"/> = true</c>).
+/// <para> By default ordial values are handled via <see cref="StandardOrdinaryTypesProto"/>
+/// and repeated fields via <see cref="GenericCollectionTypeProto"/>. These proto handlers can
 /// be changed in the annotation by assigning values to properties
-/// <seealso cref="ordinaryValueProto"/> and/or <seealso cref="repeatedValueProto"/>.</para>
-/// <para>See more details and examples in <seealso cref="ConfigReader"/> module.</para>
+/// <see cref="ordinaryValueProto"/> and/or <see cref="repeatedValueProto"/>.</para>
+/// <para>See more details and examples in <see cref="ConfigAccessor"/> module.</para>
 /// </remarks>
 [AttributeUsage(AttributeTargets.Field)]
 public sealed class PersistentFieldAttribute : AbstractPersistentFieldAttribute {

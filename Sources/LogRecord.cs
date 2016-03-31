@@ -86,7 +86,7 @@ public class LogRecord {
     ++mergedLogs;
   }
 
-  /// <summary>Gives log's timestamp in a unified <seealso cref="TimestampFormat"/>.</summary>
+  /// <summary>Gives log's timestamp in a unified <see cref="TimestampFormat"/>.</summary>
   /// <returns>A human readable timestamp string.</returns>
   public string FormatTimestamp() {
     return _timestamp.ToString(TimestampFormat);

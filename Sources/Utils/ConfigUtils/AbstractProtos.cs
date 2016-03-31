@@ -23,7 +23,7 @@ public abstract class AbstractOrdinaryValueTypeProto {
   public abstract string SerializeToString(object value);
 
   /// <summary>Makes a vlaue from the string representation.</summary>
-  /// <param name="value">A string produced by <seealso cref="SerializeToString"/>.</param>
+  /// <param name="value">A string produced by <see cref="SerializeToString"/>.</param>
   /// <param name="type">A type to convert the value into.</param>
   /// <returns>A new and initialized instance of the requested type.</returns>
   /// <exception cref="ArgumentException">If value cannot be parsed.</exception>
@@ -34,7 +34,7 @@ public abstract class AbstractOrdinaryValueTypeProto {
 /// <remarks>Collection of collections is not supported. Though, descendands may use own
 /// (de)serialization approach to handle nested collections.
 /// <para>All descendants of this class must implement a constructor which accepts a single
-/// argument: the type of the collection. Constructor can throw <seealso cref="ArgumentException"/>
+/// argument: the type of the collection. Constructor can throw <see cref="ArgumentException"/>
 /// if passed type is unacceptable.</para>
 /// </remarks>
 public abstract class AbstractCollectionTypeProto {
@@ -48,13 +48,13 @@ public abstract class AbstractCollectionTypeProto {
   /// <summary>Returns enumerable object for the repeated field.</summary>
   /// <param name="instance">An instance to get the enumerable for.</param>
   /// <returns>An enumerable of objects. Type of the items is determined by the relevant
-  /// <seealso cref="AbstractOrdinaryValueTypeProto"/></returns>
+  /// <see cref="AbstractOrdinaryValueTypeProto"/></returns>
   public abstract IEnumerable GetEnumerator(object instance);
   
   /// <summary>Adds an item into the collection.</summary>
   /// <param name="instance">A collection instance to add item into.</param>
   /// <param name="item">An item to add. The item must be of the same type as
-  /// <seealso cref="GetItemType"/> specifies.</param>
+  /// <see cref="GetItemType"/> specifies.</param>
   public abstract void AddItem(object instance, object item);
 }
 
