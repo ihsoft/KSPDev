@@ -56,7 +56,7 @@ public sealed class ConfigAccessor {
   /// <summary>Reads values of the annotated persistent fields from a config node.</summary>
   /// <param name="node">A node to read values from.</param>
   public void ReadConfigFromNode(ConfigNode node) {
-    Logger.logInfo("Reading {0} config fields for class {1}", persistentFields.Length, objectType);
+    Logger.logInfo("Reading {0} persistent fields for class {1}", persistentFields.Length, objectType);
     foreach (var persistentField in persistentFields) {
       persistentField.ReadFromConfig(node, targetObject);
     }
@@ -75,12 +75,12 @@ public sealed class ConfigAccessor {
   /// <summary>Writes values of the annotated persistent fields into a config node.</summary>
   /// <param name="node">A node to write values into.</param>
   public void WriteConfigToNode(ConfigNode node) {
-    Logger.logInfo("Writing {0} config fields for class {1}", persistentFields.Length, objectType);
+    Logger.logInfo("Writing {0} persistent fields for class {1}", persistentFields.Length, objectType);
     foreach (var persistentField in persistentFields) {
       persistentField.WriteToConfig(node, targetObject);
     }
   }
-  
+
   /// <summary>Reads a value from config node by a path.</summary>
   /// <param name="node">A node to read data from.</param>
   /// <param name="path">A string path to the value. Path components should be separated by '/'
@@ -120,7 +120,8 @@ public sealed class ConfigAccessor {
   /// <paramref name="node"/>.</returns>
   public static string[] GetValuesByPath(ConfigNode node, string[] pathKeys) {
     var valueNode = GetNodeByPath(node, pathKeys.Take(pathKeys.Length - 1).ToArray());
-    return valueNode != null ? valueNode.GetValues(pathKeys.Last()) : null;
+    var values = valueNode != null ? valueNode.GetValues(pathKeys.Last()) : null;
+    return values != null && values.Length > 0 ? values : null;
   }
 
   /// <summary>Reads a node from config node by a path.</summary>
@@ -174,7 +175,8 @@ public sealed class ConfigAccessor {
   /// <paramref name="node"/>.</returns>
   public static ConfigNode[] GetNodesByPath(ConfigNode node, string[] pathKeys) {
     var valueNode = GetNodeByPath(node, pathKeys.Take(pathKeys.Length - 1).ToArray());
-    return valueNode != null ? valueNode.GetNodes(pathKeys.Last()) : null;
+    var nodes = valueNode != null ? valueNode.GetNodes(pathKeys.Last()) : null;
+    return nodes != null && nodes.Length > 0 ? nodes : null;
   }
 
   /// <summary>Sets a value in config node by a path.</summary>
