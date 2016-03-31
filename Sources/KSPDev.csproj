@@ -83,6 +83,7 @@
     <Compile Include="Utils\ConfigUtils\PersistentField.cs" />
     <Compile Include="Utils\ConfigUtils\PersistentFieldAttribute.cs" />
     <Compile Include="Utils\ConfigUtils\KspTypesProto.cs" />
+    <Compile Include="Utils\FSUtils\Paths.cs" />
     <Compile Include="Utils\GUIUtils\GuiActionsList.cs" />
     <Compile Include="Utils\LogUtils\Logger.cs" />
   </ItemGroup>
@@ -91,6 +92,7 @@
     <Folder Include="Utils\GUIUtils" />
     <Folder Include="Utils\LogUtils" />
     <Folder Include="Utils\ConfigUtils" />
+    <Folder Include="Utils\FSUtils" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
