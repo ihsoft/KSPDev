@@ -11,7 +11,7 @@ namespace KSPDev {
 
 /// <summary>A console to display Unity's debug logs in-game.</summary>
 [KSPAddon(KSPAddon.Startup.EveryScene, false /*once*/)]
-internal class ConsoleUI : MonoBehaviour {
+internal sealed class ConsoleUI : MonoBehaviour {
   /// <summary>A hotkey to show and hide the console window.</summary>
   /// TODO: Read it from config.
   private static KeyCode toggleKey = KeyCode.BackQuote;
