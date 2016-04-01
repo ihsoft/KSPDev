@@ -57,7 +57,7 @@ internal static class PersistentFieldsFactory {
       }
     }
     
-    // Sort by config path to ensure the most top level nodes are handeled before the children.
+    // Sort by config path to ensure the most top level nodes are handled before the children.
     result = result.OrderBy(x => string.Join("/", x.cfgPath)).ToList();
 
     return result;
@@ -79,7 +79,7 @@ internal static class PersistentFieldsFactory {
     if (attributes.Length == 0) {
       return false;
     }
-    return group == null || attributes[0].group.Equals(group);
+    return group == null || attributes[0].group.ToLowerInvariant().Equals(group.ToLowerInvariant());
   }
 }
 
