@@ -2,6 +2,7 @@
 // Author: igor.zavoychinskiy@gmail.com
 // This software is distributed under Public domain license.
 
+using KSPDev.ConfigUtils;
 using KSPDev.LogUtils;
 using StackTrace = System.Diagnostics.StackTrace;
 using System.Collections.Generic;
@@ -12,6 +13,7 @@ namespace KSPDev {
   
 /// <summary>An alternative log processor that allows better logs handling.</summary>
 /// <remarks>Keep it static!</remarks>
+[PersistentFieldsFileAttribute("KSPDev/settings.cfg", "LogInterceptor", "")]
 public static class LogInterceptor {
 
   /// <summary>A basic container for the incoming logs. Immutable.</summary>
@@ -37,8 +39,8 @@ public static class LogInterceptor {
   /// <summary>Maximum number of lines to keep in memory.</summary>
   /// <remarks>Setting to a lower setting doesn't have immediate effect. It's undefined when
   /// excessive log records get cleaned up from <see cref="logs"/>.</remarks>
-  /// TODO: read from config.
-  public static int maxLogLines = 1000;
+  [PersistentField("maxLogLines")]
+  private static int maxLogLines = 1000;
 
   /// <summary>Intercepting mode. When disabled all logs go to the system.</summary>
   public static bool isStarted {
@@ -49,8 +51,8 @@ public static class LogInterceptor {
   /// <summary>Shifts stack trace forward by the exact source match.</summary>
   /// <remarks>Use this filter to skip well-known methods that wrap logging. Due to hash-match this
   /// set can be reasonable big without significant impact to the application performance.</remarks>
-  /// TODO: Read from config. 
-  public static readonly HashSet<string> exactMatchOverride = new HashSet<string>() {
+  [PersistentField("ExactMatchOverride/source", isRepeatable = true)]
+  private static HashSet<string> exactMatchOverride = new HashSet<string>() {
       "UnityEngine.Application.CallLogCallback",  // Unity debug log handler.
       "UnityEngine.MonoBehaviour.print",  // Unity std I/O method.
       // KAC logging core.
@@ -78,7 +80,8 @@ public static class LogInterceptor {
   /// <remarks>Use this filter when logging is wrapped by a distinct module that may emit logging
   /// from different methods. This filter is handled via "full scan" approach so, having it too big
   /// may result in a degraded application performance.</remarks>
-  public static readonly List<string> prefixMatchOverride = new List<string>() {
+  [PersistentField("PrefixMatchOverride/sourcePrefix", isRepeatable = true)]
+  private static List<string> prefixMatchOverride = new List<string>() {
       "UnityEngine.Debug.",  // Unity debug logs wrapper.
       "KSPDev.LogUtils.Logger.",  // Own KSPDev logging methods.
       // TODO: Deprecate once KIS is migrated into KSPDev package.
