@@ -10,8 +10,7 @@ namespace KSPDev {
 /// <summary>
 /// A simple wrapper to hold static logs copy originated from any other aggreator.
 /// </summary>
-internal class SnapshotLogAggregator : BaseLogAggregator {
-  
+internal sealed class SnapshotLogAggregator : BaseLogAggregator {
   /// <summary>Makes copies of the log records from <paramref name="srcAggregator"/>.</summary>
   /// <remarks>Does a deep copy of every record.</remarks>
   /// <param name="srcAggregator">An aggregator to get log records from.</param>

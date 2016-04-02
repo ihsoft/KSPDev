@@ -8,8 +8,7 @@ using System.Linq;
 namespace KSPDev {
 
 /// <summary>A log capturer that collapses last repeated records into one.</summary>
-internal class CollapseLogAggregator : BaseLogAggregator {
-
+internal sealed class CollapseLogAggregator : BaseLogAggregator {
   public override IEnumerable<LogRecord> GetLogRecords() {
     return logRecords.ToArray().Reverse();
   }

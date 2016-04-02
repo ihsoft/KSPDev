@@ -8,9 +8,8 @@ using System.Linq;
 namespace KSPDev {
 
 /// <summary>A log capturer that just accumulates all logs in a plain list.</summary>
-internal class PlainLogAggregator : BaseLogAggregator {
- 
-  public override IEnumerable<LogRecord> GetLogRecords() {
+internal sealed class PlainLogAggregator : BaseLogAggregator {
+   public override IEnumerable<LogRecord> GetLogRecords() {
     return logRecords.ToArray().Reverse();
   }
   

@@ -8,7 +8,7 @@ using System.Linq;
 namespace KSPDev {
 
 /// <summary>A log capturer that aggregates logs globally by the content.</summary>
-internal class SmartLogAggregator : BaseLogAggregator {
+internal sealed class SmartLogAggregator : BaseLogAggregator {
   /// <summary>Log index used by smart logging.</summary>
   private readonly Dictionary<int, LinkedListNode<LogRecord>> logRecordsIndex =
       new Dictionary<int, LinkedListNode<LogRecord>>();
