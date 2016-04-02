@@ -27,7 +27,6 @@ internal sealed class PersistentLogAggregator : BaseLogAggregator {
   
   // FIXME: Rename, cutify, etc.
   // TODO: read from config.
-  private const string logfilePath = "GameData/KSPDev/logs";
   
   /// <summary>Prefix for every log file name.</summary>
   private const string logfilePrefix = "KSPDev-LOG";
@@ -100,7 +99,6 @@ internal sealed class PersistentLogAggregator : BaseLogAggregator {
   }
 
   public override void StartCapture() {
-    LoadDefaultConfig();
     base.StartCapture();
     StartLogFiles();
     PersistentLogAggregatorFlusher.activeAggregators.Add(this);
@@ -145,29 +143,6 @@ internal sealed class PersistentLogAggregator : BaseLogAggregator {
     return false;  // Persist any log!
   }
 
-  /// <summary>Loads settings from a default file located in KSPDev folder.</summary>
-  /// <remarks>Descendands can override the behavior to get settinsg from another place.</remarks>
-  public virtual void LoadDefaultConfig() {
-    var filtersPath = KSPUtil.ApplicationRootPath + ConfigFilePath;
-    Logger.logInfo("Loading persistent log state from {0}...", filtersPath);
-    ConfigNode node = ConfigNode.Load(filtersPath);
-    if (node == null) {
-      Logger.logWarning("Nothing found. No logging enabled.");
-      return;
-    }
-    LoadConfigFromNode(node);
-  }
-
-  /// <summary>Loads settings from the provided node.</summary>
-  /// <remarks>Descendants may override the method to read extra settings but they must call the
-  /// base implementation.</remarks>
-  /// <param name="node">A node to get settings from.</param>
-  protected virtual void LoadConfigFromNode(ConfigNode node) {
-    //FIXME: load path and state
-    Logger.logWarning("**** loading persistent logs settings");
-    logEnabled = true;
-  }
-  
   /// <summary>Creates new logs files and redirects logs to there.</summary>
   private void StartLogFiles() {
     StopLogFiles();  // In case something was opened.

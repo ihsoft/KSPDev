@@ -310,7 +310,6 @@ internal sealed class ConsoleUI : MonoBehaviour {
     } else {
       LogFilter.AddSilenceBySource(pattern);
     }
-    LogFilter.SaveFilters();
 
     rawLogAggregator.UpdateFilter();
     collapseLogAggregator.UpdateFilter();
@@ -335,7 +334,6 @@ internal sealed class AggregationStarter : MonoBehaviour {
     ConsoleUI.smartLogAggregator.StartCapture();
     ConsoleUI.diskLogAggregator.StartCapture();
     LogInterceptor.StartIntercepting();
-    LogFilter.LoadFilters();
   }
 }
 
