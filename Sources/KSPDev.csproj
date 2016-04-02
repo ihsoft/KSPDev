@@ -74,13 +74,14 @@
     <Compile Include="SnapshotLogAggreator.cs" />
     <Compile Include="Utils\ConfigUtils\AbstractCollectionTypeProto.cs" />
     <Compile Include="Utils\ConfigUtils\AbstractOrdinaryValueTypeProto.cs" />
+    <Compile Include="Utils\ConfigUtils\AbstractPersistentFieldAttribute.cs" />
     <Compile Include="Utils\ConfigUtils\PersistentFieldsFileAttribute.cs" />
     <Compile Include="Utils\ConfigUtils\GenericCollectionTypeProto.cs" />
     <Compile Include="Utils\ConfigUtils\OrdinaryFieldHandler.cs" />
     <Compile Include="Utils\ConfigUtils\PrimitiveTypesProto.cs" />
     <Compile Include="Utils\ConfigUtils\StandardOrdinaryTypesProto.cs" />
     <Compile Include="Utils\ConfigUtils\ConfigAccessor.cs" />
-    <Compile Include="Utils\ConfigUtils\RepeatedFieldHandler.cs" />
+    <Compile Include="Utils\ConfigUtils\CollectionFieldHandler.cs" />
     <Compile Include="Utils\ConfigUtils\PersistentFieldsFactory.cs" />
     <Compile Include="Utils\ConfigUtils\PersistentField.cs" />
     <Compile Include="Utils\ConfigUtils\PersistentFieldAttribute.cs" />

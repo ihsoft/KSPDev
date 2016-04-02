@@ -51,7 +51,7 @@ public static class LogInterceptor {
   /// <summary>Shifts stack trace forward by the exact source match.</summary>
   /// <remarks>Use this filter to skip well-known methods that wrap logging. Due to hash-match this
   /// set can be reasonable big without significant impact to the application performance.</remarks>
-  [PersistentField("ExactMatchOverride/source", isRepeatable = true)]
+  [PersistentField("ExactMatchOverride/source", isCollection = true)]
   private static HashSet<string> exactMatchOverride = new HashSet<string>() {
       "UnityEngine.Application.CallLogCallback",  // Unity debug log handler.
       "UnityEngine.MonoBehaviour.print",  // Unity std I/O method.
@@ -80,7 +80,7 @@ public static class LogInterceptor {
   /// <remarks>Use this filter when logging is wrapped by a distinct module that may emit logging
   /// from different methods. This filter is handled via "full scan" approach so, having it too big
   /// may result in a degraded application performance.</remarks>
-  [PersistentField("PrefixMatchOverride/sourcePrefix", isRepeatable = true)]
+  [PersistentField("PrefixMatchOverride/sourcePrefix", isCollection = true)]
   private static List<string> prefixMatchOverride = new List<string>() {
       "UnityEngine.Debug.",  // Unity debug logs wrapper.
       "KSPDev.LogUtils.Logger.",  // Own KSPDev logging methods.

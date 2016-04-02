@@ -14,7 +14,7 @@ public class PersistentField {
   public readonly string[] cfgPath;
 
   internal readonly OrdinaryFieldHandler ordinaryFieldHandler;
-  internal readonly RepeatedFieldHandler repeatedFieldHandler;
+  internal readonly CollectionFieldHandler collectionFieldHandler;
 
   private readonly PersistentField[] compoundTypeFields;
   
@@ -23,18 +23,18 @@ public class PersistentField {
     cfgPath = fieldAttr.path;
     var ordinaryType = fieldInfo.FieldType;
 
-    if (fieldAttr.repeatedValueProto != null) {
-      repeatedFieldHandler =
-          new RepeatedFieldHandler(this, fieldInfo.FieldType, fieldAttr.repeatedValueProto);
-      ordinaryType = repeatedFieldHandler.GetItemType();
+    if (fieldAttr.collectionTypeProto != null) {
+      collectionFieldHandler =
+          new CollectionFieldHandler(this, fieldInfo.FieldType, fieldAttr.collectionTypeProto);
+      ordinaryType = collectionFieldHandler.GetItemType();
     }
 
     ordinaryFieldHandler =
-        new OrdinaryFieldHandler(this, ordinaryType, fieldAttr.ordinaryValueProto);
+        new OrdinaryFieldHandler(this, ordinaryType, fieldAttr.ordinaryTypeProto);
 
     if (ordinaryFieldHandler.IsCompound()) {
       // Ignore static fields of the compound type since it can be used by multiple persistent
-      // fields or as an item in a repeated field.
+      // fields or as an item in a collection field.
       // Also, ignore groups in the compound types to reduce configuration complexity.
       compoundTypeFields =
           PersistentFieldsFactory.GetPersistentFields(
@@ -53,8 +53,8 @@ public class PersistentField {
     if (value == null) {
       return;
     }
-    if (repeatedFieldHandler != null) {
-      repeatedFieldHandler.SerializeValues(node, value);
+    if (collectionFieldHandler != null) {
+      collectionFieldHandler.SerializeValues(node, value);
     } else {
       var cfgData = ordinaryFieldHandler.SerializeValue(value);
       if (cfgData != null) {
@@ -72,8 +72,8 @@ public class PersistentField {
   /// <param name="instance">An owner of the field. Can be <c>null</c> for static fields.</param>
   public void ReadFromConfig(ConfigNode node, object instance) {
     object value = null;
-    if (repeatedFieldHandler != null) {
-      value = repeatedFieldHandler.DeserializeValues(node);
+    if (collectionFieldHandler != null) {
+      value = collectionFieldHandler.DeserializeValues(node);
     } else {
       var cfgData = ordinaryFieldHandler.IsCompound()
           ? ConfigAccessor.GetNodeByPath(node, cfgPath) as object

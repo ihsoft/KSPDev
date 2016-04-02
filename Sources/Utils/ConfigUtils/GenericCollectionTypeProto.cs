@@ -8,7 +8,7 @@ using System.Collections;
 
 namespace KSPDev.ConfigUtils {
 
-/// <summary>A repeated field proto that handles simple generic collections.</summary>
+/// <summary>A proto for a field with simple generic collection.</summary>
 /// <remarks>Generic must have exactly one arguent, implement method <c>Add</c> for adding new
 /// items, and implement <see cref="IEnumerable"/>.</remarks>
 public sealed class GenericCollectionTypeProto : AbstractCollectionTypeProto {

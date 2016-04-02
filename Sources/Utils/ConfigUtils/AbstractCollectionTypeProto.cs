@@ -24,7 +24,7 @@ public abstract class AbstractCollectionTypeProto {
   /// <returns>An item type.</returns>
   public abstract Type GetItemType();
   
-  /// <summary>Returns enumerable object for the repeated field.</summary>
+  /// <summary>Returns enumerable object for the collection.</summary>
   /// <param name="instance">An instance to get the enumerable for.</param>
   /// <returns>An enumerable of objects. Type of the items is determined by the relevant
   /// <see cref="AbstractOrdinaryValueTypeProto"/></returns>

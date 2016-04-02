@@ -78,7 +78,7 @@ public static class ConfigAccessor {
   /// <summary>Writes values of the annotated persistent fields into a file.</summary>
   /// <remarks>All persitent values are <b>added</b> into the file provided. I.e. if node had
   /// already had a value being persited then it either overwritten (ordinary fields) or extended
-  /// (repeated fields).</remarks>
+  /// (collection fields).</remarks>
   /// <param name="filePath">A file name to write data into.</param>
   /// <param name="rootNodePathKeys">A path to the node in the file where the daata should be
   /// written. If the node already exsist it will be deleted.</param>
@@ -111,7 +111,7 @@ public static class ConfigAccessor {
   /// <summary>Writes values of the annotated persistent fields into a config node.</summary>
   /// <remarks>All persitent values are <b>added</b> into the node provided. I.e. if node had
   /// already had a value being persited then it either overwritten (ordinary fields) or extended
-  /// (repeated fields).</remarks>
+  /// (collection fields).</remarks>
   /// <param name="node">A config node to write data into.</param>
   /// <param name="type">A type to write fields for.</param>
   /// <param name="instance">An instance of type <paramref name="type"/>. If it's <c>null</c> then

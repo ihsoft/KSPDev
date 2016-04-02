@@ -6,24 +6,22 @@ using System;
 
 namespace KSPDev.ConfigUtils {
 
-/// <summary>
-/// A handler that manages repeated fields. All type specific handling is done via a proto.
-/// </summary>
-internal sealed class RepeatedFieldHandler {
+/// <summary>A handler that manages collections in persitent fields.</summary>
+internal sealed class CollectionFieldHandler {
   public readonly Type containerType;
   public readonly PersistentField persistentField;
   
-  private readonly AbstractCollectionTypeProto repeatedProto;
+  private readonly AbstractCollectionTypeProto collectionProto;
   
-  public RepeatedFieldHandler(
-      PersistentField persistentField, Type containerType, Type repeatedProtoType) {
+  public CollectionFieldHandler(
+      PersistentField persistentField, Type containerType, Type collectionProtoType) {
     this.containerType = containerType;
     this.persistentField = persistentField;
 
-    this.repeatedProto = Activator.CreateInstance(repeatedProtoType, new[] {containerType})
+    this.collectionProto = Activator.CreateInstance(collectionProtoType, new[] {containerType})
         as AbstractCollectionTypeProto;
-    if (this.repeatedProto == null) {
-      throw new ArgumentException(string.Format("Bad collection proto {0}", repeatedProtoType));
+    if (this.collectionProto == null) {
+      throw new ArgumentException(string.Format("Bad collection proto {0}", collectionProtoType));
     }
   }
 
@@ -32,7 +30,7 @@ internal sealed class RepeatedFieldHandler {
   /// <param name="value">A collection instance of type <see cref="containerType"/> to get
   /// values from.</param>
   public void SerializeValues(ConfigNode node, object value) {
-    var proto = repeatedProto as GenericCollectionTypeProto;
+    var proto = collectionProto as GenericCollectionTypeProto;
     foreach (var itemValue in proto.GetEnumerator(value)) {
       if (itemValue == null) {
         continue;
@@ -61,7 +59,7 @@ internal sealed class RepeatedFieldHandler {
       foreach (var value in values) {
         var item = persistentField.ordinaryFieldHandler.DeserializeValue(value);
         if (item != null) {
-          repeatedProto.AddItem(instance, item);
+          collectionProto.AddItem(instance, item);
         }
       }
     }
@@ -71,7 +69,7 @@ internal sealed class RepeatedFieldHandler {
   /// <summary>Returns type of an item in the colelction.</summary>
   /// <returns>Item's type.</returns>
   public Type GetItemType() {
-    return repeatedProto.GetItemType();
+    return collectionProto.GetItemType();
   }
 }
 
