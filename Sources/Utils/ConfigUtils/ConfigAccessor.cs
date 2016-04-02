@@ -10,7 +10,7 @@ namespace KSPDev.ConfigUtils {
 
 /// <summary>A service class that simplifies accessing configuration files.</summary>
 /// <remarks>This class allows direct value reading as well as managing  </remarks>
-public sealed class ConfigAccessor {
+public static class ConfigAccessor {
   private static readonly StandardOrdinaryTypesProto standardTypesProto =
       new StandardOrdinaryTypesProto();
 
@@ -52,7 +52,7 @@ public sealed class ConfigAccessor {
       ReadConfigFromNode(node);
     }
   }
-  
+
   /// <summary>Reads values of the annotated persistent fields from a config node.</summary>
   /// <param name="node">A node to read values from.</param>
   public void ReadConfigFromNode(ConfigNode node) {
@@ -128,32 +128,35 @@ public sealed class ConfigAccessor {
   /// <param name="node">A node to read data from.</param>
   /// <param name="path">A string path to the node. Path components should be separated by '/'
   /// symbol.</param>
+  /// <param name="createIfMissing">If <c>true</c> than unknown nodes in the path will be
+  /// created.</param>
   /// <returns>Config node or <c>null</c> if path or node is not present in the
   /// <paramref name="node"/>.</returns>
-  public static ConfigNode GetNodeByPath(ConfigNode node, string path) {
-    return GetNodeByPath(node, path.Split('/'));
+  public static ConfigNode GetNodeByPath(ConfigNode node, string path,
+                                         bool createIfMissing = false) {
+    return GetNodeByPath(node, path.Split('/'), createIfMissing: createIfMissing);
   }
 
   /// <summary>Reads a node from config node by a path.</summary>
   /// <param name="node">A node to read data from.</param>
   /// <param name="pathKeys">An array of values that makes the full path. First node in the array is
   /// the top most component of the path.</param>
-  /// <param name="createMissingNodes">If <c>true</c> than unknown nodes in the path will be
+  /// <param name="createIfMissing">If <c>true</c> than unknown nodes in the path will be
   /// created.</param>
   /// <returns>Config node or <c>null</c> if path or node is not present in the
   /// <paramref name="node"/>. Returns <paramref name="node"/> if path is empty array.</returns>
   public static ConfigNode GetNodeByPath(ConfigNode node, string[] pathKeys,
-                                          bool createMissingNodes = false) {
+                                         bool createIfMissing = false) {
     if (pathKeys.Length == 0) {
       return node;
     }
     var nodeKey = pathKeys[0];
-    if (!node.HasNode(nodeKey) && createMissingNodes) {
+    if (!node.HasNode(nodeKey) && createIfMissing) {
       node.AddNode(new ConfigNode(nodeKey));
     }
     return node.HasNode(nodeKey)
         ? GetNodeByPath(node.GetNode(nodeKey), pathKeys.Skip(1).ToArray(),
-                        createMissingNodes: createMissingNodes)
+                        createIfMissing: createIfMissing)
         : null;
   }
   
@@ -195,7 +198,7 @@ public sealed class ConfigAccessor {
   /// <param name="value">A string value to store.</param>
   public static void SetValueByPath(ConfigNode node, string[] pathKeys, string value) {
     var targetNode = GetNodeByPath(node, pathKeys.Take(pathKeys.Length - 1).ToArray(),
-                                   createMissingNodes: true);
+                                   createIfMissing: true);
     targetNode.SetValue(pathKeys.Last(), value, createIfNotFound: true);
   }
   
@@ -215,7 +218,7 @@ public sealed class ConfigAccessor {
   /// <param name="value">A config node to store.</param>
   public static void SetNodeByPath(ConfigNode node, string[] pathKeys, ConfigNode value) {
     var targetNode = GetNodeByPath(node, pathKeys.Take(pathKeys.Length - 1).ToArray(),
-                                   createMissingNodes: true);
+                                   createIfMissing: true);
     targetNode.SetNode(pathKeys.Last(), value, createIfNotFound: true);
   }
 
@@ -235,7 +238,7 @@ public sealed class ConfigAccessor {
   /// <param name="value">A string value to add into the node.</param>
   public static void AddValueByPath(ConfigNode node, string[] pathKeys, string value) {
     var targetNode = GetNodeByPath(node, pathKeys.Take(pathKeys.Length - 1).ToArray(),
-                                   createMissingNodes: true);
+                                   createIfMissing: true);
     targetNode.AddValue(pathKeys.Last(), value);
   }
 
@@ -255,7 +258,7 @@ public sealed class ConfigAccessor {
   /// <param name="value">A config node to add.</param>
   public static void AddNodeByPath(ConfigNode node, string[] pathKeys, ConfigNode value) {
     var targetNode = GetNodeByPath(node, pathKeys.Take(pathKeys.Length - 1).ToArray(),
-                                   createMissingNodes: true);
+                                   createIfMissing: true);
     targetNode.AddNode(pathKeys.Last(), value);
   }
 

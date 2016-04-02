@@ -6,7 +6,7 @@ using System;
 
 namespace KSPDev.ConfigUtils {
 
-/// <summary>Base for any persitent field annotation.</summary>
+/// <summary>A base for any persitent field annotation.</summary>
 /// <remarks>Descendands must initialize at least <see cref="_ordinaryValueProto"/> field. If
 /// <see cref="_repeatedValueProto"/> is set then the field is considered a persistent
 /// collection of values.
@@ -14,20 +14,13 @@ namespace KSPDev.ConfigUtils {
 /// </remarks>
 public abstract class AbstractPersistentFieldAttribute : Attribute {
   /// <summary>Relative path to the value or node. Case-insensitive.</summary>
-  /// <remarks>Absolute path depend on the context.
-  /// <list type="bullet">
-  /// <item>For simple types root is counted from the node in
-  /// <see cref="ConfigAccessor.ReadConfigFromNode"/> or from the root node of the file.</item>
-  /// <item>For repeated fields and compound types root is counted from the owner field.</item>
-  /// </list>
-  /// </remarks>
-  /// FIXME: Fix when file name annotation is supported.
+  /// <remarks>Absolute path depends on the context.</remarks>
   public readonly string[] path;
 
   /// <summary>A tag to separate set of fields into different configuration groups.</summary>
   /// <remarks>Group name can be used when reading/writing values via <see cref="ConfigAccessor"/>
-  /// to process only a subset of the persistent fields of the class.</remarks>
-  /// FIXME: Fix when file name annotation is supported.
+  /// to process only a subset of the persistent fields of the class. It's case-insensitive.
+  /// </remarks>
   public string group = "";
 
   /// <summary>
@@ -65,12 +58,8 @@ public sealed class PersistentFieldAttribute : AbstractPersistentFieldAttribute 
     get { return _repeatedValueProto; }
   }
   public bool isRepeatable {
-    set {
-      repeatedValueProto = value ? typeof(GenericCollectionTypeProto) : null;
-    }
-    get {
-      return repeatedValueProto != null;
-    }
+    set { repeatedValueProto = value ? typeof(GenericCollectionTypeProto) : null; }
+    get { return repeatedValueProto != null; }
   }
   
   public PersistentFieldAttribute(string cfgPath) : base(cfgPath) {
