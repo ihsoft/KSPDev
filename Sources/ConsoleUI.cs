@@ -34,7 +34,7 @@ internal sealed class ConsoleUI : MonoBehaviour {
   private static bool showException = true;
 
   [PersistentField("logMode", group = SessionGroup)]
-  private static int logShowMode = ShowModeSmart;
+  private static ShowMode logShowMode = ShowMode.Smart;
   // ===== Session settings end.  
 
   // ===== Console UI settings start.
@@ -71,12 +71,12 @@ internal sealed class ConsoleUI : MonoBehaviour {
       new GUIContent("Collapsed"),
       new GUIContent("Smart"),
   };
-
-  // Display mode constants.
-  // TODO: Use enum.  
-  private const int ShowModeRaw = 0;
-  private const int ShowModeCollapse = 1;
-  private const int ShowModeSmart = 2;
+  /// <summary>Display mode constatnts. Must match <see cref="logShowingModes"/>.</summary>
+  private enum ShowMode {
+    Raw = 0,
+    Collapsed = 1,
+    Smart = 2
+  }
   
   /// <summary>Log scrool box position.</summary>
   private static Vector2 scrollPosition;
@@ -97,11 +97,11 @@ internal sealed class ConsoleUI : MonoBehaviour {
   
   /// <summary>A logger that keeps records on th disk.</summary>
   internal static PersistentLogAggregator diskLogAggregator = new PersistentLogAggregator();
-  /// <summary>A logger to show when <see cref="ShowModeRaw"/> is selected.</summary>
+  /// <summary>A logger to show when <see cref="ShowMode.Raw"/> is selected.</summary>
   internal static PlainLogAggregator rawLogAggregator = new PlainLogAggregator();
-  /// <summary>A logger to show when <see cref="ShowModeCollapse"/> is selected.</summary>
+  /// <summary>A logger to show when <see cref="ShowMode.Collapsed"/> is selected.</summary>
   internal static CollapseLogAggregator collapseLogAggregator = new CollapseLogAggregator();
-  /// <summary>A logger to show when <see cref="ShowModeSmart"/> is selected.</summary>
+  /// <summary>A logger to show when <see cref="ShowMode.Smart"/> is selected.</summary>
   internal static SmartLogAggregator smartLogAggregator = new SmartLogAggregator();
   /// <summary>A logger to show a static snapshot.</summary>
   private static SnapshotLogAggregator snapshotLogAggregator = new SnapshotLogAggregator();
@@ -211,10 +211,10 @@ internal sealed class ConsoleUI : MonoBehaviour {
     // Log mode selection. 
     GUI.changed = false;
     var showMode = GUILayout.SelectionGrid(
-        logShowMode, logShowingModes, logShowingModes.Length, GUILayout.ExpandWidth(false));
+        (int) logShowMode, logShowingModes, logShowingModes.Length, GUILayout.ExpandWidth(false));
     logsViewChanged |= GUI.changed;
     if (GUI.changed) {
-      guiActions.Add(() => GuiActionSetMode(mode: showMode));
+      guiActions.Add(() => GuiActionSetMode(mode: (ShowMode) showMode));
     }
 
     //FIXME: make it a button
@@ -295,9 +295,9 @@ internal sealed class ConsoleUI : MonoBehaviour {
   private BaseLogAggregator GetCurrentAggregator(bool ignorePaused = false) {
     BaseLogAggregator currentAggregator = snapshotLogAggregator;
     if (ignorePaused || !logUpdateIsPaused) {
-      if (logShowMode == ShowModeRaw) {
+      if (logShowMode == ShowMode.Raw) {
         currentAggregator = rawLogAggregator;
-      } else if (logShowMode == ShowModeCollapse) {
+      } else if (logShowMode == ShowMode.Collapsed) {
         currentAggregator = collapseLogAggregator;
       } else {
         currentAggregator = smartLogAggregator;
@@ -339,7 +339,7 @@ internal sealed class ConsoleUI : MonoBehaviour {
     logsViewChanged = true;
   }
   
-  private void GuiActionSetMode(int mode) {
+  private void GuiActionSetMode(ShowMode mode) {
     logShowMode = mode;
     GuiActionSetPaused(isPaused: false);  // New mode invalidates snapshot.
     logsViewChanged = true;
