@@ -2,6 +2,7 @@
 // Author: igor.zavoychinskiy@gmail.com
 // This software is distributed under Public domain license.
 
+using KSPDev.ConfigUtils;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,28 +12,45 @@ namespace KSPDev {
 
 /// <summary>A console to display Unity's debug logs in-game.</summary>
 [KSPAddon(KSPAddon.Startup.EveryScene, false /*once*/)]
+[PersistentFieldsFileAttribute("KSPDev/settings.cfg", "UI", "")]
+[PersistentFieldsFileAttribute("KSPDev/session-settings.cfg", "UI", ConsoleUI.SessionGroup)]
 internal sealed class ConsoleUI : MonoBehaviour {
+  /// <summary>Name of the persistent group to keep session settings.</summary>
+  /// <remarks>Session keeps current UI and layout settings. They get changed frequently and
+  /// saved/loaded on every scene.</remarks>
+  private const string SessionGroup = "session";
 
   // ===== Session settings start.  
+  [PersistentField("showInfo", group = SessionGroup)]
   private static bool showInfo = false;
 
+  [PersistentField("showWarning", group = SessionGroup)]
   private static bool showWarning = true;
 
+  [PersistentField("showErrors", group = SessionGroup)]
   private static bool showError = true;
 
+  [PersistentField("showExceptions", group = SessionGroup)]
   private static bool showException = true;
 
+  [PersistentField("logMode", group = SessionGroup)]
   private static int logShowMode = ShowModeSmart;
+  // ===== Session settings end.  
 
   // ===== Console UI settings start.
+  [PersistentField("consoleToggleKey")]
   private static KeyCode toggleKey = KeyCode.BackQuote;
 
+  [PersistentField("ColorSchema/infoLog")]
   private static Color infoLogColor = Color.white;
   
+  [PersistentField("ColorSchema/warningLog")]
   private static Color warningLogColor = Color.yellow;
 
+  [PersistentField("ColorSchema/errorLog")]
   private static Color errorLogColor = Color.red;
 
+  [PersistentField("ColorSchema/exceptionLog")]
   private static Color exceptionLogColor = Color.magenta;
   // ===== Console UI settings end.
 
@@ -103,13 +121,33 @@ internal sealed class ConsoleUI : MonoBehaviour {
   /// <summary>A list of actions to apply at the end of the GUI frame.</summary>
   private static readonly GUIUtils.GuiActionsList guiActions = new GUIUtils.GuiActionsList();
 
+  /// <summary>Only loads session settings.</summary>
+  void Awake() {
+    ConfigAccessor.ReadFieldsInType(instance: this, group: SessionGroup);
+  }
 
+  /// <summary>Only stores session settings.</summary>
+  void OnDestroy() {
+    ConfigAccessor.WriteFieldsFromType(instance: this, group: SessionGroup);
+  }
 
   /// <summary>Only used to capture console toggle key.</summary>
   void Update() {
     if (Input.GetKeyDown(toggleKey)) {
       isConsoleVisible = !isConsoleVisible;
     }
+    if (Input.GetKeyDown("1")) {
+      ConfigAccessor.ReadFieldsInType(instance: this);
+      ConfigAccessor.WriteFieldsFromType(instance: this, group: "test");
+    }
+    if (Input.GetKeyDown("2")) {
+      ConfigAccessor.WriteFieldsFromType(type: typeof(PersistentLogAggregator));
+      ConfigAccessor.WriteFieldsFromType(type: typeof(LogInterceptor));
+      ConfigAccessor.WriteFieldsFromType(type: typeof(LogFilter));
+      ConfigAccessor.WriteFieldsFromType(type: typeof(ConsoleUI));
+    }
+    if (Input.GetKeyDown("3")) {
+      ConfigAccessor.WriteFieldsFromType(type: typeof(ConsoleUI), group: null);
     }
   }
 
@@ -305,6 +343,7 @@ internal sealed class ConsoleUI : MonoBehaviour {
     } else {
       LogFilter.AddSilenceBySource(pattern);
     }
+    ConfigAccessor.WriteFieldsFromType(type: typeof(LogFilter));
 
     rawLogAggregator.UpdateFilter();
     collapseLogAggregator.UpdateFilter();
@@ -324,6 +363,13 @@ internal sealed class ConsoleUI : MonoBehaviour {
 [KSPAddon(KSPAddon.Startup.Instantly, true /*once*/)]
 internal sealed class AggregationStarter : MonoBehaviour {
   void Awake() {
+    // Read all configs.
+    ConfigAccessor.ReadFieldsInType(type: typeof(ConsoleUI));
+    ConfigAccessor.ReadFieldsInType(type: typeof(LogInterceptor));
+    ConfigAccessor.ReadFieldsInType(type: typeof(PersistentLogAggregator));
+    ConfigAccessor.ReadFieldsInType(type: typeof(LogFilter));
+
+    // Start all aggregators.
     ConsoleUI.rawLogAggregator.StartCapture();
     ConsoleUI.collapseLogAggregator.StartCapture();
     ConsoleUI.smartLogAggregator.StartCapture();
