@@ -72,7 +72,9 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SmartLogAggregator.cs" />
     <Compile Include="SnapshotLogAggreator.cs" />
-    <Compile Include="Utils\ConfigUtils\AbstractProtos.cs" />
+    <Compile Include="Utils\ConfigUtils\AbstractCollectionTypeProto.cs" />
+    <Compile Include="Utils\ConfigUtils\AbstractOrdinaryValueTypeProto.cs" />
+    <Compile Include="Utils\ConfigUtils\PersistentFieldsFileAttribute.cs" />
     <Compile Include="Utils\ConfigUtils\GenericCollectionTypeProto.cs" />
     <Compile Include="Utils\ConfigUtils\OrdinaryFieldHandler.cs" />
     <Compile Include="Utils\ConfigUtils\PrimitiveTypesProto.cs" />
