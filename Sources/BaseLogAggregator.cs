@@ -10,11 +10,11 @@ namespace KSPDev {
 
 /// <summary>Base class for any log aggregator.</summary>
 public abstract class BaseLogAggregator {
-  /// <summary>Defines how many records of each type to keep in memory.</summary>
+  /// <summary>Defines how many records of each type to keep in <see cref="logRecords"/>.</summary>
   // TODO: read it from the config file.
   private const int MaxLogRecords = 300;
   
-  /// <summary>Maximum number of chached (and non-aggregated) records.</summary>
+  /// <summary>Maximum number of cached (and non-aggregated) records.</summary>
   /// <remarks>Once the limit is reached all the cached records get aggregated via
   /// <see cref="AggregateLogRecord"/> method.</remarks>
   /// TODO: Get it from the config.
