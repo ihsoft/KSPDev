@@ -12,7 +12,7 @@ namespace KSPDev {
 
 /// <summary>Keeps and controls filters to apply to the incoming logs.</summary>
 [KSPAddon(KSPAddon.Startup.Instantly, true /*once*/)]
-[PersistentFieldsFileAttribute("KSPDev/settings.cfg", "LogFilter", "")]
+[PersistentFieldsFileAttribute("KSPDev/settings.cfg", "LogFilter")]
 internal static class LogFilter {
   /// <summary>Sources that starts from any of the strings in the filter will be ingored.</summary>
   /// <remarks>Walking thru this filter requires full scan (in a worst case) so, it should be of a

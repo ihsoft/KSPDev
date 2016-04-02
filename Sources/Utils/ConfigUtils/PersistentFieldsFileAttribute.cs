@@ -34,7 +34,8 @@ public abstract class AbstractPersitentFieldsFileAttribute : Attribute {
 /// </summary>
 [AttributeUsage(AttributeTargets.Class | AttributeTargets.Struct, AllowMultiple = true)]
 public sealed class PersistentFieldsFileAttribute : AbstractPersitentFieldsFileAttribute {
-  public PersistentFieldsFileAttribute(string configFilePath, string nodePath, string group)
+  public PersistentFieldsFileAttribute(string configFilePath, string nodePath,
+                                       string group = StdPersistentGroups.Default)
       : base(configFilePath, nodePath, group) {
   }
 }
