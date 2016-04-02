@@ -2,36 +2,30 @@
 // Author: igor.zavoychinskiy@gmail.com
 // This software is distributed under Public domain license.
 
-using UnityEngine;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using UnityEngine;
 
 namespace KSPDev {
 
 /// <summary>A console to display Unity's debug logs in-game.</summary>
 [KSPAddon(KSPAddon.Startup.EveryScene, false /*once*/)]
 internal sealed class ConsoleUI : MonoBehaviour {
-  /// <summary>A hotkey to show and hide the console window.</summary>
-  /// TODO: Read it from config.
-  private static KeyCode toggleKey = KeyCode.BackQuote;
 
-  // Display log level selection.
-  // TODO: Read from config.  
-  /// <summary>Specifies if INFO logs should be shown.</summary>
+  // ===== Session settings start.  
   private static bool showInfo = false;
-  
-  /// <summary>Specifies if WARNING logs should be shown.</summary>
+
   private static bool showWarning = true;
-  
-  /// <summary>Specifies if ERROR logs should be shown.</summary>
+
   private static bool showError = true;
-  
-  /// <summary>Specifies if EXCEPTION logs should be shown.</summary>
+
   private static bool showException = true;
-  
-  /// <summary>Current display mode.</summary>
+
   private static int logShowMode = ShowModeSmart;
+
+  // ===== Console UI settings start.
+  private static KeyCode toggleKey = KeyCode.BackQuote;
 
   private static Color infoLogColor = Color.white;
   
@@ -40,12 +34,25 @@ internal sealed class ConsoleUI : MonoBehaviour {
   private static Color errorLogColor = Color.red;
 
   private static Color exceptionLogColor = Color.magenta;
+  // ===== Console UI settings end.
 
-  /// <summary>Log scrool box position.</summary>
-  private static Vector2 scrollPosition;
-  
-  /// <summary>Specifies if debug console is visible.</summary>
-  private static bool isConsoleVisible = false;
+  /// <summary>Console window margin on the screen.</summary>
+  private const int Margin = 20;
+  /// <summary>For every UI window Unity needs a unique ID. This is the one.</summary>
+  private const int WindowId = 19450509;
+
+  /// <summary>Actual screen position of the console window.</summary>
+  private static Rect windowRect =
+      new Rect(Margin, Margin, Screen.width - (Margin * 2), Screen.height - (Margin * 2));
+  /// <summary>A title bar location.</summary>
+  private static Rect titleBarRect = new Rect(0, 0, 10000, 20);
+
+  /// <summary>Mode names.</summary>
+  private static readonly GUIContent[] logShowingModes = {
+      new GUIContent("Raw"),
+      new GUIContent("Collapsed"),
+      new GUIContent("Smart"),
+  };
 
   // Display mode constants.
   // TODO: Use enum.  
@@ -53,17 +60,21 @@ internal sealed class ConsoleUI : MonoBehaviour {
   private const int ShowModeCollapse = 1;
   private const int ShowModeSmart = 2;
   
+  /// <summary>Log scrool box position.</summary>
+  private static Vector2 scrollPosition;
+
+  /// <summary>Specifies if debug console is visible.</summary>
+  private static bool isConsoleVisible = false;
+
   /// <summary>ID of the curently selected log record.</summary>
   /// <remarks>It shows expanded.</remarks>
   private static int selectedLogRecordId = -1;
 
-  /// <summary>
-  /// Indicates that visible log records should be queried from
-  /// <see cref="snapshotLogAggregator"/>.
-  /// </summary>
+  /// <summary>Indicates that visible log records should be queried from
+  /// <see cref="snapshotLogAggregator"/>.</summary>
   private static bool logUpdateIsPaused = false;
   
-  /// <summary>Idicates that logs from the current aggergator need to be requeried.</summary>
+  /// <summary>Idicates that logs from the current aggergator need to be requeryied.</summary>
   private static bool logsViewChanged = false;
   
   /// <summary>A logger that keeps records on th disk.</summary>
@@ -77,34 +88,22 @@ internal sealed class ConsoleUI : MonoBehaviour {
   /// <summary>A logger to show a static snapshot.</summary>
   private static SnapshotLogAggregator snapshotLogAggregator = new SnapshotLogAggregator();
 
-  // TODO: add comments
+  /// <summary>A snapshot of logs for the current view.</summary>
   private static IEnumerable<LogRecord> logsToShow = new LogRecord[0];
+  
+  /// <summary>Number of INFO records in <see cref="logsToShow"/>.</summary>
   private static int infoLogs = 0;
+  /// <summary>Number of WARNING records in <see cref="logsToShow"/>.</summary>
   private static int warningLogs = 0;
+  /// <summary>Number of ERROR records in <see cref="logsToShow"/>.</summary>
   private static int errorLogs = 0;
+  /// <summary>Number of EXCEPTION records in <see cref="logsToShow"/>.</summary>
   private static int exceptionLogs = 0;
 
-  /// <summary>Console widnow margin on the screen.</summary>
-  private const int Margin = 20;
-  
-  /// <summary>For every UI window Unity needs a unique ID. This is the one.</summary>
-  private const int WindowId = 19450509;
+  /// <summary>A list of actions to apply at the end of the GUI frame.</summary>
+  private static readonly GUIUtils.GuiActionsList guiActions = new GUIUtils.GuiActionsList();
 
-  /// <summary>Actual screen position of the console window.</summary>
-  private Rect windowRect =
-      new Rect(Margin, Margin, Screen.width - (Margin * 2), Screen.height - (Margin * 2));
 
-  // TODO: Document the others.
-  private Rect titleBarRect = new Rect(0, 0, 10000, 20);
-  private readonly GUIContent clearLabel =
-      new GUIContent("Clear", "Clear the contents of the console.");
-  private readonly GUIContent[] logShowingModes = {
-      new GUIContent("Raw"),
-      new GUIContent("Collapsed"),
-      new GUIContent("Smart"),
-  };
-
-  private readonly GUIUtils.GuiActionsList guiActions = new GUIUtils.GuiActionsList();
 
   /// <summary>Only used to capture console toggle key.</summary>
   void Update() {
@@ -116,19 +115,15 @@ internal sealed class ConsoleUI : MonoBehaviour {
 
   /// <summary>Actually renders the console window.</summary>
   void OnGUI() {
-    if (!isConsoleVisible) {
-      return;
+    if (isConsoleVisible) {
+      windowRect = GUILayout.Window(WindowId, windowRect, MakeConsoleWindow, "Debug logs");
     }
-    windowRect = GUILayout.Window(WindowId, windowRect, MakeConsoleWindow, "Debug logs");
   }
 
   /// <summary>Shows a window that displays the recorded logs.</summary>
   /// <param name="windowID">Window ID.</param>
   void MakeConsoleWindow(int windowID) {
-    
-    // Only update GUI state in a Layout pass which is the first pass in the frame. There may be
-    // several different passes in OnGUI within the same frame, and in all the passes number/type of
-    // GUI controls must match.
+    // Only logs snapshot when it's safe to change GUI leayout.
     if (guiActions.ExecutePendingGuiActions()) {
       UpdateLogsView(forceUpdate: logUpdateIsPaused);
     }
@@ -184,7 +179,7 @@ internal sealed class ConsoleUI : MonoBehaviour {
     GUILayout.BeginHorizontal();
     
     // Clear logs in the current aggregator. 
-    if (GUILayout.Button(clearLabel)) {
+    if (GUILayout.Button(new GUIContent("Clear"))) {
       guiActions.Add(GuiActionClearLogs);
     }
     
@@ -325,7 +320,7 @@ internal sealed class ConsoleUI : MonoBehaviour {
   }
 }
 
-/// <summary>Only used to start logs aggregations earlier.</summary>
+/// <summary>Only used to start logs aggregation.</summary>
 [KSPAddon(KSPAddon.Startup.Instantly, true /*once*/)]
 internal sealed class AggregationStarter : MonoBehaviour {
   void Awake() {
