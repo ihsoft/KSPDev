@@ -3,6 +3,7 @@
 // This software is distributed under Public domain license.
 
 using KSPDev.LogUtils;
+using KSPDev.ConfigUtils;
 using System.Collections.Generic;
 using System.Collections;
 using System.IO;
@@ -22,25 +23,32 @@ namespace KSPDev {
 /// <para>Persistent logging must be explicitly enabled via <c>PersistentLogs-settings.cfg</c>
 /// </para>
 /// </remarks>
+[PersistentFieldsFileAttribute("KSPDev/settings.cfg", "PersistentLog", "")]
 internal sealed class PersistentLogAggregator : BaseLogAggregator {
+  [PersistentField("enableLogger")]
   private static bool enableLogger = true;
   
-  // FIXME: Rename, cutify, etc.
-  // TODO: read from config.
+  [PersistentField("logFilesPath")]
+  private static string logFilePath = "GameData/KSPDev/logs";
   
   /// <summary>Prefix for every log file name.</summary>
-  private const string logfilePrefix = "KSPDev-LOG";
+  [PersistentField("logFilePrefix")]
+  private static string logFilePrefix = "KSPDev-LOG";
   
   /// <summary>Format of the timestamp in the file.</summary>
-  private const string LogTsFormat = "yyMMdd\\THHmmss";
+  [PersistentField("logTsFormat")]
+  private static string logTsFormat = "yyMMdd\\THHmmss";
 
   /// <summary>Specifies if INFO file should be written.</summary>
+  [PersistentField("writeInfoFile")]
   private static bool writeInfoFile = true;
 
   /// <summary>Specifies if WARNING file should be written.</summary>
+  [PersistentField("writeWarningFile")]
   private static bool writeWarningFile = true;
 
   /// <summary>Specifies if ERROR file should be written.</summary>
+  [PersistentField("writeErrorFile")]
   private static bool writeErrorFile = true;
 
   /// <summary>Specifies if new record should be aggregated and persisted.</summary>
