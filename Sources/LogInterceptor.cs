@@ -84,8 +84,6 @@ public static class LogInterceptor {
   private static List<string> prefixMatchOverride = new List<string>() {
       "UnityEngine.Debug.",  // Unity debug logs wrapper.
       "KSPDev.LogUtils.Logger.",  // Own KSPDev logging methods.
-      // TODO: Deprecate once KIS is migrated into KSPDev package.
-      "KSPDev.DevLogger.",  // Legacy version: Own KSPDev logging methods.
   };
 
   /// <summary>Latest log records.</summary>
