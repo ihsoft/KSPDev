@@ -136,19 +136,6 @@ internal sealed class ConsoleUI : MonoBehaviour {
     if (Input.GetKeyDown(toggleKey)) {
       isConsoleVisible = !isConsoleVisible;
     }
-    if (Input.GetKeyDown("1")) {
-      ConfigAccessor.ReadFieldsInType(instance: this);
-      ConfigAccessor.WriteFieldsFromType(instance: this, group: "test");
-    }
-    if (Input.GetKeyDown("2")) {
-      ConfigAccessor.WriteFieldsFromType(type: typeof(PersistentLogAggregator));
-      ConfigAccessor.WriteFieldsFromType(type: typeof(LogInterceptor));
-      ConfigAccessor.WriteFieldsFromType(type: typeof(LogFilter));
-      ConfigAccessor.WriteFieldsFromType(type: typeof(ConsoleUI));
-    }
-    if (Input.GetKeyDown("3")) {
-      ConfigAccessor.WriteFieldsFromType(type: typeof(ConsoleUI), group: null);
-    }
   }
 
   /// <summary>Actually renders the console window.</summary>
