@@ -14,15 +14,6 @@ By default on build completion the binary is copied into:
 But only if path "Q:\GameData" exists. So, if you haven't did the subst then there will be no the convinience option.
 
 
-For the purpose of debugging you may want to copy filters and overrides there.
-  cd <your git repository>
-  copy LogConsole-filters.cfg Q:\GameData\KSPDev\Plugins
-  copy LogInterceptor-source-overrides.cfg Q:\GameData\KSPDev\Plugins
-
-If you don't do this then your newly built binary will use deafult settings.
-
-
-
 *** For iOS users
 
 Give your own iDeas ...
