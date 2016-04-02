@@ -5,8 +5,14 @@
 using System;
 using System.Linq;
 using KSPDev.LogUtils;
+using KSPDev.FSUtils;
 
 namespace KSPDev.ConfigUtils {
+
+/// <summary>Group names that have special meaning.</summary>
+public static class StdPersistentGroups {
+  public const string Default = "";
+}
 
 /// <summary>A service class that simplifies accessing configuration files.</summary>
 /// <remarks>This class allows direct value reading as well as managing  </remarks>
@@ -14,70 +20,133 @@ public static class ConfigAccessor {
   private static readonly StandardOrdinaryTypesProto standardTypesProto =
       new StandardOrdinaryTypesProto();
 
-  private readonly Type objectType;
-  private readonly object targetObject;
-  private readonly PersistentField[] persistentFields;
-
-  /// <summary>Creates an accessor for the persitent fields of an instance of a type.</summary>
-  /// <remarks>Both static and instance fields will be considered.</remarks>
-  /// <param name="instance">An instance to manage fields for.</param>
-  /// <param name="group">A group to consider fields for. Set group to <c>null</c> to have all the
-  /// fields to be considered.</param>
-  public ConfigAccessor(object instance, string group = "") {
-    objectType = instance.GetType();
-    targetObject = instance;
-    persistentFields =
-        PersistentFieldsFactory.GetPersistentFields(targetObject, group).ToArray();
-  }
-  
-  /// <summary>Creates an accessor for the persitent fields of a type.</summary>
-  /// <remarks>Only static fields will be considered.</remarks>
-  /// <param name="type">A type manage fields for.</param>
-  /// <param name="group">A group to consider fields for. Set group to <c>null</c> to have all the
-  /// fields to be considered.</param>
-  public ConfigAccessor(Type type, string group = "") {
-    objectType = type;
-    targetObject = null;
-    persistentFields =
-        PersistentFieldsFactory.GetPersistentFields(objectType, group).ToArray();
-  }
-
   /// <summary>Reads values of the annotated persistent fields from a config file.</summary>
-  /// <param name="filePath">A path to the file. For a relative path "current" location is
-  /// determined by the game engine.</param>
-  public void ReadConfigFromFile(string filePath) {
-    Logger.logInfo("Loading settings for {0} from file {1}...", objectType, filePath);
-    ConfigNode node = ConfigNode.Load(filePath);
+  /// <param name="filePath">A path to the file.</param>
+  /// <param name="type">A type to load fields for.</param>
+  /// <param name="instance">An instance of type <paramref name="type"/>. If it's <c>null</c> then
+  /// only static fields will be loaded.</param>
+  /// <param name="group">A group tag (see <see cref="AbstractPersistentFieldAttribute"/>).</param>
+  public static void ReadFieldsFromFile(string filePath, Type type = null, object instance = null,
+                                        string group = StdPersistentGroups.Default) {
+    Logger.logInfo("Loading persistent fields: file={0}, group=\"{1}\"",
+                   filePath, group ?? "<ALL>");
+    var node = ConfigNode.Load(KspPaths.pluginsRoot + filePath);
     if (node != null) {
-      ReadConfigFromNode(node);
+      ReadFieldsFromNode(node, type: type, instance: instance, group: group);
     }
   }
 
   /// <summary>Reads values of the annotated persistent fields from a config node.</summary>
-  /// <param name="node">A node to read values from.</param>
-  public void ReadConfigFromNode(ConfigNode node) {
-    Logger.logInfo("Reading {0} persistent fields for class {1}", persistentFields.Length, objectType);
-    foreach (var persistentField in persistentFields) {
-      persistentField.ReadFromConfig(node, targetObject);
+  /// <param name="node">A config node to read data from.</param>
+  /// <param name="type">A type to load fields for.</param>
+  /// <param name="instance">An instance of type <paramref name="type"/>. If it's <c>null</c> then
+  /// only static fields will be loaded.</param>
+  /// <param name="group">A group tag (see <see cref="AbstractPersistentFieldAttribute"/>).</param>
+  public static void ReadFieldsFromNode(ConfigNode node, Type type = null, object instance = null,
+                                        string group = StdPersistentGroups.Default) {
+    var fields = GetPersistentFields(ref type, instance, group);
+    Logger.logInfo("Loading {0} persistent fields: group=\"{1}\", node={2}", 
+                   fields.Length, group ?? "<ALL>", node.name);
+    foreach (var field in fields) {
+      field.ReadFromConfig(node, instance);
+    }
+  }
+  
+  /// <summary>
+  /// Reads persistent fields from the config files specified by the class annotation.
+  /// </summary>
+  /// <param name="type">A type to load fields for.</param>
+  /// <param name="instance">An instance of type <paramref name="type"/>. If it's <c>null</c> then
+  /// only static fields will be loaded.</param>
+  /// <param name="group">A group to load fields for. If <c>null</c> then all groups that are
+  /// defined in the class annotation via <see cref="PersitentFieldsFileAttribute"/> will be
+  /// loaded.</param>
+  public static void ReadFieldsInType(Type type = null, object instance = null,
+                                      string group = StdPersistentGroups.Default) {
+    var attributes = GetPersistentFieldsFiles(ref type, instance, group);
+    Logger.logInfo("Loading persistent fields: type={0}, group=\"{1}\"",
+                   type, group ?? "<ALL>");
+    foreach (var attr in attributes) {
+      var node = ConfigNode.Load(KspPaths.pluginsRoot + attr.configFilePath);
+      if (node != null) {
+        ReadFieldsFromNode(GetNodeByPath(node, attr.nodePath),
+                           type: type, instance: instance, group: attr.group);
+      }
     }
   }
 
-  /// <summary>Writes values of the annotated persistent fields into a config file.</summary>
-  /// <param name="filePath">A path to the file. For a relative path "current" location is
-  /// determined by the game engine.</param>
-  public void WriteConfigToFile(string filePath) {
-    var node = new ConfigNode();
-    WriteConfigToNode(node);
-    Logger.logInfo("Saving settings for {0} into file {1}...", objectType, filePath);
+  /// <summary>Writes values of the annotated persistent fields into a file.</summary>
+  /// <remarks>All persitent values are <b>added</b> into the file provided. I.e. if node had
+  /// already had a value being persited then it either overwritten (ordinary fields) or extended
+  /// (repeated fields).</remarks>
+  /// <param name="filePath">A file name to write data into.</param>
+  /// <param name="rootNodePathKeys">A path to the node in the file where the daata should be
+  /// written. If the node already exsist it will be deleted.</param>
+  /// <param name="mergeMode">If <c>true</c> and the file already exists then only
+  /// <paramref name="rootNodePathKeys"/> node will be updated in that file. Otherwise, a new file
+  /// will be created.</param>
+  /// <param name="type">A type to write fields for.</param>
+  /// <param name="instance">An instance of type <paramref name="type"/>. If it's <c>null</c> then
+  /// only static fields will be written.</param>
+  /// <param name="group">A group tag (see <see cref="AbstractPersistentFieldAttribute"/>).</param>
+  public static void WriteFieldsIntoFile(string filePath,
+                                         string[] rootNodePathKeys = null, bool mergeMode = true,
+                                         Type type = null, object instance = null,
+                                         string group = StdPersistentGroups.Default) {
+    Logger.logInfo("Writing persistent fields: file={0}, group=\"{1}\", isMerging={2}, root={3}",
+                   filePath, group ?? "<ALL>", mergeMode,
+                   string.Join("/", rootNodePathKeys ?? new[] {"/"}));
+    var node = mergeMode
+        ? ConfigNode.Load(filePath) ?? new ConfigNode()  // Make empty node if file doesn't exist.
+        : new ConfigNode();
+    var tagetNode = node;
+    if (rootNodePathKeys != null) {
+      tagetNode = GetNodeByPath(node, rootNodePathKeys, createIfMissing: true);
+      tagetNode.ClearData();  // In case of it's an existing node.
+    }
+    WriteFieldsIntoNode(tagetNode, type: type, instance: instance, group: group);
     node.Save(filePath);
   }
   
   /// <summary>Writes values of the annotated persistent fields into a config node.</summary>
-  /// <param name="node">A node to write values into.</param>
-  public void WriteConfigToNode(ConfigNode node) {
-    Logger.logInfo("Writing {0} persistent fields for class {1}", persistentFields.Length, objectType);
-    foreach (var persistentField in persistentFields) {
-      persistentField.WriteToConfig(node, targetObject);
+  /// <remarks>All persitent values are <b>added</b> into the node provided. I.e. if node had
+  /// already had a value being persited then it either overwritten (ordinary fields) or extended
+  /// (repeated fields).</remarks>
+  /// <param name="node">A config node to write data into.</param>
+  /// <param name="type">A type to write fields for.</param>
+  /// <param name="instance">An instance of type <paramref name="type"/>. If it's <c>null</c> then
+  /// only static fields will be written.</param>
+  /// <param name="group">A group tag (see <see cref="AbstractPersistentFieldAttribute"/>).</param>
+  public static void WriteFieldsIntoNode(ConfigNode node, Type type = null, object instance = null,
+                                         string group = StdPersistentGroups.Default) {
+    var fields = GetPersistentFields(ref type, instance, group);
+    Logger.logInfo("Writing {0} persistent fields: group=\"{1}\", node={2}", 
+                   fields.Length, group ?? "<ALL>", node.name);
+    foreach (var field in fields) {
+      field.WriteToConfig(node, instance);
+    }
+  }
+  
+  /// <summary>
+  /// Writes persistent fields into the config files specified by the class annotation.
+  /// </summary>
+  /// <remarks>Method updates the config file(s) by preserving top level nodes that are not
+  /// specified as targets for the requested group.</remarks>
+  /// <param name="type">A type to write fields for.</param>
+  /// <param name="instance">An instance of type <paramref name="type"/>. If it's <c>null</c> then
+  /// only static fields will be written.</param>
+  /// <param name="group">A group to write fields for. If <c>null</c> then all groups that are
+  /// defined in the class annotation via <see cref="PersitentFieldsFileAttribute"/> will be
+  /// written.</param>
+  public static void WriteFieldsFromType(Type type = null, object instance = null,
+                                         string group = StdPersistentGroups.Default) {
+    var attributes = GetPersistentFieldsFiles(ref type, instance, group);
+    Logger.logInfo("Writing persistent fields: type={0}, group=\"{1}\"",
+                   type, group ?? "<ALL>");
+    foreach (var attr in attributes) {
+      WriteFieldsIntoFile(KspPaths.pluginsRoot + attr.configFilePath,
+                          rootNodePathKeys: attr.nodePath, mergeMode: true,
+                          type: type, instance: instance, group: attr.group);
     }
   }
 
@@ -326,6 +395,51 @@ public static class ConfigAccessor {
     }
     value = (T) typeProto.ParseFromString(strValue, typeof(T));
     return true;
+  }
+
+  /// <summary>Gathers and returns persistent field annotations.</summary>
+  /// <param name="type">[OUT] A type to lookup for the field annotations. Can be <c>null</c> in
+  /// which case the type is resolved from <paramref name="instance"/>.</param>
+  /// <param name="instance">An instance of type <paramref name="type"/>. If it's <c>null</c> then
+  /// only static fields will be loaded.</param>
+  /// <param name="group">A group tag (see <see cref="AbstractPersistentFieldAttribute"/>). If
+  /// <c>null</c> then annotated fields in any group are returned.</param>
+  /// <returns>Array of persistent fields.</returns>
+  private static PersistentField[] GetPersistentFields(
+      ref Type type, object instance, string group) {
+    if (type == null && instance == null) {
+      throw new ArgumentException("Either type or instance must not be null");
+    }
+    if (type == null) {
+      type = instance.GetType();
+    }
+    return instance != null
+        ? PersistentFieldsFactory.GetPersistentFields(instance, group).ToArray()
+        : PersistentFieldsFactory.GetPersistentFields(type, group).ToArray();
+  }
+  
+  /// <summary>Gathers and returns persistent field fields annotations.</summary>
+  /// <param name="type">[OUT] A type to lookup for the field annotations. Can be <c>null</c> in
+  /// which case the type is resolved from <paramref name="instance"/>.</param>
+  /// <param name="instance">An instance of type <paramref name="type"/>. Only used to resolve
+  /// <paramref name="type"/> when it's <c>null</c>.</param>
+  /// <param name="group">A group tag (see <see cref="PersitentFieldsFileAttribute"/>). If
+  /// <c>null</c> then all files defined in the type are returned.</param>
+  /// <returns>Array of persistent fields.</returns>
+  private static PersistentFieldsFileAttribute[] GetPersistentFieldsFiles(
+      ref Type type, object instance, string group) {
+    if (type == null && instance == null) {
+      throw new ArgumentException("Either type or instance must not be null");
+    }
+    if (type == null) {
+      type = instance.GetType();
+    }
+    // Sort by config path to ensure the most top level nodes are handled before the children.
+    return (type.GetCustomAttributes(typeof(PersistentFieldsFileAttribute), true /* inherit */)
+        as PersistentFieldsFileAttribute[])
+        .Where(x => group == null || x.group.ToLowerInvariant().Equals(group.ToLowerInvariant()))
+        .OrderBy(x => string.Join("/", x.nodePath))
+        .ToArray();
   }
 }
   
