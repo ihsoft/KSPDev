@@ -2,6 +2,7 @@
 // Author: igor.zavoychinskiy@gmail.com
 // This software is distributed under Public domain license.
 
+using KSPDev.ConfigUtils;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -11,14 +12,14 @@ namespace KSPDev {
 /// <summary>Base class for any log aggregator.</summary>
 public abstract class BaseLogAggregator {
   /// <summary>Defines how many records of each type to keep in <see cref="logRecords"/>.</summary>
-  // TODO: read it from the config file.
-  private const int MaxLogRecords = 300;
+  [PersistentField("maxLogRecords")]
+  protected int maxLogRecords = 300;
   
   /// <summary>Maximum number of cached (and non-aggregated) records.</summary>
   /// <remarks>Once the limit is reached all the cached records get aggregated via
   /// <see cref="AggregateLogRecord"/> method.</remarks>
-  /// TODO: Get it from the config.
-  private const int RawBufferSize = 1000;
+  [PersistentField("rawBufferSize")]
+  protected int rawBufferSize = 1000;
 
   /// <summary>A live list of the stored logs.</summary>
   /// <remarks>This list constantly updates so, *never* iterate over it! Make a copy and then do
@@ -172,15 +173,15 @@ public abstract class BaseLogAggregator {
   private void DropExcessiveRecords() {
     if (logRecords.Count > 0) {
       LinkedListNode<LogRecord> node = logRecords.First;
-      while (_infoLogsCount > MaxLogRecords || _warningLogsCount > MaxLogRecords
-             || _errorLogsCount > MaxLogRecords || _exceptionLogsCount > MaxLogRecords) {
+      while (_infoLogsCount > maxLogRecords || _warningLogsCount > maxLogRecords
+             || _errorLogsCount > maxLogRecords || _exceptionLogsCount > maxLogRecords) {
         LinkedListNode<LogRecord> removeNode = node;
         node = node.Next;
         var logType = removeNode.Value.srcLog.type;
-        if (logType == LogType.Log && _infoLogsCount > MaxLogRecords
-            || logType == LogType.Warning && _warningLogsCount > MaxLogRecords
-            || logType == LogType.Error && _errorLogsCount > MaxLogRecords
-            || logType == LogType.Exception && _exceptionLogsCount > MaxLogRecords) {
+        if (logType == LogType.Log && _infoLogsCount > maxLogRecords
+            || logType == LogType.Warning && _warningLogsCount > maxLogRecords
+            || logType == LogType.Error && _errorLogsCount > maxLogRecords
+            || logType == LogType.Exception && _exceptionLogsCount > maxLogRecords) {
           DropAggregatedLogRecord(removeNode);
         }
       }
@@ -206,7 +207,7 @@ public abstract class BaseLogAggregator {
           log.id, log.timestamp, log.message, log.stackTrace, log.source, LogType.Log);
     }
     rawLogsBuffer.Add(log);
-    if (rawLogsBuffer.Count >= RawBufferSize) {
+    if (rawLogsBuffer.Count >= rawBufferSize) {
       FlushBufferedLogs();
     }
   }
