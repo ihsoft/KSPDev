@@ -21,7 +21,8 @@ public static class ConfigAccessor {
       new StandardOrdinaryTypesProto();
 
   /// <summary>Reads values of the annotated persistent fields from a config file.</summary>
-  /// <param name="filePath">A path to the file.</param>
+  /// <param name="filePath">A relative or an absolute path to the file. It's resolved via
+  /// <see cref="KspPaths.makePluginPath"/>.</param>
   /// <param name="type">A type to load fields for.</param>
   /// <param name="instance">An instance of type <paramref name="type"/>. If it's <c>null</c> then
   /// only static fields will be loaded.</param>
@@ -30,7 +31,7 @@ public static class ConfigAccessor {
                                         string group = StdPersistentGroups.Default) {
     Logger.logInfo("Loading persistent fields: file={0}, group=\"{1}\"",
                    filePath, group ?? "<ALL>");
-    var node = ConfigNode.Load(KspPaths.pluginsRoot + filePath);
+    var node = ConfigNode.Load(KspPaths.makePluginPath(filePath));
     if (node != null) {
       ReadFieldsFromNode(node, type: type, instance: instance, group: group);
     }
@@ -67,7 +68,7 @@ public static class ConfigAccessor {
     Logger.logInfo("Loading persistent fields: type={0}, group=\"{1}\"",
                    type, group ?? "<ALL>");
     foreach (var attr in attributes) {
-      var node = ConfigNode.Load(KspPaths.pluginsRoot + attr.configFilePath);
+      var node = ConfigNode.Load(KspPaths.makePluginPath(attr.configFilePath));
       if (node != null) {
         ReadFieldsFromNode(GetNodeByPath(node, attr.nodePath),
                            type: type, instance: instance, group: attr.group);
@@ -79,7 +80,8 @@ public static class ConfigAccessor {
   /// <remarks>All persitent values are <b>added</b> into the file provided. I.e. if node had
   /// already had a value being persited then it either overwritten (ordinary fields) or extended
   /// (collection fields).</remarks>
-  /// <param name="filePath">A file name to write data into.</param>
+  /// <param name="filePath">A relative or an absolute path to the file. It's resolved via
+  /// <see cref="KspPaths.makePluginPath"/>.</param>
   /// <param name="rootNodePathKeys">A path to the node in the file where the daata should be
   /// written. If the node already exsist it will be deleted.</param>
   /// <param name="mergeMode">If <c>true</c> and the file already exists then only
@@ -105,7 +107,7 @@ public static class ConfigAccessor {
       tagetNode.ClearData();  // In case of it's an existing node.
     }
     WriteFieldsIntoNode(tagetNode, type: type, instance: instance, group: group);
-    node.Save(filePath);
+    node.Save(KspPaths.makePluginPath(filePath));
   }
   
   /// <summary>Writes values of the annotated persistent fields into a config node.</summary>
@@ -144,7 +146,7 @@ public static class ConfigAccessor {
     Logger.logInfo("Writing persistent fields: type={0}, group=\"{1}\"",
                    type, group ?? "<ALL>");
     foreach (var attr in attributes) {
-      WriteFieldsIntoFile(KspPaths.pluginsRoot + attr.configFilePath,
+      WriteFieldsIntoFile(KspPaths.makePluginPath(attr.configFilePath),
                           rootNodePathKeys: attr.nodePath, mergeMode: true,
                           type: type, instance: instance, group: attr.group);
     }
