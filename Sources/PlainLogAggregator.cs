@@ -2,12 +2,14 @@
 // Author: igor.zavoychinskiy@gmail.com
 // This software is distributed under Public domain license.
 
+using KSPDev.ConfigUtils;
 using System.Collections.Generic;
 using System.Linq;
 
 namespace KSPDev {
 
 /// <summary>A log capturer that just accumulates all logs in a plain list.</summary>
+[PersistentFieldsFileAttribute("KSPDev/settings.cfg", "PlainLogAggregator")]
 internal sealed class PlainLogAggregator : BaseLogAggregator {
    public override IEnumerable<LogRecord> GetLogRecords() {
     return logRecords.ToArray().Reverse();

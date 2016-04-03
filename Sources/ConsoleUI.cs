@@ -2,6 +2,7 @@
 // Author: igor.zavoychinskiy@gmail.com
 // This software is distributed under Public domain license.
 
+using KSPDev.LogUtils;
 using KSPDev.ConfigUtils;
 using System;
 using System.Collections.Generic;
@@ -353,8 +354,11 @@ internal sealed class AggregationStarter : MonoBehaviour {
     // Read all configs.
     ConfigAccessor.ReadFieldsInType(type: typeof(ConsoleUI));
     ConfigAccessor.ReadFieldsInType(type: typeof(LogInterceptor));
-    ConfigAccessor.ReadFieldsInType(type: typeof(PersistentLogAggregator));
     ConfigAccessor.ReadFieldsInType(type: typeof(LogFilter));
+    ConfigAccessor.ReadFieldsInType(instance: ConsoleUI.diskLogAggregator);
+    ConfigAccessor.ReadFieldsInType(instance: ConsoleUI.rawLogAggregator);
+    ConfigAccessor.ReadFieldsInType(instance: ConsoleUI.collapseLogAggregator);
+    ConfigAccessor.ReadFieldsInType(instance: ConsoleUI.smartLogAggregator);
 
     // Start all aggregators.
     ConsoleUI.rawLogAggregator.StartCapture();

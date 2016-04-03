@@ -2,12 +2,14 @@
 // Author: igor.zavoychinskiy@gmail.com
 // This software is distributed under Public domain license.
 
+using KSPDev.ConfigUtils;
 using System.Collections.Generic;
 using System.Linq;
 
 namespace KSPDev {
 
 /// <summary>A log capturer that collapses last repeated records into one.</summary>
+[PersistentFieldsFileAttribute("KSPDev/settings.cfg", "CollapseLogAggregator")]
 internal sealed class CollapseLogAggregator : BaseLogAggregator {
   public override IEnumerable<LogRecord> GetLogRecords() {
     return logRecords.ToArray().Reverse();

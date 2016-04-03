@@ -2,12 +2,14 @@
 // Author: igor.zavoychinskiy@gmail.com
 // This software is distributed under Public domain license.
 
+using KSPDev.ConfigUtils;
 using System.Collections.Generic;
 using System.Linq;
 
 namespace KSPDev {
 
 /// <summary>A log capturer that aggregates logs globally by the content.</summary>
+[PersistentFieldsFileAttribute("KSPDev/settings.cfg", "SmartLogAggregator")]
 internal sealed class SmartLogAggregator : BaseLogAggregator {
   /// <summary>Log index used by smart logging.</summary>
   private readonly Dictionary<int, LinkedListNode<LogRecord>> logRecordsIndex =
