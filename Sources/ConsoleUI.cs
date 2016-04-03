@@ -159,7 +159,14 @@ internal sealed class ConsoleUI : MonoBehaviour {
         alignment = TextAnchor.MiddleLeft,
     };
     var minSizeLayout = GUILayout.ExpandWidth(false);
-    
+
+    // Report if log interceptor is not handling logs.
+    if (!LogInterceptor.isStarted) {
+      GUI.contentColor = GetLogTypeColor(LogType.Error);
+      GUILayout.Box("KSPDev is not handling system logs. Open standard in-game debug console to see"
+                    + " the current logs", logRecordStyle);
+    }
+
     foreach (var log in logsToShow.Where(LogLevelFilter)) {
       var recordMsg = log.MakeTitle()
           + (selectedLogRecordId == log.srcLog.id ? ":\n" + log.srcLog.stackTrace : "");

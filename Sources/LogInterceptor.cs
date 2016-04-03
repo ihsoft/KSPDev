@@ -42,6 +42,14 @@ public static class LogInterceptor {
   [PersistentField("maxLogLines")]
   private static int maxLogLines = 1000;
 
+  /// <summary>Specifies if logs interception is allowed.</summary>
+  /// <remarks>If <c>false</c> then calls to <see cref="StartIntercepting"/> will be ignored.
+  /// Changing thi value to <c>false</c> doesn't stop interception, an explicit call to
+  /// <see cref="StopIntercepting"/> is required.
+  /// </remarks>
+  [PersistentField("enableInterception")]
+  private static bool enableInterception = true;
+
   /// <summary>Intercepting mode. When disabled all logs go to the system.</summary>
   public static bool isStarted {
     get { return _isStarted; }
@@ -105,8 +113,8 @@ public static class LogInterceptor {
 
   /// <summary>Installs interceptor callback and disables system debug log.</summary>
   public static void StartIntercepting() {
-    if (_isStarted) {
-      return;  // NOOP if already started.
+    if (!enableInterception || _isStarted) {
+      return;  // NOOP if already started or disabled.
     }
     Logger.logWarning("Debug output intercepted by KSPDev. Open its UI to see the logs"
                       + " (it usually opens with a 'backquote' hotkey)");
@@ -116,7 +124,8 @@ public static class LogInterceptor {
   }
 
   /// <summary>Removes log interceptor and allows logs flowing into the system.</summary>
-  /// <remarks>Doesn't work properly for KSP since the game won't pickup the logs back.</remarks>
+  /// <remarks>Doesn't work properly for KSP 1.0.5 since the game won't pickup the log handler back.
+  /// </remarks>
   public static void StopIntercepting() {
     if (!_isStarted) {
       return;  // NOOP if already stopped.
