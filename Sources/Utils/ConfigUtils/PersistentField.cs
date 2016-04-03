@@ -9,7 +9,7 @@ using System.Reflection;
 namespace KSPDev.ConfigUtils {
 
 /// <summary>Descriptor of a persitent field.</summary>
-public class PersistentField {
+public sealed class PersistentField {
   public readonly FieldInfo fieldInfo;
   public readonly string[] cfgPath;
 
@@ -17,8 +17,7 @@ public class PersistentField {
   internal readonly CollectionFieldHandler collectionFieldHandler;
 
   private readonly PersistentField[] compoundTypeFields;
-  
-  public PersistentField(FieldInfo fieldInfo, PersistentFieldAttribute fieldAttr) {
+  internal PersistentField(FieldInfo fieldInfo, PersistentFieldAttribute fieldAttr) {
     this.fieldInfo = fieldInfo;
     cfgPath = fieldAttr.path;
     var ordinaryType = fieldInfo.FieldType;
