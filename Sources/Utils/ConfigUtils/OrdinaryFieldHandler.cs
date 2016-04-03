@@ -11,15 +11,15 @@ namespace KSPDev.ConfigUtils {
 /// A handler that manages ordinary fields. All type specific handling is done via a proto.
 /// </summary>
 internal sealed class OrdinaryFieldHandler {
-  public readonly Type valueType;
   public readonly PersistentField persistentField;
   
+  public readonly Type valueType;
   private readonly AbstractOrdinaryValueTypeProto simpleTypeProto;
     
   public OrdinaryFieldHandler(
       PersistentField persistentField, Type valueType, Type simpleTypeProtoType) {
-    this.valueType = valueType;
     this.persistentField = persistentField;
+    this.valueType = valueType;
     this.simpleTypeProto = Activator.CreateInstance(simpleTypeProtoType)
         as AbstractOrdinaryValueTypeProto;
   }
