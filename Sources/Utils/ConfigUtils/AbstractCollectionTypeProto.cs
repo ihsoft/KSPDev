@@ -14,6 +14,34 @@ namespace KSPDev.ConfigUtils {
 /// argument: the type of the collection. Constructor can throw <see cref="ArgumentException"/>
 /// if passed type is unacceptable.</para>
 /// </remarks>
+/// <example>As a good example of overriding of this class see
+/// <see cref="GenericCollectionTypeProto"/>. Though, it tries to be universal and, hence, works
+/// via reflection. You don't need to deal with reflections as long as your custom proto used for
+/// fields of known types.
+/// <code>
+/// class MyBooleanCollection {
+///   public void AddItem(bool itemValue) {
+///     // ...some custom code...
+///   }
+///   public IEnumerable GetMyVeryCustomIterator() {
+///     // ...some custom code...
+///     return res;
+///   }
+/// }
+///
+/// class MyBooleanCollectionProto : AbstractCollectionTypeProto {
+///   public override Type GetItemType() {
+///     return typeof(bool);
+///   }
+///   public IEnumerable GetEnumerator(object instance) {
+///     return (instance as MyBooleanCollection).GetMyVeryCustomIterator(); 
+///   }
+///   public abstract void AddItem(object instance, object item) {
+///     (instance as MyBooleanCollection).AddItem(item as bool);
+///   }
+/// }
+/// </code>
+/// </example>
 public abstract class AbstractCollectionTypeProto {
   private AbstractCollectionTypeProto() {
     // Disallow default constructor. This class will only be created via reflection.

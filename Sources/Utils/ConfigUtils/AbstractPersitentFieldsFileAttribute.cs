@@ -7,7 +7,8 @@ using System;
 namespace KSPDev.ConfigUtils {
 
 /// <summary>A base for any persistent fields file annotation.</summary>
-/// <remarks>See more details and examples in <see cref="ConfigAccessor"/> module.</remarks>
+/// <remarks>This attribute doesn't assume much logic so, you basically override it only to create
+/// "shortcuts".</remarks>
 public abstract class AbstractPersitentFieldsFileAttribute : Attribute {
   /// <summary>A group tag which will be handled by this annotation.</summary>
   public readonly string group;

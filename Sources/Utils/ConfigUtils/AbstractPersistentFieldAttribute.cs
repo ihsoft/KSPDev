@@ -10,8 +10,24 @@ namespace KSPDev.ConfigUtils {
 /// <remarks>Descendands must initialize at least <see cref="_ordinaryTypeProto"/> field. If
 /// <see cref="_collectionTypeProto"/> is set then the field is considered a persistent
 /// collection of values.
-/// <para>See more details and examples in <see cref="ConfigAccessor"/> module.</para>
+/// <para>See more examples in <see cref="PersistentFieldsFileAttribute"/>.</para>
 /// </remarks>
+/// <example>A "shortcut" attributes could be declared like this: 
+/// <code>
+/// class MyTypeAttribute : AbstractPersistentFieldAttribute {
+///   public MyTypeAttribute(string cfgPath) : base(cfgPath) {
+///     _ordinaryTypeProto = typeof(PrimitiveTypesProto);
+///   }
+/// }
+///
+/// class MyTypesCollectionAttribute : AbstractPersistentFieldAttribute {
+///   public MyTypesCollectionAttribute(string cfgPath) : base(cfgPath) {
+///     _ordinaryTypeProto = typeof(PrimitiveTypesProto);
+///     _collectionTypeProto = typeof(GenericCollectionTypeProto);
+///   }
+/// }
+/// </code>
+/// </example>
 public abstract class AbstractPersistentFieldAttribute : Attribute {
   /// <summary>Relative path to the value or node. Case-insensitive.</summary>
   /// <remarks>Absolute path depends on the context.</remarks>

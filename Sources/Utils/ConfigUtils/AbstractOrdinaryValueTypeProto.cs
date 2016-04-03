@@ -8,6 +8,24 @@ namespace KSPDev.ConfigUtils {
 
 /// <summary>A base class for a proto of a single value.</summary>
 /// <remarks>All descendands of this class must implement a default constructor.</remarks>
+/// <example>See real overrides in <see cref="PrimitiveTypesProto"/> and
+/// <see cref="KspTypesProto"/>.
+/// <para>Here is how you could implement your own proto to persist string array as a string.</para>
+/// <code>
+/// class StringArrayProto : AbstractOrdinaryValueTypeProto {
+///   public override bool CanHandle(Type type) {
+///     return typeof(string[]) == type;
+///   }
+///   public override string SerializeToString(object value) {
+///     return string.Join(",", (value as string[]));
+///   }
+///   public override object ParseFromString(string value, Type type) {
+///     // Due to check in CanHandle we know the type is string[].
+///     return value.Split(',');
+///   }
+/// }
+/// </code>
+/// </example>
 public abstract class AbstractOrdinaryValueTypeProto {
   private AbstractOrdinaryValueTypeProto(params object[] args) {
     // Disallow parameterized constructors. This class will only be created via reflection.

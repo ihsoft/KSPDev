@@ -15,7 +15,6 @@ namespace KSPDev.ConfigUtils {
 /// and collection fields via <see cref="GenericCollectionTypeProto"/>. These proto handlers can
 /// be changed in the annotation by assigning values to properties
 /// <see cref="ordinaryTypeProto"/> and/or <see cref="collectionTypeProto"/>.</para>
-/// <para>See more details and examples in <see cref="ConfigAccessor"/> module.</para>
 /// </remarks>
 /// <example>
 /// Below is a simple usage of the attribute.
