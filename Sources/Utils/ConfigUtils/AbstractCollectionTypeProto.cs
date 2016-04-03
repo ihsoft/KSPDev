@@ -18,6 +18,8 @@ public abstract class AbstractCollectionTypeProto {
   private AbstractCollectionTypeProto() {
     // Disallow default constructor. This class will only be created via reflection.
   }
+  
+  /// <param name="containerType">A type of the collection (i.e. an immediate field's type).</param>
   protected AbstractCollectionTypeProto(Type containerType) {}
 
   /// <summary>Returns type of items in the collection.</summary>
@@ -27,7 +29,7 @@ public abstract class AbstractCollectionTypeProto {
   /// <summary>Returns enumerable object for the collection.</summary>
   /// <param name="instance">An instance to get the enumerable for.</param>
   /// <returns>An enumerable of objects. Type of the items is determined by the relevant
-  /// <see cref="AbstractOrdinaryValueTypeProto"/></returns>
+  /// <see cref="AbstractOrdinaryValueTypeProto"/>.</returns>
   public abstract IEnumerable GetEnumerator(object instance);
   
   /// <summary>Adds an item into the collection.</summary>

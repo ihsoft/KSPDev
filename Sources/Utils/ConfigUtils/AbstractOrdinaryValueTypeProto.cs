@@ -12,6 +12,8 @@ public abstract class AbstractOrdinaryValueTypeProto {
   private AbstractOrdinaryValueTypeProto(params object[] args) {
     // Disallow parameterized constructors. This class will only be created via reflection.
   }
+
+  /// <summary>Default constructor must be the only constructor of the proto.</summary>
   protected AbstractOrdinaryValueTypeProto() {}
 
   /// <summary>Tells if proto can handle the specified type.</summary>

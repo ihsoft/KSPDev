@@ -10,16 +10,20 @@ namespace KSPDev.ConfigUtils {
 internal sealed class StandardOrdinaryTypesProto : AbstractOrdinaryValueTypeProto {
   private static readonly PrimitiveTypesProto primitiveTypesProto = new PrimitiveTypesProto();
   private static readonly KspTypesProto unityTypesProto = new KspTypesProto();
-  
+
+  /// <inheritdoc/>
   public override bool CanHandle(Type type) {
     return primitiveTypesProto.CanHandle(type) || unityTypesProto.CanHandle(type);
   }
+
+  /// <inheritdoc/>
   public override string SerializeToString(object value) {
     return primitiveTypesProto.CanHandle(value.GetType())
         ? primitiveTypesProto.SerializeToString(value)
         : unityTypesProto.SerializeToString(value);
   }
   
+  /// <inheritdoc/>
   public override object ParseFromString(string value, Type type) {
     return primitiveTypesProto.CanHandle(type)
         ? primitiveTypesProto.ParseFromString(value, type)

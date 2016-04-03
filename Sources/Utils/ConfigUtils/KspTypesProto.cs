@@ -9,6 +9,7 @@ namespace KSPDev.ConfigUtils {
 
 /// <summary>A proto for handling all KSP specific types.</summary>
 public class KspTypesProto : AbstractOrdinaryValueTypeProto {
+  /// <inheritdoc/>
   public override bool CanHandle(Type type) {
     return type == typeof(Color) || type == typeof(Color32)
         || type == typeof(Vector3) || type == typeof(Vector3d) || type == typeof(Vector4)
@@ -16,6 +17,7 @@ public class KspTypesProto : AbstractOrdinaryValueTypeProto {
         || type == typeof(Matrix4x4);
   }
   
+  /// <inheritdoc/>
   public override string SerializeToString(object value) {
     if (value is Color) {
       return ConfigNode.WriteColor((Color) value);
@@ -44,6 +46,7 @@ public class KspTypesProto : AbstractOrdinaryValueTypeProto {
     throw new ArgumentException("Unexpected type: " + value.GetType());
   }
   
+  /// <inheritdoc/>
   public override object ParseFromString(string value, Type type) {
     try {
       if (type == typeof(Color)) {

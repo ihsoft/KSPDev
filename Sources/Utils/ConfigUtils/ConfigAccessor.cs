@@ -11,6 +11,10 @@ namespace KSPDev.ConfigUtils {
 
 /// <summary>Group names that have special meaning.</summary>
 public static class StdPersistentGroups {
+  /// <summary>A public group that can be saved/loaded on every game scene.</summary>
+  /// <remarks>By the contract any caller can save/load this group at any time. If class declares
+  /// persistent fields with specific save/load logic then they need to have a group different from
+  /// the default.</remarks>
   public const string Default = "";
 }
 
@@ -60,7 +64,7 @@ public static class ConfigAccessor {
   /// <param name="instance">An instance of type <paramref name="type"/>. If it's <c>null</c> then
   /// only static fields will be loaded.</param>
   /// <param name="group">A group to load fields for. If <c>null</c> then all groups that are
-  /// defined in the class annotation via <see cref="PersitentFieldsFileAttribute"/> will be
+  /// defined in the class annotation via <see cref="PersistentFieldsFileAttribute"/> will be
   /// loaded.</param>
   public static void ReadFieldsInType(Type type = null, object instance = null,
                                       string group = StdPersistentGroups.Default) {
@@ -138,7 +142,7 @@ public static class ConfigAccessor {
   /// <param name="instance">An instance of type <paramref name="type"/>. If it's <c>null</c> then
   /// only static fields will be written.</param>
   /// <param name="group">A group to write fields for. If <c>null</c> then all groups that are
-  /// defined in the class annotation via <see cref="PersitentFieldsFileAttribute"/> will be
+  /// defined in the class annotation via <see cref="PersistentFieldsFileAttribute"/> will be
   /// written.</param>
   public static void WriteFieldsFromType(Type type = null, object instance = null,
                                          string group = StdPersistentGroups.Default) {
@@ -425,7 +429,7 @@ public static class ConfigAccessor {
   /// which case the type is resolved from <paramref name="instance"/>.</param>
   /// <param name="instance">An instance of type <paramref name="type"/>. Only used to resolve
   /// <paramref name="type"/> when it's <c>null</c>.</param>
-  /// <param name="group">A group tag (see <see cref="PersitentFieldsFileAttribute"/>). If
+  /// <param name="group">A group tag (see <see cref="PersistentFieldsFileAttribute"/>). If
   /// <c>null</c> then all files defined in the type are returned.</param>
   /// <returns>Array of persistent fields.</returns>
   private static PersistentFieldsFileAttribute[] GetPersistentFieldsFiles(

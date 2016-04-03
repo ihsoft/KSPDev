@@ -8,13 +8,14 @@ using System.Collections;
 
 namespace KSPDev.ConfigUtils {
 
-/// <summary>A proto for a field with simple generic collection.</summary>
+/// <summary>A proto handler for a simple generic collection.</summary>
 /// <remarks>Generic must have exactly one arguent, implement method <c>Add</c> for adding new
 /// items, and implement <see cref="IEnumerable"/>.</remarks>
 public sealed class GenericCollectionTypeProto : AbstractCollectionTypeProto {
   private readonly Type itemType;
   private readonly MethodInfo addMethod;
-    
+
+  /// <inheritdoc/>
   public GenericCollectionTypeProto(Type containerType) : base(containerType) {
     if (!containerType.IsGenericType || containerType.GetGenericArguments().Length != 1) {
       throw new ArgumentException(string.Format(
@@ -29,15 +30,18 @@ public sealed class GenericCollectionTypeProto : AbstractCollectionTypeProto {
           "Type {0} doesn't have Add() method", containerType));
     }
   }
-    
+
+  /// <inheritdoc/>
   public override Type GetItemType() {
     return itemType;
   }
   
+  /// <inheritdoc/>
   public override IEnumerable GetEnumerator(object instance) {
     return instance as IEnumerable;
   }
   
+  /// <inheritdoc/>
   public override void AddItem(object instance, object item) {
     addMethod.Invoke(instance, new[] {item});
   }

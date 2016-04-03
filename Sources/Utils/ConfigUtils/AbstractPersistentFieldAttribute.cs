@@ -17,20 +17,22 @@ public abstract class AbstractPersistentFieldAttribute : Attribute {
   /// <remarks>Absolute path depends on the context.</remarks>
   public readonly string[] path;
 
-  /// <summary>A tag to separate set of fields into different configuration groups.</summary>
-  /// <remarks>Group name can be used when reading/writing values via <see cref="ConfigAccessor"/>
+  /// <summary>A tag for a group of fields.</summary>
+  /// <remarks>Group can be used when reading/writing values via <see cref="ConfigAccessor"/>
   /// to process only a subset of the persistent fields of the class. It's case-insensitive.
   /// </remarks>
   public string group = "";
 
-  /// <summary>
-  /// A proto to use to handle types that can be (de)serialized as a simple string.
-  /// </summary>
+  /// <summary>A proto that (de)serializes field's value as a simple string.</summary>
   protected Type _ordinaryTypeProto;
 
-  /// <summary>A proto to treat fields values as a collection of persistent values.</summary>
+  /// <summary>A proto that handles field's value as a collection of persistent values.</summary>
+  /// <remarks>If it's <c>null</c> then field is assumed to be not a collection.</remarks>
   protected Type _collectionTypeProto;
-  
+
+  /// <param name="cfgPath">A path to the fields's value in the config. Components must be separated
+  /// by symbol '/'. The path is relative, the absolute path is determined when doing actual
+  /// (de)serialization. The path is case-insensitive.</param>
   protected AbstractPersistentFieldAttribute(string cfgPath) {
     this.path = cfgPath.Split('/');
   }

@@ -9,16 +9,22 @@ namespace KSPDev.LogUtils {
 /// <summary>A set of convenience logging method.</summary>
 public static class Logger {
   /// <summary>Logs a formatted message as INFO record.</summary>
+  /// <param name="fmt">A standard C# format string.</param>
+  /// <param name="args">Arguments for the format string.</param>
   public static void logInfo(String fmt, params object[] args) {
     UnityEngine.Debug.Log(String.Format(fmt, args));
   }
 
   /// <summary>Logs a formatted message as WARNING record.</summary>
+  /// <param name="fmt">A standard C# format string.</param>
+  /// <param name="args">Arguments for the format string.</param>
   public static void logWarning(String fmt, params object[] args) {
     UnityEngine.Debug.LogWarning(String.Format(fmt, args));
   }
 
   /// <summary>Logs a formatted message as ERROR record.</summary>
+  /// <param name="fmt">A standard C# format string.</param>
+  /// <param name="args">Arguments for the format string.</param>
   public static void logError(String fmt, params object[] args) {
     UnityEngine.Debug.LogError(String.Format(fmt, args));
   }

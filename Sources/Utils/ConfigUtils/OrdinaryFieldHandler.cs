@@ -11,11 +11,20 @@ namespace KSPDev.ConfigUtils {
 /// A handler that manages ordinary fields. All type specific handling is done via a proto.
 /// </summary>
 internal sealed class OrdinaryFieldHandler {
+  /// <summary>A persitent field descriptor.</summary>
   public readonly PersistentField persistentField;
-  
+  /// <summary>A type to handle. If field is a collection then this type is a type of the
+  /// collection's item.</summary>
   public readonly Type valueType;
+
   private readonly AbstractOrdinaryValueTypeProto simpleTypeProto;
-    
+
+  /// <param name="persistentField">A persitent field descriptor.</param>
+  /// <param name="valueType">A type to handle. If field is a collection then this type is a type of
+  /// the collection's item.</param>
+  /// <param name="simpleTypeProtoType">A proto that handles (de)serializing (in)to a simple string.
+  /// if this proto cannot handle <paramref name="valueType"/> then the type will be attempted to be
+  /// handled as a complex type.</param>
   public OrdinaryFieldHandler(
       PersistentField persistentField, Type valueType, Type simpleTypeProtoType) {
     this.persistentField = persistentField;

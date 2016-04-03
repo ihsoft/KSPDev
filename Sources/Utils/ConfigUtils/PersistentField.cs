@@ -10,13 +10,20 @@ namespace KSPDev.ConfigUtils {
 
 /// <summary>Descriptor of a persitent field.</summary>
 public sealed class PersistentField {
+  /// <summary>Annotated fields metadata.</summary>
   public readonly FieldInfo fieldInfo;
+  /// <summary>Parsed configuration paths. The first </summary>
   public readonly string[] cfgPath;
 
+  /// <summary>An instance of ordianl field proto as specified in the annotation.</summary>
   internal readonly OrdinaryFieldHandler ordinaryFieldHandler;
+  /// <summary>An instance of collection fiel proto as specified in the annotation.</summary>
   internal readonly CollectionFieldHandler collectionFieldHandler;
 
   private readonly PersistentField[] compoundTypeFields;
+
+  /// <param name="fieldInfo">An annotated field metadata.</param>
+  /// <param name="fieldAttr">An annotation of the field.</param>
   internal PersistentField(FieldInfo fieldInfo, PersistentFieldAttribute fieldAttr) {
     this.fieldInfo = fieldInfo;
     cfgPath = fieldAttr.path;
