@@ -90,7 +90,6 @@
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
-    <PostBuildEvent>IF EXIST "Q:\GameData" xcopy "$(TargetPath)" "Q:\GameData\KSPDev\Plugins\" /Y
-xcopy "$(TargetPath)" "..\..\..\..\Plugins\" /Y</PostBuildEvent>
+    <PostBuildEvent>IF EXIST "Q:\GameData" xcopy "$(TargetPath)" "Q:\GameData\KSPDev\Plugins\" /Y</PostBuildEvent>
   </PropertyGroup>
 </Project>
