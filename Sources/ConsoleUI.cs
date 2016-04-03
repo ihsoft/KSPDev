@@ -225,7 +225,6 @@ internal sealed class ConsoleUI : MonoBehaviour {
       guiActions.Add(() => GuiActionSetMode(mode: (ShowMode) showMode));
     }
 
-    //FIXME: make it a button
     GUI.changed = false;
     logUpdateIsPaused = GUILayout.Toggle(logUpdateIsPaused, "PAUSED", GUILayout.ExpandWidth(false));
     if (GUI.changed) {
