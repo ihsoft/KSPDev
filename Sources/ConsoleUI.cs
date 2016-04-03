@@ -142,7 +142,8 @@ internal sealed class ConsoleUI : MonoBehaviour {
   /// <summary>Actually renders the console window.</summary>
   void OnGUI() {
     if (isConsoleVisible) {
-      windowRect = GUILayout.Window(WindowId, windowRect, MakeConsoleWindow, "Debug logs");
+      windowRect = GUILayout.Window(
+          WindowId, windowRect, MakeConsoleWindow, "KSPDev Logs Console");
     }
   }
 
