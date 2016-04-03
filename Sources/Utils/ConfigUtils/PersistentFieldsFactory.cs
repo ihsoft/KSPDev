@@ -66,8 +66,7 @@ internal static class PersistentFieldsFactory {
   /// <summary>Finds and returns peristent fields of the requested group.</summary>
   private static IEnumerable<FieldInfo> FindAnnotatedFields(
       IReflect type, BindingFlags fieldModifierFlags, string group = null) {
-    BindingFlags flags = fieldModifierFlags
-        | BindingFlags.NonPublic | BindingFlags.Public | BindingFlags.DeclaredOnly;
+    BindingFlags flags = fieldModifierFlags | BindingFlags.NonPublic | BindingFlags.Public;
     return type.GetFields(flags).Where(f => FieldFilter(f, group));
   }
 
