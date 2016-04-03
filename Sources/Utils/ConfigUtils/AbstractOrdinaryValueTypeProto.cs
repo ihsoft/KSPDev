@@ -39,14 +39,14 @@ public abstract class AbstractOrdinaryValueTypeProto {
   /// <returns><c>true</c> if proto can (de)serialize values of the type.</returns>
   public abstract bool CanHandle(Type type);
 
-  /// <summary>Serializes <paramref name="value"/> into a string.</summary>
+  /// <summary>Serializes value into a string.</summary>
   /// <remarks>In general avoid using <c>ToString()</c> methods to produce the serialized value.
   /// Such methods are not designed to be unambiguous.</remarks>
   /// <param name="value">A value to serialize.</param>
-  /// <returns>A string representation of the vlaue. It doesn't need to be human readable.</returns>
+  /// <returns>A string representation of the value. It doesn't need to be human readable.</returns>
   public abstract string SerializeToString(object value);
 
-  /// <summary>Makes a vlaue from the string representation.</summary>
+  /// <summary>Makes a value from the string representation.</summary>
   /// <param name="value">A string produced by <see cref="SerializeToString"/>.</param>
   /// <param name="type">A type to convert the value into.</param>
   /// <returns>A new and initialized instance of the requested type.</returns>
