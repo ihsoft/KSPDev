@@ -26,30 +26,30 @@ namespace KSPDev {
 [PersistentFieldsFileAttribute("KSPDev/settings.cfg", "PersistentLog")]
 internal sealed class PersistentLogAggregator : BaseLogAggregator {
   [PersistentField("enableLogger")]
-  private static bool enableLogger = true;
+  private bool enableLogger = true;
   
   [PersistentField("logFilesPath")]
-  private static string logFilePath = "GameData/KSPDev/logs";
+  private string logFilePath = "GameData/KSPDev/logs";
   
   /// <summary>Prefix for every log file name.</summary>
   [PersistentField("logFilePrefix")]
-  private static string logFilePrefix = "KSPDev-LOG";
+  private string logFilePrefix = "KSPDev-LOG";
   
   /// <summary>Format of the timestamp in the file.</summary>
   [PersistentField("logTsFormat")]
-  private static string logTsFormat = "yyMMdd\\THHmmss";
+  private string logTsFormat = "yyMMdd\\THHmmss";
 
   /// <summary>Specifies if INFO file should be written.</summary>
   [PersistentField("writeInfoFile")]
-  private static bool writeInfoFile = true;
+  private bool writeInfoFile = true;
 
   /// <summary>Specifies if WARNING file should be written.</summary>
   [PersistentField("writeWarningFile")]
-  private static bool writeWarningFile = true;
+  private bool writeWarningFile = true;
 
   /// <summary>Specifies if ERROR file should be written.</summary>
   [PersistentField("writeErrorFile")]
-  private static bool writeErrorFile = true;
+  private bool writeErrorFile = true;
 
   /// <summary>Specifies if new record should be aggregated and persisted.</summary>
   private bool writeLogsToDisk = false;
