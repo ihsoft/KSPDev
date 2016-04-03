@@ -1,13 +1,13 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" DefaultTargets="Build">
   <PropertyGroup>
-    <ProjectGuid>{3AF7B56C-D140-488C-8F66-CDE221F67DC2}</ProjectGuid>
-    <ProjectTypeGuids>{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
+    <ProjectGuid>{01a7b80c-e283-4651-b879-3cc5efaaa1a4}</ProjectGuid>
+    <ProjectTypeGuids>{255b3c1e-7bba-46e1-b8d7-2a3e6b2460f1}</ProjectTypeGuids>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <OutputType>Library</OutputType>
     <RootNamespace>KSPDev</RootNamespace>
-    <AssemblyName>KSPDev</AssemblyName>
+    <AssemblyName>KSPDev_Utils</AssemblyName>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <TargetFrameworkProfile />
@@ -22,6 +22,7 @@
     <WarningLevel>4</WarningLevel>
     <RunCodeAnalysis>False</RunCodeAnalysis>
     <SourceAnalysisOverrideSettingsFile>C:\Users\IH\AppData\Roaming\ICSharpCode\SharpDevelop5\Settings.SourceAnalysis</SourceAnalysisOverrideSettingsFile>
+    <DocumentationFile>bin\Debug\KSPDev_Utils.xml</DocumentationFile>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Platform)' == 'AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -61,26 +62,35 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="BaseLogAggregator.cs" />
-    <Compile Include="CollapseLogAggregator.cs" />
-    <Compile Include="ConsoleUI.cs" />
-    <Compile Include="LogFilter.cs" />
-    <Compile Include="LogInterceptor.cs" />
-    <Compile Include="LogRecord.cs" />
-    <Compile Include="PersistentLogAggregator.cs" />
-    <Compile Include="PlainLogAggregator.cs" />
+    <Compile Include="ConfigUtils\AbstractCollectionTypeProto.cs" />
+    <Compile Include="ConfigUtils\AbstractOrdinaryValueTypeProto.cs" />
+    <Compile Include="ConfigUtils\AbstractPersistentFieldAttribute.cs" />
+    <Compile Include="ConfigUtils\AbstractPersitentFieldsFileAttribute.cs" />
+    <Compile Include="ConfigUtils\PersistentFieldsFileAttribute.cs" />
+    <Compile Include="ConfigUtils\GenericCollectionTypeProto.cs" />
+    <Compile Include="ConfigUtils\OrdinaryFieldHandler.cs" />
+    <Compile Include="ConfigUtils\PrimitiveTypesProto.cs" />
+    <Compile Include="ConfigUtils\StandardOrdinaryTypesProto.cs" />
+    <Compile Include="ConfigUtils\ConfigAccessor.cs" />
+    <Compile Include="ConfigUtils\CollectionFieldHandler.cs" />
+    <Compile Include="ConfigUtils\PersistentFieldsFactory.cs" />
+    <Compile Include="ConfigUtils\PersistentField.cs" />
+    <Compile Include="ConfigUtils\PersistentFieldAttribute.cs" />
+    <Compile Include="ConfigUtils\KspTypesProto.cs" />
+    <Compile Include="FSUtils\Paths.cs" />
+    <Compile Include="GUIUtils\GuiActionsList.cs" />
+    <Compile Include="LogUtils\Logger.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="SmartLogAggregator.cs" />
-    <Compile Include="SnapshotLogAggreator.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="Utils\KSPDev_Utils.csproj">
-      <Project>{01A7B80C-E283-4651-B879-3CC5EFAAA1A4}</Project>
-      <Name>KSPDev_Utils</Name>
-    </ProjectReference>
+    <Folder Include="GUIUtils" />
+    <Folder Include="LogUtils" />
+    <Folder Include="ConfigUtils" />
+    <Folder Include="FSUtils" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
-    <PostBuildEvent>IF EXIST "Q:\GameData" xcopy "$(TargetPath)" "Q:\GameData\KSPDev\Plugins\" /Y</PostBuildEvent>
+    <PostBuildEvent>IF EXIST "Q:\GameData" xcopy "$(TargetPath)" "Q:\GameData\KSPDev\Plugins\" /Y
+xcopy "$(TargetPath)" "..\..\..\..\Plugins\" /Y</PostBuildEvent>
   </PropertyGroup>
 </Project>
