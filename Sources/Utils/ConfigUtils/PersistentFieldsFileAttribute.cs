@@ -99,7 +99,7 @@ namespace KSPDev.ConfigUtils {
 /// updated, and saved.
 /// </example>
 [AttributeUsage(AttributeTargets.Class | AttributeTargets.Struct, AllowMultiple = true)]
-public sealed class PersistentFieldsFileAttribute : AbstractPersitentFieldsFileAttribute {
+public sealed class PersistentFieldsFileAttribute : AbstractPersistentFieldsFileAttribute {
   /// <inheritdoc/>
   public PersistentFieldsFileAttribute(string configFilePath, string nodePath,
                                        string group = StdPersistentGroups.Default)

@@ -9,8 +9,10 @@ namespace KSPDev.ConfigUtils {
 /// <summary>A base for any persistent fields file annotation.</summary>
 /// <remarks>This attribute doesn't assume much logic so, you basically override it only to create
 /// "shortcuts".</remarks>
-public abstract class AbstractPersitentFieldsFileAttribute : Attribute {
-  /// <summary>A group tag which will be handled by this annotation.</summary>
+/// <seealso cref="ConfigAccessor.ReadFieldsInType"/>
+/// <seealso cref="ConfigAccessor.WriteFieldsFromType"/>
+public abstract class AbstractPersistentFieldsFileAttribute : Attribute {
+  /// <summary>A group tag which is handled by this annotation.</summary>
   public readonly string group;
 
   /// <summary>A path to the node which will be the root for the fields in the group.</summary>
@@ -19,7 +21,8 @@ public abstract class AbstractPersitentFieldsFileAttribute : Attribute {
   public readonly string[] nodePath;
 
   /// <summary>Relative path to the config file.</summary>
-  /// <remarks>The path is relative to the game's "GameData" folder.</remarks>
+  /// <remarks>Absolute name is resolved via <see cref="FSUtils.KspPaths.makePluginPath"/>.
+  /// </remarks>
   public readonly string configFilePath;
 
   /// <param name="configFilePath">A relative or an absolute path to the file. It's resolved via
@@ -28,7 +31,7 @@ public abstract class AbstractPersitentFieldsFileAttribute : Attribute {
   /// annotation.</param>
   /// <param name="group">A group of the annotation. When saving or loading persistent fields only
   /// the fields of this group will be considered. Must not be <c>null</c>.</param>
-  protected AbstractPersitentFieldsFileAttribute(
+  protected AbstractPersistentFieldsFileAttribute(
       string configFilePath, string nodePath, string group) {
     this.configFilePath = configFilePath;
     this.nodePath = nodePath.Split('/');
