@@ -8,9 +8,8 @@ namespace KSPDev.ConfigUtils {
 
 /// <summary>A handler that manages collections in persitent fields.</summary>
 internal sealed class CollectionFieldHandler {
-  public readonly Type containerType;
-  public readonly PersistentField persistentField;
-  
+  private readonly Type collectionType;
+  private readonly PersistentField persistentField;
   private readonly AbstractCollectionTypeProto collectionProto;
   
   public CollectionFieldHandler(
