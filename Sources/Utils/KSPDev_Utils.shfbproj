@@ -24,7 +24,7 @@ sources-->
     <KeepLogFile>True</KeepLogFile>
     <DisableCodeBlockComponent>False</DisableCodeBlockComponent>
     <CleanIntermediates>True</CleanIntermediates>
-    <HelpFileVersion>1.0.0.0</HelpFileVersion>
+    <HelpFileVersion>0.9.0.0</HelpFileVersion>
     <MaximumGroupParts>2</MaximumGroupParts>
     <NamespaceGrouping>False</NamespaceGrouping>
     <SyntaxFilters>C#</SyntaxFilters>
@@ -32,9 +32,9 @@ sources-->
     <RootNamespaceContainer>False</RootNamespaceContainer>
     <PresentationStyle>VS2013</PresentationStyle>
     <Preliminary>False</Preliminary>
-    <NamingMethod>Guid</NamingMethod>
+    <NamingMethod>MemberName</NamingMethod>
     <Language>en-US</Language>
-    <HelpTitle>KSPDev</HelpTitle>
+    <HelpTitle>KSPDev Client utilities</HelpTitle>
     <ContentPlacement>AboveNamespaces</ContentPlacement>
     <FeedbackEMailAddress>
     </FeedbackEMailAddress>
