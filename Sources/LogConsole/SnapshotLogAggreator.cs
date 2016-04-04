@@ -5,7 +5,7 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace KSPDev {
+namespace KSPDev.LogcConsole {
 
 /// <summary>
 /// A simple wrapper to hold static logs copy originated from any other aggreator.

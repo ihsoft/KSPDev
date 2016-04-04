@@ -6,7 +6,7 @@ using UnityEngine;
 using System;
 using System.Text;
 
-namespace KSPDev {
+namespace KSPDev.LogcConsole {
 
 /// <summary>A wrapper class to hold log record(s).</summary>
 public class LogRecord {

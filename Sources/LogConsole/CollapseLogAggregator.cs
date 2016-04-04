@@ -6,7 +6,7 @@ using KSPDev.ConfigUtils;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace KSPDev {
+namespace KSPDev.LogcConsole {
 
 /// <summary>A log capturer that collapses last repeated records into one.</summary>
 [PersistentFieldsFileAttribute("KSPDev/settings.cfg", "CollapseLogAggregator")]

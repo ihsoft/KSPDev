@@ -7,7 +7,7 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
-namespace KSPDev {
+namespace KSPDev.LogcConsole {
 
 /// <summary>Base class for any log aggregator.</summary>
 public abstract class BaseLogAggregator {

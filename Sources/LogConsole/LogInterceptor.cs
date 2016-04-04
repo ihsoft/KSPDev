@@ -9,7 +9,7 @@ using System.Collections.Generic;
 using System;
 using UnityEngine;
 
-namespace KSPDev {
+namespace KSPDev.LogcConsole {
   
 /// <summary>An alternative log processor that allows better logs handling.</summary>
 /// <remarks>Keep it static!</remarks>
