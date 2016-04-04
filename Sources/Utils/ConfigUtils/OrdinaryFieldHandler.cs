@@ -30,10 +30,10 @@ internal sealed class OrdinaryFieldHandler {
   }
 
   /// <summary>Converts field value into a form suitable for storing into config file.</summary>
-  /// <remarks>Values that can be handled by <see cref="simpleTypeProto"/> are transformed into
-  /// a simple strings, and saved as string values into the config. Structs and classes are considred
-  /// "compound types" (see <see cref="IsCompound()"/>), i.e. types that have nested fields in
-  /// them. Such types are converted into a config node.</remarks>
+  /// <remarks>Values that can be handled by the proto are transformed into simple strings, and
+  /// saved as string values into the config. Structs and classes are considred "compound types"
+  /// (see <see cref="IsCompound()"/>), i.e. types that have nested fields in them. Such types are
+  /// converted into a config node.</remarks>
   /// <param name="value">A field's value to convert.</param>
   /// <returns>String or <see cref="ConfigNode"/>.</returns>
   internal object SerializeValue(object value) {
@@ -48,9 +48,9 @@ internal sealed class OrdinaryFieldHandler {
   }
 
   /// <summary>Converts a value from config into an actual fiel's value.</summary>
-  /// <param name="cfgValue">A string if value is handled by <see cref="simpleTypeProto"/> or
+  /// <param name="cfgValue">A string if value can be handled by the proto or
   /// <see cref="ConfigNode"/> if type is compound.</param>
-  /// <returns>Value of <see cref="valueType"/> type.</returns>
+  /// <returns>Field's value.</returns>
   internal object DeserializeValue(object cfgValue) {
     if (simpleTypeProto.CanHandle(valueType)) {
       try {

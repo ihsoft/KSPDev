@@ -28,6 +28,9 @@ namespace KSPDev.ConfigUtils {
 /// }
 /// </code>
 /// </example>
+/// <seealso cref="AbstractOrdinaryValueTypeProto"/>
+/// <seealso cref="AbstractCollectionTypeProto"/>
+/// <seealso cref="ConfigAccessor"/>
 public abstract class AbstractPersistentFieldAttribute : Attribute {
   /// <summary>Relative path to the value or node. Case-insensitive.</summary>
   /// <remarks>Absolute path depends on the context.</remarks>
@@ -40,10 +43,14 @@ public abstract class AbstractPersistentFieldAttribute : Attribute {
   public string group = "";
 
   /// <summary>A proto that (de)serializes field's value as a simple string.</summary>
+  /// <remarks>This type must be a descendant of <see cref="AbstractOrdinaryValueTypeProto"/>.
+  /// </remarks>
   protected Type _ordinaryTypeProto;
 
   /// <summary>A proto that handles field's value as a collection of persistent values.</summary>
   /// <remarks>If it's <c>null</c> then field is assumed to be not a collection.</remarks>
+  /// <para>This type must be a descendant of <see cref="AbstractCollectionTypeProto"/>.
+  /// </para>
   protected Type _collectionTypeProto;
 
   /// <param name="cfgPath">A path to the fields's value in the config. Components must be separated

@@ -98,6 +98,8 @@ namespace KSPDev.ConfigUtils {
 /// structure to be re-ordered and comments (if any) lost. The file is actualy changed, it's read,
 /// updated, and saved.
 /// </example>
+/// <seealso cref="ConfigAccessor.ReadFieldsInType"/>
+/// <seealso cref="ConfigAccessor.WriteFieldsFromType"/>
 [AttributeUsage(AttributeTargets.Class | AttributeTargets.Struct, AllowMultiple = true)]
 public sealed class PersistentFieldsFileAttribute : AbstractPersistentFieldsFileAttribute {
   /// <inheritdoc/>

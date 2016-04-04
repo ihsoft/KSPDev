@@ -6,7 +6,9 @@ using System;
 
 namespace KSPDev.ConfigUtils {
 
-/// <summary>Proto to handle all primitive C# types and common Unity types.</summary>
+/// <summary>Proto to handle all primitive C# types and common Unity/KSP types.</summary>
+/// <seealso cref="PrimitiveTypesProto"/>
+/// <seealso cref="KspTypesProto"/>
 internal sealed class StandardOrdinaryTypesProto : AbstractOrdinaryValueTypeProto {
   private static readonly PrimitiveTypesProto primitiveTypesProto = new PrimitiveTypesProto();
   private static readonly KspTypesProto unityTypesProto = new KspTypesProto();

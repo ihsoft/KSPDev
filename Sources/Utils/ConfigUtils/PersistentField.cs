@@ -95,7 +95,7 @@ public sealed class PersistentField {
   
   /// <summary>Makes a config node from the compound type fields.</summary>
   /// <param name="instance">An owner ofthe fields. Can be <c>null</c> for static fields.</param>
-  /// <returns></returns>
+  /// <returns>New configuration node with the data.</returns>
   internal ConfigNode SerializeCompoundFieldsToNode(object instance) {
     ConfigNode node = null;
     if (compoundTypeFields.Length > 0) {

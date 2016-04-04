@@ -138,6 +138,9 @@ namespace KSPDev.ConfigUtils {
 /// For more examples on custom proto handlers see <see cref="AbstractOrdinaryValueTypeProto"/> and
 /// <see cref="AbstractCollectionTypeProto"/>.
 /// </example>
+/// <seealso cref="ConfigAccessor"/>
+/// <seealso cref="AbstractOrdinaryValueTypeProto"/>
+/// <seealso cref="AbstractCollectionTypeProto"/>
 [AttributeUsage(AttributeTargets.Field)]
 public sealed class PersistentFieldAttribute : AbstractPersistentFieldAttribute {
   /// <summary>A proto for handling the annotated field.</summary>

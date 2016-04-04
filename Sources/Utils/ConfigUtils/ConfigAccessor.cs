@@ -10,6 +10,8 @@ using KSPDev.FSUtils;
 namespace KSPDev.ConfigUtils {
 
 /// <summary>Group names that have special meaning.</summary>
+/// <seealso cref="ConfigAccessor"/>
+/// <seealso cref="PersistentField"/>
 public static class StdPersistentGroups {
   /// <summary>A public group that can be saved/loaded on every game scene.</summary>
   /// <remarks>By the contract any caller can save/load this group at any time. If class declares
@@ -20,6 +22,7 @@ public static class StdPersistentGroups {
 
 /// <summary>A service class that simplifies accessing configuration files.</summary>
 /// <remarks>This class allows direct value reading as well as managing  </remarks>
+/// <seealso cref="PersistentField"/>
 public static class ConfigAccessor {
   private static readonly StandardOrdinaryTypesProto standardTypesProto =
       new StandardOrdinaryTypesProto();
@@ -337,7 +340,9 @@ public static class ConfigAccessor {
     targetNode.AddNode(pathKeys.Last(), value);
   }
 
-  /// <summary>Stores a value into a config node.</summary>
+  /// <summary>
+  /// Stores a value of arbitrary type <typeparamref name="T"/> into a config node.
+  /// </summary>
   /// <param name="node">A node to set data in.</param>
   /// <param name="path">A string path to the node. Path components should be separated by '/'
   /// symbol.</param>
@@ -345,12 +350,17 @@ public static class ConfigAccessor {
   /// to convert the value into string.</param>
   /// <param name="typeProto">A proto capable to handle the type of <paramref name="value"/>. If not
   /// set then <see cref="StandardOrdinaryTypesProto"/> is used.</param>
+  /// <typeparam name="T">The value type to store. Type proto must be able to handle it.
+  /// </typeparam>
+  /// <exception cref="ArgumentException">If type cannot be handled by the proto.</exception>
   public static void SetValueByPath<T>(ConfigNode node, string path, T value,
                                        AbstractOrdinaryValueTypeProto typeProto = null) {
     SetValueByPath(node, path.Split('/'), value, typeProto);
   }
   
-  /// <summary>Stores a value into a config node.</summary>
+  /// <summary>
+  /// Stores a value of arbitrary type <typeparamref name="T"/> into a config node.
+  /// </summary>
   /// <param name="node">A node to set data in.</param>
   /// <param name="pathKeys">An array of values that makes the full path. First node in the array is
   /// the top most component of the path.</param>
@@ -358,6 +368,8 @@ public static class ConfigAccessor {
   /// to convert value's type into string.</param>
   /// <param name="typeProto">A proto capable to handle the type of <paramref name="value"/>. If not
   /// set then <see cref="StandardOrdinaryTypesProto"/> is used.</param>
+  /// <typeparam name="T">The value type to store. Type proto must be able to handle it.
+  /// </typeparam>
   /// <exception cref="ArgumentException">If type cannot be handled by the proto.</exception>
   public static void SetValueByPath<T>(ConfigNode node, string[] pathKeys, T value,
                                        AbstractOrdinaryValueTypeProto typeProto = null) {
@@ -372,7 +384,9 @@ public static class ConfigAccessor {
     SetValueByPath(node, pathKeys, strValue);
   }
 
-  /// <summary>Reads a value from a config node.</summary>
+  /// <summary>
+  /// Reads a value of arbitrary type <typeparamref name="T"/> from a config node.
+  /// </summary>
   /// <param name="node">A node to read data from.</param>
   /// <param name="path">A string path to the node. Path components should be separated by '/'
   /// symbol.</param>
@@ -381,13 +395,17 @@ public static class ConfigAccessor {
   /// <param name="typeProto">A proto capable to handle the type of <paramref name="value"/>. If not
   /// set then <see cref="StandardOrdinaryTypesProto"/> is used.</param>
   /// <returns><c>true</c> if value was successfully read and stored.</returns>
+  /// <typeparam name="T">The value type to read. Type proto must be able to handle it.
+  /// </typeparam>
   /// <exception cref="ArgumentException">If type cannot be handled by the proto.</exception>
   public static bool GetValueByPath<T>(ConfigNode node, string path, ref T value,
                                        AbstractOrdinaryValueTypeProto typeProto = null) {
     return GetValueByPath(node, path.Split('/'), ref value, typeProto);
   }
 
-  /// <summary>Reads a value from a config node.</summary>
+  /// <summary>
+  /// Reads a value of arbitrary type <typeparamref name="T"/> from a config node.
+  /// </summary>
   /// <param name="node">A node to read data from.</param>
   /// <param name="pathKeys">An array of values that makes the full path. First node in the array is
   /// the top most component of the path.</param>
@@ -396,6 +414,8 @@ public static class ConfigAccessor {
   /// <param name="typeProto">A proto capable to handle the type of <paramref name="value"/>. If not
   /// set then <see cref="StandardOrdinaryTypesProto"/> is used.</param>
   /// <returns><c>true</c> if value was successfully read and stored.</returns>
+  /// <typeparam name="T">The value type to read. Type proto must be able to handle it.
+  /// </typeparam>
   /// <exception cref="ArgumentException">If type cannot be handled by the proto.</exception>
   public static bool GetValueByPath<T>(ConfigNode node, string[] pathKeys, ref T value,
                                        AbstractOrdinaryValueTypeProto typeProto = null) {
