@@ -358,10 +358,15 @@ public static class ConfigAccessor {
   /// to convert value's type into string.</param>
   /// <param name="typeProto">A proto capable to handle the type of <paramref name="value"/>. If not
   /// set then <see cref="StandardOrdinaryTypesProto"/> is used.</param>
+  /// <exception cref="ArgumentException">If type cannot be handled by the proto.</exception>
   public static void SetValueByPath<T>(ConfigNode node, string[] pathKeys, T value,
                                        AbstractOrdinaryValueTypeProto typeProto = null) {
     if (typeProto == null) {
       typeProto = standardTypesProto;
+    }
+    if (!typeProto.CanHandle(typeof(T))) {
+      throw new ArgumentException(string.Format(
+          "Proto {0} cannot handle type {1}", typeProto.GetType(), typeof(T)));
     }
     var strValue = typeProto.SerializeToString(value);
     SetValueByPath(node, pathKeys, strValue);
@@ -376,6 +381,7 @@ public static class ConfigAccessor {
   /// <param name="typeProto">A proto capable to handle the type of <paramref name="value"/>. If not
   /// set then <see cref="StandardOrdinaryTypesProto"/> is used.</param>
   /// <returns><c>true</c> if value was successfully read and stored.</returns>
+  /// <exception cref="ArgumentException">If type cannot be handled by the proto.</exception>
   public static bool GetValueByPath<T>(ConfigNode node, string path, ref T value,
                                        AbstractOrdinaryValueTypeProto typeProto = null) {
     return GetValueByPath(node, path.Split('/'), ref value, typeProto);
@@ -390,14 +396,19 @@ public static class ConfigAccessor {
   /// <param name="typeProto">A proto capable to handle the type of <paramref name="value"/>. If not
   /// set then <see cref="StandardOrdinaryTypesProto"/> is used.</param>
   /// <returns><c>true</c> if value was successfully read and stored.</returns>
+  /// <exception cref="ArgumentException">If type cannot be handled by the proto.</exception>
   public static bool GetValueByPath<T>(ConfigNode node, string[] pathKeys, ref T value,
                                        AbstractOrdinaryValueTypeProto typeProto = null) {
+    if (typeProto == null) {
+      typeProto = standardTypesProto;
+    }
+    if (!typeProto.CanHandle(typeof(T))) {
+      throw new ArgumentException(string.Format(
+          "Proto {0} cannot handle type {1}", typeProto.GetType(), typeof(T)));
+    }
     var strValue = GetValueByPath(node, pathKeys);
     if (strValue == null) {
       return false;
-    }
-    if (typeProto == null) {
-      typeProto = standardTypesProto;
     }
     value = (T) typeProto.ParseFromString(strValue, typeof(T));
     return true;
