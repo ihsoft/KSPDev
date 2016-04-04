@@ -11,13 +11,16 @@ internal sealed class CollectionFieldHandler {
   private readonly Type collectionType;
   private readonly PersistentField persistentField;
   private readonly AbstractCollectionTypeProto collectionProto;
-  
-  public CollectionFieldHandler(
-      PersistentField persistentField, Type containerType, Type collectionProtoType) {
-    this.containerType = containerType;
+
+  /// <param name="persistentField">A descriptor of persistent field which holds the value.</param>
+  /// <param name="collectionType">A type of the collection this handler will be handling.</param>
+  /// <param name="collectionProtoType">A proto type that can work with the collection.</param>
+  internal CollectionFieldHandler(
+      PersistentField persistentField, Type collectionType, Type collectionProtoType) {
+    this.collectionType = collectionType;
     this.persistentField = persistentField;
 
-    this.collectionProto = Activator.CreateInstance(collectionProtoType, new[] {containerType})
+    this.collectionProto = Activator.CreateInstance(collectionProtoType, new[] {collectionType})
         as AbstractCollectionTypeProto;
     if (this.collectionProto == null) {
       throw new ArgumentException(string.Format("Bad collection proto {0}", collectionProtoType));
@@ -26,8 +29,7 @@ internal sealed class CollectionFieldHandler {
 
   /// <summary>Stores collection values into a config node.</summary>
   /// <param name="node">A node to add values into.</param>
-  /// <param name="value">A collection instance of type <see cref="containerType"/> to get
-  /// values from.</param>
+  /// <param name="value">A collection instance to get values from.</param>
   internal void SerializeValues(ConfigNode node, object value) {
     var proto = collectionProto as GenericCollectionTypeProto;
     foreach (var itemValue in proto.GetEnumerator(value)) {
@@ -44,17 +46,17 @@ internal sealed class CollectionFieldHandler {
       }
     }
   }
-  
+
   /// <summary>Creates a collection from the config node.</summary>
   /// <param name="node">A node to read data from.</param>
-  /// <returns>An collection instance of type <see cref="containerType"/>.</returns>
+  /// <returns>Сollection instance.</returns>
   internal object DeserializeValues(ConfigNode node) {
     object instance = null;
     var values = persistentField.ordinaryFieldHandler.IsCompound()
         ? ConfigAccessor.GetNodesByPath(node, persistentField.cfgPath) as object[]
         : ConfigAccessor.GetValuesByPath(node, persistentField.cfgPath) as object[];
     if (values != null) {
-      instance = Activator.CreateInstance(containerType);
+      instance = Activator.CreateInstance(collectionType);
       foreach (var value in values) {
         var item = persistentField.ordinaryFieldHandler.DeserializeValue(value);
         if (item != null) {
