@@ -50,5 +50,7 @@ Sources/bin
 Sources/obj
 Sources/Utils/bin
 Sources/Utils/obj
+Sources/LogConsole/bin
+Sources/LogConsole/obj
 
 Help

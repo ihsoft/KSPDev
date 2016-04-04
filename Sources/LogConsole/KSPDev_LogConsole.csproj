@@ -74,7 +74,7 @@
     <Compile Include="SnapshotLogAggreator.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="Utils\KSPDev_Utils.csproj">
+    <ProjectReference Include="..\Utils\KSPDev_Utils.csproj">
       <Project>{01A7B80C-E283-4651-B879-3CC5EFAAA1A4}</Project>
       <Name>KSPDev_Utils</Name>
     </ProjectReference>
