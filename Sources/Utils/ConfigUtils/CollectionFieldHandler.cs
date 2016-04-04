@@ -29,7 +29,7 @@ internal sealed class CollectionFieldHandler {
   /// <param name="node">A node to add values into.</param>
   /// <param name="value">A collection instance of type <see cref="containerType"/> to get
   /// values from.</param>
-  public void SerializeValues(ConfigNode node, object value) {
+  internal void SerializeValues(ConfigNode node, object value) {
     var proto = collectionProto as GenericCollectionTypeProto;
     foreach (var itemValue in proto.GetEnumerator(value)) {
       if (itemValue == null) {
@@ -49,7 +49,7 @@ internal sealed class CollectionFieldHandler {
   /// <summary>Creates a collection from the config node.</summary>
   /// <param name="node">A node to read data from.</param>
   /// <returns>An collection instance of type <see cref="containerType"/>.</returns>
-  public object DeserializeValues(ConfigNode node) {
+  internal object DeserializeValues(ConfigNode node) {
     object instance = null;
     var values = persistentField.ordinaryFieldHandler.IsCompound()
         ? ConfigAccessor.GetNodesByPath(node, persistentField.cfgPath) as object[]
@@ -68,7 +68,7 @@ internal sealed class CollectionFieldHandler {
   
   /// <summary>Returns type of an item in the colelction.</summary>
   /// <returns>Item's type.</returns>
-  public Type GetItemType() {
+  internal Type GetItemType() {
     return collectionProto.GetItemType();
   }
 }

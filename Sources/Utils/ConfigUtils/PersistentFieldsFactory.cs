@@ -11,7 +11,7 @@ using KSPDev.LogUtils;
 namespace KSPDev.ConfigUtils {
 
 /// <summary>A helper class to gather persistent field attributes.</summary>
-internal static class PersistentFieldsFactory {
+public static class PersistentFieldsFactory {
   /// <summary>Gathers persitent fields for an instance of a type.</summary>
   /// <remarks>Static and instance fields are gathered.</remarks>
   /// <param name="obj">An instance of the object to gather persistent fields for.</param>
