@@ -11,7 +11,7 @@ namespace KSPDev.ConfigUtils {
 
 /// <summary>Group names that have special meaning.</summary>
 /// <seealso cref="ConfigAccessor"/>
-/// <seealso cref="PersistentField"/>
+/// <seealso cref="PersistentFieldAttribute"/>
 public static class StdPersistentGroups {
   /// <summary>A public group that can be saved/loaded on every game scene.</summary>
   /// <remarks>By the contract any caller can save/load this group at any time. If class declares
@@ -22,7 +22,7 @@ public static class StdPersistentGroups {
 
 /// <summary>A service class that simplifies accessing configuration files.</summary>
 /// <remarks>This class allows direct value reading as well as managing  </remarks>
-/// <seealso cref="PersistentField"/>
+/// <seealso cref="PersistentFieldAttribute"/>
 public static class ConfigAccessor {
   private static readonly StandardOrdinaryTypesProto standardTypesProto =
       new StandardOrdinaryTypesProto();
@@ -34,6 +34,7 @@ public static class ConfigAccessor {
   /// <param name="instance">An instance of type <paramref name="type"/>. If it's <c>null</c> then
   /// only static fields will be loaded.</param>
   /// <param name="group">A group tag (see <see cref="AbstractPersistentFieldAttribute"/>).</param>
+  /// <seealso cref="PersistentFieldAttribute"/>
   public static void ReadFieldsFromFile(string filePath, Type type = null, object instance = null,
                                         string group = StdPersistentGroups.Default) {
     Logger.logInfo("Loading persistent fields: file={0}, group=\"{1}\"",
@@ -50,6 +51,7 @@ public static class ConfigAccessor {
   /// <param name="instance">An instance of type <paramref name="type"/>. If it's <c>null</c> then
   /// only static fields will be loaded.</param>
   /// <param name="group">A group tag (see <see cref="AbstractPersistentFieldAttribute"/>).</param>
+  /// <seealso cref="PersistentFieldAttribute"/>
   public static void ReadFieldsFromNode(ConfigNode node, Type type = null, object instance = null,
                                         string group = StdPersistentGroups.Default) {
     var fields = GetPersistentFields(ref type, instance, group);
@@ -69,6 +71,8 @@ public static class ConfigAccessor {
   /// <param name="group">A group to load fields for. If <c>null</c> then all groups that are
   /// defined in the class annotation via <see cref="PersistentFieldsFileAttribute"/> will be
   /// loaded.</param>
+  /// <seealso cref="PersistentFieldAttribute"/>
+  /// <seealso cref="PersistentFieldsFileAttribute"/>
   public static void ReadFieldsInType(Type type = null, object instance = null,
                                       string group = StdPersistentGroups.Default) {
     var attributes = GetPersistentFieldsFiles(ref type, instance, group);
@@ -98,6 +102,7 @@ public static class ConfigAccessor {
   /// <param name="instance">An instance of type <paramref name="type"/>. If it's <c>null</c> then
   /// only static fields will be written.</param>
   /// <param name="group">A group tag (see <see cref="AbstractPersistentFieldAttribute"/>).</param>
+  /// <seealso cref="PersistentFieldAttribute"/>
   public static void WriteFieldsIntoFile(string filePath,
                                          string[] rootNodePathKeys = null, bool mergeMode = true,
                                          Type type = null, object instance = null,
@@ -126,6 +131,7 @@ public static class ConfigAccessor {
   /// <param name="instance">An instance of type <paramref name="type"/>. If it's <c>null</c> then
   /// only static fields will be written.</param>
   /// <param name="group">A group tag (see <see cref="AbstractPersistentFieldAttribute"/>).</param>
+  /// <seealso cref="PersistentFieldAttribute"/>
   public static void WriteFieldsIntoNode(ConfigNode node, Type type = null, object instance = null,
                                          string group = StdPersistentGroups.Default) {
     var fields = GetPersistentFields(ref type, instance, group);
@@ -147,6 +153,8 @@ public static class ConfigAccessor {
   /// <param name="group">A group to write fields for. If <c>null</c> then all groups that are
   /// defined in the class annotation via <see cref="PersistentFieldsFileAttribute"/> will be
   /// written.</param>
+  /// <seealso cref="PersistentFieldAttribute"/>
+  /// <seealso cref="PersistentFieldsFileAttribute"/>
   public static void WriteFieldsFromType(Type type = null, object instance = null,
                                          string group = StdPersistentGroups.Default) {
     var attributes = GetPersistentFieldsFiles(ref type, instance, group);
