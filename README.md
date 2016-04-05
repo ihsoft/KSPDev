@@ -10,8 +10,8 @@ Though, if you put a link to this GutHab repository it will be highly appreciate
 ## KSPDev - Debug log console
 ####Mod for developers who create mods for [Kerbal Space Program](http://www.kerbalspaceprogram.com/)
 
-KSPDev.LogConsole is an advanced console for in-game logging system. Just install it in palce of the built-in one and have all the
-benefits.
+[KSPDev.LogConsole](https://github.com/ihsoft/KSPDev/tree/master/Sources/LogConsole) is an advanced console for in-game logging
+system. Just install it in palce of the built-in one and have all the benefits.
 
 ####Main features
 * Full screen window improves visibility.
