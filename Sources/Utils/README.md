@@ -14,8 +14,8 @@ addons. Just add the assembly into your project and save a lot of development ef
   your classes. Then just specify file name and have them loaded/saved in one single method call.
   * Use attributes to mark fields that are represented by a class or struct. These types will be (de)serialized as config nodes.
   Attribute handlers can also deal with collections! No need to persist every item or a structure field separately.
-  * Go further and define all configuration logic completely via attributes. After that you call just one method with minumum of
-  argumenst to have all your mod's settings saved. Or loaded - you choose.
+  * Go further and define all configuration logic completely via attributes. After that you call just one method with minimum of
+  arguments to have all your mod's settings saved. Or loaded - you choose.
 * Convinience methods to output formatted debug logs ([LogUtils](http://ihsoft.github.io/KSPDevUtils_Doc/html/N_KSPDev_LogUtils.htm)).
 * Unity GUI helper to properly handle UI actions ([GUIUtils](http://ihsoft.github.io/KSPDevUtils_Doc/html/N_KSPDev_GUIUtils.htm)).
 * Basic set of methods to deal with in-game file paths ([FSUtils](http://ihsoft.github.io/KSPDevUtils_Doc/html/N_KSPDev_FSUtils.htm)).
