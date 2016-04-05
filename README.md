@@ -1,11 +1,13 @@
 # KSPDev - Mods and tools for KSP modders
 
+_The only version existing for now is pre-lrease 0.9.0.0. Though, the existing functionality is not expected to change. It's highly expected to be extended with new methods/abilities._
+
 ## Licensing
 
 All code is disributed under "[Public Domain license](https://en.wikipedia.org/wiki/Public_domain)". In other words, you can do
 whatever you want with the code.
 
-Though, if you put a link to this GutHab repository it will be highly appreciated. And it may help other developers :)
+Though, if you put a link to this GitHub repository it will be highly appreciated. And it may help other developers :)
 
 ## KSPDev - Debug log console
 ####Mod for developers who create mods for [Kerbal Space Program](http://www.kerbalspaceprogram.com/)
