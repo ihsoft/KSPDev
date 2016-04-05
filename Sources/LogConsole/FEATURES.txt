@@ -1,4 +1,0 @@
-- P1: Allow removing filters via UI
-- P2: Allow adding/removing overrides via UI.
-- P3: Allo copy/paste of an error and its stack.
-- P3: Allow starting a new log file with the a comment.
