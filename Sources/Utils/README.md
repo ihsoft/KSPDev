@@ -1,9 +1,9 @@
 #KSPDev - Client utilites
-####Mod for [Kerbal Space Program](http://www.kerbalspaceprogram.com/)
+####A library for developers who create mods for [Kerbal Space Program](http://www.kerbalspaceprogram.com/)
 
 KSPDev_Utils is a set of handy tools that simplify development of KSP addons.
 
-Main features
+####Main features
 
 * Extensive set of methods to work with config files ([ConfigUtils](http://ihsoft.github.io/KSPDevUtils_Doc/html/N_KSPDev_ConfigUtils.htm)):
   * Save or load simple values without dealing with string<=>type conversion. The type will be detected from the argument, and built-in converters will handle any C# or KSP/Unity type transformation.
