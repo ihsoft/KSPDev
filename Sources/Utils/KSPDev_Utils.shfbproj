@@ -41,11 +41,15 @@ sources-->
     <CopyrightText>
     </CopyrightText>
     <NamespaceSummaries>
-      <NamespaceSummaryItem name="KSPDev.ConfigUtils" isDocumented="True">A set of utility methods and classes to make accessing config files easier. You may choose to work with each field (as you usually do in KSP) but with use of convenience methods. Or you may make use of meta programming approach and only add attributes to the fields that require persistence.</NamespaceSummaryItem>
-      <NamespaceSummaryItem name="KSPDev.FSUtils" isDocumented="True">A set of utility classes to deal with paths in the game.</NamespaceSummaryItem>
-      <NamespaceSummaryItem name="KSPDev.GUIUtils" isDocumented="True">A set of helper classes to deal with Unity GUI.</NamespaceSummaryItem>
-      <NamespaceSummaryItem name="KSPDev.LogUtils" isDocumented="True">A set of simple wrappers to write logs in a more convinient way.</NamespaceSummaryItem>
-    </NamespaceSummaries>
+      <NamespaceSummaryItem name="KSPDev.ConfigUtils" isDocumented="True">&lt;para&gt;A set of utility methods and classes to make accessing config files easier. You may choose to work with each field (as you usually do in KSP) but with use of convenience methods. Or you may make use of meta programming approach and only add attributes to the fields that require persistence.&lt;/para&gt;
+
+&lt;para&gt;If you like dealing with settings on yourself then you may find useful &lt;see cref="T:KSPDev.ConfigUtils.ConfigAccessor"/&gt; helper class that simplifies routine operations with configuration nodes and files.&lt;/para&gt;
+
+&lt;para&gt;If you'd like to start using new attributes system that allows annotation of the settings fields you may start from &lt;see cref="T:KSPDev.ConfigUtils.PersistentFieldAttribute"/&gt;. This topic has good code examples that will help you to start.&lt;/para&gt;</NamespaceSummaryItem>
+<NamespaceSummaryItem name="KSPDev.FSUtils" isDocumented="True">A set of utility classes to deal with paths in the game.</NamespaceSummaryItem>
+<NamespaceSummaryItem name="KSPDev.GUIUtils" isDocumented="True">A set of helper classes to deal with Unity GUI.</NamespaceSummaryItem>
+<NamespaceSummaryItem name="KSPDev.LogUtils" isDocumented="True">A set of simple wrappers to write logs in a more convinient way.</NamespaceSummaryItem>
+<NamespaceSummaryItem name="(global)" isDocumented="False" /></NamespaceSummaries>
     <WebsiteSdkLinkType>Msdn</WebsiteSdkLinkType>
     <HtmlSdkLinkType>Msdn</HtmlSdkLinkType>
     <IncludeFavorites>True</IncludeFavorites>

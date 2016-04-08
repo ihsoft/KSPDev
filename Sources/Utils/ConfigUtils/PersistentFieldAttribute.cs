@@ -24,17 +24,17 @@ namespace KSPDev.ConfigUtils {
 ///   private List&lt;string> sampleList = new List&lt;string>();
 /// 
 ///   internal struct ComplexType {
-///     [PersistentField("val1", group = "nevermind)]
-///     private bool boolVal;
+///     [PersistentField("val1", group = "nevermind")]
+///     public bool boolVal;
 ///     [PersistentField("val2")]
-///     private Color colorVal = Color.white;
+///     public Color colorVal;
 ///   }
 /// 
 ///   [PersistentField("my/setField", isCollection = true, group = "abc")]
-///   private HashSet&lt;ComplexType> sampleList = new HashSet&lt;ComplexType>();
+///   private HashSet&lt;ComplexType> sampleSet = new HashSet&lt;ComplexType>();
 /// 
 ///   void SaveConfigs() {
-///     // Load a default group of fields. 
+///     // Save a default group of fields: only field "sampleList" qualifies.
 ///     ConfigAccessor.WriteFieldsIntoFile("settings.cfg", instance: this);
 ///     /* The following structure in the file will be created:
 ///      * {
@@ -46,24 +46,25 @@ namespace KSPDev.ConfigUtils {
 ///      * }
 ///      */
 /// 
-///     // Load a specific group of fields. 
+///     // Save a specific group of fields: only field "sampleSet" belongs to group "abc".
+///     sampleSet.Add(new ComplexType() { boolVal = true, colorVal = Color.black });
+///     sampleSet.Add(new ComplexType() { boolVal = false, colorVal = Color.white });
 ///     ConfigAccessor.WriteFieldsIntoFile("settings.cfg", instance: this, group: "abc");
 ///     /* The following structure in the file will be created:
 ///      * {
 ///      *     setField
 ///      *     {
 ///      *       val1: True
-///      *       val2: 0,0,0,1  // BLACK
+///      *       val2: 0,0,0,1
 ///      *     }
 ///      *     setField
 ///      *     {
 ///      *       val1: false
-///      *       val2: 1,0,0,1  // RED
+///      *       val2: 1,1,1,1
 ///      *     }
 ///      *   }
 ///      * }
 ///      */
-///     }
 ///   }
 /// }
 /// </code>
@@ -90,7 +91,7 @@ namespace KSPDev.ConfigUtils {
 ///   [PersistentField("child_private")]
 ///   private int field1 = 10;
 /// 
-///   void SaveConfig {
+///   void SaveConfig() {
 ///     // Save all fields in the inherited type. 
 ///     ConfigAccessor.WriteFieldsIntoFile("settings.cfg", instance: this);
 ///     /* The following structure in the file will be created:
@@ -115,7 +116,7 @@ namespace KSPDev.ConfigUtils {
 /// </code>
 /// <para>The code above implies that in a common case unsealed class should put private fields in
 /// a group other than default to avoid settings collision.</para> 
-/// <para>When type of the field is different from primitive C# type or a common Unity 4 type you
+/// <para>When type of the field is different from primitive C# type or common Unity 4 type you
 /// may need provide custom value handlers to deal with (de)serializing. E.g. for an ordinary type
 /// it may look like this:</para>
 /// <code>

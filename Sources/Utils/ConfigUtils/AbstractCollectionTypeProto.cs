@@ -17,7 +17,7 @@ namespace KSPDev.ConfigUtils {
 /// <example>As a good example of overriding of this class see
 /// <see cref="GenericCollectionTypeProto"/>. Though, it tries to be universal and, hence, works
 /// via reflection. You don't need to deal with reflections as long as your custom proto used for
-/// fields of known types.
+/// the fields of known types only.
 /// <code>
 /// class MyBooleanCollection {
 ///   public void AddItem(bool itemValue) {
@@ -30,14 +30,16 @@ namespace KSPDev.ConfigUtils {
 /// }
 ///
 /// class MyBooleanCollectionProto : AbstractCollectionTypeProto {
+///   public MyBooleanCollectionProto() : base(typeof(bool)) {}
+///
 ///   public override Type GetItemType() {
 ///     return typeof(bool);
 ///   }
-///   public IEnumerable GetEnumerator(object instance) {
+///   public override IEnumerable GetEnumerator(object instance) {
 ///     return (instance as MyBooleanCollection).GetMyVeryCustomIterator(); 
 ///   }
-///   public abstract void AddItem(object instance, object item) {
-///     (instance as MyBooleanCollection).AddItem(item as bool);
+///   public override void AddItem(object instance, object item) {
+///     (instance as MyBooleanCollection).AddItem((bool) item);
 ///   }
 /// }
 /// </code>

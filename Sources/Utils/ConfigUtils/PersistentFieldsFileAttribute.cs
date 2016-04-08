@@ -16,8 +16,6 @@ namespace KSPDev.ConfigUtils {
 /// </remarks>
 /// <example>
 /// <code>
-/// using KSPDev.ConfigUtils;
-///
 /// [PersistentFieldsFile("settings.cfg", "Root/Default")]
 /// [PersistentFieldsFile("settings-other.cfg", "", "abc")]
 /// [PersistentFieldsFile("settings-nested-bad.cfg", "", "nevermind")]
@@ -27,10 +25,10 @@ namespace KSPDev.ConfigUtils {
 /// 
 ///   [PersistentFieldsFile("settings-nested-good.cfg", "Root/Nested", "nevermind")]
 ///   internal struct ComplexType {
-///     [PersistentField("val1", group = "nevermind)]
-///     private bool boolVal;
-///     [PersistentField("val2", group = "nevermind)]
-///     private Color colorVal = Color.white;
+///     [PersistentField("val1", group = "nevermind")]
+///     public bool boolVal;
+///     [PersistentField("val2", group = "nevermind")]
+///     public Color colorVal;
 ///   }
 /// 
 ///   [PersistentField("complexField1", group = "abc")]
@@ -58,7 +56,7 @@ namespace KSPDev.ConfigUtils {
 ///      *   complexField1
 ///      *   {
 ///      *     val1: False
-///      *     val2: 1,1,1,1  // It's an RGBA format.
+///      *     val2: 0,0,0,1
 ///      *   }
 ///      * }
 ///      */
@@ -71,7 +69,7 @@ namespace KSPDev.ConfigUtils {
 ///     // Proper use of the nested complex type would be like this.
 ///     var test = new ComplexType() {
 ///         boolVal = true,
-///         colorVal = Color.black
+///         colorVal = Color.white
 ///     };
 ///     ConfigAccessor.WriteFieldsFromType(instance: test, group: "nevermind");
 ///     /* File will be created at "GameData/settings-nested-good.cfg".
@@ -82,7 +80,7 @@ namespace KSPDev.ConfigUtils {
 ///      *     complexField1
 ///      *     {
 ///      *       val1: True
-///      *       val2: 0,0,0,1  // It's an RGBA format.
+///      *       val2: 1,1,1,1
 ///      *     }
 ///      *   }
 ///      * }
