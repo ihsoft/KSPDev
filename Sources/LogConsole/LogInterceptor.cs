@@ -119,7 +119,7 @@ public static class LogInterceptor {
     Logger.logWarning("Debug output intercepted by KSPDev. Open its UI to see the logs"
                       + " (it usually opens with a 'backquote' hotkey)");
     _isStarted = true;
-    Application.RegisterLogCallback(HandleLog);
+    Application.logMessageReceived += HandleLog;
     Logger.logWarning("Debug log transferred from system to the KSPDev");
   }
 
@@ -132,7 +132,7 @@ public static class LogInterceptor {
     }
     Logger.logWarning(
         "Debug output returned back to the system. Use system's console to see the logs");
-    Application.RegisterLogCallback(null);
+    Application.logMessageReceived += HandleLog;
     _isStarted = false;
     Logger.logWarning("Debug output returned back from KSPDev to the system");
   }
