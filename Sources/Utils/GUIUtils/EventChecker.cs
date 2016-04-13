@@ -9,6 +9,8 @@ using UnityEngine;
 namespace KSPDev.GUIUtils {
   
 /// <summary>Flags to specify key modifiers combination.</summary>
+/// <remarks>Modifiers can be joined to get a combination. E.g. <c>AnyAlt | AnyShift</c>.</remarks>
+/// <seealso cref="EventChecker.IsModifierCombinationPressed"/>
 [FlagsAttribute]
 public enum KeyModifiers {
   /// <summary>No modifier keys are pressed.</summary>
@@ -37,6 +39,7 @@ public static class EventChecker {
   /// </remarks>
   /// <param name="modifiers">A combination of key modifiers to verify.</param>
   /// <returns><c>true</c> when exactly the requested combination is pressed.</returns>
+  /// <seealso cref="KeyModifiers"/>
   public static bool IsModifierCombinationPressed(KeyModifiers modifiers) {
     bool shiftPressed = Input.GetKey(KeyCode.LeftShift) || Input.GetKey(KeyCode.RightShift);
     bool altPressed = Input.GetKey(KeyCode.LeftAlt) || Input.GetKey(KeyCode.RightAlt);
