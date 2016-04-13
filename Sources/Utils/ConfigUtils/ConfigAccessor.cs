@@ -79,7 +79,10 @@ public static class ConfigAccessor {
     Logger.logInfo("Loading persistent fields: type={0}, group=\"{1}\"",
                    type, group ?? "<ALL>");
     foreach (var attr in attributes) {
-      var node = ConfigNode.Load(KspPaths.makePluginPath(attr.configFilePath));
+      var filePath = KspPaths.makePluginPath(attr.configFilePath);
+      Logger.logInfo("Loading persistent fields: file={0}, group=\"{1}\"",
+                     filePath, group ?? "<ALL>");
+      var node = ConfigNode.Load(filePath);
       if (node != null) {
         ReadFieldsFromNode(GetNodeByPath(node, attr.nodePath),
                            type: type, instance: instance, group: attr.group);
