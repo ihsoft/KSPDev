@@ -223,7 +223,8 @@ public static class ConfigAccessor {
   /// <paramref name="node"/>.</returns>
   public static ConfigNode GetNodeByPath(ConfigNode node, string path,
                                          bool createIfMissing = false) {
-    return GetNodeByPath(node, path.Split('/'), createIfMissing: createIfMissing);
+    var pathKeys = path.Split(new[] {'/'}, StringSplitOptions.RemoveEmptyEntries);
+    return GetNodeByPath(node, pathKeys, createIfMissing: createIfMissing);
   }
 
   /// <summary>Reads a node from config node by a path.</summary>
@@ -256,7 +257,8 @@ public static class ConfigAccessor {
   /// <returns>Array of nodes or <c>null</c> if path is not present in the
   /// <paramref name="node"/>.</returns>
   public static ConfigNode[] GetNodesByPath(ConfigNode node, string path) {
-    return GetNodesByPath(node, path.Split('/'));
+    var pathKeys = path.Split(new[] {'/'}, StringSplitOptions.RemoveEmptyEntries);
+    return GetNodesByPath(node, pathKeys);
   }
 
   /// <summary>Reads repeated nodes from config node by a path.</summary>
@@ -297,7 +299,8 @@ public static class ConfigAccessor {
   /// symbol.</param>
   /// <param name="value">A config node to store.</param>
   public static void SetNodeByPath(ConfigNode node, string path, ConfigNode value) {
-    SetNodeByPath(node, path.Split('/'), value);
+    var pathKeys = path.Split(new[] {'/'}, StringSplitOptions.RemoveEmptyEntries);
+    SetNodeByPath(node, pathKeys, value);
   }
 
   /// <summary>Sets a node in config node by a path.</summary>
@@ -337,7 +340,8 @@ public static class ConfigAccessor {
   /// symbol.</param>
   /// <param name="value">A config node to add.</param>
   public static void AddNodeByPath(ConfigNode node, string path, ConfigNode value) {
-    AddNodeByPath(node, path.Split('/'), value);
+    var pathKeys = path.Split(new[] {'/'}, StringSplitOptions.RemoveEmptyEntries);
+    AddNodeByPath(node, pathKeys, value);
   }
   
   /// <summary>Adds a repeated node in the config by a path.</summary>
