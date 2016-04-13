@@ -123,12 +123,12 @@ internal sealed class ConsoleUI : MonoBehaviour {
 
   /// <summary>Only loads session settings.</summary>
   void Awake() {
-    ConfigAccessor.ReadFieldsInType(instance: this, group: SessionGroup);
+    ConfigAccessor.ReadFieldsInType(typeof(ConsoleUI), this, group: SessionGroup);
   }
 
   /// <summary>Only stores session settings.</summary>
   void OnDestroy() {
-    ConfigAccessor.WriteFieldsFromType(instance: this, group: SessionGroup);
+    ConfigAccessor.WriteFieldsFromType(typeof(ConsoleUI), this, group: SessionGroup);
   }
 
   /// <summary>Only used to capture console toggle key.</summary>
@@ -337,7 +337,7 @@ internal sealed class ConsoleUI : MonoBehaviour {
     } else {
       LogFilter.AddSilenceBySource(pattern);
     }
-    ConfigAccessor.WriteFieldsFromType(type: typeof(LogFilter));
+    ConfigAccessor.WriteFieldsFromType(typeof(LogFilter), null /* instance */);
 
     rawLogAggregator.UpdateFilter();
     collapseLogAggregator.UpdateFilter();
@@ -358,13 +358,17 @@ internal sealed class ConsoleUI : MonoBehaviour {
 internal sealed class AggregationStarter : MonoBehaviour {
   void Awake() {
     // Read all configs.
-    ConfigAccessor.ReadFieldsInType(type: typeof(ConsoleUI));
-    ConfigAccessor.ReadFieldsInType(type: typeof(LogInterceptor));
-    ConfigAccessor.ReadFieldsInType(type: typeof(LogFilter));
-    ConfigAccessor.ReadFieldsInType(instance: ConsoleUI.diskLogAggregator);
-    ConfigAccessor.ReadFieldsInType(instance: ConsoleUI.rawLogAggregator);
-    ConfigAccessor.ReadFieldsInType(instance: ConsoleUI.collapseLogAggregator);
-    ConfigAccessor.ReadFieldsInType(instance: ConsoleUI.smartLogAggregator);
+    ConfigAccessor.ReadFieldsInType(typeof(ConsoleUI), null /* instance */);
+    ConfigAccessor.ReadFieldsInType(typeof(LogInterceptor), null /* instance */);
+    ConfigAccessor.ReadFieldsInType(typeof(LogFilter), null /* instance */);
+    ConfigAccessor.ReadFieldsInType(
+        ConsoleUI.diskLogAggregator.GetType(), ConsoleUI.diskLogAggregator);
+    ConfigAccessor.ReadFieldsInType(
+        ConsoleUI.rawLogAggregator.GetType(), ConsoleUI.rawLogAggregator);
+    ConfigAccessor.ReadFieldsInType(
+        ConsoleUI.collapseLogAggregator.GetType(), ConsoleUI.collapseLogAggregator);
+    ConfigAccessor.ReadFieldsInType(
+        ConsoleUI.smartLogAggregator.GetType(), ConsoleUI.smartLogAggregator);
 
     // Start all aggregators.
     ConsoleUI.rawLogAggregator.StartCapture();

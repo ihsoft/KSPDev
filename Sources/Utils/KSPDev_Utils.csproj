@@ -81,6 +81,7 @@
     <Compile Include="ConfigUtils\PersistentFieldAttribute.cs" />
     <Compile Include="ConfigUtils\KspTypesProto.cs" />
     <Compile Include="FSUtils\KspPaths.cs" />
+    <Compile Include="GUIUtils\EventChecker.cs" />
     <Compile Include="GUIUtils\GuiActionsList.cs" />
     <Compile Include="LogUtils\Logger.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

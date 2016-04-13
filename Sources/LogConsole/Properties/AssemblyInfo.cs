@@ -7,11 +7,11 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle ("KSPDev")]
-[assembly: AssemblyDescription ("A set of development tools for KSP")]
+[assembly: AssemblyTitle ("Advanced logging console")]
+[assembly: AssemblyDescription ("")]
 [assembly: AssemblyConfiguration ("")]
 [assembly: AssemblyCompany ("IHSoft")]
-[assembly: AssemblyProduct ("")]
+[assembly: AssemblyProduct ("KSPDev")]
 [assembly: AssemblyCopyright ("Public domain license")]
 [assembly: AssemblyTrademark ("")]
 [assembly: AssemblyCulture ("")]
@@ -24,6 +24,9 @@ using System.Runtime.InteropServices;
 //
 // You can specify all the values or you can use the default the Revision and 
 // Build Numbers by using the '*' as shown below:
-[assembly: AssemblyVersion ("1.0.0")]
+[assembly: AssemblyVersion ("0.9.1")]
+[assembly: AssemblyInformationalVersion("0.9.1 for KSP v1.0.5")]
+[assembly: KSPAssembly("KSPDev_LogConsole", 0, 9)]
+[assembly: KSPAssemblyDependency("KSPDev_Utils", 0, 9)]
 [assembly: Guid ("4a5a3eab-4159-4375-8329-4f739fcb6226")]
 [assembly: AssemblyFlags (AssemblyNameFlags.PublicKey | AssemblyNameFlags.EnableJITcompileOptimizer)]

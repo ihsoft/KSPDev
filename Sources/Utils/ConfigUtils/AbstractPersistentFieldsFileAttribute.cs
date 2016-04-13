@@ -34,7 +34,7 @@ public abstract class AbstractPersistentFieldsFileAttribute : Attribute {
   protected AbstractPersistentFieldsFileAttribute(
       string configFilePath, string nodePath, string group) {
     this.configFilePath = configFilePath;
-    this.nodePath = nodePath.Split('/');
+    this.nodePath = nodePath.Split(new[] {'/'}, StringSplitOptions.RemoveEmptyEntries);
     this.group = group;
   }
 }
