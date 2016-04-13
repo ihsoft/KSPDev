@@ -465,9 +465,8 @@ public static class ConfigAccessor {
     if (type == null) {
       type = instance.GetType();
     }
-    return instance != null
-        ? PersistentFieldsFactory.GetPersistentFields(instance, group).ToArray()
-        : PersistentFieldsFactory.GetPersistentFields(type, group).ToArray();
+    return PersistentFieldsFactory.GetPersistentFields(
+        type, true /* needStatic */, instance != null /* needInstance */, group).ToArray();
   }
   
   /// <summary>Gathers and returns persistent field fields annotations.</summary>

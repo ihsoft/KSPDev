@@ -12,38 +12,17 @@ namespace KSPDev.ConfigUtils {
 
 /// <summary>A helper class to gather persistent field attributes.</summary>
 public static class PersistentFieldsFactory {
-  /// <summary>Gathers persitent fields for an instance of a type.</summary>
-  /// <remarks>Static and instance fields are gathered.</remarks>
-  /// <param name="obj">An instance of the object to gather persistent fields for.</param>
-  /// <param name="group">A filter group for the persitent fields. Note that group is ignored for
-  /// the compound type fields.</param>
-  /// <returns>List of persitent fields.</returns>
-  public static List<PersistentField> GetPersistentFields(object obj, string group = null) {
-    return GetPersistentFields(obj.GetType(), BindingFlags.Static | BindingFlags.Instance, group);
-  }
-
   /// <summary>Gathers persitent fields for a type.</summary>
-  /// <remarks>Only static fields are gathered.</remarks>
   /// <param name="type">A type of to gather persistent fields for.</param>
+  /// <param name="needStatic">Specifies if static fields need to be returned.</param>
+  /// <param name="needInstance">Specifies if non-static fields need to be returned.</param>
   /// <param name="group">A filter group for the persitent fields. Note that group is ignored for
-  /// the compound type fields.</param>
-  /// <returns>List of persitent fields.</returns>
-  public static List<PersistentField> GetPersistentFields(Type type, string group = null) {
-    return GetPersistentFields(type, BindingFlags.Static, group);
-  }
-
-  /// <summary>Gathers persitent fields for a type.</summary>
-  /// <remarks>Gives static or/and instance fields depedning on
-  /// <paramref name="fieldModifierFlags"/>.</remarks>
-  /// <param name="type">A type of to gather persistent fields for.</param>
-  /// <param name="fieldModifierFlags">A set of field modifiers to fetch.</param>
-  /// <param name="group">A filter group for the persitent fields. Note that group is ignored for
-  /// the compound type fields.</param>
+  /// the inner fields of a compound type.</param>
   /// <returns>List of persitent fields.</returns>
   public static List<PersistentField> GetPersistentFields(
-      Type type, BindingFlags fieldModifierFlags, string group) {
+      Type type, bool needStatic, bool needInstance, string group) {
     var result = new List<PersistentField>();
-    var fieldsInfo = FindAnnotatedFields(type, fieldModifierFlags, group);
+    var fieldsInfo = FindAnnotatedFields(type, needStatic, needInstance, group);
     foreach (var fieldInfo in fieldsInfo) {
       var fieldAttr =
           fieldInfo.GetCustomAttributes(typeof(AbstractPersistentFieldAttribute), true).First()
@@ -65,8 +44,14 @@ public static class PersistentFieldsFactory {
 
   /// <summary>Finds and returns peristent fields of the requested group.</summary>
   private static IEnumerable<FieldInfo> FindAnnotatedFields(
-      IReflect type, BindingFlags fieldModifierFlags, string group = null) {
-    BindingFlags flags = fieldModifierFlags | BindingFlags.NonPublic | BindingFlags.Public;
+      IReflect type, bool needStatic, bool needInstance, string group = null) {
+    var flags = BindingFlags.NonPublic | BindingFlags.Public | BindingFlags.FlattenHierarchy;
+    if (needStatic) {
+      flags |= BindingFlags.Static;
+    }
+    if (needInstance) {
+      flags |= BindingFlags.Instance;
+    }
     return type.GetFields(flags).Where(f => FieldFilter(f, group));
   }
 

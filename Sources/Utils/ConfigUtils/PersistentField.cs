@@ -44,7 +44,7 @@ public sealed class PersistentField {
       // Also, ignore groups in the compound types to reduce configuration complexity.
       compoundTypeFields =
           PersistentFieldsFactory.GetPersistentFields(
-              ordinaryType, BindingFlags.Instance, null /* group */)
+              ordinaryType, false /* needStatic */, true /* needInstance */, null /* group */)
           // Parent nodes have to be handled before children!
           .OrderBy(x => string.Join("/", x.cfgPath))
           .ToArray();
