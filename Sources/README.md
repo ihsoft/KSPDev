@@ -52,7 +52,7 @@ Every public or protected method or class must have [a documentation section](ht
 Note, that overriden members still need documentation. If behavior is not changed and there is nothing special to say about the overriden logic you may simply use `<inheritdoc/>` tag to refer to the parent's documentation.
 
 ## Common style requirements
-It's strongly suggested to read the code style [publised](http://google.github.io/styleguide/javaguide.html) on the Google' site. It's very detailed and has helpful examples. This section doesn't cover all the aspects, and only helps to understand the basics.
+It's strongly suggested to read the code style [publised](http://google.github.io/styleguide/javaguide.html) on the Google's site. It's very detailed and has helpful examples. This section doesn't cover all the aspects, it only helps to understand the basics.
 
 * Absolutely no tabs! The code should look exactly the same in any editor with any settings.
 * Everything wrapped in `{ }` must be indented by [exactly 2 spaces](http://google.github.io/styleguide/javaguide.html#s4.1.2-blocks-k-r-style). Opening bracket goes on the same line as the statement, and the closing bracket goes on a new line.
