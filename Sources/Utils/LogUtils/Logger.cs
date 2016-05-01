@@ -3,6 +3,8 @@
 // This software is distributed under Public domain license.
 
 using System;
+using System.Collections.Generic;
+using System.Text;
 
 namespace KSPDev.LogUtils {
 
@@ -36,6 +38,28 @@ public static class Logger {
   /// <param name="ex">An exception to log.</param>
   public static void logException(Exception ex) {
     UnityEngine.Debug.LogException(ex);
+  }
+
+  /// <summary>This method's name is a shorthand for "Collection-To-String".</summary>
+  /// <remarks>Given some collection (e.g. list, set, or anything else supporting
+  /// <c>IEnumarable</c>) this method transforms it into a human readable string.
+  /// <para>Readability of the output depends on <c>ToString()</c> implementation of the collection
+  /// item's class.</para>
+  /// </remarks>
+  /// <param name="items">A collection to represent as a string.</param>
+  /// <returns>Human readable form of the collection.</returns>
+  public static string C2S<T>(List<T> items) {
+    var res = new StringBuilder();
+    var firstItem = true;
+    foreach (var item in items) {
+      if (firstItem) {
+        firstItem = false;
+      } else {
+        res.Append(',');
+      }
+      res.Append(item.ToString());
+    }
+    return res.ToString();
   }
 }
 
