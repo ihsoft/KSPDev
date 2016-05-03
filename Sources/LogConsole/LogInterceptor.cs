@@ -13,7 +13,7 @@ namespace KSPDev.LogcConsole {
   
 /// <summary>An alternative log processor that allows better logs handling.</summary>
 /// <remarks>Keep it static!</remarks>
-[PersistentFieldsFileAttribute("KSPDev/settings.cfg", "LogInterceptor")]
+[PersistentFieldsFileAttribute("KSPDev/KSPDev.settings", "LogInterceptor")]
 public static class LogInterceptor {
 
   /// <summary>A basic container for the incoming logs. Immutable.</summary>

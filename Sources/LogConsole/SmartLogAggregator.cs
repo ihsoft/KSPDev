@@ -9,7 +9,7 @@ using System.Linq;
 namespace KSPDev.LogcConsole {
 
 /// <summary>A log capturer that aggregates logs globally by the content.</summary>
-[PersistentFieldsFileAttribute("KSPDev/settings.cfg", "SmartLogAggregator")]
+[PersistentFieldsFileAttribute("KSPDev/KSPDev.settings", "SmartLogAggregator")]
 internal sealed class SmartLogAggregator : BaseLogAggregator {
   /// <summary>Log index used by smart logging.</summary>
   private readonly Dictionary<int, LinkedListNode<LogRecord>> logRecordsIndex =

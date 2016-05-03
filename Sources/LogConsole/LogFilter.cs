@@ -11,7 +11,7 @@ using KSPDev.ConfigUtils;
 namespace KSPDev.LogcConsole {
 
 /// <summary>Keeps and controls filters to apply to the incoming logs.</summary>
-[PersistentFieldsFileAttribute("KSPDev/settings.cfg", "LogFilter")]
+[PersistentFieldsFileAttribute("KSPDev/KSPDev.settings", "LogFilter")]
 internal static class LogFilter {
   /// <summary>Sources that starts from any of the strings in the filter will be ingored.</summary>
   /// <remarks>Walking thru this filter requires full scan (in a worst case) so, it should be of a

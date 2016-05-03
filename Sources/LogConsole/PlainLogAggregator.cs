@@ -9,7 +9,7 @@ using System.Linq;
 namespace KSPDev.LogcConsole {
 
 /// <summary>A log capturer that just accumulates all logs in a plain list.</summary>
-[PersistentFieldsFileAttribute("KSPDev/settings.cfg", "PlainLogAggregator")]
+[PersistentFieldsFileAttribute("KSPDev/KSPDev.settings", "PlainLogAggregator")]
 internal sealed class PlainLogAggregator : BaseLogAggregator {
    public override IEnumerable<LogRecord> GetLogRecords() {
     return logRecords.ToArray().Reverse();
