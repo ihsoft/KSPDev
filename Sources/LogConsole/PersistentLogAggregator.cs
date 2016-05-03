@@ -54,9 +54,6 @@ internal sealed class PersistentLogAggregator : BaseLogAggregator {
   /// <summary>Specifies if new record should be aggregated and persisted.</summary>
   private bool writeLogsToDisk = false;
 
-  /// <summary>Config file location relative to the KSP folder.</summary>
-  private const string ConfigFilePath = "GameData/KSPDev/PersistentLog-settings.cfg";
-  
   /// <summary>A writer that gets all the logs.</summary>
   private StreamWriter infoLogWriter;
   
