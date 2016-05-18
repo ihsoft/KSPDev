@@ -9,9 +9,9 @@ namespace KSPDev.ConfigUtils {
 /// <summary>Proto to handle all primitive C# types and common Unity/KSP types.</summary>
 /// <seealso cref="PrimitiveTypesProto"/>
 /// <seealso cref="KspTypesProto"/>
-internal sealed class StandardOrdinaryTypesProto : AbstractOrdinaryValueTypeProto {
-  private static readonly PrimitiveTypesProto primitiveTypesProto = new PrimitiveTypesProto();
-  private static readonly KspTypesProto unityTypesProto = new KspTypesProto();
+public sealed class StandardOrdinaryTypesProto : AbstractOrdinaryValueTypeProto {
+  static readonly PrimitiveTypesProto primitiveTypesProto = new PrimitiveTypesProto();
+  static readonly KspTypesProto unityTypesProto = new KspTypesProto();
 
   /// <inheritdoc/>
   public override bool CanHandle(Type type) {
