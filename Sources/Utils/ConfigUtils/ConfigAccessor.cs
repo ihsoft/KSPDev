@@ -96,29 +96,29 @@ public static class ConfigAccessor {
   /// (collection fields).</remarks>
   /// <param name="filePath">A relative or an absolute path to the file. It's resolved via
   /// <see cref="KspPaths.makePluginPath"/>.</param>
-  /// <param name="rootNodePathKeys">A path to the node in the file where the daata should be
+  /// <param name="rootNodePath">A path to the node in the file where the data should be
   /// written. If the node already exsist it will be deleted.</param>
   /// <param name="type">A type to write fields for.</param>
   /// <param name="instance">An instance of type <paramref name="type"/>. If it's <c>null</c> then
   /// only static fields will be written.</param>
-  /// <paramref name="rootNodePathKeys"/> node will be updated in that file. Otherwise, a new file
+  /// <paramref name="rootNodePath"/> node will be updated in that file. Otherwise, a new file
   /// <param name="mergeMode">If <c>true</c> and the file already exists then only
   /// will be created.</param>
   /// <param name="group">A group tag (see <see cref="AbstractPersistentFieldAttribute"/>).</param>
   /// <seealso cref="PersistentFieldAttribute"/>
   public static void WriteFieldsIntoFile(string filePath,
                                          Type type, object instance,
-                                         string[] rootNodePathKeys = null, bool mergeMode = true,
+                                         string rootNodePath = null, bool mergeMode = true,
                                          string group = StdPersistentGroups.Default) {
     Logger.logInfo("Writing persistent fields: file={0}, group=\"{1}\", isMerging={2}, root={3}",
                    filePath, group ?? "<ALL>", mergeMode,
-                   string.Join("/", rootNodePathKeys ?? new[] {"/"}));
+                   rootNodePath ?? "/");
     var node = mergeMode
         ? ConfigNode.Load(filePath) ?? new ConfigNode()  // Make empty node if file doesn't exist.
         : new ConfigNode();
     var tagetNode = node;
-    if (rootNodePathKeys != null) {
-      tagetNode = GetNodeByPath(node, rootNodePathKeys, createIfMissing: true);
+    if (rootNodePath != null) {
+      tagetNode = GetNodeByPath(node, rootNodePath, createIfMissing: true);
       tagetNode.ClearData();  // In case of it's an existing node.
     }
     WriteFieldsIntoNode(tagetNode, type, instance, group: group);
@@ -459,7 +459,7 @@ public static class ConfigAccessor {
     return (type.GetCustomAttributes(typeof(PersistentFieldsFileAttribute), true /* inherit */)
         as PersistentFieldsFileAttribute[])
         .Where(x => group == null || x.group.ToLowerInvariant().Equals(group.ToLowerInvariant()))
-        .OrderBy(x => string.Join("/", x.nodePath))
+        .OrderBy(x => x.nodePath)
         .ToArray();
   }
 }

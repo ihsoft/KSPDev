@@ -18,7 +18,7 @@ public abstract class AbstractPersistentFieldsFileAttribute : Attribute {
   /// <summary>A path to the node which will be the root for the fields in the group.</summary>
   /// <remarks>By setting different root for every group and/or type you may combine multiple
   /// settings in the same config file.</remarks>
-  public readonly string[] nodePath;
+  public readonly string nodePath;
 
   /// <summary>Relative path to the config file.</summary>
   /// <remarks>Absolute name is resolved via <see cref="FSUtils.KspPaths.makePluginPath"/>.
@@ -34,7 +34,7 @@ public abstract class AbstractPersistentFieldsFileAttribute : Attribute {
   protected AbstractPersistentFieldsFileAttribute(
       string configFilePath, string nodePath, string group) {
     this.configFilePath = configFilePath;
-    this.nodePath = nodePath.Split(new[] {'/'}, StringSplitOptions.RemoveEmptyEntries);
+    this.nodePath = nodePath;
     this.group = group;
   }
 }
