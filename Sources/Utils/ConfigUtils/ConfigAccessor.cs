@@ -51,6 +51,18 @@ public static class ConfigAccessor {
     }
   }
 
+  /// <summary>Reads values of the annotated persistent fields from a config file.</summary>
+  /// <param name="nodePath">An absolute path in the database. No leading "/".</param>
+  /// <param name="type">A type to load fields for.</param>
+  /// <param name="instance">An instance of type <paramref name="type"/>. If it's <c>null</c> then
+  /// only static fields will be loaded.</param>
+  /// <param name="group">A group tag (see <see cref="AbstractPersistentFieldAttribute"/>).</param>
+  /// <seealso cref="PersistentFieldAttribute"/>
+  public static void ReadFieldsFromDatabase(string nodePath, Type type, object instance,
+                                            string group = StdPersistentGroups.Default) {
+    Logger.logInfo("Loading persistent fileds: db path={0}, group=\"{1}\"",
+                   nodePath, group ?? "<ALL>");
+    var node = GameDatabase.Instance.GetConfigNode(nodePath);
     if (node != null) {
       ReadFieldsFromNode(node, type, instance, group: group);
     }
