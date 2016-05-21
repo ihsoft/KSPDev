@@ -24,7 +24,7 @@ public static class StdPersistentGroups {
 /// <remarks>This class allows direct value reading as well as managing  </remarks>
 /// <seealso cref="PersistentFieldAttribute"/>
 public static class ConfigAccessor {
-  private static readonly StandardOrdinaryTypesProto standardTypesProto =
+  static readonly StandardOrdinaryTypesProto standardTypesProto =
       new StandardOrdinaryTypesProto();
 
   /// <summary>Reads values of the annotated persistent fields from a config file.</summary>
@@ -477,7 +477,7 @@ public static class ConfigAccessor {
   /// <param name="group">A group tag (see <see cref="PersistentFieldsFileAttribute"/>). If
   /// <c>null</c> then all files defined in the type are returned.</param>
   /// <returns>Array of persistent fields.</returns>
-  private static PersistentFieldsFileAttribute[] GetPersistentFieldsFiles(Type type, string group) {
+  static PersistentFieldsFileAttribute[] GetPersistentFieldsFiles(Type type, string group) {
     // Sort by config path to ensure the most top level nodes are handled before the children.
     return (type.GetCustomAttributes(typeof(PersistentFieldsFileAttribute), true /* inherit */)
         as PersistentFieldsFileAttribute[])
