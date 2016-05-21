@@ -33,13 +33,24 @@ public static class ConfigAccessor {
   /// <param name="type">A type to load fields for.</param>
   /// <param name="instance">An instance of type <paramref name="type"/>. If it's <c>null</c> then
   /// only static fields will be loaded.</param>
+  /// <param name = "nodePath">An optional path in the file. All type's field will be read relative
+  /// to this part.</param>
   /// <param name="group">A group tag (see <see cref="AbstractPersistentFieldAttribute"/>).</param>
   /// <seealso cref="PersistentFieldAttribute"/>
   public static void ReadFieldsFromFile(string filePath, Type type, object instance,
+                                        string nodePath = null,
                                         string group = StdPersistentGroups.Default) {
     Logger.logInfo("Loading persistent fields: file={0}, group=\"{1}\"",
                    filePath, group ?? "<ALL>");
     var node = ConfigNode.Load(KspPaths.makePluginPath(filePath));
+    if (node != null && nodePath != null) {
+      node = node.GetNode(nodePath);
+    }
+    if (node != null) {
+      ReadFieldsFromNode(node, type, instance, group: group);
+    }
+  }
+
     if (node != null) {
       ReadFieldsFromNode(node, type, instance, group: group);
     }
