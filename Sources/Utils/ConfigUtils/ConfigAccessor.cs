@@ -97,18 +97,18 @@ public static class ConfigAccessor {
   /// loaded.</param>
   /// <seealso cref="PersistentFieldAttribute"/>
   /// <seealso cref="PersistentFieldsFileAttribute"/>
+  /// <seealso cref="PersistentFieldsDatabaseAttribute"/>
   public static void ReadFieldsInType(Type type, object instance,
                                       string group = StdPersistentGroups.Default) {
     var attributes = GetPersistentFieldsFiles(type, group);
     Logger.logInfo("Loading persistent fields: type={0}, group=\"{1}\"",
                    type, group ?? "<ALL>");
     foreach (var attr in attributes) {
-      var filePath = KspPaths.makePluginPath(attr.configFilePath);
-      Logger.logInfo("Loading persistent fields: file={0}, group=\"{1}\"",
-                     filePath, group ?? "<ALL>");
-      var node = ConfigNode.Load(filePath);
-      if (node != null) {
-        ReadFieldsFromNode(GetNodeByPath(node, attr.nodePath), type, instance, group: attr.group);
+      if (attr.configFilePath.Length > 0) {
+        ReadFieldsFromFile(
+            attr.configFilePath, type, instance, nodePath: attr.nodePath, group: group);
+      } else {
+        ReadFieldsFromDatabase(attr.nodePath, type, instance, group);
       }
     }
   }
@@ -173,7 +173,10 @@ public static class ConfigAccessor {
   /// Writes persistent fields into the config files specified by the class annotation.
   /// </summary>
   /// <remarks>Method updates the config file(s) by preserving top level nodes that are not
-  /// specified as targets for the requested group.</remarks>
+  /// specified as targets for the requested group.
+  /// <para>Note, that fields cannot be writtent into database. Such annotations will be skipped
+  /// during the save.</para>
+  /// </remarks>
   /// <param name="type">A type to write fields for.</param>
   /// <param name="instance">An instance of type <paramref name="type"/>. If it's <c>null</c> then
   /// only static fields will be written.</param>
@@ -188,8 +191,12 @@ public static class ConfigAccessor {
     Logger.logInfo("Writing persistent fields: type={0}, group=\"{1}\"",
                    type, group ?? "<ALL>");
     foreach (var attr in attributes) {
-      WriteFieldsIntoFile(KspPaths.makePluginPath(attr.configFilePath), type, instance,
-                          rootNodePathKeys: attr.nodePath, mergeMode: true, group: attr.group);
+      if (attr.configFilePath.Length > 0) {
+        WriteFieldsIntoFile(KspPaths.makePluginPath(attr.configFilePath), type, instance,
+                            rootNodePath: attr.nodePath, mergeMode: true, group: attr.group);
+      } else {
+        Logger.logInfo("Not saving database group: {0}", attr.nodePath);
+      }
     }
   }
 
