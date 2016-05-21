@@ -208,18 +208,11 @@ public static class LogInterceptor {
     while (true) {
       st = new StackTrace(skipFrames, true);
       if (st.FrameCount == 0) {
-        if (skipFrames == 2) {
-          // If filters haven't affected frame count and still it's zero then it's a rare situation
-          // of stack overflow error. Just give the best we can as stack trace but set source to
-          // UNKNOWN.
-          stackTrace = new StackTrace(true).ToString();
-          return "UNKNOWN";
-        }
-        // Fallback in a case of weird filters endining up in filtering everything out.
-        st = new StackTrace(true);
-        stackTrace = st.ToString();
-        InternalLog("Stack trace is exhausted during filters processing. Use original.");
-        return MakeSourceFromFrame(st.GetFrame(0));
+        // Internal errors (like UnityEngine or core C#) can be logged directly thru the callback.
+        // In which case stack trace doesn't have any useful information. Return empty stack and
+        // "UNKNOWN" source when it happens.
+        stackTrace = "<System call>";
+        return "UNKNOWN";
       }
       source = MakeSourceFromFrame(st.GetFrame(0));
 
