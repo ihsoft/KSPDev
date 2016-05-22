@@ -9,8 +9,9 @@ namespace KSPDev.ConfigUtils {
 /// <summary>
 /// A simple annotation to associate a persistent group with a game's database key.
 /// </summary>
-/// <remarks>This annotation is basically a shortcut to <see cref="PersistentFieldsFileAttribute"/>.
-/// You may use the latter with an empty config file path if you find it more convinient.
+/// <remarks>
+/// <para>This annotation is basically a shortcut to <see cref="PersistentFieldsFileAttribute"/>.
+/// You may use the latter with an empty config file path if you find it more convinient.</para>
 /// <para>Each <c>.cfg</c> file in the mod's folders is scanned and indexed by the game on start. The
 /// data is stored in the database where it can be accessed from the game. The access is read-only,
 /// any changes to the node returned from the database won't affect the database state.</para>
@@ -27,15 +28,16 @@ namespace KSPDev.ConfigUtils {
 /// </para>
 /// <para>Special case is subfolders <c>PluginData</c>, they are ignored during database scan. Put
 /// there configs that can change during the gameplay. Remember, that even a tiny change in the
-/// config will trigger database re-compilation on the next start. Unless it's done in
-/// <c>PluginData</c> folder.</para>
+/// config will trigger database re-compilation on the next start which may significantly impact
+/// game loading time.</para>
 /// <para>Database is actively used by
 /// <see href="https://github.com/sarbian/ModuleManager">ModuleManager</see> (a.k.a. MM). Be wise
-/// when choosing wether fields should be read from a file or from the database. Module manager
+/// when choosing if fields should be read from a file or from the database. Module manager
 /// patches are only applied on the database, they don't affect the config files. E.g. part configs
-/// are frequently updated by the patches but never updated from the gameplay so, it makes to read
-/// them via database. Various mod's settings, on the other hand, can change during the game but
-/// will unlikely be a target for a MM patch: put the into <c>GPlugindata</c>.</para>
+/// are frequently updated by the patches but never updated from the gameplay so, reading them via
+/// database is the best choice. Various mod's settings, on the other hand, can change during the
+/// game but will unlikely be a target for a MM patch, put them into <c>PluginData</c> and
+/// read/write via file methods.</para>
 /// </remarks>
 /// <seealso cref="PersistentFieldsFileAttribute"/>
 /// <seealso cref="ConfigAccessor.ReadFieldsInType"/>

@@ -48,6 +48,7 @@ public static class Logger {
   /// <param name="predicate">A predicate to use to extract string representation of an item. If
   /// <c>null</c> then standard <c>ToString()</c> is used.</param>
   /// <returns>Human readable form of the collection.</returns>
+  /// <typeparam name="TSource">Collection's item type.</typeparam>
   public static String C2S<TSource>(
       IEnumerable<TSource> collection, Func<TSource, string> predicate = null) {
     var res = new StringBuilder();
