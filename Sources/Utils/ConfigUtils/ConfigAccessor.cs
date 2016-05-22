@@ -21,8 +21,12 @@ public static class StdPersistentGroups {
 }
 
 /// <summary>A service class that simplifies accessing configuration files.</summary>
-/// <remarks>This class allows direct value reading as well as managing  </remarks>
+/// <remarks>This class provides a lot of useful methods to deal with values in game's configuration
+/// files. There are low level methods that deal with nodes and values, and there are high level
+/// methods that use metadata from the annotated fields.</remarks>
 /// <seealso cref="PersistentFieldAttribute"/>
+/// <seealso cref="PersistentFieldsFileAttribute"/>
+/// <seealso cref="PersistentFieldsDatabaseAttribute"/>
 public static class ConfigAccessor {
   static readonly StandardOrdinaryTypesProto standardTypesProto =
       new StandardOrdinaryTypesProto();

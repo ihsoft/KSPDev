@@ -36,7 +36,7 @@ namespace KSPDev.ConfigUtils {
 /// patches are only applied on the database, they don't affect the config files. E.g. part configs
 /// are frequently updated by the patches but never updated from the gameplay so, reading them via
 /// database is the best choice. Various mod's settings, on the other hand, can change during the
-/// game but will unlikely be a target for a MM patch, put them into <c>PluginData</c> and
+/// game but will unlikely be a target for a MM patch, put them into <c>PluginData</c> folder and
 /// read/write via file methods.</para>
 /// </remarks>
 /// <seealso cref="PersistentFieldsFileAttribute"/>
