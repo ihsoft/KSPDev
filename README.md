@@ -1,7 +1,5 @@
 # KSPDev - Mods and tools for KSP modders
 
-_The only version existing for now is pre-lrease 0.10.1.0. Though, the existing functionality is not expected to change. It's highly expected to be extended with new methods/abilities._
-
 ## Licensing
 
 All code is disributed under "[Public Domain license](https://en.wikipedia.org/wiki/Public_domain)". In other words, you can do
