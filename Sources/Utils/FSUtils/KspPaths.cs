@@ -10,12 +10,12 @@ namespace KSPDev.FSUtils {
 /// <summary>A helper class to deal with plugins file structure.</summary>
 public static class KspPaths {
   /// <summary>Standard plug-ins folder.</summary>
-  private const string PluginsRootFolder = "GameData/";
+  public static readonly string pluginsRootFolder = "GameData" + Path.PathSeparator;
 
   /// <summary>Returns full path to the plugins root folder.</summary>
   public static string pluginsRoot {
     get {
-      return KSPUtil.ApplicationRootPath + PluginsRootFolder;
+      return KSPUtil.ApplicationRootPath + pluginsRootFolder;
     }
   }
 
