@@ -484,10 +484,11 @@ public static class ConfigAccessor {
   /// <param name="group">A group tag (see <see cref="PersistentFieldsFileAttribute"/>). If
   /// <c>null</c> then all files defined in the type are returned.</param>
   /// <returns>Array of persistent fields.</returns>
-  static PersistentFieldsFileAttribute[] GetPersistentFieldsFiles(Type type, string group) {
+  static AbstractPersistentFieldsFileAttribute[] GetPersistentFieldsFiles(Type type, string group) {
     // Sort by config path to ensure the most top level nodes are handled before the children.
-    return (type.GetCustomAttributes(typeof(PersistentFieldsFileAttribute), true /* inherit */)
-        as PersistentFieldsFileAttribute[])
+    var attributes = type.GetCustomAttributes(
+        typeof(AbstractPersistentFieldsFileAttribute), true /* inherit */);
+    return (attributes as AbstractPersistentFieldsFileAttribute[])
         .Where(x => group == null || x.group.ToLowerInvariant().Equals(group.ToLowerInvariant()))
         .OrderBy(x => x.nodePath)
         .ToArray();
