@@ -72,6 +72,7 @@
     <Compile Include="ConfigUtils\AbstractOrdinaryValueTypeProto.cs" />
     <Compile Include="ConfigUtils\AbstractPersistentFieldAttribute.cs" />
     <Compile Include="ConfigUtils\AbstractPersistentFieldsFileAttribute.cs" />
+    <Compile Include="ConfigUtils\PersistentFieldsDatabaseAttribute.cs" />
     <Compile Include="ConfigUtils\PersistentFieldsFileAttribute.cs" />
     <Compile Include="ConfigUtils\GenericCollectionTypeProto.cs" />
     <Compile Include="ConfigUtils\OrdinaryFieldHandler.cs" />

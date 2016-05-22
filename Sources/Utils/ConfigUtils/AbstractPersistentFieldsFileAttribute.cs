@@ -17,16 +17,19 @@ public abstract class AbstractPersistentFieldsFileAttribute : Attribute {
 
   /// <summary>A path to the node which will be the root for the fields in the group.</summary>
   /// <remarks>By setting different root for every group and/or type you may combine multiple
-  /// settings in the same config file.</remarks>
+  /// settings in the same config file. When <see cref="configFilePath"/> is empty this value is an
+  /// absolute path on the game's database.</remarks>
   public readonly string nodePath;
 
-  /// <summary>Relative path to the config file.</summary>
-  /// <remarks>Absolute name is resolved via <see cref="FSUtils.KspPaths.makePluginPath"/>.
+  /// <summary>An optional relative path to the config file.</summary>
+  /// <remarks>Absolute name is resolved via <see cref="FSUtils.KspPaths.makePluginPath"/>. If left
+  /// empty then data is read from the game's database. Note, that database access is read-only.  
   /// </remarks>
   public readonly string configFilePath;
 
   /// <param name="configFilePath">A relative or an absolute path to the file. It's resolved via
-  /// <see cref="FSUtils.KspPaths.makePluginPath"/>.</param>
+  /// <see cref="FSUtils.KspPaths.makePluginPath"/>. If empty then data is read from database.
+  /// </param>
   /// <param name="nodePath">A root for the persistent fields when saving or loading via this
   /// annotation.</param>
   /// <param name="group">A group of the annotation. When saving or loading persistent fields only
