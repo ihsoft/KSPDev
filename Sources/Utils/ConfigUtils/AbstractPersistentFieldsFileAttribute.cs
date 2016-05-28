@@ -31,7 +31,7 @@ public abstract class AbstractPersistentFieldsFileAttribute : Attribute {
   /// <see cref="FSUtils.KspPaths.makePluginPath"/>. If empty then data is read from database.
   /// </param>
   /// <param name="nodePath">A root for the persistent fields when saving or loading via this
-  /// annotation.</param>
+  /// annotation. If empty then root node of the file is used. Cannot be <c>null</c></param>
   /// <param name="group">A group of the annotation. When saving or loading persistent fields only
   /// the fields of this group will be considered. Must not be <c>null</c>.</param>
   protected AbstractPersistentFieldsFileAttribute(
