@@ -6,7 +6,7 @@ using KSPDev.ConfigUtils;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace KSPDev.LogcConsole {
+namespace KSPDev.LogConsole {
 
 /// <summary>A log capturer that just accumulates all logs in a plain list.</summary>
 [PersistentFieldsFileAttribute("KSPDev/KSPDev.settings", "PlainLogAggregator")]

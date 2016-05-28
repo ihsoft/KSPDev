@@ -8,7 +8,7 @@ using System.Linq;
 using KSPDev.LogUtils;
 using KSPDev.ConfigUtils;
 
-namespace KSPDev.LogcConsole {
+namespace KSPDev.LogConsole {
 
 /// <summary>Keeps and controls filters to apply to the incoming logs.</summary>
 [PersistentFieldsFileAttribute("KSPDev/KSPDev.settings", "LogFilter")]

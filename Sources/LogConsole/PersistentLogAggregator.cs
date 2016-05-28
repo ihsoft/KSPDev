@@ -11,7 +11,7 @@ using System.Linq;
 using System;
 using UnityEngine;
 
-namespace KSPDev.LogcConsole {
+namespace KSPDev.LogConsole {
 
 /// <summary>A log capturer that writes logs on disk.</summary>
 /// <remarks>

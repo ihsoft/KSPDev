@@ -8,7 +8,7 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
-namespace KSPDev.LogcConsole {
+namespace KSPDev.LogConsole {
 
 /// <summary>A console to display Unity's debug logs in-game.</summary>
 [KSPAddon(KSPAddon.Startup.EveryScene, false /*once*/)]

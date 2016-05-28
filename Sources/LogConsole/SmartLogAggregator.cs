@@ -6,7 +6,7 @@ using KSPDev.ConfigUtils;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace KSPDev.LogcConsole {
+namespace KSPDev.LogConsole {
 
 /// <summary>A log capturer that aggregates logs globally by the content.</summary>
 [PersistentFieldsFileAttribute("KSPDev/KSPDev.settings", "SmartLogAggregator")]
