@@ -47,7 +47,7 @@ public static class ConfigAccessor {
     Logger.logInfo("Loading persistent fields: file={0}, group=\"{1}\"",
                    filePath, group ?? "<ALL>");
     var node = ConfigNode.Load(KspPaths.makePluginPath(filePath));
-    if (node != null && nodePath != null) {
+    if (node != null && nodePath.Length > 0) {
       node = node.GetNode(nodePath);
     }
     if (node != null) {
