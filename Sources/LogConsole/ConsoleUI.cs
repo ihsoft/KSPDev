@@ -355,7 +355,7 @@ internal sealed class ConsoleUI : MonoBehaviour {
 
 /// <summary>Only used to start logs aggregation.</summary>
 [KSPAddon(KSPAddon.Startup.Instantly, true /*once*/)]
-internal sealed class AggregationStarter : MonoBehaviour {
+sealed class AggregationStarter : MonoBehaviour {
   void Awake() {
     // Read all configs.
     ConfigAccessor.ReadFieldsInType(typeof(ConsoleUI), null /* instance */);

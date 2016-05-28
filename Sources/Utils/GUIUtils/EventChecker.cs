@@ -3,7 +3,6 @@
 // This software is distributed under Public domain license.
 
 using System;
-using System.Collections.Generic;
 using UnityEngine;
 
 namespace KSPDev.GUIUtils {
