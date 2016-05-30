@@ -1041,7 +1041,7 @@
              I.e. short lived piece of information presented for the current context. The hint won't be shown
              in UI until explicitly requsted via call to a <c>ShowAt*</c> method.</para>
              <para>Keep in mind that this window contains graphics objects that will be destroyed on scene
-             re-loading. I.e. it must be re-created on very scene change.</para>
+             re-loading. I.e. it must be re-created on every scene change.</para>
              </remarks>
              <example>
              In a common case initialization of the hint window is done on the game object awakening, and
@@ -1054,7 +1054,7 @@
                  hint = new HintOverlay(12, 3, Color.white, new Color(0f, 0f, 0f, 0.5f));
                }
             
-               void Update() {
+               void OnGUI() {
                  hint.text = string.Format("Current frame is: {0}", Time.frameCount);
                  hint.ShowAtCursor();
                }
@@ -1062,7 +1062,7 @@
              </code>
              <para>In the example above text of the hint is set on every frame update since frame count is updated
              this frequently. Though, if your data is updated less frequently you may save some performance
-             by updating text in the methods different from <c>Update</c>.</para>
+             by updating text in the methods different from <c>OnGUI</c>.</para>
              </example>
         </member>
         <member name="F:KSPDev.GUIUtils.HintOverlay.BackgroundTextureSize">
@@ -1074,7 +1074,7 @@
             <summary>Padding when showing hint on the right side of the mouse cursor.</summary>
         </member>
         <member name="F:KSPDev.GUIUtils.HintOverlay.LeftSideMousePadding">
-            <summary>Padding when showing hint text on the lft side of the mouse cursore.</summary>
+            <summary>Padding when showing hint on the left side of the mouse cursor.</summary>
         </member>
         <member name="F:KSPDev.GUIUtils.HintOverlay.textSize">
             <summary>Precalculated UI text size for the currently assigned text.</summary>
@@ -1092,7 +1092,7 @@
         </member>
         <member name="M:KSPDev.GUIUtils.HintOverlay.ShowAtCursor">
             <summary>Shows hint text at the current mouse pointer.</summary>
-            <remarks>When possible the window is shown on the right side of teh cursor. Though, if part of
+            <remarks>When possible the window is shown on the right side of the cursor. Though, if part of
             the window goes out of the screen then it will be shown on the left side. If bottom boundary
             of the window hits bottom boundary of the screen then hint is aligned vertically so what the
             full content is visible. </remarks>
@@ -1145,19 +1145,20 @@
             <param name="messageString">A message string.</param>
         </member>
         <member name="M:KSPDev.GUIUtils.Message.op_Implicit(System.String)~KSPDev.GUIUtils.Message">
-            <summary>Allows casting strings to the <see cref="T:KSPDev.GUIUtils.Message"/>.</summary>
+            <summary>Allows casting string to message.</summary>
             <remarks>Instead of creating new insatnce for every string just do the cast as it was a
             regular literal constant.</remarks>
             <param name="messageString">A string value to assign.</param>
             <returns>Message instance.</returns>
         </member>
         <member name="M:KSPDev.GUIUtils.Message.op_Implicit(KSPDev.GUIUtils.Message)~System.String">
-            <summary>Allows casting <see cref="T:KSPDev.GUIUtils.Message"/> to string.</summary>
+            <summary>Allows casting messages to string.</summary>
             <param name="msg">A message to cast.</param>
             <returns>Message value.</returns>
         </member>
         <member name="T:KSPDev.GUIUtils.Message`1">
              <summary>A class to wrap a UI string with one parameter.</summary>
+             <typeparam name="T1">Type of the first substitute argument in the string.</typeparam>
              <remarks>
              <para>Define parameter type via generic argument. When string needs to be presented use
              <see cref="M:KSPDev.GUIUtils.Message`1.Format(`0)"/> to make the parameter substitute.</para>
@@ -1199,6 +1200,8 @@
         </member>
         <member name="T:KSPDev.GUIUtils.Message`2">
              <summary>A class to wrap a UI string with two parameters.</summary>
+             <typeparam name="T1">Type of the first substitute argument in the string.</typeparam>
+             <typeparam name="T2">Type of the second substitute argument in the string.</typeparam>
              <remarks>
              <para>Define parameter types via generic argument. When string needs to be presented use
              <see cref="M:KSPDev.GUIUtils.Message`2.Format(`0,`1)"/> to make parameters substitute.</para>
@@ -1241,6 +1244,9 @@
         </member>
         <member name="T:KSPDev.GUIUtils.Message`3">
              <summary>A class to wrap a UI string with three parameters.</summary>
+             <typeparam name="T1">Type of the first substitute argument in the string.</typeparam>
+             <typeparam name="T2">Type of the second substitute argument in the string.</typeparam>
+             <typeparam name="T3">Type of the third substitute argument in the string.</typeparam>
              <remarks>
              <para>Define parameter types via generic argument. When string needs to be presented use
              <see cref="M:KSPDev.GUIUtils.Message`3.Format(`0,`1,`2)"/> to make parameters substitute.</para>
@@ -1283,6 +1289,10 @@
         </member>
         <member name="T:KSPDev.GUIUtils.Message`4">
              <summary>A class to wrap a UI string with four parameters.</summary>
+             <typeparam name="T1">Type of the first substitute argument in the string.</typeparam>
+             <typeparam name="T2">Type of the second substitute argument in the string.</typeparam>
+             <typeparam name="T3">Type of the third substitute argument in the string.</typeparam>
+             <typeparam name="T4">Type of the fourth substitute argument in the string.</typeparam>
              <remarks>
              <para>Define parameter types via generic argument. When string needs to be presented use
              <see cref="M:KSPDev.GUIUtils.Message`4.Format(`0,`1,`2,`3)"/> to make parameters substitute.</para>
@@ -1326,6 +1336,11 @@
         </member>
         <member name="T:KSPDev.GUIUtils.Message`5">
              <summary>A class to wrap a UI string with five parameters.</summary>
+             <typeparam name="T1">Type of the first substitute argument in the string.</typeparam>
+             <typeparam name="T2">Type of the second substitute argument in the string.</typeparam>
+             <typeparam name="T3">Type of the third substitute argument in the string.</typeparam>
+             <typeparam name="T4">Type of the fourth substitute argument in the string.</typeparam>
+             <typeparam name="T5">Type of the fifth substitute argument in the string.</typeparam>
              <remarks>
              <para>Define parameter types via generic argument. When string needs to be presented use
              <see cref="M:KSPDev.GUIUtils.Message`5.Format(`0,`1,`2,`3,`4)"/> to make parameters substitute.</para>
