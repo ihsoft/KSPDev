@@ -14,7 +14,7 @@ namespace KSPDev.GUIUtils {
 /// I.e. short lived piece of information presented for the current context. The hint won't be shown
 /// in UI until explicitly requsted via call to a <c>ShowAt*</c> method.</para>
 /// <para>Keep in mind that this window contains graphics objects that will be destroyed on scene
-/// re-loading. I.e. it must be re-created on very scene change.</para>
+/// re-loading. I.e. it must be re-created on every scene change.</para>
 /// </remarks>
 /// <example>
 /// In a common case initialization of the hint window is done on the game object awakening, and
@@ -27,7 +27,7 @@ namespace KSPDev.GUIUtils {
 ///     hint = new HintOverlay(12, 3, Color.white, new Color(0f, 0f, 0f, 0.5f));
 ///   }
 ///
-///   void Update() {
+///   void OnGUI() {
 ///     hint.text = string.Format("Current frame is: {0}", Time.frameCount);
 ///     hint.ShowAtCursor();
 ///   }
@@ -35,12 +35,12 @@ namespace KSPDev.GUIUtils {
 /// </code>
 /// <para>In the example above text of the hint is set on every frame update since frame count is updated
 /// this frequently. Though, if your data is updated less frequently you may save some performance
-/// by updating text in the methods different from <c>Update</c>.</para>
+/// by updating text in the methods different from <c>OnGUI</c>.</para>
 /// </example>
 public class HintOverlay {
   /// <summary>Padding when showing hint on the right side of the mouse cursor.</summary>
   public int RightSideMousePadding = 24;
-  /// <summary>Padding when showing hint text on the lft side of the mouse cursore.</summary>
+  /// <summary>Padding when showing hint on the left side of the mouse cursor.</summary>
   public int LeftSideMousePadding = 4;
 
   /// <summary>The hint overlay text.</summary>
@@ -84,7 +84,7 @@ public class HintOverlay {
   }
 
   /// <summary>Shows hint text at the current mouse pointer.</summary>
-  /// <remarks>When possible the window is shown on the right side of teh cursor. Though, if part of
+  /// <remarks>When possible the window is shown on the right side of the cursor. Though, if part of
   /// the window goes out of the screen then it will be shown on the left side. If bottom boundary
   /// of the window hits bottom boundary of the screen then hint is aligned vertically so what the
   /// full content is visible. </remarks>

@@ -37,7 +37,7 @@ public struct Message {
     this.messageString = messageString;
   }
 
-  /// <summary>Allows casting strings to the <see cref="Message"/>.</summary>
+  /// <summary>Allows casting string to message.</summary>
   /// <remarks>Instead of creating new insatnce for every string just do the cast as it was a
   /// regular literal constant.</remarks>
   /// <param name="messageString">A string value to assign.</param>
@@ -46,7 +46,7 @@ public struct Message {
     return new Message(messageString);
   }
 
-  /// <summary>Allows casting <see cref="Message"/> to string.</summary>
+  /// <summary>Allows casting messages to string.</summary>
   /// <param name="msg">A message to cast.</param>
   /// <returns>Message value.</returns>
   public static implicit operator string(Message msg) {
