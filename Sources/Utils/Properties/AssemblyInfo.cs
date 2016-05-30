@@ -11,7 +11,7 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyDescription ("")]
 [assembly: AssemblyConfiguration ("")]
 [assembly: AssemblyCompany ("IHSoft")]
-[assembly: AssemblyProduct ("KSPDev")]
+[assembly: AssemblyProduct ("KSPDev_Utils")]
 [assembly: AssemblyCopyright ("Public domain license")]
 [assembly: AssemblyTrademark ("")]
 [assembly: AssemblyCulture ("")]
