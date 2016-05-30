@@ -79,6 +79,7 @@
     <ProjectReference Include="..\Utils\KSPDev_Utils.csproj">
       <Project>{01A7B80C-E283-4651-B879-3CC5EFAAA1A4}</Project>
       <Name>KSPDev_Utils</Name>
+      <Private>False</Private>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
