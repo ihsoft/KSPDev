@@ -55,6 +55,7 @@ public struct Message {
 }
 
 /// <summary>A class to wrap a UI string with one parameter.</summary>
+/// <typeparam name="T1">Type of the first substitute argument in the string.</typeparam>
 /// <remarks>
 /// <para>Define parameter type via generic argument. When string needs to be presented use
 /// <see cref="Format"/> to make the parameter substitute.</para>
@@ -104,6 +105,8 @@ public struct Message<T1> {
 }
 
 /// <summary>A class to wrap a UI string with two parameters.</summary>
+/// <typeparam name="T1">Type of the first substitute argument in the string.</typeparam>
+/// <typeparam name="T2">Type of the second substitute argument in the string.</typeparam>
 /// <remarks>
 /// <para>Define parameter types via generic argument. When string needs to be presented use
 /// <see cref="Format"/> to make parameters substitute.</para>
@@ -154,6 +157,9 @@ public struct Message<T1, T2> {
 }
 
 /// <summary>A class to wrap a UI string with three parameters.</summary>
+/// <typeparam name="T1">Type of the first substitute argument in the string.</typeparam>
+/// <typeparam name="T2">Type of the second substitute argument in the string.</typeparam>
+/// <typeparam name="T3">Type of the third substitute argument in the string.</typeparam>
 /// <remarks>
 /// <para>Define parameter types via generic argument. When string needs to be presented use
 /// <see cref="Format"/> to make parameters substitute.</para>
@@ -204,6 +210,10 @@ public struct Message<T1, T2, T3> {
 }
 
 /// <summary>A class to wrap a UI string with four parameters.</summary>
+/// <typeparam name="T1">Type of the first substitute argument in the string.</typeparam>
+/// <typeparam name="T2">Type of the second substitute argument in the string.</typeparam>
+/// <typeparam name="T3">Type of the third substitute argument in the string.</typeparam>
+/// <typeparam name="T4">Type of the fourth substitute argument in the string.</typeparam>
 /// <remarks>
 /// <para>Define parameter types via generic argument. When string needs to be presented use
 /// <see cref="Format"/> to make parameters substitute.</para>
@@ -255,6 +265,11 @@ public struct Message<T1, T2, T3, T4> {
 }
 
 /// <summary>A class to wrap a UI string with five parameters.</summary>
+/// <typeparam name="T1">Type of the first substitute argument in the string.</typeparam>
+/// <typeparam name="T2">Type of the second substitute argument in the string.</typeparam>
+/// <typeparam name="T3">Type of the third substitute argument in the string.</typeparam>
+/// <typeparam name="T4">Type of the fourth substitute argument in the string.</typeparam>
+/// <typeparam name="T5">Type of the fifth substitute argument in the string.</typeparam>
 /// <remarks>
 /// <para>Define parameter types via generic argument. When string needs to be presented use
 /// <see cref="Format"/> to make parameters substitute.</para>
