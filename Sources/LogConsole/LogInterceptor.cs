@@ -6,6 +6,7 @@ using KSPDev.ConfigUtils;
 using KSPDev.LogUtils;
 using StackTrace = System.Diagnostics.StackTrace;
 using System.Collections.Generic;
+using System.Linq;
 using System;
 using UnityEngine;
 
@@ -156,14 +157,13 @@ public static class LogInterceptor {
   /// <param name="message">Message.</param>
   /// <param name="stackTrace">Trace of where the message came from.</param>
   /// <param name="type">Type of message (error, exception, warning, assert).</param>
-  private static void HandleLog(string message, string stackTrace, LogType type) {
-    var source = "";
-
+  static void HandleLog(string message, string stackTrace, LogType type) {
     // Detect source and stack trace for logs other than exceptions. Exceptions are logged from
     // the Unity engine, and the provided stack trace should be used. 
-    if (type != LogType.Exception) {
-      source = GetSourceAndStackTrace(ref stackTrace);
-    }
+    string source;
+    source = type != LogType.Exception
+        ? GetSourceAndStackTrace(ref stackTrace)
+        : GetSourceAndReshapeStackTrace(ref stackTrace);
     var log = new Log(lastLogId++, DateTime.Now, message, stackTrace, source, type);
 
     // Notify preview handlers. Do an exception check and exclude preview callbacks that cause
@@ -249,7 +249,21 @@ public static class LogInterceptor {
     stackTrace = st.ToString();  // Unity only gives stacktrace for the exceptions.
     return source;
   }
-  
+
+  /// <summary>Calculates source from the Unity exception stack trace.</summary>
+  /// <remarks>Also cutifies stack trace to make it looking more C#ish.</remarks>
+  /// <param name="stackTrace">Unity provided stack trace.</param>
+  /// <returns>Source extraced from the first line of the trace.</returns>
+  static string GetSourceAndReshapeStackTrace(ref string stackTrace) {
+    var lines = stackTrace.Split(new[] {'\n'}, StringSplitOptions.RemoveEmptyEntries);
+    stackTrace = string.Join("\n", (from line in lines select "   at " + line).ToArray());
+    if (lines.Length > 0 && !string.IsNullOrEmpty(lines[0])) {
+      var line = lines[0];
+      return line.Substring(0, line.IndexOfAny(new[] {' ', '('})).Trim();
+    }
+    return "";
+  }
+
   /// <summary>Makes source string from the frame.</summary>
   /// <param name="frame">A stack frame to make string from.</param>
   /// <returns>A source string.</returns>
