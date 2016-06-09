@@ -40,7 +40,7 @@ public static class LogInterceptor {
   /// <remarks>Setting to a lower setting doesn't have immediate effect. It's undefined when
   /// excessive log records get cleaned up from <see cref="logs"/>.</remarks>
   [PersistentField("maxLogLines")]
-  private static int maxLogLines = 1000;
+  static int maxLogLines = 1000;
 
   /// <summary>Specifies if logs interception is allowed.</summary>
   /// <remarks>If <c>false</c> then calls to <see cref="StartIntercepting"/> will be ignored.
@@ -48,19 +48,19 @@ public static class LogInterceptor {
   /// <see cref="StopIntercepting"/> is required.
   /// </remarks>
   [PersistentField("enableInterception")]
-  private static bool enableInterception = true;
+  static bool enableInterception = true;
 
   /// <summary>Intercepting mode. When disabled all logs go to the system.</summary>
   public static bool isStarted {
     get { return _isStarted; }
   }
-  private static bool _isStarted = false;
+  static bool _isStarted = false;
 
   /// <summary>Shifts stack trace forward by the exact source match.</summary>
   /// <remarks>Use this filter to skip well-known methods that wrap logging. Due to hash-match this
   /// set can be reasonable big without significant impact to the application performance.</remarks>
   [PersistentField("ExactMatchOverride/source", isCollection = true)]
-  private static HashSet<string> exactMatchOverride = new HashSet<string>() {
+  static HashSet<string> exactMatchOverride = new HashSet<string>() {
       "UnityEngine.Application.CallLogCallback",  // Unity debug log handler.
       "UnityEngine.MonoBehaviour.print",  // Unity std I/O method.
       // KAC logging core.
@@ -101,15 +101,16 @@ public static class LogInterceptor {
   /// <summary>A callback type for the log listeners.</summary>
   /// <param name="log">An immutable KSPDev log record.</param>
   public delegate void PreviewCallback(Log log);
-  private static HashSet<PreviewCallback> previewCallbacks = new HashSet<PreviewCallback>();
+  static HashSet<PreviewCallback> previewCallbacks = new HashSet<PreviewCallback>();
 
   /// <summary>A  collection to accumulate callbacks that throw errors.</summary>
   /// <remarks>A preview callback that throws an exception is unregistered immideately to minimize
   /// the impact. This collection is used locally only in <see cref="HandleLog"/> but to save
   /// performance it's created statically with a reasonable pre-allocated size.</remarks>
-  private static List<PreviewCallback> badCallbacks = new List<PreviewCallback>(10);
+  static List<PreviewCallback> badCallbacks = new List<PreviewCallback>(10);
 
-  private static int lastLogId = 1;
+  /// <summary>Unique indentifier of the log record.</summary>
+  static int lastLogId = 1;
 
   /// <summary>Installs interceptor callback and disables system debug log.</summary>
   public static void StartIntercepting() {
@@ -200,7 +201,7 @@ public static class LogInterceptor {
   /// method (which is <c>UnityEngine.Application.CallLogCallback</c> for now).</para>
   /// <param name="stackTrace">[ref] A string representation of the applicable stack strace.</param>
   /// <returns>A string that identifies a meaningful piece of code that triggered the log.</returns>
-  private static string GetSourceAndStackTrace(ref string stackTrace) {
+  static string GetSourceAndStackTrace(ref string stackTrace) {
     StackTrace st = null;
     string source = "";
 
@@ -252,7 +253,7 @@ public static class LogInterceptor {
   /// <summary>Makes source string from the frame.</summary>
   /// <param name="frame">A stack frame to make string from.</param>
   /// <returns>A source string.</returns>
-  private static string MakeSourceFromFrame(System.Diagnostics.StackFrame frame) {
+  static string MakeSourceFromFrame(System.Diagnostics.StackFrame frame) {
     var chkMethod = frame.GetMethod();
     return chkMethod.DeclaringType + "." + chkMethod.Name;
   }
@@ -262,7 +263,7 @@ public static class LogInterceptor {
   /// <param name="type">Optional type of the log.</param>
   /// <param name="stackTrace">Optional stacktrace. When not specified the current stack is used.
   /// </param>
-  private static void InternalLog(string message,
+  static void InternalLog(string message,
                                   LogType type = LogType.Log, string stackTrace = null) {
     var log = new Log(lastLogId++, DateTime.Now,
                       message, stackTrace ?? new StackTrace(true).ToString(), "KSPDev-Internal",
