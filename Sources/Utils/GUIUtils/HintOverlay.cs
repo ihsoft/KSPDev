@@ -67,10 +67,10 @@ public class HintOverlay {
   GUIStyle hintWindowStyle;
 
   /// <summary>Constructs an overaly.</summary>
-  /// <param name="fontSize">A size of the text font in the hint.</param>
-  /// <param name="padding">A padding between the text and the window boundaries.</param>
-  /// <param name="textColor">A color of the hint text.</param>
-  /// <param name="backgroundColor">A color of the hint backtround. If alpha component is different
+  /// <param name="fontSize">Size of the text font in the hint.</param>
+  /// <param name="padding">Padding between the text and the window boundaries.</param>
+  /// <param name="textColor">Color of the hint text.</param>
+  /// <param name="backgroundColor">Color of the hint background. If alpha component is different
   /// from <c>1.0</c> then background will be semi-transparent.</param>
   public HintOverlay(int fontSize, int padding, Color textColor, Color backgroundColor) {
     hintWindowStyle = new GUIStyle {
