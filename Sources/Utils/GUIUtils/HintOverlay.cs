@@ -118,6 +118,7 @@ public class HintOverlay {
     texture.SetPixels(
         Enumerable.Repeat(color, BackgroundTextureSize * BackgroundTextureSize).ToArray());
     texture.Apply();
+    texture.Compress(false /* highQuality */);
     return texture;
   }
 }
