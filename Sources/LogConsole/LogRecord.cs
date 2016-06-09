@@ -70,7 +70,8 @@ public class LogRecord {
   /// <returns>A hash code of the *similar* fields.</returns>
   public int GetSimilarityHash() {
     if (!similarityHash.HasValue) {
-      similarityHash = (srcLog.source + srcLog.type + srcLog.message).GetHashCode();
+      similarityHash =
+          (srcLog.source + srcLog.type + srcLog.message + srcLog.stackTrace).GetHashCode();
     }
     return similarityHash.Value;
   }
