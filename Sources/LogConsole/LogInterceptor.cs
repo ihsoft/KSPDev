@@ -10,6 +10,8 @@ using System.Linq;
 using System;
 using UnityEngine;
 
+using Logger = KSPDev.LogUtils.Logger;
+
 namespace KSPDev.LogConsole {
   
 /// <summary>An alternative log processor that allows better logs handling.</summary>
