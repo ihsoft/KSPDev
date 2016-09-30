@@ -2,6 +2,8 @@
 // Author: igor.zavoychinskiy@gmail.com
 // This software is distributed under Public domain license.
 
+using System.Collections.Generic;
+
 namespace KSPDev.GUIUtils {
 
 /// <summary>A class to wrap a simple UI string.</summary>
@@ -101,6 +103,61 @@ public struct Message<T1> {
   /// <returns>Message instance.</returns>
   public static implicit operator Message<T1>(string fmtString) {
     return new Message<T1>(fmtString);
+  }
+}
+
+/// <summary>
+/// A class to wrap a UI string with one parameter which may have special meaning.
+/// </summary>
+/// <remarks>
+/// <para>When string needs to be presented use <see cref="Format"/> to make the parameter
+/// substitute.</para>
+/// <para>
+/// In the future it may support localization but for now it's only a convinience wrapper.
+/// </para>
+/// </remarks>
+/// <example>
+/// Instead of presenting hardcoded strings on UI move them all into a special section, and assign
+/// to fields of type <c>Message</c>. Don't declare them <c>readonly</c> since it will block future
+/// localization.
+/// <code><![CDATA[
+/// class MyMod : MonoBehavior {
+///   MessageSpecialFloatValue MyMessage =
+///       new MessageSpecialFloatValue("Param: {0}", 0, "Param is ZERO");
+///
+///   void Awake() {
+///     Logger.logInfo("Localized: {0}", MyMessage.Format(1));  // Param: 1
+///     Logger.logInfo("Localized: {0}", MyMessage.Format(0));  // Param is ZERO
+///   }
+/// }
+/// ]]></code>
+/// <para>Note, that it's OK to name such members as constants in spite of they are not constants by
+/// the C# language semantics. I.e. instead of <c>myMessage</c> you spell <c>MyMessage</c> to
+/// highlight the fact it won't (and must not) change from the code.</para>  
+/// </example>
+public struct MessageSpecialFloatValue {
+  readonly string fmtString;
+  readonly string specialValueString;
+  readonly float specialValue;
+  
+  /// <summary>Creates a message.</summary>
+  /// <param name="fmtString">A message format string.</param>
+  /// <param name="specialValue">Value to use a special message string for.</param>
+  /// <param name="specialString">Special message string for the value.</param>
+  public MessageSpecialFloatValue(string fmtString, float specialValue, string specialString) {
+    this.fmtString = fmtString;
+    this.specialValueString = specialString;
+    this.specialValue = specialValue;
+  }
+
+  /// <summary>Formats message string with the provided arguments.</summary>
+  /// <param name="arg1">An argument to substitute.</param>
+  /// <returns>Complete message string.</returns>
+  public string Format(float arg1) {
+    if (UnityEngine.Mathf.Approximately(arg1, specialValue)) {
+      return specialValueString;
+    }
+    return string.Format(fmtString, arg1);
   }
 }
 
