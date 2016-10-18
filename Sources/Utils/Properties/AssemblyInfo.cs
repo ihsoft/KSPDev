@@ -8,7 +8,7 @@ using System.Runtime.InteropServices;
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
 [assembly: AssemblyTitle ("A redistributable set of client utils")]
-[assembly: AssemblyDescription ("")]
+[assembly: AssemblyDescription ("Handy tools for Kerbal Space Program modding")]
 [assembly: AssemblyConfiguration ("")]
 [assembly: AssemblyCompany ("IHSoft")]
 [assembly: AssemblyProduct ("KSPDev_Utils")]
@@ -24,7 +24,7 @@ using System.Runtime.InteropServices;
 //
 // You can specify all the values or you can use the default the Revision and 
 // Build Numbers by using the '*' as shown below:
-[assembly: AssemblyVersion ("0.14.0")]
-[assembly: AssemblyInformationalVersion ("0.14.0 for KSP v1.2")]
+[assembly: AssemblyVersion ("0.15.0")]
+[assembly: AssemblyInformationalVersion ("0.15.0 for KSP v1.2")]
 [assembly: Guid ("89e3b337-b770-4422-b56e-159590c94c9d")]
 [assembly: AssemblyFlags (AssemblyNameFlags.PublicKey | AssemblyNameFlags.EnableJITcompileOptimizer)]
