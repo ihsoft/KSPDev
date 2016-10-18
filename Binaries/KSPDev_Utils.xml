@@ -1003,20 +1003,44 @@
             <summary>Helper to format various values.</summary>
         </member>
         <member name="M:KSPDev.GUIUtils.Formatter.SpecialValue(System.Single,System.String,System.Single,System.String)">
-            <summary>Formats a number that has special meaning for a predefined value.</summary>
+            <summary>Formats float number that has special meaning for a predefined value.</summary>
             <param name="number">Number to format.</param>
             <param name="fmt">Format string for the number.</param>
             <param name="specialValue">Special value of the number.</param>
             <param name="specialString">String to show for the special value.</param>
-            <returns></returns>
+            <returns>Formatted string.</returns>
+            <example>
+            <code><![CDATA[
+            var fmt = "Value: {0}";
+            var spcFmt = "SPECIAL VALUE!";
+            Debug.Log(Formatter.SpecialValue(0.5f, fmt, 0.5f, spcFmt);
+            // Outputs:
+            // SPECIAL VALUE!
+            Debug.Log(Formatter.SpecialValue(0.4f, fmt, 0.5f, spcFmt);
+            // Outputs:
+            // Value: 0.4
+            ]]></code>
+            </example>
         </member>
         <member name="M:KSPDev.GUIUtils.Formatter.SpecialValue(System.Int32,System.String,System.Int32,System.String)">
-            <summary>Formats a number that has special meaning for a predefined value.</summary>
+            <summary>Formats integer number that has special meaning for a predefined value.</summary>
             <param name="number">Number to format.</param>
             <param name="fmt">Format string for the number.</param>
             <param name="specialValue">Special value of the number.</param>
             <param name="specialString">String to show for the special value.</param>
-            <returns></returns>
+            <returns>Formatted string.</returns>
+            <example>
+            <code><![CDATA[
+            var fmt = "Value: {0}";
+            var spcFmt = "SPECIAL VALUE!";
+            Debug.Log(Formatter.SpecialValue(100, fmt, 100, spcFmt);
+            // Outputs:
+            // SPECIAL VALUE!
+            Debug.Log(Formatter.SpecialValue(101, fmt, 100, spcFmt);
+            // Outputs:
+            // Value: 101
+            ]]></code>
+            </example>
         </member>
         <member name="T:KSPDev.GUIUtils.ScreenMessaging">
             <summary>Helper class to present global UI messages.</summary>
@@ -2380,7 +2404,7 @@
         <member name="T:KSPDev.ProcessingUtils.AsyncCall">
             <summary>Set of tools to execute a delayed code.</summary>
             <remarks>
-            Use theese tools when code needs to be executed with some delay or at a specific moment of the
+            Use these tools when code needs to be executed with some delay or at a specific moment of the
             game.
             <code><![CDATA[
             class MyComponent : MonoBehaviour {
