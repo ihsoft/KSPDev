@@ -51,7 +51,10 @@
   <ItemGroup>
     <Reference Include="Assembly-CSharp">
       <HintPath>Q:\KSP_Data\Managed\Assembly-CSharp.dll</HintPath>
-      <Private>False</Private>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Assembly-CSharp-firstpass">
+      <HintPath>Q:\KSP_Data\Managed\Assembly-CSharp-firstpass.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core">
@@ -59,7 +62,10 @@
     </Reference>
     <Reference Include="UnityEngine">
       <HintPath>Q:\KSP_Data\Managed\UnityEngine.dll</HintPath>
-      <Private>False</Private>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="UnityEngine.UI">
+      <HintPath>Q:\KSP_Data\Managed\UnityEngine.UI.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
@@ -79,20 +85,39 @@
     <Compile Include="ConfigUtils\PersistentField.cs" />
     <Compile Include="ConfigUtils\PersistentFieldAttribute.cs" />
     <Compile Include="ConfigUtils\KspTypesProto.cs" />
+    <Compile Include="Extensions\Dictionaries.cs" />
     <Compile Include="FSUtils\KspPaths.cs" />
+    <Compile Include="GUIUtils\Formatter.cs" />
     <Compile Include="GUIUtils\ScreenMessaging.cs" />
     <Compile Include="GUIUtils\HintOverlay.cs" />
     <Compile Include="GUIUtils\Message.cs" />
     <Compile Include="GUIUtils\EventChecker.cs" />
     <Compile Include="GUIUtils\GuiActionsList.cs" />
+    <Compile Include="GUIUtils\UISoundPlayer.cs" />
+    <Compile Include="KSPInterfaces\IJointEventsListener.cs" />
+    <Compile Include="KSPInterfaces\IKSPActivateOnDecouple.cs" />
+    <Compile Include="KSPInterfaces\IKSPDevModuleInfo.cs" />
+    <Compile Include="KSPInterfaces\IPartModule.cs" />
+    <Compile Include="KSPInterfaces\IsDestroyable.cs" />
+    <Compile Include="KSPInterfaces\IsPackable.cs" />
     <Compile Include="LogUtils\Logger.cs" />
+    <Compile Include="ModelUtils\Colliders.cs" />
+    <Compile Include="ModelUtils\Hierarchy.cs" />
+    <Compile Include="ModelUtils\KspLayer.cs" />
+    <Compile Include="ModelUtils\Meshes.cs" />
+    <Compile Include="ProcessingUtils\AsyncCall.cs" />
+    <Compile Include="ProcessingUtils\SimpleStateMachine.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="Extensions" />
     <Folder Include="GUIUtils" />
+    <Folder Include="KSPInterfaces" />
     <Folder Include="LogUtils" />
     <Folder Include="ConfigUtils" />
     <Folder Include="FSUtils" />
+    <Folder Include="ModelUtils" />
+    <Folder Include="ProcessingUtils" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
