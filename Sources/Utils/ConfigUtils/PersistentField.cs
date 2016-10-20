@@ -12,12 +12,12 @@ namespace KSPDev.ConfigUtils {
 public sealed class PersistentField {
   /// <summary>Annotated fields metadata.</summary>
   public readonly FieldInfo fieldInfo;
-  /// <summary>Parsed configuration paths. The first </summary>
+  /// <summary>Parsed configuration paths.</summary>
   public readonly string[] cfgPath;
 
-  /// <summary>An instance of ordianl field proto as specified in the annotation.</summary>
+  /// <summary>Instance of ordianl field proto as specified in the annotation.</summary>
   internal readonly OrdinaryFieldHandler ordinaryFieldHandler;
-  /// <summary>An instance of collection fiel proto as specified in the annotation.</summary>
+  /// <summary>Instance of collection field proto as specified in the annotation.</summary>
   internal readonly CollectionFieldHandler collectionFieldHandler;
 
   private readonly PersistentField[] compoundTypeFields;
