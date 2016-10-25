@@ -761,13 +761,13 @@
             <summary>Annotated fields metadata.</summary>
         </member>
         <member name="F:KSPDev.ConfigUtils.PersistentField.cfgPath">
-            <summary>Parsed configuration paths. The first </summary>
+            <summary>Parsed configuration paths.</summary>
         </member>
         <member name="F:KSPDev.ConfigUtils.PersistentField.ordinaryFieldHandler">
-            <summary>An instance of ordianl field proto as specified in the annotation.</summary>
+            <summary>Instance of ordianl field proto as specified in the annotation.</summary>
         </member>
         <member name="F:KSPDev.ConfigUtils.PersistentField.collectionFieldHandler">
-            <summary>An instance of collection fiel proto as specified in the annotation.</summary>
+            <summary>Instance of collection field proto as specified in the annotation.</summary>
         </member>
         <member name="M:KSPDev.ConfigUtils.PersistentField.#ctor(System.Reflection.FieldInfo,KSPDev.ConfigUtils.PersistentFieldAttribute)">
             <param name="fieldInfo">An annotated field metadata.</param>
@@ -2244,6 +2244,24 @@
             <summary>Returns part's model transform.</summary>
             <param name="part">Part to get model for.</param>
             <returns>PartModel's transform if it was found. Part's trasnfrom otherwise.</returns>
+        </member>
+        <member name="M:KSPDev.ModelUtils.Hierarchy.ListHirerahcy(UnityEngine.Transform,System.String)">
+            <summary>
+            Returns paths to all transformations in the object. Each item is a full path to the
+            transformation.
+            </summary>
+            <param name="parent">Object to start from.</param>
+            <param name="parentPath">
+            Path to <paramref name="parent"/>. Leave it <c>null</c> if paths should start from "/".
+            </param>
+            <returns>paths to all transformations separated by LF symbol.</returns>
+        </member>
+        <member name="M:KSPDev.ModelUtils.Hierarchy.GetFullPath(UnityEngine.Transform,UnityEngine.Transform)">
+            <summary>Returns full path to the object starting from the specified parent.</summary>
+            <param name="obj">Object to find path for.</param>
+            <param name="parent">Optional parent to use a root.</param>
+            <returns>Full path to the object.</returns>
+            <seealso cref="M:KSPDev.ModelUtils.Hierarchy.FindTransformByPath(UnityEngine.Transform,System.String[])"/>
         </member>
         <member name="T:KSPDev.ModelUtils.KspLayerMask">
             <summary>Flags for the collision layers in KSP.</summary>
