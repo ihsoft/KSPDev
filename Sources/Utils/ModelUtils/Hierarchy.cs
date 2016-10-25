@@ -163,6 +163,17 @@ public static class Hierarchy {
     }
     return path.ToArray();
   }
+
+  #region Local helper methods.
+  static void GatherHirerachyNames(Transform parent, string parentPath, List<string> names) {
+    var fullName = (parentPath ?? "/") + parent.name + "/";
+    names.Add(fullName);
+    for (var i = 0 ; i < parent.childCount; i++) {
+      var child = parent.GetChild(i);
+      GatherHirerachyNames(child, fullName, names);
+    }
+  }
+  #endregion
 }
 
 }  // namespace
