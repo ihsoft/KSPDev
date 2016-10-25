@@ -181,6 +181,7 @@
     <HelpKINode Title="AbstractCollectionTypeProto.GetEnumerator Method " Url="html/M_KSPDev_ConfigUtils_AbstractCollectionTypeProto_GetEnumerator.htm" />
     <HelpKINode Title="GenericCollectionTypeProto.GetEnumerator Method " Url="html/M_KSPDev_ConfigUtils_GenericCollectionTypeProto_GetEnumerator.htm" />
   </HelpKINode>
+  <HelpKINode Title="GetFullPath method" Url="html/M_KSPDev_ModelUtils_Hierarchy_GetFullPath.htm" />
   <HelpKINode Title="GetInfo method" Url="html/M_KSPDev_KSPInterfaces_IKSPDevModuleInfo_GetInfo.htm" />
   <HelpKINode Title="GetItemType method">
     <HelpKINode Title="AbstractCollectionTypeProto.GetItemType Method " Url="html/M_KSPDev_ConfigUtils_AbstractCollectionTypeProto_GetItemType.htm" />
@@ -216,7 +217,9 @@
   </HelpKINode>
   <HelpKINode Title="Hierarchy.FindTransformByPath method" Url="html/Overload_KSPDev_ModelUtils_Hierarchy_FindTransformByPath.htm" />
   <HelpKINode Title="Hierarchy.FindTransformInChildren method" Url="html/M_KSPDev_ModelUtils_Hierarchy_FindTransformInChildren.htm" />
+  <HelpKINode Title="Hierarchy.GetFullPath method" Url="html/M_KSPDev_ModelUtils_Hierarchy_GetFullPath.htm" />
   <HelpKINode Title="Hierarchy.GetPartModelTransform method" Url="html/M_KSPDev_ModelUtils_Hierarchy_GetPartModelTransform.htm" />
+  <HelpKINode Title="Hierarchy.ListHirerahcy method" Url="html/M_KSPDev_ModelUtils_Hierarchy_ListHirerahcy.htm" />
   <HelpKINode Title="Hierarchy.MoveToParent method" Url="html/M_KSPDev_ModelUtils_Hierarchy_MoveToParent.htm" />
   <HelpKINode Title="HintOverlay class">
     <HelpKINode Title="HintOverlay Class" Url="html/T_KSPDev_GUIUtils_HintOverlay.htm" />
@@ -375,6 +378,7 @@
   <HelpKINode Title="KspTypesProto.ParseFromString method" Url="html/M_KSPDev_ConfigUtils_KspTypesProto_ParseFromString.htm" />
   <HelpKINode Title="KspTypesProto.SerializeToString method" Url="html/M_KSPDev_ConfigUtils_KspTypesProto_SerializeToString.htm" />
   <HelpKINode Title="LeftSideMousePadding field" Url="html/F_KSPDev_GUIUtils_HintOverlay_LeftSideMousePadding.htm" />
+  <HelpKINode Title="ListHirerahcy method" Url="html/M_KSPDev_ModelUtils_Hierarchy_ListHirerahcy.htm" />
   <HelpKINode Title="logError method" Url="html/M_KSPDev_LogUtils_Logger_logError.htm" />
   <HelpKINode Title="logException method" Url="html/M_KSPDev_LogUtils_Logger_logException.htm" />
   <HelpKINode Title="Logger class">
@@ -512,11 +516,11 @@
   <HelpKINode Title="MessageSpecialFloatValue.MessageSpecialFloatValue constructor" Url="html/M_KSPDev_GUIUtils_MessageSpecialFloatValue__ctor.htm" />
   <HelpKINode Title="MoveToParent method" Url="html/M_KSPDev_ModelUtils_Hierarchy_MoveToParent.htm" />
   <HelpKINode Title="nodePath field" Url="html/F_KSPDev_ConfigUtils_AbstractPersistentFieldsFileAttribute_nodePath.htm" />
+  <HelpKINode Title="NONE enumeration member" Url="html/T_KSPDev_ModelUtils_KspLayerMask.htm" />
   <HelpKINode Title="None enumeration member">
     <HelpKINode Title="Colliders.PrimitiveCollider Enumeration" Url="html/T_KSPDev_ModelUtils_Colliders_PrimitiveCollider.htm" />
     <HelpKINode Title="KeyModifiers Enumeration" Url="html/T_KSPDev_GUIUtils_KeyModifiers.htm" />
   </HelpKINode>
-  <HelpKINode Title="NONE enumeration member" Url="html/T_KSPDev_ModelUtils_KspLayerMask.htm" />
   <HelpKINode Title="OnAwake method" Url="html/M_KSPDev_KSPInterfaces_IPartModule_OnAwake.htm" />
   <HelpKINode Title="OnDebugStateChange field" Url="html/F_KSPDev_ProcessingUtils_SimpleStateMachine_1_OnDebugStateChange.htm" />
   <HelpKINode Title="OnDestroy method" Url="html/M_KSPDev_KSPInterfaces_IsDestroyable_OnDestroy.htm" />
