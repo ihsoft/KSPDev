@@ -3,6 +3,7 @@
 // This software is distributed under Public domain license.
 
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
@@ -132,6 +133,35 @@ public static class Hierarchy {
       return part.transform;
     }
     return modelTransform;
+  }
+
+  /// <summary>
+  /// Returns paths to all transformations in the object. Each item is a full path to the
+  /// transformation.
+  /// </summary>
+  /// <param name="parent">Object to start from.</param>
+  /// <param name="parentPath">
+  /// Path to <paramref name="parent"/>. Leave it <c>null</c> if paths should start from "/".
+  /// </param>
+  /// <returns>paths to all transformations separated by LF symbol.</returns>
+  public static string[] ListHirerahcy(Transform parent, string parentPath = null) {
+    var res = new List<string>();
+    GatherHirerachyNames(parent, parentPath, res);
+    return res.ToArray();
+  }
+
+  /// <summary>Returns full path to the object starting from the specified parent.</summary>
+  /// <param name="obj">Object to find path for.</param>
+  /// <param name="parent">Optional parent to use a root.</param>
+  /// <returns>Full path to the object.</returns>
+  /// <seealso cref="FindTransformByPath(UnityEngine.Transform, string[])"/>
+  public static string[] GetFullPath(Transform obj, Transform parent = null) {
+    var path = new List<string>();
+    while (obj != null && obj != parent) {
+      path.Insert(0, obj.name);
+      obj = obj.parent;
+    }
+    return path.ToArray();
   }
 }
 
