@@ -11,7 +11,7 @@ Though, if you put a link to this GitHub repository it will be highly appreciate
 ####Mod for developers who create mods for [Kerbal Space Program](http://www.kerbalspaceprogram.com/)
 
 [KSPDev.LogConsole](https://github.com/ihsoft/KSPDev/tree/master/Sources/LogConsole) is an advanced console for in-game logging
-system. Just install it in place of the built-in one and have all the benefits.
+system. Just install it in place of the built-in one and have all the benefits. See [here](http://imgur.com/a/rwAyt) how it may look for you.
 
 ####Main features
 * Full screen window improves visibility.
