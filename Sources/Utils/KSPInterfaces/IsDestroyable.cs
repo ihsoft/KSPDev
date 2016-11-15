@@ -6,7 +6,7 @@ using System;
 
 namespace KSPDev.KSPInterfaces {
 
-/// <summary>Interface for modules that need not now if script object is destroyed.</summary>
+/// <summary>Interface for modules that need to know if script object is destroyed.</summary>
 /// <remarks>
 /// Events of this inteface are triggered by Unity engine via reflections. It's not required for the
 /// module to implement the interface to be notified but by implementing it the code becomes more
