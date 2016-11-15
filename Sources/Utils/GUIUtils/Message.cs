@@ -2,8 +2,6 @@
 // Author: igor.zavoychinskiy@gmail.com
 // This software is distributed under Public domain license.
 
-using System.Collections.Generic;
-
 namespace KSPDev.GUIUtils {
 
 /// <summary>A class to wrap a simple UI string.</summary>
