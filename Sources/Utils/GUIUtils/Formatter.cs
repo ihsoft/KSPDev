@@ -18,10 +18,10 @@ public static class Formatter {
   /// <code><![CDATA[
   /// var fmt = "Value: {0}";
   /// var spcFmt = "SPECIAL VALUE!";
-  /// Debug.Log(Formatter.SpecialValue(0.5f, fmt, 0.5f, spcFmt);
+  /// Debug.LogFormat(Formatter.SpecialValue(0.5f, fmt, 0.5f, spcFmt);
   /// // Outputs:
   /// // SPECIAL VALUE!
-  /// Debug.Log(Formatter.SpecialValue(0.4f, fmt, 0.5f, spcFmt);
+  /// Debug.LogFormat(Formatter.SpecialValue(0.4f, fmt, 0.5f, spcFmt);
   /// // Outputs:
   /// // Value: 0.4
   /// ]]></code>

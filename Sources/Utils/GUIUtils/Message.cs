@@ -16,11 +16,11 @@ namespace KSPDev.GUIUtils {
 /// to fields of type <c>Message</c>. Don't declare them <c>readonly</c> since it will block future
 /// localization.
 /// <code><![CDATA[
-/// class MyMod : MonoBehavior {
+/// class MyMod : MonoBehaviour {
 ///   Message MyMessage = "This is a message without parameters";
 ///
 ///   void Awake() {
-///     Logger.logInfo("Localized: {0}", MyMessage);
+///     Debug.Log("Localized: {0}", MyMessage);
 ///   }
 /// }
 /// ]]></code>
@@ -68,11 +68,11 @@ public struct Message {
 /// to fields of type <c>Message</c>. Don't declare them <c>readonly</c> since it will block future
 /// localization.
 /// <code><![CDATA[
-/// class MyMod : MonoBehavior {
+/// class MyMod : MonoBehaviour {
 ///   Message<string> MyMessage = "Param: {0}";
 ///
 ///   void Awake() {
-///     Logger.logInfo("Localized: {0}", MyMessage.Format("Blah!"));
+///     Debug.Log("Localized: {0}", MyMessage.Format("Blah!"));
 ///   }
 /// }
 /// ]]></code>
@@ -119,13 +119,13 @@ public struct Message<T1> {
 /// to fields of type <c>Message</c>. Don't declare them <c>readonly</c> since it will block future
 /// localization.
 /// <code><![CDATA[
-/// class MyMod : MonoBehavior {
+/// class MyMod : MonoBehaviour {
 ///   MessageSpecialFloatValue MyMessage =
 ///       new MessageSpecialFloatValue("Param: {0}", 0, "Param is ZERO");
 ///
 ///   void Awake() {
-///     Logger.logInfo("Localized: {0}", MyMessage.Format(1));  // Param: 1
-///     Logger.logInfo("Localized: {0}", MyMessage.Format(0));  // Param is ZERO
+///     Debug.Log("Localized: {0}", MyMessage.Format(1));  // Param: 1
+///     Debug.Log("Localized: {0}", MyMessage.Format(0));  // Param is ZERO
 ///   }
 /// }
 /// ]]></code>
@@ -174,11 +174,11 @@ public struct MessageSpecialFloatValue {
 /// to fields of type <c>Message</c>. Don't declare them <c>readonly</c> since it will block future
 /// localization.
 /// <code><![CDATA[
-/// class MyMod : MonoBehavior {
+/// class MyMod : MonoBehaviour {
 ///   Message<string, int> MyMessage = "Params: {0}, {1}";
 ///
 ///   void Awake() {
-///     Logger.logInfo("Localized: {0}", MyMessage.Format("Blah!", 123));
+///     Debug.Log("Localized: {0}", MyMessage.Format("Blah!", 123));
 ///   }
 /// }
 /// ]]></code>
@@ -226,11 +226,11 @@ public struct Message<T1, T2> {
 /// Instead of presenting hardcoded strings on UI move them all into a special section, and assign
 /// to fields of type <c>Message</c>.
 /// <code><![CDATA[
-/// class MyMod : MonoBehavior {
+/// class MyMod : MonoBehaviour {
 ///   Message<string, int, float> MyMessage = "Params: {0}, {1}, {2}";
 ///
 ///   void Awake() {
-///     Logger.logInfo("Localized: {0}", MyMessage.Format("Blah!", 123, 321f));
+///     Debug.Log("Localized: {0}", MyMessage.Format("Blah!", 123, 321f));
 ///   }
 /// }
 /// ]]></code>
@@ -280,11 +280,11 @@ public struct Message<T1, T2, T3> {
 /// Instead of presenting hardcoded strings on UI move them all into a special section, and assign
 /// to fields of type <c>Message</c>.
 /// <code><![CDATA[
-/// class MyMod : MonoBehavior {
+/// class MyMod : MonoBehaviour {
 ///   Message<string, int, float, int> MyMessage = "Params: {0}, {1}, {2}, {3}";
 ///
 ///   void Awake() {
-///     Logger.logInfo("Localized: {0}", MyMessage.Format("Blah!", 123, 321f, 456));
+///     Debug.Log("Localized: {0}", MyMessage.Format("Blah!", 123, 321f, 456));
 ///   }
 /// }
 /// ]]></code>
@@ -336,11 +336,11 @@ public struct Message<T1, T2, T3, T4> {
 /// Instead of presenting hardcoded strings on UI move them all into a special section, and assign
 /// to fields of type <c>Message</c>.
 /// <code><![CDATA[
-/// class MyMod : MonoBehavior {
+/// class MyMod : MonoBehaviour {
 ///   Message<string, int, float, int, float> MyMessage = "Params: {0}, {1}, {2}, {3}, {4}";
 ///
 ///   void Awake() {
-///     Logger.logInfo("Localized: {0}", MyMessage.Format("Blah!", 123, 321f, 456, 456f));
+///     Debug.Log("Localized: {0}", MyMessage.Format("Blah!", 123, 321f, 456, 456f));
 ///   }
 /// }
 /// ]]></code>

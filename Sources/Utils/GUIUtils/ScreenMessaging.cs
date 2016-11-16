@@ -20,7 +20,7 @@ namespace KSPDev.GUIUtils {
 /// </remarks>
 /// <example>
 /// <code>
-/// class MyMod : MonoBehavior {
+/// class MyMod : MonoBehaviour {
 ///   void Update() {
 ///     if (Input.GetKeyDown("1")) {
 ///       ScreenMessaging.ShowPriorityScreenMessage("Key pressed in frame #{0}", Time.frameCount);

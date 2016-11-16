@@ -20,7 +20,7 @@ namespace KSPDev.GUIUtils {
 /// In a common case initialization of the hint window is done on the game object awakening, and
 /// it's either shown or hidden in <c>OnGUI</c> method.
 /// <code>
-/// class MyMod : MonoBehavior {
+/// class MyMod : MonoBehaviour {
 ///   HintOverlay hint;
 ///
 ///   void Awake() {
