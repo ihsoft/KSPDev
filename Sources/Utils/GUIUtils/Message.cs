@@ -28,7 +28,7 @@ namespace KSPDev.GUIUtils {
 /// the C# language semantics. I.e. instead of <c>myMessage</c> you spell <c>MyMessage</c> to
 /// highlight the fact it won't (and must not) change from the code.</para>  
 /// </example>
-public struct Message {
+public class Message {
   readonly string messageString;
 
   /// <summary>Creates a message.</summary>
@@ -80,7 +80,7 @@ public struct Message {
 /// the C# language semantics. I.e. instead of <c>myMessage</c> you spell <c>MyMessage</c> to
 /// highlight the fact it won't (and must not) change from the code.</para>  
 /// </example>
-public struct Message<T1> {
+public class Message<T1> {
   readonly string fmtString;
   
   /// <summary>Creates a message.</summary>
@@ -133,7 +133,7 @@ public struct Message<T1> {
 /// the C# language semantics. I.e. instead of <c>myMessage</c> you spell <c>MyMessage</c> to
 /// highlight the fact it won't (and must not) change from the code.</para>  
 /// </example>
-public struct MessageSpecialFloatValue {
+public class MessageSpecialFloatValue {
   readonly string fmtString;
   readonly string specialValueString;
   readonly float specialValue;
@@ -186,7 +186,7 @@ public struct MessageSpecialFloatValue {
 /// the C# language semantics. I.e. instead of <c>myMessage</c> you spell <c>MyMessage</c> to
 /// highlight the fact it won't (and must not) change from the code.</para>  
 /// </example>
-public struct Message<T1, T2> {
+public class Message<T1, T2> {
   readonly string fmtString;
   
   /// <summary>Creates a message.</summary>
@@ -238,7 +238,7 @@ public struct Message<T1, T2> {
 /// the C# language semantics. I.e. instead of <c>myMessage</c> you spell <c>MyMessage</c> to
 /// highlight the fact it won't (and must not) change from the code.</para>  
 /// </example>
-public struct Message<T1, T2, T3> {
+public class Message<T1, T2, T3> {
   readonly string fmtString;
   
   /// <summary>Creates a message.</summary>
@@ -292,7 +292,7 @@ public struct Message<T1, T2, T3> {
 /// the C# language semantics. I.e. instead of <c>myMessage</c> you spell <c>MyMessage</c> to
 /// highlight the fact it won't (and must not) change from the code.</para>  
 /// </example>
-public struct Message<T1, T2, T3, T4> {
+public class Message<T1, T2, T3, T4> {
   readonly string fmtString;
   
   /// <summary>Creates a message.</summary>
@@ -348,7 +348,7 @@ public struct Message<T1, T2, T3, T4> {
 /// the C# language semantics. I.e. instead of <c>myMessage</c> you spell <c>MyMessage</c> to
 /// highlight the fact it won't (and must not) change from the code.</para>  
 /// </example>
-public struct Message<T1, T2, T3, T4, T5> {
+public class Message<T1, T2, T3, T4, T5> {
   readonly string fmtString;
   
   /// <summary>Creates a message.</summary>
