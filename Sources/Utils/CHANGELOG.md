@@ -3,3 +3,4 @@
 * [Enhancement] `MessageBoolValue` class to format boolean values.
 * [Enhancement] `MessageEnumValue` class to format values of enum.
 * [Enhancement] `IsPhysicalObject` interface.
+* [Enhancement] `DbgFormatter` class for making common debug strings.
