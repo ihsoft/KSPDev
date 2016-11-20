@@ -615,7 +615,6 @@
     <HelpKINode Title="PersistentFieldAttribute Class" Url="html/T_KSPDev_ConfigUtils_PersistentFieldAttribute.htm" />
     <HelpKINode Title="about PersistentFieldAttribute class" Url="html/T_KSPDev_ConfigUtils_PersistentFieldAttribute.htm" />
     <HelpKINode Title="constructor" Url="html/M_KSPDev_ConfigUtils_PersistentFieldAttribute__ctor.htm" />
-    <HelpKINode Title="fields" Url="html/Fields_T_KSPDev_ConfigUtils_PersistentFieldAttribute.htm" />
     <HelpKINode Title="properties" Url="html/Properties_T_KSPDev_ConfigUtils_PersistentFieldAttribute.htm" />
   </HelpKINode>
   <HelpKINode Title="PersistentFieldAttribute.collectionTypeProto property" Url="html/P_KSPDev_ConfigUtils_PersistentFieldAttribute_collectionTypeProto.htm" />
@@ -626,7 +625,6 @@
     <HelpKINode Title="PersistentFieldsDatabaseAttribute Class" Url="html/T_KSPDev_ConfigUtils_PersistentFieldsDatabaseAttribute.htm" />
     <HelpKINode Title="about PersistentFieldsDatabaseAttribute class" Url="html/T_KSPDev_ConfigUtils_PersistentFieldsDatabaseAttribute.htm" />
     <HelpKINode Title="constructor" Url="html/M_KSPDev_ConfigUtils_PersistentFieldsDatabaseAttribute__ctor.htm" />
-    <HelpKINode Title="fields" Url="html/Fields_T_KSPDev_ConfigUtils_PersistentFieldsDatabaseAttribute.htm" />
   </HelpKINode>
   <HelpKINode Title="PersistentFieldsDatabaseAttribute.PersistentFieldsDatabaseAttribute constructor" Url="html/M_KSPDev_ConfigUtils_PersistentFieldsDatabaseAttribute__ctor.htm" />
   <HelpKINode Title="PersistentFieldsFactory class">
@@ -639,7 +637,6 @@
     <HelpKINode Title="PersistentFieldsFileAttribute Class" Url="html/T_KSPDev_ConfigUtils_PersistentFieldsFileAttribute.htm" />
     <HelpKINode Title="about PersistentFieldsFileAttribute class" Url="html/T_KSPDev_ConfigUtils_PersistentFieldsFileAttribute.htm" />
     <HelpKINode Title="constructor" Url="html/M_KSPDev_ConfigUtils_PersistentFieldsFileAttribute__ctor.htm" />
-    <HelpKINode Title="fields" Url="html/Fields_T_KSPDev_ConfigUtils_PersistentFieldsFileAttribute.htm" />
   </HelpKINode>
   <HelpKINode Title="PersistentFieldsFileAttribute.PersistentFieldsFileAttribute constructor" Url="html/M_KSPDev_ConfigUtils_PersistentFieldsFileAttribute__ctor.htm" />
   <HelpKINode Title="Play method" Url="html/M_KSPDev_GUIUtils_UISoundPlayer_Play.htm" />
@@ -795,7 +792,6 @@
     <HelpKINode Title="constructor" Url="html/M_KSPDev_GUIUtils_UISoundPlayer__ctor.htm" />
     <HelpKINode Title="fields" Url="html/Fields_T_KSPDev_GUIUtils_UISoundPlayer.htm" />
     <HelpKINode Title="methods" Url="html/Methods_T_KSPDev_GUIUtils_UISoundPlayer.htm" />
-    <HelpKINode Title="properties" Url="html/Properties_T_KSPDev_GUIUtils_UISoundPlayer.htm" />
   </HelpKINode>
   <HelpKINode Title="UISoundPlayer.CacheSound method" Url="html/M_KSPDev_GUIUtils_UISoundPlayer_CacheSound.htm" />
   <HelpKINode Title="UISoundPlayer.instance field" Url="html/F_KSPDev_GUIUtils_UISoundPlayer_instance.htm" />
