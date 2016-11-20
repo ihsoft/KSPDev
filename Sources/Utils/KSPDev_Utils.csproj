@@ -103,6 +103,7 @@
     <Compile Include="KSPInterfaces\IPartModule.cs" />
     <Compile Include="KSPInterfaces\IsDestroyable.cs" />
     <Compile Include="KSPInterfaces\IsPackable.cs" />
+    <Compile Include="KSPInterfaces\IsPhysicalObject.cs" />
     <Compile Include="LogUtils\Logger.cs" />
     <Compile Include="ModelUtils\Colliders.cs" />
     <Compile Include="ModelUtils\Hierarchy.cs" />
