@@ -157,9 +157,9 @@ public sealed class SimpleStateMachine<T> where T : struct, IConvertible {
   /// </summary>
   public OnDebugChange OnDebugStateChange;
 
-  Dictionary<T, HashSet<OnChange>> enterHandlers = new Dictionary<T, HashSet<OnChange>>();
-  Dictionary<T, HashSet<OnChange>> leaveHandlers = new Dictionary<T, HashSet<OnChange>>();
-  Dictionary<T, T[]> transitionContstraints = new Dictionary<T, T[]>();
+  readonly Dictionary<T, HashSet<OnChange>> enterHandlers = new Dictionary<T, HashSet<OnChange>>();
+  readonly Dictionary<T, HashSet<OnChange>> leaveHandlers = new Dictionary<T, HashSet<OnChange>>();
+  readonly Dictionary<T, T[]> transitionContstraints = new Dictionary<T, T[]>();
 
   /// <summary>Constructs new unstarted state machine.</summary>
   /// <param name="strict">
@@ -307,7 +307,7 @@ public sealed class SimpleStateMachine<T> where T : struct, IConvertible {
       return transitionContstraints.ContainsKey(_currentState)
           && transitionContstraints[_currentState].IndexOf(newState) != -1;
     }
-    // Allow chnage if the state is known to the machine.
+    // Allow change if the state is known to the machine.
     return !transitionContstraints.ContainsKey(_currentState)
         || transitionContstraints[_currentState].IndexOf(newState) != -1;
   }

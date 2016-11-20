@@ -88,6 +88,7 @@
     <Compile Include="Extensions\Dictionaries.cs" />
     <Compile Include="FSUtils\KspPaths.cs" />
     <Compile Include="GUIUtils\Formatter.cs" />
+    <Compile Include="GUIUtils\MessageSpecialFloatValue.cs" />
     <Compile Include="GUIUtils\ScreenMessaging.cs" />
     <Compile Include="GUIUtils\HintOverlay.cs" />
     <Compile Include="GUIUtils\Message.cs" />

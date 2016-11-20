@@ -16,7 +16,7 @@ KSPDev Utils offers a lot of different tools. Here is some examples but there ar
   Attribute handlers can also deal with collections! No need to persist every item or a structure field separately.
   * Go further and define all configuration logic completely via attributes. After that you call just one method with minimum of
   arguments to have all your mod's settings saved. Or loaded - you choose.
-* Various helpers to deal with GUI. E.g. GUI sounds or context windows popups.
+* Various helpers to deal with GUI. E.g. GUI sounds, context windows popups, messages, etc.
 * Basic set of methods to deal with in-game file paths.
 * Well documented KSP interfaces.
 * Methods to deal with procedural models in the game.
