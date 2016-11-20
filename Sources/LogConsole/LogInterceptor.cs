@@ -10,8 +10,6 @@ using System.Linq;
 using System;
 using UnityEngine;
 
-using Logger = KSPDev.LogUtils.Logger;
-
 namespace KSPDev.LogConsole {
   
 /// <summary>An alternative log processor that allows better logs handling.</summary>
@@ -120,11 +118,11 @@ public static class LogInterceptor {
     if (!enableInterception || _isStarted) {
       return;  // NOOP if already started or disabled.
     }
-    Logger.logWarning("Debug output intercepted by KSPDev. Open its UI to see the logs"
-                      + " (it usually opens with a 'backquote' hotkey)");
+    Debug.LogWarning("Debug output intercepted by KSPDev. Open its UI to see the logs"
+                     + " (it usually opens with a 'backquote' hotkey)");
     _isStarted = true;
     Application.logMessageReceived += HandleLog;
-    Logger.logWarning("Debug log transferred from system to the KSPDev");
+    Debug.LogWarning("Debug log transferred from system to the KSPDev");
   }
 
   /// <summary>Removes log interceptor and allows logs flowing into the system.</summary>
@@ -134,11 +132,11 @@ public static class LogInterceptor {
     if (!_isStarted) {
       return;  // NOOP if already stopped.
     }
-    Logger.logWarning(
+    Debug.LogWarning(
         "Debug output returned back to the system. Use system's console to see the logs");
     Application.logMessageReceived += HandleLog;
     _isStarted = false;
-    Logger.logWarning("Debug output returned back from KSPDev to the system");
+    Debug.LogWarning("Debug output returned back from KSPDev to the system");
   }
   
   /// <summary>Registers a callaback that is called on every log record intercepted.</summary>

@@ -5,8 +5,8 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using KSPDev.LogUtils;
 using KSPDev.ConfigUtils;
+using UnityEngine;
 
 namespace KSPDev.LogConsole {
 
@@ -28,7 +28,7 @@ internal static class LogFilter {
   public static void AddSilenceBySource(string source) {
     if (!exactFilter.Contains(source)) {
       exactFilter.Add(source);
-      Logger.logWarning("Added exact match silence: {0}", source);
+      Debug.LogWarningFormat("Added exact match silence: {0}", source);
     }
   }
 
@@ -37,7 +37,7 @@ internal static class LogFilter {
   public static void AddSilenceByPrefix(string prefix) {
     if (!prefixFilter.Contains(prefix)) {
       prefixFilter.Add(prefix);
-      Logger.logWarning("Added prefix match silence: {0}", prefix);
+      Debug.LogWarningFormat("Added prefix match silence: {0}", prefix);
     }
   }
   

@@ -11,8 +11,6 @@ using System.Linq;
 using System;
 using UnityEngine;
 
-using Logger = KSPDev.LogUtils.Logger;
-
 namespace KSPDev.LogConsole {
 
 /// <summary>A log capturer that writes logs on disk.</summary>
@@ -100,8 +98,8 @@ internal sealed class PersistentLogAggregator : BaseLogAggregator {
       }
     } catch (Exception ex) {
       writeLogsToDisk = false;
-      Logger.logException(ex);
-      Logger.logError("Persistent log agregator failed to write a record. Logging disabled");
+      Debug.LogException(ex);
+      Debug.LogError("Persistent log agregator failed to write a record. Logging disabled");
     }
   }
 
@@ -110,14 +108,14 @@ internal sealed class PersistentLogAggregator : BaseLogAggregator {
     StartLogFiles();
     PersistentLogAggregatorFlusher.activeAggregators.Add(this);
     if (writeLogsToDisk) {
-      Logger.logInfo("Persistent aggregator started");
+      Debug.Log("Persistent aggregator started");
     } else {
-      Logger.logWarning("Persistent aggregator disabled");
+      Debug.LogWarning("Persistent aggregator disabled");
     }
   }
 
   public override void StopCapture() {
-    Logger.logInfo("Stopping a persistent aggregator...");
+    Debug.Log("Stopping a persistent aggregator...");
     base.StopCapture();
     StopLogFiles();
     PersistentLogAggregatorFlusher.activeAggregators.Remove(this);
@@ -139,8 +137,8 @@ internal sealed class PersistentLogAggregator : BaseLogAggregator {
         }
       } catch (Exception ex) {
         writeLogsToDisk = false;  // Must be the first statement in the catch section!
-        Logger.logException(ex);
-        Logger.logError("Something went wrong when flushing data to disk. Disabling logging.");
+        Debug.LogException(ex);
+        Debug.LogError("Something went wrong when flushing data to disk. Disabling logging.");
       }
     }
     return res;
@@ -175,8 +173,8 @@ internal sealed class PersistentLogAggregator : BaseLogAggregator {
       writeLogsToDisk = infoLogWriter != null || warningLogWriter != null || errorLogWriter != null;
     } catch (Exception ex) {
       writeLogsToDisk = false;  // Must be the first statement in the catch section!
-      Logger.logException(ex);
-      Logger.logError("Not enabling logging to disk due to errors");
+      Debug.LogException(ex);
+      Debug.LogError("Not enabling logging to disk due to errors");
     }
   }
 
@@ -193,7 +191,7 @@ internal sealed class PersistentLogAggregator : BaseLogAggregator {
         errorLogWriter.Close();
       }
     } catch (Exception ex) {
-      Logger.logException(ex);
+      Debug.LogException(ex);
     }
     infoLogWriter = null;
     warningLogWriter = null;
