@@ -3,7 +3,7 @@
 // This software is distributed under Public domain license.
 
 using System;
-using KSPDev.LogUtils;
+using UnityEngine;
 
 namespace KSPDev.ConfigUtils {
 
@@ -43,7 +43,7 @@ internal sealed class OrdinaryFieldHandler {
     if (IsCompound()) {
       return persistentField.SerializeCompoundFieldsToNode(value);
     }
-    Logger.logError("{0} doesn't know how to store value type: {1}", GetType(), valueType);
+    Debug.LogErrorFormat("{0} doesn't know how to store value type: {1}", GetType(), valueType);
     return null;
   }
 
@@ -56,8 +56,8 @@ internal sealed class OrdinaryFieldHandler {
       try {
         return simpleTypeProto.ParseFromString((string) cfgValue, valueType);
       } catch (ArgumentException ex) {
-        Logger.logError(string.Format(
-            "Cannot parse value \"{0}\" as {1}: {2}", cfgValue, valueType, ex.Message));
+        Debug.LogErrorFormat(
+            "Cannot parse value \"{0}\" as {1}: {2}", cfgValue, valueType, ex.Message);
         return null;
       }
     }
@@ -66,7 +66,7 @@ internal sealed class OrdinaryFieldHandler {
       persistentField.DeserializeCompoundFieldsFromNode((ConfigNode) cfgValue, instance);
       return instance;
     }
-    Logger.logError("{0} doesn't know how to parse value type: {1}", GetType(), valueType);
+    Debug.LogErrorFormat("{0} doesn't know how to parse value type: {1}", GetType(), valueType);
     return null;
   }
 

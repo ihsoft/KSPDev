@@ -6,7 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-using KSPDev.LogUtils;
+using UnityEngine;
 
 namespace KSPDev.ConfigUtils {
 
@@ -31,8 +31,9 @@ public static class PersistentFieldsFactory {
         var persistentField = new PersistentField(fieldInfo, fieldAttr);
         result.Add(persistentField);
       } catch (Exception ex) {
-        Logger.logError("Ignoring field {0}.{1}: {2}\n{3}",
-                        type.FullName, fieldInfo.Name, ex.Message, ex.StackTrace);
+        Debug.LogErrorFormat(
+            "Ignoring field {0}.{1}: {2}\n{3}",
+            type.FullName, fieldInfo.Name, ex.Message, ex.StackTrace);
       }
     }
     

@@ -4,8 +4,8 @@
 
 using System;
 using System.Linq;
-using KSPDev.LogUtils;
 using KSPDev.FSUtils;
+using UnityEngine;
 
 namespace KSPDev.ConfigUtils {
 
@@ -44,8 +44,8 @@ public static class ConfigAccessor {
   public static void ReadFieldsFromFile(string filePath, Type type, object instance,
                                         string nodePath = null,
                                         string group = StdPersistentGroups.Default) {
-    Logger.logInfo("Loading persistent fields: file={0}, group=\"{1}\"",
-                   filePath, group ?? "<ALL>");
+    Debug.LogFormat("Loading persistent fields: file={0}, group=\"{1}\"",
+                    filePath, group ?? "<ALL>");
     var node = ConfigNode.Load(KspPaths.makePluginPath(filePath));
     if (node != null && nodePath.Length > 0) {
       node = node.GetNode(nodePath);
@@ -64,8 +64,8 @@ public static class ConfigAccessor {
   /// <seealso cref="PersistentFieldAttribute"/>
   public static void ReadFieldsFromDatabase(string nodePath, Type type, object instance,
                                             string group = StdPersistentGroups.Default) {
-    Logger.logInfo("Loading persistent fileds: db path={0}, group=\"{1}\"",
-                   nodePath, group ?? "<ALL>");
+    Debug.LogFormat("Loading persistent fileds: db path={0}, group=\"{1}\"",
+                    nodePath, group ?? "<ALL>");
     var node = GameDatabase.Instance.GetConfigNode(nodePath);
     if (node != null) {
       ReadFieldsFromNode(node, type, instance, group: group);
@@ -83,8 +83,8 @@ public static class ConfigAccessor {
                                         string group = StdPersistentGroups.Default) {
     var fields = PersistentFieldsFactory.GetPersistentFields(
         type, true /* needStatic */, instance != null /* needInstance */, group).ToArray();
-    Logger.logInfo("Loading {0} persistent fields: group=\"{1}\", node={2}", 
-                   fields.Length, group ?? "<ALL>", node.name);
+    Debug.LogFormat("Loading {0} persistent fields: group=\"{1}\", node={2}", 
+                    fields.Length, group ?? "<ALL>", node.name);
     foreach (var field in fields) {
       field.ReadFromConfig(node, instance);
     }
@@ -105,8 +105,7 @@ public static class ConfigAccessor {
   public static void ReadFieldsInType(Type type, object instance,
                                       string group = StdPersistentGroups.Default) {
     var attributes = GetPersistentFieldsFiles(type, group);
-    Logger.logInfo("Loading persistent fields: type={0}, group=\"{1}\"",
-                   type, group ?? "<ALL>");
+    Debug.LogFormat("Loading persistent fields: type={0}, group=\"{1}\"", type, group ?? "<ALL>");
     foreach (var attr in attributes) {
       if (attr.configFilePath.Length > 0) {
         ReadFieldsFromFile(
@@ -137,9 +136,9 @@ public static class ConfigAccessor {
                                          Type type, object instance,
                                          string rootNodePath = null, bool mergeMode = true,
                                          string group = StdPersistentGroups.Default) {
-    Logger.logInfo("Writing persistent fields: file={0}, group=\"{1}\", isMerging={2}, root={3}",
-                   filePath, group ?? "<ALL>", mergeMode,
-                   rootNodePath ?? "/");
+    Debug.LogFormat("Writing persistent fields: file={0}, group=\"{1}\", isMerging={2}, root={3}",
+                    filePath, group ?? "<ALL>", mergeMode,
+                    rootNodePath ?? "/");
     var node = mergeMode
         ? ConfigNode.Load(filePath) ?? new ConfigNode()  // Make empty node if file doesn't exist.
         : new ConfigNode();
@@ -166,8 +165,8 @@ public static class ConfigAccessor {
                                          string group = StdPersistentGroups.Default) {
     var fields = PersistentFieldsFactory.GetPersistentFields(
         type, true /* needStatic */, instance != null /* needInstance */, group).ToArray();
-    Logger.logInfo("Writing {0} persistent fields: group=\"{1}\", node={2}", 
-                   fields.Length, group ?? "<ALL>", node.name);
+    Debug.LogFormat("Writing {0} persistent fields: group=\"{1}\", node={2}", 
+                    fields.Length, group ?? "<ALL>", node.name);
     foreach (var field in fields) {
       field.WriteToConfig(node, instance);
     }
@@ -192,14 +191,13 @@ public static class ConfigAccessor {
   public static void WriteFieldsFromType(Type type, object instance,
                                          string group = StdPersistentGroups.Default) {
     var attributes = GetPersistentFieldsFiles(type, group);
-    Logger.logInfo("Writing persistent fields: type={0}, group=\"{1}\"",
-                   type, group ?? "<ALL>");
+    Debug.LogFormat("Writing persistent fields: type={0}, group=\"{1}\"", type, group ?? "<ALL>");
     foreach (var attr in attributes) {
       if (attr.configFilePath.Length > 0) {
         WriteFieldsIntoFile(KspPaths.makePluginPath(attr.configFilePath), type, instance,
                             rootNodePath: attr.nodePath, mergeMode: true, group: attr.group);
       } else {
-        Logger.logInfo("Not saving database group: {0}", attr.nodePath);
+        Debug.LogFormat("Not saving database group: {0}", attr.nodePath);
       }
     }
   }
