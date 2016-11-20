@@ -105,7 +105,6 @@
     <Compile Include="KSPInterfaces\IsPackable.cs" />
     <Compile Include="KSPInterfaces\IsPhysicalObject.cs" />
     <Compile Include="LogUtils\DbgFormatter.cs" />
-    <Compile Include="LogUtils\Logger.cs" />
     <Compile Include="ModelUtils\Colliders.cs" />
     <Compile Include="ModelUtils\Hierarchy.cs" />
     <Compile Include="ModelUtils\KspLayer.cs" />

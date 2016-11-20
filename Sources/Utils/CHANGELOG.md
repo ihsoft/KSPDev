@@ -5,3 +5,4 @@
 * [Enhancement] `IsPhysicalObject` interface.
 * [Enhancement] `DbgFormatter` class for making common debug strings.
 * [Deprecation] Move `Logger.C2S` into `DbgFormatter`.
+* [Deprecation] Drop `Logger` class.
