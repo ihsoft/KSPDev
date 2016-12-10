@@ -20,7 +20,7 @@ public sealed class PersistentField {
   /// <summary>Instance of collection field proto as specified in the annotation.</summary>
   internal readonly CollectionFieldHandler collectionFieldHandler;
 
-  private readonly PersistentField[] compoundTypeFields;
+  readonly PersistentField[] compoundTypeFields;
 
   /// <param name="fieldInfo">An annotated field metadata.</param>
   /// <param name="fieldAttr">An annotation of the field.</param>
