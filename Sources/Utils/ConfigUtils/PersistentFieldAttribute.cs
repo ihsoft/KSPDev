@@ -9,19 +9,21 @@ namespace KSPDev.ConfigUtils {
 /// <summary>A simple attribute for fields that need (de)serialization.</summary>
 /// <remarks>
 /// This form allows adjusting any <see cref="AbstractPersistentFieldAttribute"/> property
-/// in the annotation, and has a shortcut to mark field as collection
+/// in the annotation, and has a shortcut to mark a field as collection
 /// (<c><see cref="isCollection"/> = true</c>).
-/// <para> By default ordinal values are handled via <see cref="StandardOrdinaryTypesProto"/>
+/// <para>
+/// By default ordinal values are handled via <see cref="StandardOrdinaryTypesProto"/>
 /// and collection fields via <see cref="GenericCollectionTypeProto"/>. These proto handlers can
 /// be changed in the annotation by assigning values to properties
-/// <see cref="ordinaryTypeProto"/> and/or <see cref="collectionTypeProto"/>.</para>
+/// <see cref="ordinaryTypeProto"/> and/or <see cref="collectionTypeProto"/>.
+/// </para>
 /// </remarks>
 /// <example>
 /// Below is a simple usage of the attribute.
-/// <code>
+/// <code><![CDATA[
 /// class ClassWithPersistentFields {
 ///   [PersistentField("my/listField", isCollection = true)]
-///   private List&lt;string> sampleList = new List&lt;string>();
+///   private List<string> sampleList = new List<string>();
 /// 
 ///   internal struct ComplexType {
 ///     [PersistentField("val1", group = "nevermind")]
@@ -31,7 +33,7 @@ namespace KSPDev.ConfigUtils {
 ///   }
 /// 
 ///   [PersistentField("my/setField", isCollection = true, group = "abc")]
-///   private HashSet&lt;ComplexType> sampleSet = new HashSet&lt;ComplexType>();
+///   private HashSet<ComplexType> sampleSet = new HashSet<ComplexType>();
 /// 
 ///   void SaveConfigs() {
 ///     // Save a default group of fields: only field "sampleList" qualifies.
@@ -67,15 +69,18 @@ namespace KSPDev.ConfigUtils {
 ///      */
 ///   }
 /// }
-/// </code>
-/// <para>Note that group is ignored in the nested types. I.e. in <c>ComplexType</c> in this case.
-/// Though, if <c>ComplexType</c> was an immediate target of the <c>WriteFieldsIntoFile</c> call
-/// then the group would be considered.</para>
-/// <para>Visibility of the annotated field is also important. Persistent field attributes are
-/// only visible in the child class if they were public or protected in the parent. Private field
+/// ]]></code>
+/// <para>
+/// Note that group is ignored in the nested types. I.e. in <c>ComplexType</c> in this case. Though,
+/// if <c>ComplexType</c> was an immediate target of the <c>WriteFieldsIntoFile</c> call then the
+/// group would be considered.
+/// </para>
+/// <para>
+/// Visibility of the annotated field is also important. Persistent field attributes are only
+/// visible in the child class if they were public or protected in the parent. Private field
 /// annotations are not inherited and need to be handled at the level of the declaring class.
 /// </para>
-/// <code>
+/// <code><![CDATA[
 /// class Parent {
 ///   [PersistentField("parent_private")]
 ///   private int field1 = 1;
@@ -113,28 +118,33 @@ namespace KSPDev.ConfigUtils {
 ///      */
 ///   }
 /// }
-/// </code>
-/// <para>The code above implies that in a common case unsealed class should put private fields in
-/// a group other than default to avoid settings collision.</para> 
-/// <para>When type of the field is different from primitive C# type or common Unity 4 type you
-/// may need provide custom value handlers to deal with (de)serializing. E.g. for an ordinary type
-/// it may look like this:</para>
-/// <code>
+/// ]]></code>
+/// <para>
+/// The code above implies that in a common case unsealed class should put private fields in a group
+/// other than default to avoid settings collision.
+/// </para>
+/// <para>
+/// When type of the field is different from primitive C# type or common Unity 4 type you may need
+/// provide custom value handlers to deal with (de)serializing. E.g. for an ordinary type it may
+/// look like this:
+/// </para>
+/// <code><![CDATA[
 /// class CustomTypes {
 ///   [PersistentField("my/custom/type", ordinaryTypeProto = typeof(MyTypeProto))]
 ///   private MyType field1;
 /// }
-/// </code>
-/// <para>If your custom type is a collection that cannot be handled by the standard proto you can
-/// provide your own collection proto handler. Note that if you do the annotated field will be
-/// treated as a collection. In fact, when you set <c>isCollection = true</c> what actually
-/// happens is just assigning <see cref="GenericCollectionTypeProto"/> as a collection proto
-/// handler.</para>
-/// <code>
+/// ]]></code>
+/// <para>
+/// If your custom type is a collection that cannot be handled by the standard proto you can provide
+/// your own collection proto handler. Note that if you do then annotated field will be treated as a
+/// collection. In fact, when you set <c>isCollection = true</c> what actually happens is just
+/// assigning <see cref="GenericCollectionTypeProto"/> as a collection proto handler.
+/// </para>
+/// <code><![CDATA[
 /// class CustomTypes {
 ///   [PersistentField("my/custom/type", collectionTypeProto = typeof(MyCollectionProto))]
 ///   private MyCollection field1;
-/// }
+/// ]]>}
 /// </code>
 /// For more examples on custom proto handlers see <see cref="AbstractOrdinaryValueTypeProto"/> and
 /// <see cref="AbstractCollectionTypeProto"/>.
