@@ -9,7 +9,7 @@ using System.Reflection;
 namespace KSPDev.ConfigUtils {
 
 /// <summary>Descriptor of a persitent field.</summary>
-public sealed class PersistentField {
+sealed class PersistentField {
   /// <summary>Annotated fields metadata.</summary>
   public readonly FieldInfo fieldInfo;
   /// <summary>Parsed configuration paths.</summary>
@@ -24,7 +24,7 @@ public sealed class PersistentField {
 
   /// <param name="fieldInfo">An annotated field metadata.</param>
   /// <param name="fieldAttr">An annotation of the field.</param>
-  internal PersistentField(FieldInfo fieldInfo, PersistentFieldAttribute fieldAttr) {
+  public PersistentField(FieldInfo fieldInfo, PersistentFieldAttribute fieldAttr) {
     this.fieldInfo = fieldInfo;
     cfgPath = fieldAttr.path;
     var ordinaryType = fieldInfo.FieldType;
@@ -96,7 +96,7 @@ public sealed class PersistentField {
   /// <summary>Makes a config node from the compound type fields.</summary>
   /// <param name="instance">An owner ofthe fields. Can be <c>null</c> for static fields.</param>
   /// <returns>New configuration node with the data.</returns>
-  internal ConfigNode SerializeCompoundFieldsToNode(object instance) {
+  public ConfigNode SerializeCompoundFieldsToNode(object instance) {
     ConfigNode node = null;
     if (compoundTypeFields.Length > 0) {
       node = new ConfigNode();

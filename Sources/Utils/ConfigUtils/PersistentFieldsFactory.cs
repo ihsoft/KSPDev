@@ -11,7 +11,7 @@ using UnityEngine;
 namespace KSPDev.ConfigUtils {
 
 /// <summary>A helper class to gather persistent field attributes.</summary>
-public static class PersistentFieldsFactory {
+static class PersistentFieldsFactory {
   /// <summary>Gathers persitent fields for a type.</summary>
   /// <param name="type">A type of to gather persistent fields for.</param>
   /// <param name="needStatic">Specifies if static fields need to be returned.</param>
