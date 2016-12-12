@@ -97,22 +97,31 @@ sealed class PersistentField {
   /// <param name="instance">Owner of the fields. Can be <c>null</c> for static fields.</param>
   /// <returns>New configuration node with the data.</returns>
   public ConfigNode SerializeCompoundFieldsToNode(object instance) {
-    ConfigNode node = null;
+    var node = new ConfigNode();
     if (compoundTypeFields.Length > 0) {
-      node = new ConfigNode();
       foreach (var compoundTypeField in compoundTypeFields) {
         compoundTypeField.WriteToConfig(node, instance);
       }
+    }
+    var configNode = instance as IConfigNode;
+    if (configNode != null) {
+      configNode.Save(node);
     }
     return node;
   }
   
   /// <summary>Sets compound type field values from the config node.</summary>
   internal void DeserializeCompoundFieldsFromNode(ConfigNode node, object instance) {
-    foreach (var compoundTypeField in compoundTypeFields) {
-      compoundTypeField.ReadFromConfig(node, instance);
   /// <param name="node">Node to read values from.</param>
   /// <param name="instance">Owner of the fields.</param>
+    if (compoundTypeFields.Length > 0) {
+      foreach (var compoundTypeField in compoundTypeFields) {
+        compoundTypeField.ReadFromConfig(node, instance);
+      }
+    }
+    var configNode = instance as IConfigNode;
+    if (configNode != null) {
+      configNode.Load(node);
     }
   }
 }
