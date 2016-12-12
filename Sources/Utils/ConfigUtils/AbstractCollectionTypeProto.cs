@@ -60,14 +60,17 @@ public abstract class AbstractCollectionTypeProto {
   
   /// <summary>Returns enumerable object for the collection.</summary>
   /// <param name="instance">An instance to get the enumerable for.</param>
-  /// <returns>An enumerable of objects. Type of the items is determined by the relevant
-  /// <see cref="AbstractOrdinaryValueTypeProto"/>.</returns>
+  /// <returns>
+  /// An enumerable of objects. Type of the items is determined by the relevant
+  /// <see cref="AbstractOrdinaryValueTypeProto"/>.
+  /// </returns>
   public abstract IEnumerable GetEnumerator(object instance);
   
   /// <summary>Adds an item into the collection.</summary>
   /// <param name="instance">A collection instance to add item into.</param>
-  /// <param name="item">An item to add. The item must be of the same type as
-  /// <see cref="GetItemType"/> specifies.</param>
+  /// <param name="item">
+  /// An item to add. The item must be of the same type as <see cref="GetItemType"/> specifies.
+  /// </param>
   public abstract void AddItem(object instance, object item);
 }
 

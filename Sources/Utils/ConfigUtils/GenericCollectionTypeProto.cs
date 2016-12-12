@@ -9,8 +9,11 @@ using System.Collections;
 namespace KSPDev.ConfigUtils {
 
 /// <summary>A proto handler for a simple generic collection.</summary>
-/// <remarks>Generic must have exactly one arguent, implement method <c>Add</c> for adding new
-/// items, and implement <see cref="IEnumerable"/>.</remarks>
+/// <remarks>
+/// Generic must have exactly one arguent, implement method <c>Add</c> for adding new items, and
+/// implement <see cref="IEnumerable"/>.
+/// </remarks>
+/// <seealso cref="PersistentFieldAttribute"/>
 public sealed class GenericCollectionTypeProto : AbstractCollectionTypeProto {
   private readonly Type itemType;
   private readonly MethodInfo addMethod;
