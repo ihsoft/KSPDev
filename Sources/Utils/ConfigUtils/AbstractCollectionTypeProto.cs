@@ -72,6 +72,10 @@ public abstract class AbstractCollectionTypeProto {
   /// An item to add. The item must be of the same type as <see cref="GetItemType"/> specifies.
   /// </param>
   public abstract void AddItem(object instance, object item);
+
+  /// <summary>Removes all items from the collection.</summary>
+  /// <param name="instance">A collection instance to clear.</param>
+  public abstract void ClearItems(object instance);
 }
 
 }  // namespace

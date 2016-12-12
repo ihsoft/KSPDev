@@ -18,6 +18,7 @@ namespace KSPDev.ConfigUtils {
 public sealed class GenericCollectionTypeProto : AbstractCollectionTypeProto {
   readonly Type itemType;
   readonly MethodInfo addMethod;
+  readonly MethodInfo clearMethod;
 
   /// <inheritdoc/>
   public GenericCollectionTypeProto(Type containerType) : base(containerType) {
@@ -32,6 +33,11 @@ public sealed class GenericCollectionTypeProto : AbstractCollectionTypeProto {
     addMethod = containerType.GetMethod("Add");
     if (addMethod == null) {
       Debug.LogErrorFormat("Type {0} doesn't have Add() method", containerType.FullName);
+      throw new ArgumentException("Invalid container type");
+    }
+    clearMethod = containerType.GetMethod("Clear");
+    if (clearMethod == null) {
+      Debug.LogErrorFormat("Type {0} doesn't have Clear() method", containerType.FullName);
       throw new ArgumentException("Invalid container type");
     }
   }
@@ -49,6 +55,11 @@ public sealed class GenericCollectionTypeProto : AbstractCollectionTypeProto {
   /// <inheritdoc/>
   public override void AddItem(object instance, object item) {
     addMethod.Invoke(instance, new[] {item});
+  }
+
+  /// <inheritdoc/>
+  public override void ClearItems(object instance) {
+    clearMethod.Invoke(instance, new object[0]);
   }
 }
 
