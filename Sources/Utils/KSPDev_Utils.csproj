@@ -76,11 +76,9 @@
     <Compile Include="ConfigUtils\PersistentFieldsDatabaseAttribute.cs" />
     <Compile Include="ConfigUtils\PersistentFieldsFileAttribute.cs" />
     <Compile Include="ConfigUtils\GenericCollectionTypeProto.cs" />
-    <Compile Include="ConfigUtils\OrdinaryFieldHandler.cs" />
     <Compile Include="ConfigUtils\PrimitiveTypesProto.cs" />
     <Compile Include="ConfigUtils\StandardOrdinaryTypesProto.cs" />
     <Compile Include="ConfigUtils\ConfigAccessor.cs" />
-    <Compile Include="ConfigUtils\CollectionFieldHandler.cs" />
     <Compile Include="ConfigUtils\PersistentFieldsFactory.cs" />
     <Compile Include="ConfigUtils\PersistentField.cs" />
     <Compile Include="ConfigUtils\PersistentFieldAttribute.cs" />

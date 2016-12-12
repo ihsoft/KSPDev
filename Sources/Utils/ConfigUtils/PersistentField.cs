@@ -5,6 +5,7 @@
 using System;
 using System.Linq;
 using System.Reflection;
+using UnityEngine;
 
 namespace KSPDev.ConfigUtils {
 
@@ -15,12 +16,11 @@ sealed class PersistentField {
   /// <summary>Parsed configuration paths.</summary>
   public readonly string[] cfgPath;
 
-  /// <summary>Instance of ordianl field proto as specified in the annotation.</summary>
-  internal readonly OrdinaryFieldHandler ordinaryFieldHandler;
-  /// <summary>Instance of collection field proto as specified in the annotation.</summary>
-  internal readonly CollectionFieldHandler collectionFieldHandler;
-
+  readonly AbstractOrdinaryValueTypeProto simpleTypeProto;
+  readonly AbstractCollectionTypeProto collectionProto;
+  readonly bool isCompound;
   readonly PersistentField[] compoundTypeFields;
+  readonly bool isDisabled;
 
   /// <param name="fieldInfo">An annotated field metadata.</param>
   /// <param name="fieldAttr">An annotation of the field.</param>
@@ -30,15 +30,30 @@ sealed class PersistentField {
     var ordinaryType = fieldInfo.FieldType;
 
     if (fieldAttr.collectionTypeProto != null) {
-      collectionFieldHandler =
-          new CollectionFieldHandler(this, fieldInfo.FieldType, fieldAttr.collectionTypeProto);
-      ordinaryType = collectionFieldHandler.GetItemType();
+      collectionProto =
+          Activator.CreateInstance(fieldAttr.collectionTypeProto, new[] {fieldInfo.FieldType})
+          as AbstractCollectionTypeProto;
+      ordinaryType = collectionProto.GetItemType();
+    }
+    simpleTypeProto =
+        Activator.CreateInstance(fieldAttr.ordinaryTypeProto)
+        as AbstractOrdinaryValueTypeProto;
+
+    // Determine if field's or collection item's type is a class (compound type).
+    isCompound = !simpleTypeProto.CanHandle(ordinaryType) &&
+        (ordinaryType.IsValueType && !ordinaryType.IsEnum  // IsStruct
+         || ordinaryType.IsClass && ordinaryType != typeof(string)
+            && !ordinaryType.IsEnum);  // IsClass
+
+    if (!isCompound && !simpleTypeProto.CanHandle(ordinaryType)) {
+      Debug.LogErrorFormat(
+          "Proto {0} cannot handle value in field {1}.{2}",
+          ordinaryType.FullName, fieldInfo.DeclaringType.FullName, fieldInfo.Name);
+      isDisabled = true;
     }
 
-    ordinaryFieldHandler =
-        new OrdinaryFieldHandler(this, ordinaryType, fieldAttr.ordinaryTypeProto);
-
-    if (ordinaryFieldHandler.IsCompound()) {
+    // For compuond type retrieve all it's persisted fields. 
+    if (isCompound && !isDisabled) {
       // Ignore static fields of the compound type since it can be used by multiple persistent
       // fields or as an item in a collection field.
       // Also, ignore groups in the compound types to reduce configuration complexity.
@@ -48,27 +63,53 @@ sealed class PersistentField {
           // Parent nodes have to be handled before children!
           .OrderBy(x => string.Join("/", x.cfgPath))
           .ToArray();
+
+      // Disable if cannot deal with the field anyways.
+      if (compoundTypeFields.Length == 0 && !typeof(IConfigNode).IsAssignableFrom(ordinaryType)) {
+        Debug.LogErrorFormat(
+            "Compound type in field {0}.{1} has no persistent fields and doesn't implement"
+            + " IConfigNode",
+            fieldInfo.DeclaringType.FullName, fieldInfo.Name);
+        isDisabled = true;
+      }
     }
   }
 
   /// <summary>Writes field into a config node.</summary>
+  /// <remarks>
+  /// This method is not expected to fail since converting any type into string is expected to
+  /// succeeed on any value.
+  /// </remarks>
   /// <param name="node">A node to write state to.</param>
   /// <param name="instance">An owner of the field. Can be <c>null</c> for static fields.</param>
   public void WriteToConfig(ConfigNode node, object instance) {
+    if (isDisabled) {
+      return;  // Field is not supported.
+    }
     var value = fieldInfo.GetValue(instance);
     if (value == null) {
+      Debug.LogWarningFormat("Skip writing field {0}.{1} due to its value is NULL",
+                             fieldInfo.DeclaringType.FullName, fieldInfo.Name);
       return;
     }
-    if (collectionFieldHandler != null) {
-      collectionFieldHandler.SerializeValues(node, value);
-    } else {
-      var cfgData = ordinaryFieldHandler.SerializeValue(value);
-      if (cfgData != null) {
-        if (ordinaryFieldHandler.IsCompound()) {
-          ConfigAccessor.SetNodeByPath(node, cfgPath, (ConfigNode) cfgData);
-        } else {
-          ConfigAccessor.SetValueByPath(node, cfgPath, (string) cfgData);
+    if (collectionProto != null) {
+      // For collections iterative via proto class and serialize item values.
+      foreach (var itemValue in collectionProto.GetEnumerator(value)) {
+        if (itemValue != null) {
+          if (isCompound) {
+            ConfigAccessor.AddNodeByPath(node, cfgPath, SerializeCompoundFieldsToNode(itemValue));
+          } else {
+            ConfigAccessor.AddValueByPath(
+                node, cfgPath, simpleTypeProto.SerializeToString(itemValue));
+          }
         }
+      }
+    } else {
+      // For ordinal values just serialize the value.
+      if (isCompound) {
+        ConfigAccessor.SetNodeByPath(node, cfgPath, SerializeCompoundFieldsToNode(value));
+      } else {
+        ConfigAccessor.SetValueByPath(node, cfgPath, simpleTypeProto.SerializeToString(value));
       }
     }
   }
@@ -77,26 +118,68 @@ sealed class PersistentField {
   /// <param name="node">A node to read state from.</param>
   /// <param name="instance">An owner of the field. Can be <c>null</c> for static fields.</param>
   public void ReadFromConfig(ConfigNode node, object instance) {
-    object value = null;
-    if (collectionFieldHandler != null) {
-      value = collectionFieldHandler.DeserializeValues(node);
-    } else {
-      var cfgData = ordinaryFieldHandler.IsCompound()
-          ? ConfigAccessor.GetNodeByPath(node, cfgPath) as object
-          : ConfigAccessor.GetValueByPath(node, cfgPath) as object;
-      if (cfgData != null) {
-        value = ordinaryFieldHandler.DeserializeValue(cfgData);
+    var value = fieldInfo.GetValue(instance);
+    if (collectionProto != null) {
+      // For collection field use existing object and restore its items. 
+      if (value == null) {
+        Debug.LogWarningFormat("Skip reading collection field {0}.{1} due to it's not initalized",
+                               fieldInfo.DeclaringType.FullName, fieldInfo.Name);
+        return;
       }
-    }
-    if (value != null) {
-      fieldInfo.SetValue(instance, value);
+      collectionProto.ClearItems(value);
+      if (isCompound) {
+        // For compound items read nodes and have them parsed.
+        var itemCfgs = ConfigAccessor.GetNodesByPath(node, cfgPath);
+        if (itemCfgs != null) {
+          foreach (var itemCfg in itemCfgs) {
+            var itemValue = Activator.CreateInstance(collectionProto.GetItemType());
+            DeserializeCompoundFieldsFromNode(itemCfg, itemValue);
+            collectionProto.AddItem(value, itemValue);
+          }
+        }
+      } else {
+        // For ordinary items read strings and have them parsed. 
+        var itemCfgs = ConfigAccessor.GetValuesByPath(node, cfgPath);
+        if (itemCfgs != null) {
+          foreach (var itemCfg in itemCfgs) {
+            try {
+              var itemValue = simpleTypeProto.ParseFromString(itemCfg, collectionProto.GetItemType());
+              collectionProto.AddItem(value, itemValue);
+            } catch (Exception ex) {
+              Debug.LogErrorFormat("Cannot parse value \"{0}\" as {1}: {2}",
+                                   itemCfgs, fieldInfo.FieldType.FullName, ex.Message);
+            }
+          }
+        }
+      }
+    } else {
+      // For ordinary field just restore value and assign it to the field.
+      if (isCompound) {
+        if (value != null) {
+          DeserializeCompoundFieldsFromNode(ConfigAccessor.GetNodeByPath(node, cfgPath), value);
+        } else {
+          Debug.LogWarningFormat("Skip reading compound field {0}.{1} due to it's not initalized",
+                                 fieldInfo.DeclaringType.FullName, fieldInfo.Name);
+        }
+      } else {
+        var cfgValue = ConfigAccessor.GetValueByPath(node, cfgPath);
+        if (cfgValue != null) {
+          try {
+            fieldInfo.SetValue(
+                instance, simpleTypeProto.ParseFromString(cfgValue, fieldInfo.FieldType));
+          } catch (Exception ex) {
+            Debug.LogErrorFormat("Cannot parse value \"{0}\" as {1}: {2}",
+                                 cfgValue, fieldInfo.FieldType.FullName, ex.Message);
+          }
+        }
+      }
     }
   }
   
   /// <summary>Makes a config node from the compound type fields.</summary>
   /// <param name="instance">Owner of the fields. Can be <c>null</c> for static fields.</param>
   /// <returns>New configuration node with the data.</returns>
-  public ConfigNode SerializeCompoundFieldsToNode(object instance) {
+  ConfigNode SerializeCompoundFieldsToNode(object instance) {
     var node = new ConfigNode();
     if (compoundTypeFields.Length > 0) {
       foreach (var compoundTypeField in compoundTypeFields) {
@@ -111,9 +194,9 @@ sealed class PersistentField {
   }
   
   /// <summary>Sets compound type field values from the config node.</summary>
-  internal void DeserializeCompoundFieldsFromNode(ConfigNode node, object instance) {
   /// <param name="node">Node to read values from.</param>
   /// <param name="instance">Owner of the fields.</param>
+  void DeserializeCompoundFieldsFromNode(ConfigNode node, object instance) {
     if (compoundTypeFields.Length > 0) {
       foreach (var compoundTypeField in compoundTypeFields) {
         compoundTypeField.ReadFromConfig(node, instance);
