@@ -94,7 +94,7 @@ sealed class PersistentField {
   }
   
   /// <summary>Makes a config node from the compound type fields.</summary>
-  /// <param name="instance">An owner ofthe fields. Can be <c>null</c> for static fields.</param>
+  /// <param name="instance">Owner of the fields. Can be <c>null</c> for static fields.</param>
   /// <returns>New configuration node with the data.</returns>
   public ConfigNode SerializeCompoundFieldsToNode(object instance) {
     ConfigNode node = null;
@@ -108,11 +108,11 @@ sealed class PersistentField {
   }
   
   /// <summary>Sets compound type field values from the config node.</summary>
-  /// <param name="node">A node to read values from.</param>
-  /// <param name="instance">An owner ofthe fields. Can be <c>null</c> for static fields.</param>
   internal void DeserializeCompoundFieldsFromNode(ConfigNode node, object instance) {
     foreach (var compoundTypeField in compoundTypeFields) {
       compoundTypeField.ReadFromConfig(node, instance);
+  /// <param name="node">Node to read values from.</param>
+  /// <param name="instance">Owner of the fields.</param>
     }
   }
 }
