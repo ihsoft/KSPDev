@@ -5,6 +5,7 @@
 using System;
 using System.Reflection;
 using System.Collections;
+using UnityEngine;
 
 namespace KSPDev.ConfigUtils {
 
@@ -15,22 +16,23 @@ namespace KSPDev.ConfigUtils {
 /// </remarks>
 /// <seealso cref="PersistentFieldAttribute"/>
 public sealed class GenericCollectionTypeProto : AbstractCollectionTypeProto {
-  private readonly Type itemType;
-  private readonly MethodInfo addMethod;
+  readonly Type itemType;
+  readonly MethodInfo addMethod;
 
   /// <inheritdoc/>
   public GenericCollectionTypeProto(Type containerType) : base(containerType) {
     if (!containerType.IsGenericType || containerType.GetGenericArguments().Length != 1) {
-      throw new ArgumentException(string.Format(
-          "{0} requires generic container type as field value but found: {1}",
-          GetType(), containerType));
+      Debug.LogErrorFormat(
+          "{0} requires generic container with one type parameter but found: {1}",
+          GetType().FullName, containerType.FullName);
+      throw new ArgumentException("Invalid container type");
     }
     itemType = containerType.GetGenericArguments()[0];
 
     addMethod = containerType.GetMethod("Add");
     if (addMethod == null) {
-      throw new ArgumentException(string.Format(
-          "Type {0} doesn't have Add() method", containerType));
+      Debug.LogErrorFormat("Type {0} doesn't have Add() method", containerType.FullName);
+      throw new ArgumentException("Invalid container type");
     }
   }
 
