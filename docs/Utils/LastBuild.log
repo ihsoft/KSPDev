@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<shfbBuild product="Sandcastle Help File Builder and Tools" version="2016.9.17.0" projectFile="L:\work\KSP\KSPDev\Sources\Utils\KSPDev_Utils.shfbproj" started="11/20/2016 1:37:52 AM">
+<shfbBuild product="Sandcastle Help File Builder and Tools" version="2016.9.17.0" projectFile="L:\work\KSP\KSPDev\Sources\Utils\KSPDev_Utils.shfbproj" started="12/13/2016 1:37:27 AM">
 <buildStep step="Initializing">
 Finding tools...
 The Sandcastle tools are located in &#39;L:\Program Files (x86)\EWSoftware\Sandcastle Help File Builder\&#39;
@@ -22,7 +22,7 @@ Source: L:\work\KSP\KSPDev\Sources\Utils\KSPDev_Utils.csproj
     Found project &#39;L:\work\KSP\KSPDev\Sources\Utils\KSPDev_Utils.csproj&#39;
 
 Parsing project files
-    Found assembly &#39;L:\work\KSP\KSPDev\Sources\Utils\bin\Release\KSPDev_Utils.dll&#39;
+    Found assembly &#39;L:\work\KSP\KSPDev\Sources\Utils\bin\Release\KSPDev_Utils.0.18.0.dll&#39;
 
 References to include (excluding framework assemblies):
     Assembly-CSharp
@@ -41,16 +41,16 @@ Copying XML comments files
 <buildStep step="GenerateSharedContent">
 Generating shared content files (en-US, English (United States))...
 <plugIn name="Lightweight Website Style" behavior="After" priority="1000">
-</plugIn>    Last step completed in 00:00:00.0165
+</plugIn>    Last step completed in 00:00:00.0175
 </buildStep>
 <buildStep step="GenerateApiFilter">
 Generating API filter for MRefBuilder...
-    Last step completed in 00:00:00.0075
+    Last step completed in 00:00:00.0070
 </buildStep>
 <buildStep step="GenerateReflectionInfo">
 Generating reflection information...
 [C:\Windows\Microsoft.NET\Framework64\v4.0.30319\MSBuild.exe - GenerateRefInfo.proj]
-Build started 11/20/2016 1:37:53 AM.
+Build started 12/13/2016 1:37:27 AM.
 Project &quot;L:\work\KSP\KSPDev\docs\Utils\Working\GenerateRefInfo.proj&quot; on node 1 (default targets).
 Project file contains ToolsVersion=&quot;12.0&quot;. This toolset may be unknown or missing, in which case you may be able to resolve this by installing the appropriate version of MSBuild, or the build may have been forced to a particular ToolsVersion for policy reasons. Treating the project as if it had ToolsVersion=&quot;4.0&quot;. For more information, please see http://go.microsoft.com/fwlink/?LinkId=291333.
 PrepareForBuild:
@@ -61,7 +61,7 @@ GenerateRefInfo:
   Portions Copyright c 2006-2016, Eric Woodruff, All Rights Reserved.
   No source code context base path specified.  Source context information is unavailable.
   Loaded 1 assemblies for reflection and 10 dependency assemblies.
-  Wrote information on 8 namespaces, 54 types, and 212 members
+  Wrote information on 9 namespaces, 53 types, and 213 members
   Copying file from &quot;reflection.org&quot; to &quot;reflection.all&quot;.
   XslTransform (v2016.9.17.0)
   Copyright c 2006-2016, Microsoft Corporation, All Rights Reserved.
@@ -71,13 +71,13 @@ Done Building Project &quot;L:\work\KSP\KSPDev\docs\Utils\Working\GenerateRefInf
 
 Build succeeded.
 
-Time Elapsed 00:00:00.86
-    Last step completed in 00:00:01.0488
+Time Elapsed 00:00:00.39
+    Last step completed in 00:00:00.4738
 </buildStep>
 <buildStep step="TransformReflectionInfo">
 Transforming reflection output...
 [C:\Windows\Microsoft.NET\Framework64\v4.0.30319\MSBuild.exe - TransformManifest.proj]
-Build started 11/20/2016 1:37:54 AM.
+Build started 12/13/2016 1:37:28 AM.
 Project &quot;L:\work\KSP\KSPDev\docs\Utils\Working\TransformManifest.proj&quot; on node 1 (default targets).
 Project file contains ToolsVersion=&quot;12.0&quot;. This toolset may be unknown or missing, in which case you may be able to resolve this by installing the appropriate version of MSBuild, or the build may have been forced to a particular ToolsVersion for policy reasons. Treating the project as if it had ToolsVersion=&quot;4.0&quot;. For more information, please see http://go.microsoft.com/fwlink/?LinkId=291333.
 TransformManifest:
@@ -103,6 +103,7 @@ TransformManifest:
     Unique name M_KSPDev_GUIUtils_Formatter_SpecialValue_1 generated for M:KSPDev.GUIUtils.Formatter.SpecialValue(System.Single,System.String,System.Single,System.String)
     Unique name M_KSPDev_GUIUtils_Message_op_Implicit_1 generated for M:KSPDev.GUIUtils.Message.op_Implicit(System.String)~KSPDev.GUIUtils.Message
     Unique name M_KSPDev_GUIUtils_ScreenMessaging_ShowScreenMessage_1 generated for M:KSPDev.GUIUtils.ScreenMessaging.ShowScreenMessage(ScreenMessageStyle,System.Single,UnityEngine.Color,System.String,System.Object[])
+    Unique name M_KSPDev_InputUtils_KeyboardInputSwitch__ctor_1 generated for M:KSPDev.InputUtils.KeyboardInputSwitch.#ctor(UnityEngine.KeyCode)
     Unique name M_KSPDev_ModelUtils_Hierarchy_FindTransformByPath_1 generated for M:KSPDev.ModelUtils.Hierarchy.FindTransformByPath(UnityEngine.Transform,System.String[])
   XslTransform (v2016.9.17.0)
   Copyright c 2006-2016, Microsoft Corporation, All Rights Reserved.
@@ -112,12 +113,12 @@ Done Building Project &quot;L:\work\KSP\KSPDev\docs\Utils\Working\TransformManif
 
 Build succeeded.
 
-Time Elapsed 00:00:00.53
-    Last step completed in 00:00:00.6979
+Time Elapsed 00:00:00.26
+    Last step completed in 00:00:00.3163
 </buildStep>
 <buildStep step="GenerateNamespaceSummaries">
 Generating namespace summary information...
-    Last step completed in 00:00:00.0145
+    Last step completed in 00:00:00.0130
 </buildStep>
 <buildStep step="GenerateInheritedDocumentation">
 Generating inherited documentation...
@@ -130,14 +131,14 @@ E-Mail: Eric@EWoodruff.us
 Reflection information will be retrieved from &#39;reflection.xml&#39;
 Inherited documentation will be written to &#39;_InheritedDocs_.xml&#39;
 Indexing L:\work\KSP\KSPDev\docs\Utils\Working\KSPDev_Utils.xml
-Indexed 284 members in 1 file(s).  1 file(s) to scan for &lt;inheritdoc /&gt; tags.
+Indexed 287 members in 1 file(s).  1 file(s) to scan for &lt;inheritdoc /&gt; tags.
 Merging inherited documentation...
 
 SHFB: Warning GID0004: No comments found for member &#39;M:KSPDev.GUIUtils.MessageEnumValue`1.GetEnumerator&#39;
 SHFB: Warning GID0004: No comments found for member &#39;M:KSPDev.GUIUtils.MessageEnumValue`1.System#Collections#IEnumerable#GetEnumerator&#39;
 
 Documentation merged successfully
-    Last step completed in 00:00:00.4858
+    Last step completed in 00:00:00.1053
 </buildStep>
 <buildStep step="CopyAdditionalContent">
 Copying additional content files...
@@ -151,7 +152,7 @@ Merging conceptual and additional tables of contents...
 <buildStep step="GenerateIntermediateTableOfContents">
 Generating intermediate table of contents file...
 [C:\Windows\Microsoft.NET\Framework64\v4.0.30319\MSBuild.exe - GenerateIntermediateTOC.proj]
-Build started 11/20/2016 1:37:55 AM.
+Build started 12/13/2016 1:37:28 AM.
 Project &quot;L:\work\KSP\KSPDev\docs\Utils\Working\GenerateIntermediateTOC.proj&quot; on node 1 (default targets).
 Project file contains ToolsVersion=&quot;12.0&quot;. This toolset may be unknown or missing, in which case you may be able to resolve this by installing the appropriate version of MSBuild, or the build may have been forced to a particular ToolsVersion for policy reasons. Treating the project as if it had ToolsVersion=&quot;4.0&quot;. For more information, please see http://go.microsoft.com/fwlink/?LinkId=291333.
 GenerateIntermediateTOC:
@@ -163,14 +164,14 @@ Done Building Project &quot;L:\work\KSP\KSPDev\docs\Utils\Working\GenerateInterm
 
 Build succeeded.
 
-Time Elapsed 00:00:00.33
+Time Elapsed 00:00:00.06
 Generating conceptual content intermediate TOC file...
-    Last step completed in 00:00:00.5018
+    Last step completed in 00:00:00.1278
 </buildStep>
 <buildStep step="CreateBuildAssemblerConfigs">
 Creating Sandcastle configuration files...
     sandcastle.config
-    Last step completed in 00:00:00.0857
+    Last step completed in 00:00:00.0988
 </buildStep>
 <buildStep step="MergeCustomConfigs">
 Merging custom build component configurations
@@ -178,12 +179,12 @@ L:\work\KSP\KSPDev\docs\Utils\Working\sandcastle.config
   Updating reference topic configurations.
     Replacing default configuration for &#39;Code Block Component&#39; with the custom configuration
   No conceptual content.  Removing conceptual content components.
-    Last step completed in 00:00:00.0115
+    Last step completed in 00:00:00.0120
 </buildStep>
 <buildStep step="BuildTopics">
 Building help topics...
 [C:\Windows\Microsoft.NET\Framework64\v4.0.30319\MSBuild.exe - BuildTopics.proj]
-Build started 11/20/2016 1:37:56 AM.
+Build started 12/13/2016 1:37:29 AM.
 Project &quot;L:\work\KSP\KSPDev\docs\Utils\Working\BuildTopics.proj&quot; on node 1 (default targets).
 Project file contains ToolsVersion=&quot;12.0&quot;. This toolset may be unknown or missing, in which case you may be able to resolve this by installing the appropriate version of MSBuild, or the build may have been forced to a particular ToolsVersion for policy reasons. Treating the project as if it had ToolsVersion=&quot;4.0&quot;. For more information, please see http://go.microsoft.com/fwlink/?LinkId=291333.
 BuildTopics:
@@ -192,8 +193,6 @@ BuildTopics:
   Portions Copyright c 2006-2016, Eric Woodruff, All Rights Reserved.
   Loading configuration...
   Processing topics...
-BuildAssembler : warning : ResolveReferenceLinksComponent: [M:KSPDev.ConfigUtils.CollectionFieldHandler.DeserializeValues(ConfigNode)] Unknown reference link target &#39;T:ConfigNode&#39;. [L:\work\KSP\KSPDev\docs\Utils\Working\BuildTopics.proj]
-BuildAssembler : warning : ResolveReferenceLinksComponent: [M:KSPDev.ConfigUtils.CollectionFieldHandler.SerializeValues(ConfigNode,System.Object)] Unknown reference link target &#39;T:ConfigNode&#39;. [L:\work\KSP\KSPDev\docs\Utils\Working\BuildTopics.proj]
 BuildAssembler : warning : ResolveReferenceLinksComponent: [M:KSPDev.ConfigUtils.ConfigAccessor.AddNodeByPath(ConfigNode,System.String,ConfigNode)] Unknown reference link target &#39;T:ConfigNode&#39;. [L:\work\KSP\KSPDev\docs\Utils\Working\BuildTopics.proj]
 BuildAssembler : warning : ResolveReferenceLinksComponent: [M:KSPDev.ConfigUtils.ConfigAccessor.AddNodeByPath(ConfigNode,System.String,ConfigNode)] Unknown reference link target &#39;T:ConfigNode&#39;. [L:\work\KSP\KSPDev\docs\Utils\Working\BuildTopics.proj]
 BuildAssembler : warning : ResolveReferenceLinksComponent: [M:KSPDev.ConfigUtils.ConfigAccessor.AddNodeByPath(ConfigNode,System.String[],ConfigNode)] Unknown reference link target &#39;T:ConfigNode&#39;. [L:\work\KSP\KSPDev\docs\Utils\Working\BuildTopics.proj]
@@ -224,12 +223,9 @@ BuildAssembler : warning : ResolveReferenceLinksComponent: [M:KSPDev.ConfigUtils
 BuildAssembler : warning : ResolveReferenceLinksComponent: [M:KSPDev.ConfigUtils.ConfigAccessor.SetValueByPath(ConfigNode,System.String[],System.String)] Unknown reference link target &#39;T:ConfigNode&#39;. [L:\work\KSP\KSPDev\docs\Utils\Working\BuildTopics.proj]
 BuildAssembler : warning : ResolveReferenceLinksComponent: [M:KSPDev.ConfigUtils.ConfigAccessor.SetValueByPath``1(ConfigNode,System.String[],``0,KSPDev.ConfigUtils.AbstractOrdinaryValueTypeProto)] Unknown reference link target &#39;T:ConfigNode&#39;. [L:\work\KSP\KSPDev\docs\Utils\Working\BuildTopics.proj]
 BuildAssembler : warning : ResolveReferenceLinksComponent: [M:KSPDev.ConfigUtils.ConfigAccessor.WriteFieldsIntoNode(ConfigNode,System.Type,System.Object,System.String)] Unknown reference link target &#39;T:ConfigNode&#39;. [L:\work\KSP\KSPDev\docs\Utils\Working\BuildTopics.proj]
-BuildAssembler : warning : ResolveReferenceLinksComponent: [M:KSPDev.ConfigUtils.OrdinaryFieldHandler.DeserializeValue(System.Object)] Unknown reference link target &#39;T:ConfigNode&#39;. [L:\work\KSP\KSPDev\docs\Utils\Working\BuildTopics.proj]
-BuildAssembler : warning : ResolveReferenceLinksComponent: [M:KSPDev.ConfigUtils.OrdinaryFieldHandler.SerializeValue(System.Object)] Unknown reference link target &#39;T:ConfigNode&#39;. [L:\work\KSP\KSPDev\docs\Utils\Working\BuildTopics.proj]
-BuildAssembler : warning : ResolveReferenceLinksComponent: [M:KSPDev.ConfigUtils.PersistentField.DeserializeCompoundFieldsFromNode(ConfigNode,System.Object)] Unknown reference link target &#39;T:ConfigNode&#39;. [L:\work\KSP\KSPDev\docs\Utils\Working\BuildTopics.proj]
 BuildAssembler : warning : ResolveReferenceLinksComponent: [M:KSPDev.ConfigUtils.PersistentField.ReadFromConfig(ConfigNode,System.Object)] Unknown reference link target &#39;T:ConfigNode&#39;. [L:\work\KSP\KSPDev\docs\Utils\Working\BuildTopics.proj]
-BuildAssembler : warning : ResolveReferenceLinksComponent: [M:KSPDev.ConfigUtils.PersistentField.SerializeCompoundFieldsToNode(System.Object)] Unknown reference link target &#39;T:ConfigNode&#39;. [L:\work\KSP\KSPDev\docs\Utils\Working\BuildTopics.proj]
 BuildAssembler : warning : ResolveReferenceLinksComponent: [M:KSPDev.ConfigUtils.PersistentField.WriteToConfig(ConfigNode,System.Object)] Unknown reference link target &#39;T:ConfigNode&#39;. [L:\work\KSP\KSPDev\docs\Utils\Working\BuildTopics.proj]
+BuildAssembler : warning : ResolveReferenceLinksComponent: [T:KSPDev.ConfigUtils.PersistentFieldAttribute] Unknown reference link target &#39;T:IConfigNode&#39;. [L:\work\KSP\KSPDev\docs\Utils\Working\BuildTopics.proj]
 BuildAssembler : warning : ResolveReferenceLinksComponent: [M:KSPDev.GUIUtils.HintOverlay.#ctor(System.Int32,System.Int32,UnityEngine.Color,UnityEngine.Color)] Unknown reference link target &#39;T:UnityEngine.Color&#39;. [L:\work\KSP\KSPDev\docs\Utils\Working\BuildTopics.proj]
 BuildAssembler : warning : ResolveReferenceLinksComponent: [M:KSPDev.GUIUtils.HintOverlay.#ctor(System.Int32,System.Int32,UnityEngine.Color,UnityEngine.Color)] Unknown reference link target &#39;T:UnityEngine.Color&#39;. [L:\work\KSP\KSPDev\docs\Utils\Working\BuildTopics.proj]
 BuildAssembler : warning : ShowMissingComponent: [T:KSPDev.GUIUtils.MessageEnumValue`1] Missing &lt;typeparam name=&quot;T&quot;/&gt; documentation [L:\work\KSP\KSPDev\docs\Utils\Working\BuildTopics.proj]
@@ -248,6 +244,16 @@ BuildAssembler : warning : ResolveReferenceLinksComponent: [T:KSPDev.GUIUtils.UI
 BuildAssembler : warning : ResolveReferenceLinksComponent: [T:KSPDev.GUIUtils.UISoundPlayer] Unknown reference link target &#39;T:UnityEngine.Component&#39;. [L:\work\KSP\KSPDev\docs\Utils\Working\BuildTopics.proj]
 BuildAssembler : warning : ResolveReferenceLinksComponent: [T:KSPDev.GUIUtils.UISoundPlayer] Unknown reference link target &#39;T:UnityEngine.Behaviour&#39;. [L:\work\KSP\KSPDev\docs\Utils\Working\BuildTopics.proj]
 BuildAssembler : warning : ResolveReferenceLinksComponent: [T:KSPDev.GUIUtils.UISoundPlayer] Unknown reference link target &#39;T:UnityEngine.MonoBehaviour&#39;. [L:\work\KSP\KSPDev\docs\Utils\Working\BuildTopics.proj]
+BuildAssembler : warning : ResolveReferenceLinksComponent: [T:KSPDev.InputUtils.KeyboardInputSwitch] Unknown reference link target &#39;F:UnityEngine.KeyCode.None&#39;. [L:\work\KSP\KSPDev\docs\Utils\Working\BuildTopics.proj]
+BuildAssembler : warning : ResolveReferenceLinksComponent: [T:KSPDev.InputUtils.KeyboardInputSwitch] Unknown reference link target &#39;T:KSPField&#39;. [L:\work\KSP\KSPDev\docs\Utils\Working\BuildTopics.proj]
+BuildAssembler : warning : ResolveReferenceLinksComponent: [Overload:KSPDev.InputUtils.KeyboardInputSwitch.#ctor] Unknown reference link target &#39;F:UnityEngine.KeyCode.None&#39;. [L:\work\KSP\KSPDev\docs\Utils\Working\BuildTopics.proj]
+BuildAssembler : warning : ResolveReferenceLinksComponent: [M:KSPDev.InputUtils.KeyboardInputSwitch.#ctor] Unknown reference link target &#39;F:UnityEngine.KeyCode.None&#39;. [L:\work\KSP\KSPDev\docs\Utils\Working\BuildTopics.proj]
+BuildAssembler : warning : ResolveReferenceLinksComponent: [M:KSPDev.InputUtils.KeyboardInputSwitch.#ctor(UnityEngine.KeyCode)] Unknown reference link target &#39;T:UnityEngine.KeyCode&#39;. [L:\work\KSP\KSPDev\docs\Utils\Working\BuildTopics.proj]
+BuildAssembler : warning : ResolveReferenceLinksComponent: [M:KSPDev.InputUtils.KeyboardInputSwitch.#ctor(UnityEngine.KeyCode)] Unknown reference link target &#39;F:UnityEngine.KeyCode.None&#39;. [L:\work\KSP\KSPDev\docs\Utils\Working\BuildTopics.proj]
+BuildAssembler : warning : ResolveReferenceLinksComponent: [F:KSPDev.InputUtils.KeyboardInputSwitch.keyCode] Unknown reference link target &#39;T:UnityEngine.KeyCode&#39;. [L:\work\KSP\KSPDev\docs\Utils\Working\BuildTopics.proj]
+BuildAssembler : warning : ResolveReferenceLinksComponent: [M:KSPDev.InputUtils.KeyboardInputSwitch.Load(ConfigNode)] Unknown reference link target &#39;T:ConfigNode&#39;. [L:\work\KSP\KSPDev\docs\Utils\Working\BuildTopics.proj]
+BuildAssembler : warning : ResolveReferenceLinksComponent: [E:KSPDev.InputUtils.KeyboardInputSwitch.OnStateChanged] Unknown reference link target &#39;T:Callback`1&#39;. [L:\work\KSP\KSPDev\docs\Utils\Working\BuildTopics.proj]
+BuildAssembler : warning : ResolveReferenceLinksComponent: [M:KSPDev.InputUtils.KeyboardInputSwitch.Save(ConfigNode)] Unknown reference link target &#39;T:ConfigNode&#39;. [L:\work\KSP\KSPDev\docs\Utils\Working\BuildTopics.proj]
 BuildAssembler : warning : ResolveReferenceLinksComponent: [T:KSPDev.KSPInterfaces.IKSPActivateOnDecouple] Unknown reference link target &#39;T:IActivateOnDecouple&#39;. [L:\work\KSP\KSPDev\docs\Utils\Working\BuildTopics.proj]
 BuildAssembler : warning : ResolveReferenceLinksComponent: [T:KSPDev.KSPInterfaces.IKSPDevModuleInfo] Unknown reference link target &#39;T:IModuleInfo&#39;. [L:\work\KSP\KSPDev\docs\Utils\Working\BuildTopics.proj]
 BuildAssembler : warning : ResolveReferenceLinksComponent: [M:KSPDev.KSPInterfaces.IKSPDevModuleInfo.GetDrawModulePanelCallback] Unknown reference link target &#39;T:Callback`1&#39;. [L:\work\KSP\KSPDev\docs\Utils\Working\BuildTopics.proj]
@@ -322,17 +328,17 @@ BuildAssembler : warning : ResolveReferenceLinksComponent: [M:KSPDev.ProcessingU
 BuildAssembler : warning : ResolveReferenceLinksComponent: [M:KSPDev.ProcessingUtils.AsyncCall.CallOnFixedUpdate(UnityEngine.MonoBehaviour,KSPDev.ProcessingUtils.AsyncCall.Action0,System.Object[])] Unknown reference link target &#39;T:UnityEngine.Coroutine&#39;. [L:\work\KSP\KSPDev\docs\Utils\Working\BuildTopics.proj]
 BuildAssembler : warning : ResolveReferenceLinksComponent: [M:KSPDev.ProcessingUtils.AsyncCall.CallOnTimeout(UnityEngine.MonoBehaviour,System.Single,KSPDev.ProcessingUtils.AsyncCall.Action0,System.Object[])] Unknown reference link target &#39;T:UnityEngine.MonoBehaviour&#39;. [L:\work\KSP\KSPDev\docs\Utils\Working\BuildTopics.proj]
 BuildAssembler : warning : ResolveReferenceLinksComponent: [M:KSPDev.ProcessingUtils.AsyncCall.CallOnTimeout(UnityEngine.MonoBehaviour,System.Single,KSPDev.ProcessingUtils.AsyncCall.Action0,System.Object[])] Unknown reference link target &#39;T:UnityEngine.Coroutine&#39;. [L:\work\KSP\KSPDev\docs\Utils\Working\BuildTopics.proj]
-  Processed 331 topic(s)
-  130 warning(s)
+  Processed 335 topic(s)
+  135 warning(s)
   CopyFromIndexComponent: &quot;reflection&quot; in-memory cache entries used: 5 of 15.
   CopyFromIndexComponent: &quot;comments&quot; in-memory cache entries used: 2 of 30.
-  SaveComponent: Waiting for the document writer task to finish (100 Website API file(s) remaining)...
+  SaveComponent: Waiting for the document writer task to finish (99 Website API file(s) remaining)...
 Done Building Project &quot;L:\work\KSP\KSPDev\docs\Utils\Working\BuildTopics.proj&quot; (default targets).
 
 Build succeeded.
 
-Time Elapsed 00:00:05.32
-    Last step completed in 00:00:05.4953
+Time Elapsed 00:00:05.73
+    Last step completed in 00:00:05.8036
 </buildStep>
 <buildStep step="CombiningIntermediateTocFiles">
 Combining conceptual and API intermediate TOC files...
@@ -349,11 +355,11 @@ E-Mail: Eric@EWoodruff.us
 Using LCID &#39;1033&#39;, code page &#39;65001&#39;, encoding charset &#39;UTF-8&#39;.
 
 Processing website files in L:\work\KSP\KSPDev\docs\Utils\Working\Output\Website
-Processed 331 HTML files
+Processed 335 HTML files
 Sorting keywords and generating See Also indices
 Saving website keyword index to L:\work\KSP\KSPDev\docs\Utils\Working\WebKI.xml
 Saving website table of contents to L:\work\KSP\KSPDev\docs\Utils\Working\WebTOC.xml
-    Last step completed in 00:00:01.4058
+    Last step completed in 00:00:00.9149
 </buildStep>
 <buildStep step="CopyStandardHelpContent">
 Copying standard help content...
@@ -433,7 +439,7 @@ L:\Program Files (x86)\EWSoftware\Sandcastle Help File Builder\PresentationStyle
 L:\Program Files (x86)\EWSoftware\Sandcastle Help File Builder\PresentationStyles\VS2013\Web\scripts\branding-Website.js -&gt; L:\work\KSP\KSPDev\docs\Utils\Working\Output\Website\scripts\branding-Website.js
 L:\Program Files (x86)\EWSoftware\Sandcastle Help File Builder\PresentationStyles\VS2013\Web\scripts\clipboard.min.js -&gt; L:\work\KSP\KSPDev\docs\Utils\Working\Output\Website\scripts\clipboard.min.js
 L:\Program Files (x86)\EWSoftware\Sandcastle Help File Builder\PresentationStyles\VS2013\Web\scripts\jquery-1.11.0.min.js -&gt; L:\work\KSP\KSPDev\docs\Utils\Working\Output\Website\scripts\jquery-1.11.0.min.js
-    Last step completed in 00:00:00.0567
+    Last step completed in 00:00:00.0476
 </buildStep>
 <buildStep step="GenerateHelpFormatTableOfContents">
 Generating website table of contents file...
@@ -444,22 +450,22 @@ Generating full-text index for the website...
 
 <plugIn name="Lightweight Website Style" behavior="After" priority="1000">
 Adding lightweight search and TOC elements to each topic...
-</plugIn>    Last step completed in 00:00:00.9706
+</plugIn>    Last step completed in 00:00:01.0423
 </buildStep>
 <buildStep step="CopyingWebsiteFiles">
 Copying website files to output folder...
 
 Copied 500 files
-Copied 563 files for the website content
-    Last step completed in 00:00:00.2783
+Copied 569 files for the website content
+    Last step completed in 00:00:00.2918
 </buildStep>
 <buildStep step="CleanIntermediates">
 Removing intermediate files...
-    Last step completed in 00:00:00.2782
+    Last step completed in 00:00:00.2963
 </buildStep>
 <buildStep step="Completed">
 
-Build completed successfully at 11/20/2016 1:38:04 AM.  Total time: 00:00:12.0990
+Build completed successfully at 12/13/2016 1:37:37 AM.  Total time: 00:00:10.2695
 
 </buildStep>
 </shfbBuild>
