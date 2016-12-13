@@ -129,9 +129,21 @@ namespace KSPDev.ConfigUtils {
 /// look like this:
 /// </para>
 /// <code><![CDATA[
-/// class CustomTypes {
+/// class CustomType {
 ///   [PersistentField("my/custom/type", ordinaryTypeProto = typeof(MyTypeProto))]
 ///   private MyType field1;
+/// }
+/// ]]></code>
+/// <para>
+/// Or you custom class can implement KSP interface <see cref="IConfigNode"/>, and it will be
+/// invoked during field saving and restoring.
+/// </para>
+/// <code><![CDATA[
+/// class NodeCustomType : IConfigNode {
+///   public virtual void Save(ConfigNode node) {
+///   }
+///   public virtual void Load(ConfigNode node) {
+///   }
 /// }
 /// ]]></code>
 /// <para>
@@ -152,6 +164,7 @@ namespace KSPDev.ConfigUtils {
 /// <seealso cref="ConfigAccessor"/>
 /// <seealso cref="AbstractOrdinaryValueTypeProto"/>
 /// <seealso cref="AbstractCollectionTypeProto"/>
+/// <seealso href="https://kerbalspaceprogram.com/api/interface_i_config_node.html">KSP: IConfigNode</seealso>
 [AttributeUsage(AttributeTargets.Field)]
 public sealed class PersistentFieldAttribute : AbstractPersistentFieldAttribute {
   /// <summary>A proto for handling the annotated field.</summary>
