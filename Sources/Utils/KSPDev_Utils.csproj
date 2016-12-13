@@ -92,9 +92,9 @@
     <Compile Include="GUIUtils\ScreenMessaging.cs" />
     <Compile Include="GUIUtils\HintOverlay.cs" />
     <Compile Include="GUIUtils\Message.cs" />
-    <Compile Include="GUIUtils\EventChecker.cs" />
     <Compile Include="GUIUtils\GuiActionsList.cs" />
     <Compile Include="GUIUtils\UISoundPlayer.cs" />
+    <Compile Include="InputUtils\EventChecker.cs" />
     <Compile Include="KSPInterfaces\IJointEventsListener.cs" />
     <Compile Include="KSPInterfaces\IKSPActivateOnDecouple.cs" />
     <Compile Include="KSPInterfaces\IKSPDevModuleInfo.cs" />
@@ -119,6 +119,7 @@
     <Folder Include="ConfigUtils" />
     <Folder Include="FSUtils" />
     <Folder Include="ModelUtils" />
+    <Folder Include="InputUtils" />
     <Folder Include="ProcessingUtils" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

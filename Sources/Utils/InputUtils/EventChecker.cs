@@ -5,8 +5,8 @@
 using System;
 using UnityEngine;
 
-namespace KSPDev.GUIUtils {
-  
+namespace KSPDev.InputUtils {
+
 /// <summary>Flags to specify key modifiers combination.</summary>
 /// <remarks>Modifiers can be joined to get a combination. E.g. <c>AnyAlt | AnyShift</c>.</remarks>
 /// <seealso cref="EventChecker.IsModifierCombinationPressed"/>
@@ -21,7 +21,7 @@ public enum KeyModifiers {
   /// <summary>Left or right SHIFT key pressed.</summary>
   AnyShift = 0x02,
   /// <summary>Left or right CONTROL key pressed.</summary>
-  AnyControl = 0x04          
+  AnyControl = 0x04
 }
 
 /// <summary>A helper to verify various event handling conditions.</summary>
@@ -48,6 +48,6 @@ public static class EventChecker {
         | (ctrlPressed ^ (modifiers & KeyModifiers.AnyControl) == KeyModifiers.AnyControl));
   }
 }
- 
+
 } // namespace
 
