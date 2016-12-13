@@ -46,13 +46,13 @@ sources-->
 &lt;para&gt;If you like dealing with settings on yourself then you may find useful &lt;see cref="T:KSPDev.ConfigUtils.ConfigAccessor"/&gt; helper class that simplifies routine operations with configuration nodes and files.&lt;/para&gt;
 
 &lt;para&gt;If you'd like to start using new attributes system that allows annotation of the settings fields you may start from &lt;see cref="T:KSPDev.ConfigUtils.PersistentFieldAttribute"/&gt;. This topic has good code examples that will help you to start.&lt;/para&gt;</NamespaceSummaryItem>
-      <NamespaceSummaryItem name="KSPDev.FSUtils" isDocumented="True">A set of utility classes to deal with paths in the game.</NamespaceSummaryItem>
-      <NamespaceSummaryItem name="KSPDev.GUIUtils" isDocumented="True">A set of helper classes to deal with Unity GUI.</NamespaceSummaryItem>
-      <NamespaceSummaryItem name="KSPDev.LogUtils" isDocumented="True">&lt;para&gt;A set of simple wrappers to write logs in a more convinient way.&lt;/para&gt;
+<NamespaceSummaryItem name="KSPDev.FSUtils" isDocumented="True">A set of utility classes to deal with paths in the game.</NamespaceSummaryItem>
+<NamespaceSummaryItem name="KSPDev.GUIUtils" isDocumented="True">A set of helper classes to deal with Unity GUI.</NamespaceSummaryItem>
+<NamespaceSummaryItem name="KSPDev.LogUtils" isDocumented="True">&lt;para&gt;A set of simple wrappers to write logs in a more convinient way.&lt;/para&gt;
 
 &lt;para&gt;It's deprecated. Use &lt;see href="https://docs.unity3d.com/ScriptReference/Debug.html"&gt;Unity stock methods&lt;/see&gt; to log.&lt;/para&gt;</NamespaceSummaryItem>
-      <NamespaceSummaryItem name="(global)" isDocumented="False" />
-      <NamespaceSummaryItem name="KSPDev.KSPInterfaces" isDocumented="True">&lt;para&gt;This namespace defines interfaces that either don't exist in the game or are not documented. In the first case the goal is to make coding more OOP by defining a clear interface so what callers know what to expect from the part's module. In the second case the point is to provide a verbose documentation to the existing KSP interfaces.&lt;/para&gt;
+<NamespaceSummaryItem name="(global)" isDocumented="False" />
+<NamespaceSummaryItem name="KSPDev.KSPInterfaces" isDocumented="True">&lt;para&gt;This namespace defines interfaces that either don't exist in the game or are not documented. In the first case the goal is to make coding more OOP by defining a clear interface so what callers know what to expect from the part's module. In the second case the point is to provide a verbose documentation to the existing KSP interfaces.&lt;/para&gt;
 
 &lt;example&gt;If interface name starts from prefix &lt;c&gt;IKSP&lt;/c&gt; then it's just a "sugar" interface that documents an existing game interface. You must add original KSP interface to implement the game logic, and you may add "sugar" interface to have a nice documentation:
 &lt;code&gt;&lt;![CDATA[
@@ -73,7 +73,7 @@ public class MyModule : PartModule, IsDestroyable {
 }
 ]]&gt;&lt;/code&gt;
 &lt;/example&gt;</NamespaceSummaryItem>
-      <NamespaceSummaryItem name="KSPDev.Extensions" isDocumented="True">&lt;para&gt;A set of handy extensions to the existing C# and KSP classes. Normally, you never call them from this assembly. Instead, you get them at the instance of the affected class.&lt;/para&gt;
+<NamespaceSummaryItem name="KSPDev.Extensions" isDocumented="True">&lt;para&gt;A set of handy extensions to the existing C# and KSP classes. Normally, you never call them from this assembly. Instead, you get them at the instance of the affected class.&lt;/para&gt;
 
 &lt;example&gt;For instance, here is how extension to standard C# &lt;c&gt;Dictionary&lt;/c&gt; can be used:
 &lt;code&gt;&lt;![CDATA[
@@ -82,9 +82,9 @@ a.SetDefault(0).Add(1);  // Creates empty list and adds it as entry 0.
 a.SetDefault(0).Add(2);  // Re-uses existing entry 0.
 ]]&gt;&lt;/code&gt;
 &lt;/example&gt;</NamespaceSummaryItem>
-      <NamespaceSummaryItem name="KSPDev.ModelUtils" isDocumented="True">Offers a variety of methods deal with procedural models. Even if model is create from prefab it's sometime useful to do some adjustments to it.</NamespaceSummaryItem>
-      <NamespaceSummaryItem name="KSPDev.ProcessingUtils" isDocumented="True">Useful methods to simplify processing common game tasks.</NamespaceSummaryItem>
-    </NamespaceSummaries>
+<NamespaceSummaryItem name="KSPDev.ModelUtils" isDocumented="True">Offers a variety of methods deal with procedural models. Even if model is create from prefab it's sometime useful to do some adjustments to it.</NamespaceSummaryItem>
+<NamespaceSummaryItem name="KSPDev.ProcessingUtils" isDocumented="True">Useful methods to simplify processing common game tasks.</NamespaceSummaryItem>
+<NamespaceSummaryItem name="KSPDev.InputUtils" isDocumented="True">A set of helper classes to deal with game keyboard and mouse input.</NamespaceSummaryItem></NamespaceSummaries>
     <WebsiteSdkLinkType>Msdn</WebsiteSdkLinkType>
     <HtmlSdkLinkType>Msdn</HtmlSdkLinkType>
     <IncludeFavorites>True</IncludeFavorites>
