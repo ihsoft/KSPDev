@@ -95,6 +95,7 @@
     <Compile Include="GUIUtils\GuiActionsList.cs" />
     <Compile Include="GUIUtils\UISoundPlayer.cs" />
     <Compile Include="InputUtils\EventChecker.cs" />
+    <Compile Include="InputUtils\KeyboardInputSwitch.cs" />
     <Compile Include="KSPInterfaces\IJointEventsListener.cs" />
     <Compile Include="KSPInterfaces\IKSPActivateOnDecouple.cs" />
     <Compile Include="KSPInterfaces\IKSPDevModuleInfo.cs" />
