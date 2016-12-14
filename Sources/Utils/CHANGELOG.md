@@ -1,3 +1,6 @@
+### 0.19.0 (December 14th, 2016):
+* [Change] Refactor event system in [`KeyboardInputSwitch`](http://ihsoft.github.io/KSPDev/Utils/html/T_KSPDev_InputUtils_KeyboardInputSwitch.htm).
+
 ### 0.18.0 (December 13th, 2016):
 * [Change] Improve support for compound persistent fields.
 * [Enhancement] Support (de)serialization of `IConfigNode` types in [`PersistentFieldAttribute`](http://ihsoft.github.io/KSPDev/Utils/html/T_KSPDev_ConfigUtils_PersistentFieldAttribute.htm).

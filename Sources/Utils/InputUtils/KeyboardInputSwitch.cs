@@ -60,27 +60,27 @@ namespace KSPDev.InputUtils {
 ///
 ///   void Awake() {
 ///     mySwitch.OnStateChanged += OnSwitchStateChange;
-///     // Also add a debug handler via simple lambda...
-///     mySwitch.OnStateChanged += x => Debug.Log("State changed!");
-///     // ...and add one more lambda...
-///     mySwitch.OnStateChanged += x => {
-///       if (x) {
-///         Debug.Log("Key is released");
-///       } else {
-///         Debug.Log("Key is pressed");
-///       }
+///     mySwitch.OnPress += delegate{
+///       Debug.Log("Key pressed");
+///     };
+///     mySwitch.OnRelease += delegate{
+///       Debug.Log("Key is released");
+///     };
+///     mySwitch.OnClick += delegate{
+///       Debug.Log("Key click registered");
 ///     };
 ///   }
 ///
 ///   void OnDestroy() {
-///     // Do nothing since switch is an instance field, and it will be
-///     // destroyed together with all the listeners.
-///     // Though, if it was static we would do something like this:
+///     // Do nothing since in this example switch is an instance field, and it will be destroyed
+///     // together with the owning class (and, hence, all the listeners).
+///     // Though, if it was a static field we would do something like this:
 ///     mySwitch.OnStateChanged -= OnSwitchStateChange;
+///     // Anonymous functions cannot be unregistered, so don't use them on static fields.
 ///   }
 ///
-///   void OnSwitchStateChange(bool oldState) {
-///     Debug.LogFormat("Switch state changed: {0}=>{1}", oldState, mySwitch.isHold);
+///   void OnSwitchStateChange() {
+///     Debug.LogFormat("Switch state changed to: {0}", mySwitch.isHold);
 ///   }
 ///
 ///   void Update() {
@@ -129,6 +129,11 @@ public class KeyboardInputSwitch : IConfigNode {
   public static bool isAnyKeyHold { get { return keysHold > 0; } }
   static int keysHold;
 
+  /// <summary>Maximum delay to register click event.</summary>
+  /// <remarks>Value used is the same as in KSP <see cref="KeyBinding"/>.</remarks>
+  /// <seealso href="https://kerbalspaceprogram.com/api/class_key_binding.html">KSP: KeyBinding</seealso>
+  public const float ClickDelay = 0.2f;
+
   /// <summary>Defines current hold state of the switch.</summary>
   /// <remarks>
   /// Note that when reading this property it may not represent actual keyboard key hold state since
@@ -147,17 +152,6 @@ public class KeyboardInputSwitch : IConfigNode {
   public KeyCode keyCode;
 
   /// <summary>
-  /// Events that notify about hold state change. Callback's argument is the <i>old</i> value of the
-  /// state.
-  /// </summary>
-  /// <remarks>
-  /// Remember to remove listeners when their owner class is destroyed by the game. If it's not done
-  /// no NRE will happen but "ghost" listeners will continue to react on the events.  
-  /// </remarks>
-  /// <remarks>The callback is only called when state has actually changed.</remarks>
-  public event Callback<bool> OnStateChanged;
-
-  /// <summary>
   /// Determines if switch should react on keyboard events from <see cref="Update"/> method. 
   /// </summary>
   /// <remarks>
@@ -165,6 +159,50 @@ public class KeyboardInputSwitch : IConfigNode {
   /// reset. If state needs to be reset then caller must do it explicitly.
   /// </remarks>
   public bool keyboardEnabled = true;
+
+  #region Events
+  /// <summary>
+  /// Event that notifies about hold state change. The event is only called when state has actually
+  /// changed.
+  /// </summary>
+  /// <remarks>
+  /// Remember to remove listeners when their owner class is destroyed by the game. If it's not done
+  /// no NRE will happen but "ghost" listeners will continue to react on the events.  
+  /// </remarks>
+  public event Callback OnStateChanged;
+  
+  /// <summary>
+  /// Event that notifies that switch key has been pressed.
+  /// </summary>
+  /// <remarks>
+  /// Remember to remove listeners when their owner class is destroyed by the game. If it's not done
+  /// no NRE will happen but "ghost" listeners will continue to react on the events.  
+  /// </remarks>
+  public event Callback OnPress;
+
+  /// <summary>
+  /// Event that notifies that switch key has been released.
+  /// </summary>
+  /// <remarks>
+  /// Remember to remove listeners when their owner class is destroyed by the game. If it's not done
+  /// no NRE will happen but "ghost" listeners will continue to react on the events.  
+  /// </remarks>
+  public event Callback OnRelease;
+
+  /// <summary>
+  /// Event that notifies about "click" event. Click event requires press and release actions
+  /// separted by a maximum delay.
+  /// </summary>
+  /// <remarks>
+  /// Remember to remove listeners when their owner class is destroyed by the game. If it's not done
+  /// no NRE will happen but "ghost" listeners will continue to react on the events.  
+  /// </remarks>
+  /// <seealso cref="ClickDelay"/>
+  public event Callback OnClick;
+  #endregion
+
+  /// <summary>Last press event timestamp.</summary>
+  float lastPressTime;
 
   #region IConfigNode implementation
   /// <summary>
@@ -231,15 +269,29 @@ public class KeyboardInputSwitch : IConfigNode {
   /// <seealso cref="OnStateChanged"/>
   protected virtual void SetHoldState(bool newState) {
     if (_isHold != newState) {
-      var oldState = _isHold;
       _isHold = newState;
       if (newState) {
         keysHold++;
       } else {
         keysHold--;
       }
+
+      // Fire events.
       if (OnStateChanged != null) {
-        OnStateChanged(oldState);
+        OnStateChanged();
+      }
+      if (isHold) {
+        lastPressTime = Time.realtimeSinceStartup;
+        if (OnPress != null) {
+          OnPress();
+        }
+      } else {
+        if (OnRelease != null) {
+          OnRelease();
+        }
+        if (lastPressTime + ClickDelay > Time.realtimeSinceStartup && OnClick != null) {
+          OnClick();
+        }
       }
     }
   }
