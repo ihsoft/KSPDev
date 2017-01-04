@@ -1,0 +1,31 @@
+{
+    "CHANGE_LOG_URL": "https://github.com/ihsoft/KSPDev/tree/master/Sources/LogConsole/CHANGELOG.md", 
+    "DOWNLOAD": "https://github.com/ihsoft/KSPDev/releases", 
+    "GITHUB": {
+        "REPOSITORY": "KSPDev", 
+        "USERNAME": "ihsoft"
+    }, 
+    "KSP_VERSION": {
+        "MAJOR": 1, 
+        "MINOR": 2, 
+        "PATCH": 0
+    }, 
+    "KSP_VERSION_MAX": {
+        "MAJOR": 1, 
+        "MINOR": 2, 
+        "PATCH": 99
+    }, 
+    "KSP_VERSION_MIN": {
+        "MAJOR": 1, 
+        "MINOR": 2, 
+        "PATCH": 0
+    }, 
+    "NAME": "Easy Vessel Switch", 
+    "URL": "https://raw.githubusercontent.com/ihsoft/KSPDev/master/KSPDev_LogConsole.version", 
+    "VERSION": {
+        "BUILD": 0, 
+        "MAJOR": 12, 
+        "MINOR": 0, 
+        "PATCH": 0
+    }
+}
