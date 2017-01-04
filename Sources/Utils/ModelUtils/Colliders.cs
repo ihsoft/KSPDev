@@ -156,7 +156,7 @@ public static class Colliders {
       } else {
         Debug.LogWarningFormat("Unknown primitive type {0}. Droppping collider.", shapeType.Value);
       }
-    } else if (colliderType != PrimitiveCollider.Bounds) {
+    } else if (colliderType == PrimitiveCollider.Bounds) {
       SetSimpleCollider(primitive, PrimitiveType.Cube, inscribeBoundaryIntoCollider: true);
     } else if (colliderType != PrimitiveCollider.None) {
       Debug.LogWarningFormat(
