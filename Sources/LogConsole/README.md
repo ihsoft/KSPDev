@@ -1,4 +1,4 @@
-## KSPDev - Debug log console
+## KSPDev: Kerbal Development tools - LogConsole
 ####Mod for developers who create mods for [Kerbal Space Program](http://www.kerbalspaceprogram.com/)
 
 [KSPDev.LogConsole](https://github.com/ihsoft/KSPDev/tree/master/Sources/LogConsole) is an advanced console for in-game logging
