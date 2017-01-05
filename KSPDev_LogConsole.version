@@ -24,8 +24,8 @@
     "URL": "https://raw.githubusercontent.com/ihsoft/KSPDev/master/KSPDev_LogConsole.version", 
     "VERSION": {
         "BUILD": 0, 
-        "MAJOR": 12, 
-        "MINOR": 0, 
+        "MAJOR": 0, 
+        "MINOR": 12, 
         "PATCH": 0
     }
 }
