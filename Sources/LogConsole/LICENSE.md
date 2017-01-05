@@ -1,4 +1,4 @@
-# KSPDev: LogConsole
+# KSPDev: Kerbal Development tools - LogConsole
 
 Author: igor.zavoychinskiy@gmail.com
 
