@@ -150,7 +150,7 @@ public abstract class BaseLogAggregator {
   /// <remarks>
   /// If implementation calls this method then all aggregated logs must be cleared as well.
   /// </remarks>
-  protected void ResetLogCounters() {
+  protected virtual void ResetLogCounters() {
     _infoLogsCount = 0;
     _warningLogsCount = 0;
     _errorLogsCount = 0;
@@ -162,7 +162,7 @@ public abstract class BaseLogAggregator {
   /// <see cref="logRecords"/> changes.</remarks>
   /// <param name="logRecord">A log record to get type from.</param>
   /// <param name="delta">Delta to add to the current counter.</param>
-  protected void UpdateLogCounter(LogRecord logRecord, int delta) {
+  protected virtual void UpdateLogCounter(LogRecord logRecord, int delta) {
     switch (logRecord.srcLog.type) {
       case LogType.Log:
         _infoLogsCount += delta;
