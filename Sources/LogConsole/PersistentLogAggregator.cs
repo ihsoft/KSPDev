@@ -23,7 +23,7 @@ namespace KSPDev.LogConsole {
 /// </para>
 /// </remarks>
 [PersistentFieldsFileAttribute("KSPDev/KSPDev.settings", "PersistentLog")]
-internal sealed class PersistentLogAggregator : BaseLogAggregator {
+sealed class PersistentLogAggregator : BaseLogAggregator {
   [PersistentField("enableLogger")]
   bool enableLogger = true;
   
