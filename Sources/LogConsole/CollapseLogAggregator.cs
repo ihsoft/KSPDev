@@ -10,21 +10,25 @@ namespace KSPDev.LogConsole {
 
 /// <summary>A log capturer that collapses last repeated records into one.</summary>
 [PersistentFieldsFileAttribute("KSPDev/KSPDev.settings", "CollapseLogAggregator")]
-internal sealed class CollapseLogAggregator : BaseLogAggregator {
+sealed class CollapseLogAggregator : BaseLogAggregator {
+  /// <inheritdoc/>
   public override IEnumerable<LogRecord> GetLogRecords() {
     return logRecords.ToArray().Reverse();
   }
   
+  /// <inheritdoc/>
   public override void ClearAllLogs() {
     logRecords.Clear();
     ResetLogCounters();
   }
   
+  /// <inheritdoc/>
   protected override void DropAggregatedLogRecord(LinkedListNode<LogRecord> node) {
     logRecords.Remove(node);
     UpdateLogCounter(node.Value, -1);
   }
 
+  /// <inheritdoc/>
   protected override void AggregateLogRecord(LogRecord logRecord) {
     if (logRecords.Any()
         && logRecords.Last().GetSimilarityHash() == logRecord.GetSimilarityHash()) {

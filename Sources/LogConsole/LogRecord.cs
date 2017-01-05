@@ -11,19 +11,21 @@ namespace KSPDev.LogConsole {
 /// <summary>A wrapper class to hold log record(s).</summary>
 public class LogRecord {
   // Log text generation constants.
-  private const string InfoPrefix = "INFO";
-  private const string WarningPrefix = "WARNING";
-  private const string ErrorPrefix = "ERROR";
-  private const string ExceptionPrefix = "EXCEPTION";
-  private const string RepeatedPrefix = "REPEATED:";
+  const string InfoPrefix = "INFO";
+  const string WarningPrefix = "WARNING";
+  const string ErrorPrefix = "ERROR";
+  const string ExceptionPrefix = "EXCEPTION";
+  const string RepeatedPrefix = "REPEATED:";
   
   /// <summary>Format of a timestamp in the logs.</summary>
-  private const string TimestampFormat = "yyMMdd\\THHmmss.fff";
+  const string TimestampFormat = "yyMMdd\\THHmmss.fff";
 
   /// <summary>A maximum size of title of a regular log record.</summary>
-  /// <remarks>Used to reserve memory when building log text. Too big value will waste memory and
-  /// too small value may impact performance. Keep it reasonable.</remarks>
-  private const int TitleMaxSize = 200;
+  /// <remarks>
+  /// Used to reserve memory when building log text. Too big value will waste memory and too small
+  /// value may impact performance. Keep it reasonable.
+  /// </remarks>
+  const int TitleMaxSize = 200;
 
   /// <summary>An original Unity log record.</summary>  
   public readonly LogInterceptor.Log srcLog;
@@ -33,19 +35,19 @@ public class LogRecord {
   public int lastId {
     get { return _lastId; }
   }
-  private int _lastId;
+  int _lastId;
 
   /// <summary>Timestamp of the log in local world (non-game) time.</summary>
   public DateTime timestamp {
     get { return _timestamp; }
   }
-  private DateTime _timestamp;
+  DateTime _timestamp;
 
   /// <summary>Number of logs merged into this record so far.</summary>   
-  private int mergedLogs = 1;
+  int mergedLogs = 1;
   
   /// <summary>A lazzy cache for the log hash code.</summary>
-  private int? similarityHash;
+  int? similarityHash;
   
   /// <summary>A generic wrapper for Unity log records.</summary>
   /// <param name="log">A Unity log record.</param>
@@ -65,8 +67,9 @@ public class LogRecord {
   }
 
   /// <summary>Returns a hash code that is indentical for the *similar* log records.</summary>
-  /// <remarks>This method is supposed to be called very frequiently so, caching the code is a good
-  /// idea.</remarks>
+  /// <remarks>
+  /// This method is supposed to be called very frequiently so, caching the code is a good idea.
+  /// </remarks>
   /// <returns>A hash code of the *similar* fields.</returns>
   public int GetSimilarityHash() {
     if (!similarityHash.HasValue) {
@@ -77,8 +80,9 @@ public class LogRecord {
   }
 
   /// <summary>Merges repeated log into an existing record.</summary>
-  /// <remarks>Only does merging of ID and the timestamp. caller is responsible for updating other
-  /// fields.</remarks>
+  /// <remarks>
+  /// Only does merging of ID and the timestamp. caller is responsible for updating other fields.
+  /// </remarks>
   /// <param name="log">A log record to merge. This is a readonly parameter!</param>
   public void MergeRepeated(LogRecord log) {
     _lastId = log.srcLog.id;

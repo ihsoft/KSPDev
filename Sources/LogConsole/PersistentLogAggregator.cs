@@ -2,7 +2,6 @@
 // Author: igor.zavoychinskiy@gmail.com
 // This software is distributed under Public Domain license.
 
-using KSPDev.LogUtils;
 using KSPDev.ConfigUtils;
 using System.Collections.Generic;
 using System.Collections;
@@ -26,56 +25,60 @@ namespace KSPDev.LogConsole {
 [PersistentFieldsFileAttribute("KSPDev/KSPDev.settings", "PersistentLog")]
 internal sealed class PersistentLogAggregator : BaseLogAggregator {
   [PersistentField("enableLogger")]
-  private bool enableLogger = true;
+  bool enableLogger = true;
   
   [PersistentField("logFilesPath")]
-  private string logFilePath = "GameData/KSPDev/logs";
+  string logFilePath = "GameData/KSPDev/logs";
   
   /// <summary>Prefix for every log file name.</summary>
   [PersistentField("logFilePrefix")]
-  private string logFilePrefix = "KSPDev-LOG";
+  string logFilePrefix = "KSPDev-LOG";
   
   /// <summary>Format of the timestamp in the file.</summary>
   [PersistentField("logTsFormat")]
-  private string logTsFormat = "yyMMdd\\THHmmss";
+  string logTsFormat = "yyMMdd\\THHmmss";
 
   /// <summary>Specifies if INFO file should be written.</summary>
   [PersistentField("writeInfoFile")]
-  private bool writeInfoFile = true;
+  bool writeInfoFile = true;
 
   /// <summary>Specifies if WARNING file should be written.</summary>
   [PersistentField("writeWarningFile")]
-  private bool writeWarningFile = true;
+  bool writeWarningFile = true;
 
   /// <summary>Specifies if ERROR file should be written.</summary>
   [PersistentField("writeErrorFile")]
-  private bool writeErrorFile = true;
+  bool writeErrorFile = true;
 
   /// <summary>Specifies if new record should be aggregated and persisted.</summary>
-  private bool writeLogsToDisk = false;
+  bool writeLogsToDisk = false;
 
   /// <summary>A writer that gets all the logs.</summary>
-  private StreamWriter infoLogWriter;
+  StreamWriter infoLogWriter;
   
   /// <summary>A writer for <c>WARNING</c>, <c>ERROR</c> and <c>EXCEPTION</c> logs.</summary>
-  private StreamWriter warningLogWriter;
+  StreamWriter warningLogWriter;
 
   /// <summary>Writer for <c>ERROR</c> and <c>EXCEPTION</c> logs.</summary>
-  private StreamWriter errorLogWriter;
+  StreamWriter errorLogWriter;
 
+  /// <inheritdoc/>
   public override IEnumerable<LogRecord> GetLogRecords() {
     return logRecords;  // It's always empty.
   }
   
+  /// <inheritdoc/>
   public override void ClearAllLogs() {
     // Cannot clear persistent log so, restart the files instead.
     StartLogFiles();
   }
   
+  /// <inheritdoc/>
   protected override void DropAggregatedLogRecord(LinkedListNode<LogRecord> node) {
     // Do nothing since there is no memory state in the aggregator.
   }
 
+  /// <inheritdoc/>
   protected override void AggregateLogRecord(LogRecord logRecord) {
     if (!writeLogsToDisk) {
       return;
@@ -103,6 +106,7 @@ internal sealed class PersistentLogAggregator : BaseLogAggregator {
     }
   }
 
+  /// <inheritdoc/>
   public override void StartCapture() {
     base.StartCapture();
     StartLogFiles();
@@ -114,6 +118,7 @@ internal sealed class PersistentLogAggregator : BaseLogAggregator {
     }
   }
 
+  /// <inheritdoc/>
   public override void StopCapture() {
     Debug.Log("Stopping a persistent aggregator...");
     base.StopCapture();
@@ -121,6 +126,7 @@ internal sealed class PersistentLogAggregator : BaseLogAggregator {
     PersistentLogAggregatorFlusher.activeAggregators.Remove(this);
   }
 
+  /// <inheritdoc/>
   public override bool FlushBufferedLogs() {
     // Flushes accumulated logs to disk. In case of disk error the logging is disabled.
     var res = base.FlushBufferedLogs();
@@ -144,12 +150,13 @@ internal sealed class PersistentLogAggregator : BaseLogAggregator {
     return res;
   }
 
+  /// <inheritdoc/>
   protected override bool CheckIsFiltered(LogInterceptor.Log log) {
     return false;  // Persist any log!
   }
 
   /// <summary>Creates new logs files and redirects logs to there.</summary>
-  private void StartLogFiles() {
+  void StartLogFiles() {
     StopLogFiles();  // In case something was opened.
     try {
       if (enableLogger) {
@@ -179,7 +186,7 @@ internal sealed class PersistentLogAggregator : BaseLogAggregator {
   }
 
   /// <summary>Flushes and closes all opened log files.</summary>
-  private void StopLogFiles() {
+  void StopLogFiles() {
     try {
       if (infoLogWriter != null) {
         infoLogWriter.Close();
@@ -203,7 +210,7 @@ internal sealed class PersistentLogAggregator : BaseLogAggregator {
 /// <summary>A helper class to periodically flush logs to disk.</summary>
 /// <remarks>Also, does flush on scene change or game exit.</remarks>
 [KSPAddon(KSPAddon.Startup.EveryScene, false /*once*/)]
-internal sealed class PersistentLogAggregatorFlusher : MonoBehaviour {
+sealed class PersistentLogAggregatorFlusher : MonoBehaviour {
   /// <summary>A list of persistent aggergators that need state flushing.</summary>
   public static HashSet<PersistentLogAggregator> activeAggregators =
       new HashSet<PersistentLogAggregator>();

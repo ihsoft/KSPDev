@@ -14,86 +14,97 @@ namespace KSPDev.LogConsole {
 [KSPAddon(KSPAddon.Startup.EveryScene, false /*once*/)]
 [PersistentFieldsFileAttribute("KSPDev/KSPDev.settings", "UI")]
 [PersistentFieldsFileAttribute("KSPDev/session.settings", "UI", ConsoleUI.SessionGroup)]
-internal sealed class ConsoleUI : MonoBehaviour {
-  /// <summary>Name of the persistent group to keep session settings.</summary>
-  /// <remarks>Session keeps current UI and layout settings. They get changed frequently and
-  /// saved/loaded on every scene.</remarks>
-  private const string SessionGroup = "session";
+sealed class ConsoleUI : MonoBehaviour {
+  /// <summary>Name of the persistent group to keep session settings in.</summary>
+  /// <remarks>
+  /// Session keeps current UI and layout settings. They get changed frequently and saved/loaded on
+  /// every scene.
+  /// </remarks>
+  const string SessionGroup = "session";
 
   // ===== Session settings start.  
   [PersistentField("showInfo", group = SessionGroup)]
-  private static bool showInfo = false;
+  static bool showInfo = false;
 
   [PersistentField("showWarning", group = SessionGroup)]
-  private static bool showWarning = true;
+  static bool showWarning = true;
 
   [PersistentField("showErrors", group = SessionGroup)]
-  private static bool showError = true;
+  static bool showError = true;
 
   [PersistentField("showExceptions", group = SessionGroup)]
-  private static bool showException = true;
+  static bool showException = true;
 
   [PersistentField("logMode", group = SessionGroup)]
-  private static ShowMode logShowMode = ShowMode.Smart;
+  static ShowMode logShowMode = ShowMode.Smart;
   // ===== Session settings end.  
 
   // ===== Console UI settings start.
   [PersistentField("consoleToggleKey")]
-  private static KeyCode toggleKey = KeyCode.BackQuote;
+  static KeyCode toggleKey = KeyCode.BackQuote;
 
   [PersistentField("ColorSchema/infoLog")]
-  private static Color infoLogColor = Color.white;
+  static Color infoLogColor = Color.white;
   
   [PersistentField("ColorSchema/warningLog")]
-  private static Color warningLogColor = Color.yellow;
+  static Color warningLogColor = Color.yellow;
 
   [PersistentField("ColorSchema/errorLog")]
-  private static Color errorLogColor = Color.red;
+  static Color errorLogColor = Color.red;
 
   [PersistentField("ColorSchema/exceptionLog")]
-  private static Color exceptionLogColor = Color.magenta;
+  static Color exceptionLogColor = Color.magenta;
   // ===== Console UI settings end.
 
   /// <summary>Console window margin on the screen.</summary>
-  private const int Margin = 20;
+  const int Margin = 20;
+
   /// <summary>For every UI window Unity needs a unique ID. This is the one.</summary>
-  private const int WindowId = 19450509;
+  const int WindowId = 19450509;
 
   /// <summary>Actual screen position of the console window.</summary>
-  private static Rect windowRect =
+  static Rect windowRect =
       new Rect(Margin, Margin, Screen.width - (Margin * 2), Screen.height - (Margin * 2));
+
   /// <summary>A title bar location.</summary>
-  private static Rect titleBarRect = new Rect(0, 0, 10000, 20);
+  static Rect titleBarRect = new Rect(0, 0, 10000, 20);
 
   /// <summary>Mode names.</summary>
-  private static readonly GUIContent[] logShowingModes = {
+  static readonly GUIContent[] logShowingModes = {
       new GUIContent("Raw"),
       new GUIContent("Collapsed"),
       new GUIContent("Smart"),
   };
-  /// <summary>Display mode constatnts. Must match <see cref="logShowingModes"/>.</summary>
-  private enum ShowMode {
+
+  /// <summary>Display mode constants. Must match <see cref="logShowingModes"/>.</summary>
+  enum ShowMode {
+    /// <summary>Simple list of log records.</summary>
     Raw = 0,
+    /// <summary>List where identical consecutive records are grouped.</summary>
     Collapsed = 1,
+    /// <summary>
+    /// List where identical records are grouped globally. If group get updated with a new log
+    /// record then its timestamp is updated.
+    /// </summary>
     Smart = 2
   }
   
   /// <summary>Log scrool box position.</summary>
-  private static Vector2 scrollPosition;
+  static Vector2 scrollPosition;
 
   /// <summary>Specifies if debug console is visible.</summary>
-  private static bool isConsoleVisible = false;
+  static bool isConsoleVisible = false;
 
   /// <summary>ID of the curently selected log record.</summary>
   /// <remarks>It shows expanded.</remarks>
-  private static int selectedLogRecordId = -1;
+  static int selectedLogRecordId = -1;
 
   /// <summary>Indicates that visible log records should be queried from
   /// <see cref="snapshotLogAggregator"/>.</summary>
-  private static bool logUpdateIsPaused = false;
+  static bool logUpdateIsPaused = false;
   
   /// <summary>Idicates that logs from the current aggergator need to be requeryied.</summary>
-  private static bool logsViewChanged = false;
+  static bool logsViewChanged = false;
   
   /// <summary>A logger that keeps records on th disk.</summary>
   internal static PersistentLogAggregator diskLogAggregator = new PersistentLogAggregator();
@@ -104,22 +115,22 @@ internal sealed class ConsoleUI : MonoBehaviour {
   /// <summary>A logger to show when <see cref="ShowMode.Smart"/> is selected.</summary>
   internal static SmartLogAggregator smartLogAggregator = new SmartLogAggregator();
   /// <summary>A logger to show a static snapshot.</summary>
-  private static SnapshotLogAggregator snapshotLogAggregator = new SnapshotLogAggregator();
+  static SnapshotLogAggregator snapshotLogAggregator = new SnapshotLogAggregator();
 
   /// <summary>A snapshot of logs for the current view.</summary>
-  private static IEnumerable<LogRecord> logsToShow = new LogRecord[0];
+  static IEnumerable<LogRecord> logsToShow = new LogRecord[0];
   
   /// <summary>Number of INFO records in <see cref="logsToShow"/>.</summary>
-  private static int infoLogs = 0;
+  static int infoLogs = 0;
   /// <summary>Number of WARNING records in <see cref="logsToShow"/>.</summary>
-  private static int warningLogs = 0;
+  static int warningLogs = 0;
   /// <summary>Number of ERROR records in <see cref="logsToShow"/>.</summary>
-  private static int errorLogs = 0;
+  static int errorLogs = 0;
   /// <summary>Number of EXCEPTION records in <see cref="logsToShow"/>.</summary>
-  private static int exceptionLogs = 0;
+  static int exceptionLogs = 0;
 
   /// <summary>A list of actions to apply at the end of the GUI frame.</summary>
-  private static readonly GUIUtils.GuiActionsList guiActions = new GUIUtils.GuiActionsList();
+  static readonly GUIUtils.GuiActionsList guiActions = new GUIUtils.GuiActionsList();
 
   /// <summary>Only loads session settings.</summary>
   void Awake() {
@@ -248,7 +259,7 @@ internal sealed class ConsoleUI : MonoBehaviour {
   /// <summary>Verifies if level of the log record is needed by the UI.</summary>
   /// <param name="log">A log record to verify.</param>
   /// <returns><c>true</c> if this level is visible.</returns>
-  private static bool LogLevelFilter(LogRecord log) {
+  static bool LogLevelFilter(LogRecord log) {
     return log.srcLog.type == LogType.Exception && showException
         || log.srcLog.type == LogType.Error && showError
         || log.srcLog.type == LogType.Warning && showWarning
@@ -258,7 +269,7 @@ internal sealed class ConsoleUI : MonoBehaviour {
   /// <summary>Gives a color for the requested log type.</summary>
   /// <param name="type">A log type to get color for.</param>
   /// <returns>A color for the type.</returns>
-  private static Color GetLogTypeColor(LogType type) {
+  static Color GetLogTypeColor(LogType type) {
     switch (type) {
     case LogType.Log: return infoLogColor;
     case LogType.Warning: return warningLogColor;
@@ -274,7 +285,7 @@ internal sealed class ConsoleUI : MonoBehaviour {
   /// <param name="fmt">A formatting string for the toggle caption</param>
   /// <param name="args">Arguments for the formatting string.</param>
   /// <returns></returns>
-  private bool MakeFormattedToggle(bool value, Color color, string fmt, params object[] args) {
+  bool MakeFormattedToggle(bool value, Color color, string fmt, params object[] args) {
     GUI.contentColor = color;
     return GUILayout.Toggle(value, string.Format(fmt, args), GUILayout.ExpandWidth(false));
   }
@@ -284,7 +295,7 @@ internal sealed class ConsoleUI : MonoBehaviour {
   /// <see cref="logUpdateIsPaused"/></remarks>
   /// <param name="forceUpdate">If <c>false</c> then logs view will only be updated if there were
   /// newly aggregated records in teh current aggregator.</param>
-  private void UpdateLogsView(bool forceUpdate = false) {
+  void UpdateLogsView(bool forceUpdate = false) {
     BaseLogAggregator currentAggregator = GetCurrentAggregator();
     if (currentAggregator.FlushBufferedLogs() || logsViewChanged || forceUpdate) {
       logsToShow = currentAggregator.GetLogRecords();
@@ -299,7 +310,7 @@ internal sealed class ConsoleUI : MonoBehaviour {
   /// <summary>Returns an aggregator for teh currentkly selected mode.</summary>
   /// <param name="ignorePaused">If <c>true</c> then snapshot aggregator is not considered.</param>
   /// <returns>An aggregator.</returns>
-  private BaseLogAggregator GetCurrentAggregator(bool ignorePaused = false) {
+  BaseLogAggregator GetCurrentAggregator(bool ignorePaused = false) {
     BaseLogAggregator currentAggregator = snapshotLogAggregator;
     if (ignorePaused || !logUpdateIsPaused) {
       if (logShowMode == ShowMode.Raw) {
@@ -312,8 +323,9 @@ internal sealed class ConsoleUI : MonoBehaviour {
     }
     return currentAggregator;
   }
-  
-  private void GuiActionSetPaused(bool isPaused) {
+
+  #region GUI action handlers
+  void GuiActionSetPaused(bool isPaused) {
     if (isPaused) {
       snapshotLogAggregator.LoadLogs(GetCurrentAggregator(ignorePaused: true));
     }
@@ -321,17 +333,17 @@ internal sealed class ConsoleUI : MonoBehaviour {
     logsViewChanged = true;
   }
 
-  private void GuiActionClearLogs() {
+  void GuiActionClearLogs() {
     GuiActionSetPaused(isPaused: false);
     GetCurrentAggregator().ClearAllLogs();
     logsViewChanged = true;
   }
   
-  private void GuiActionSelectLog(int newSelectedId) {
+  void GuiActionSelectLog(int newSelectedId) {
     selectedLogRecordId = newSelectedId;
   }
   
-  private void GuiActionAddSilence(string pattern, bool isPrefix) {
+  void GuiActionAddSilence(string pattern, bool isPrefix) {
     if (isPrefix) {
       LogFilter.AddSilenceByPrefix(pattern);
     } else {
@@ -346,14 +358,15 @@ internal sealed class ConsoleUI : MonoBehaviour {
     logsViewChanged = true;
   }
   
-  private void GuiActionSetMode(ShowMode mode) {
+  void GuiActionSetMode(ShowMode mode) {
     logShowMode = mode;
     GuiActionSetPaused(isPaused: false);  // New mode invalidates snapshot.
     logsViewChanged = true;
   }
+  #endregion
 }
 
-/// <summary>Only used to start logs aggregation.</summary>
+/// <summary>Only used to start logs aggregation and load configs.</summary>
 [KSPAddon(KSPAddon.Startup.Instantly, true /*once*/)]
 sealed class AggregationStarter : MonoBehaviour {
   void Awake() {

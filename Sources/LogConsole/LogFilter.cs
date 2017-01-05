@@ -12,10 +12,12 @@ namespace KSPDev.LogConsole {
 
 /// <summary>Keeps and controls filters to apply to the incoming logs.</summary>
 [PersistentFieldsFileAttribute("KSPDev/KSPDev.settings", "LogFilter")]
-internal static class LogFilter {
+static class LogFilter {
   /// <summary>Sources that starts from any of the strings in the filter will be ingored.</summary>
-  /// <remarks>Walking thru this filter requires full scan (in a worst case) so, it should be of a
-  /// reasonable size.</remarks>
+  /// <remarks>
+  /// Walking thru this filter requires full scan (in a worst case) so, it should be of a reasonable
+  /// size.
+  /// </remarks>
   [PersistentField("PrefixMatchFilter/sourcePrefix", isCollection = true)]
   public static List<string> prefixFilter = new List<string>();
   
