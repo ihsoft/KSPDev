@@ -1,6 +1,6 @@
 ﻿// KSP Development tools.
 // Author: igor.zavoychinskiy@gmail.com
-// This software is distributed under Public domain license.
+// This software is distributed under Public Domain license.
 
 using KSPDev.ConfigUtils;
 using KSPDev.LogUtils;
