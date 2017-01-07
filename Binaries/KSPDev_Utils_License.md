@@ -1,4 +1,4 @@
-# KSPDev: Kerbal Development tools
+# KSPDev: Kerbal Development tools - Utils
 
 Author: igor.zavoychinskiy@gmail.com
 

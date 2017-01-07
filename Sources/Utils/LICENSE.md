@@ -4,6 +4,8 @@ Author: igor.zavoychinskiy@gmail.com
 
 GitHub: https://github.com/ihsoft/KSPDev/tree/master/Sources/Utils
 
+Forum thread: http://forum.kerbalspaceprogram.com/index.php?/topic/150786-12-kspdev-logconsole-utils
+
 Documentation: http://ihsoft.github.io/KSPDev/Utils
 
 * * *
