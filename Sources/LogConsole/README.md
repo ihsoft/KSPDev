@@ -1,17 +1,22 @@
-## KSPDev: Kerbal Development tools - LogConsole
-####Mod for developers who create mods for [Kerbal Space Program](http://www.kerbalspaceprogram.com/)
+# KSPDev: Kerbal Development tools - LogConsole
 
-[KSPDev.LogConsole](https://github.com/ihsoft/KSPDev/tree/master/Sources/LogConsole) is an advanced console for in-game logging
-system. Just install it in place of the built-in one and have all the benefits. See [here](http://imgur.com/a/rwAyt) how it may look for you.
+LogConsole is an advanced console for in-game logging system. Supports persistense, filtering,
+records grouping, and many more. See [here](http://imgur.com/a/rwAyt) how it may look.
 
-####Main features
+Read discussions, ask questions and suggest features on
+[forum](http://forum.kerbalspaceprogram.com/index.php?/topic/150786-12-kspdev-logconsole-v0120-utils-v0190).
+
+##Main features
+
 * Full screen window improves visibility.
 * Advanced system of logs filtering. You can blacklist logs you don't want to see.
 * Stack trace for any log record allows you figuring out the source.
-* Each log record has a "source", a short version of full stack trace that says where this record came from.
-* Log records has timestamps which helps in retrospective analysis of the events.
+* Each log record has a "source", a short version of full stack trace that says where this record came
+  from.
+* Log records has timestamps which help in retrospective analysis of the events.
 * Ability to save the logs into files for even better retrospective analysis.
-* Apply a quick filter to see logs of the specific types only: INFO, WARNING, ERROR or EXCEPTION.
-* Log records are added too fast? No problem! There is a pause mode.
-* Made a bug in `Update()` method and log records are being written at a rate of 100 per second? Problem solved: make use of the two
-new modes. In _Condensed_ and _Smart_ modes high frequency records are collapsed into just one line!
+* A quick filter can be applied to see logs of the specific types only: INFO, WARNING, ERROR or
+  EXCEPTION.
+* Pause mode to freeze the view when logs records are added to fast.
+* Two special modes for handling high frequency logs (e.g. when logging from `Update()` method). In
+  _Condensed_ and _Smart_ modes multiple repeated records are collapsed into just one line!

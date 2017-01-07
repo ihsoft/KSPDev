@@ -1,10 +1,10 @@
-# KSPDev: Kerbal Development tools
+# KSPDev: Kerbal Development tools - Utils
 
 Author: igor.zavoychinskiy@gmail.com
 
-GitHub: https://github.com/ihsoft/KSPDev
+GitHub: https://github.com/ihsoft/KSPDev/tree/master/Sources/Utils
 
-Documentation: http://ihsoft.github.io/KSPDevUtils_Doc
+Documentation: http://ihsoft.github.io/KSPDev/Utils
 
 * * *
 

@@ -1,10 +1,12 @@
-##KSPDev - Client utilites
-####Library for developers who create mods for [Kerbal Space Program](http://www.kerbalspaceprogram.com/)
+# KSPDev: Kerbal Development tools - Utils
+
+##Library for developers who create mods for [Kerbal Space Program](http://www.kerbalspaceprogram.com/)
 
 [KSPDev_Utils](https://github.com/ihsoft/KSPDev/tree/master/Sources/Utils) is a set of handy tools that simplify development of KSP
-addons. Just add the assembly into your project and save a lot of development efforts. See detailed documentation with code snippets here: [KSPDev_Utils](http://ihsoft.github.io/KSPDev/Utils).
+addons. Just add the assembly into your project and save a lot of development efforts. See detailed documentation with code snippets here:
+[KSPDev_Utils](http://ihsoft.github.io/KSPDev/Utils).
 
-####In nutshell
+##In nutshell
 
 KSPDev Utils offers a lot of different tools. Here is some examples but there are more features (see docs)!
 * Extensive set of methods to work with config files
