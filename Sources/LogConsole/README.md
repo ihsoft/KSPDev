@@ -1,6 +1,6 @@
 # KSPDev: Kerbal Development tools - LogConsole
 
-LogConsole is an advanced console for in-game logging system. Supports persistense, filtering,
+`LogConsole` is an advanced console for in-game logging system. Supports persistense, filtering,
 records grouping, and many more. See [here](http://imgur.com/a/rwAyt) how it may look.
 
 Read discussions, ask questions and suggest features on
