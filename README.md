@@ -21,6 +21,6 @@ information.
 
 # Licensing
 
-All code and binaries are disributed under
+All code and binaries are distributed under
 "[Public Domain license](https://en.wikipedia.org/wiki/Public_domain)". In other words, you can do
 whatever you want without author's permission.

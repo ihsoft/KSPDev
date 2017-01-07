@@ -1,14 +1,18 @@
 # KSPDev: Kerbal Development tools - Utils
 
-##Library for developers who create mods for [Kerbal Space Program](http://www.kerbalspaceprogram.com/)
+`KSPDev_Utils` is a set of handy tools that simplify development of KSP mods. Just add the
+assembly into your project and save a lot of development efforts.
 
-[KSPDev_Utils](https://github.com/ihsoft/KSPDev/tree/master/Sources/Utils) is a set of handy tools that simplify development of KSP
-addons. Just add the assembly into your project and save a lot of development efforts. See detailed documentation with code snippets here:
-[KSPDev_Utils](http://ihsoft.github.io/KSPDev/Utils).
+Read discussions, ask questions and suggest features on
+[forum](http://forum.kerbalspaceprogram.com/index.php?/topic/150786-12-kspdev-logconsole-v0120-utils-v0190).
+
+Detailed documentation on API is avalable on [docs site](http://ihsoft.github.io/KSPDev/Utils).
 
 ##In nutshell
 
-KSPDev Utils offers a lot of different tools. Here is some examples but there are more features (see docs)!
+KSPDev Utils offers a lot of different classes and interfaces. Here are some examples but there
+are much more features (read the docs!):
+
 * Extensive set of methods to work with config files
   * Save or load simple values without dealing with string<=>type conversion. The type will be detected from the argument, and
   built-in converters will handle any C# or KSP/Unity type transformation.
@@ -22,4 +26,4 @@ KSPDev Utils offers a lot of different tools. Here is some examples but there ar
 * Basic set of methods to deal with in-game file paths.
 * Well documented KSP interfaces.
 * Methods to deal with procedural models in the game.
-* Different helpers for common processing tasks like state machine or a delaying a method call.
+* Different helpers for common processing tasks like state machine or delaying a method call.
