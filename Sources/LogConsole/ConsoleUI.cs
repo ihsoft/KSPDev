@@ -12,8 +12,9 @@ namespace KSPDev.LogConsole {
 
 /// <summary>A console to display Unity's debug logs in-game.</summary>
 [KSPAddon(KSPAddon.Startup.EveryScene, false /*once*/)]
-[PersistentFieldsFileAttribute("KSPDev/KSPDev.settings", "UI")]
-[PersistentFieldsFileAttribute("KSPDev/session.settings", "UI", ConsoleUI.SessionGroup)]
+[PersistentFieldsFileAttribute("KSPDev/LogConsole/Plugins/PluginData/settings.cfg", "UI")]
+[PersistentFieldsFileAttribute("KSPDev/LogConsole/Plugins/PluginData/session.cfg", "UI",
+                               ConsoleUI.SessionGroup)]
 sealed class ConsoleUI : MonoBehaviour {
   /// <summary>Name of the persistent group to keep session settings in.</summary>
   /// <remarks>

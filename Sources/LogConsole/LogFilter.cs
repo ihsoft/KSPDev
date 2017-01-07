@@ -11,7 +11,8 @@ using UnityEngine;
 namespace KSPDev.LogConsole {
 
 /// <summary>Keeps and controls filters to apply to the incoming logs.</summary>
-[PersistentFieldsFileAttribute("KSPDev/KSPDev.settings", "LogFilter")]
+// TODO(ihsoft): It doesn't need to be standalone class since it's only used by the UI.
+[PersistentFieldsFileAttribute("KSPDev/LogConsole/Plugins/PluginData/settings.cfg", "LogFilter")]
 static class LogFilter {
   /// <summary>Sources that starts from any of the strings in the filter will be ingored.</summary>
   /// <remarks>

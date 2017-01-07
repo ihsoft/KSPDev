@@ -9,7 +9,8 @@ using System.Linq;
 namespace KSPDev.LogConsole {
 
 /// <summary>A log capturer that collapses last repeated records into one.</summary>
-[PersistentFieldsFileAttribute("KSPDev/KSPDev.settings", "CollapseLogAggregator")]
+[PersistentFieldsFileAttribute("KSPDev/LogConsole/Plugins/PluginData/settings.cfg",
+                               "CollapseLogAggregator")]
 sealed class CollapseLogAggregator : BaseLogAggregator {
   /// <inheritdoc/>
   public override IEnumerable<LogRecord> GetLogRecords() {

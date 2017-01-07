@@ -22,7 +22,8 @@ namespace KSPDev.LogConsole {
 /// <para>Persistent logging must be explicitly enabled via <c>PersistentLogs-settings.cfg</c>
 /// </para>
 /// </remarks>
-[PersistentFieldsFileAttribute("KSPDev/KSPDev.settings", "PersistentLog")]
+[PersistentFieldsFileAttribute("KSPDev/LogConsole/Plugins/PluginData/settings.cfg",
+                               "PersistentLog")]
 sealed class PersistentLogAggregator : BaseLogAggregator {
   [PersistentField("enableLogger")]
   bool enableLogger = true;
