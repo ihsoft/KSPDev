@@ -4,7 +4,7 @@
 records grouping, and many more. See [here](http://imgur.com/a/rwAyt) how it may look.
 
 Read discussions, ask questions and suggest features on
-[forum](http://forum.kerbalspaceprogram.com/index.php?/topic/150786-12-kspdev-logconsole-v0120-utils-v0190).
+[forum](http://forum.kerbalspaceprogram.com/index.php?/topic/150786-12-kspdev-logconsole-utils).
 
 ##Main features
 
