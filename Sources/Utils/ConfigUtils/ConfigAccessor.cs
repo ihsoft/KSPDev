@@ -32,13 +32,18 @@ public static class ConfigAccessor {
       new StandardOrdinaryTypesProto();
 
   /// <summary>Reads values of the annotated persistent fields from a config file.</summary>
-  /// <param name="filePath">A relative or an absolute path to the file. It's resolved via
-  /// <see cref="KspPaths.makePluginPath"/>.</param>
+  /// <param name="filePath">
+  /// A relative or an absolute path to the file. It's resolved via
+  /// <see cref="KspPaths.MakeAbsPathForGameData"/>.
+  /// </param>
   /// <param name="type">A type to load fields for.</param>
-  /// <param name="instance">An instance of type <paramref name="type"/>. If it's <c>null</c> then
-  /// only static fields will be loaded.</param>
-  /// <param name = "nodePath">An optional path in the file. All type's field will be read relative
-  /// to this part.</param>
+  /// <param name="instance">
+  /// An instance of type <paramref name="type"/>. If it's <c>null</c> then
+  /// only static fields will be loaded.
+  /// </param>
+  /// <param name="nodePath">
+  /// An optional path in the file. All type's field will be read relative to this part.
+  /// </param>
   /// <param name="group">A group tag (see <see cref="AbstractPersistentFieldAttribute"/>).</param>
   /// <seealso cref="PersistentFieldAttribute"/>
   public static void ReadFieldsFromFile(string filePath, Type type, object instance,
@@ -117,19 +122,27 @@ public static class ConfigAccessor {
   }
 
   /// <summary>Writes values of the annotated persistent fields into a file.</summary>
-  /// <remarks>All persitent values are <b>added</b> into the file provided. I.e. if node had
-  /// already had a value being persited then it either overwritten (ordinary fields) or extended
-  /// (collection fields).</remarks>
-  /// <param name="filePath">A relative or an absolute path to the file. It's resolved via
-  /// <see cref="KspPaths.makePluginPath"/>.</param>
-  /// <param name="rootNodePath">A path to the node in the file where the data should be
-  /// written. If the node already exsist it will be deleted.</param>
+  /// <remarks>
+  /// All persitent values are <b>added</b> into the file provided. I.e. if node had already had a
+  /// value being persited then it either overwritten (ordinary fields) or extended (collection
+  /// fields).
+  /// </remarks>
+  /// <param name="filePath">
+  /// A relative or an absolute path to the file. It's resolved via
+  /// <see cref="KspPaths.MakeAbsPathForGameData"/>.
+  /// </param>
+  /// <param name="rootNodePath">
+  /// A path to the node in the file where the data should be written. If the node already exsists
+  /// it will be deleted.
+  /// </param>
   /// <param name="type">A type to write fields for.</param>
-  /// <param name="instance">An instance of type <paramref name="type"/>. If it's <c>null</c> then
-  /// only static fields will be written.</param>
-  /// <paramref name="rootNodePath"/> node will be updated in that file. Otherwise, a new file
-  /// <param name="mergeMode">If <c>true</c> and the file already exists then only
-  /// will be created.</param>
+  /// <param name="instance">
+  /// An instance of type <paramref name="type"/>. If it's <c>null</c> then only static fields will
+  /// be written.
+  /// </param>
+  /// <param name="mergeMode">
+  /// If <c>true</c> and the file already exists then only will be created.
+  /// </param>
   /// <param name="group">A group tag (see <see cref="AbstractPersistentFieldAttribute"/>).</param>
   /// <seealso cref="PersistentFieldAttribute"/>
   public static void WriteFieldsIntoFile(string filePath,

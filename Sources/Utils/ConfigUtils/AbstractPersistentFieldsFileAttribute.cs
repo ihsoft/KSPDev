@@ -22,18 +22,26 @@ public abstract class AbstractPersistentFieldsFileAttribute : Attribute {
   public readonly string nodePath;
 
   /// <summary>An optional relative path to the config file.</summary>
-  /// <remarks>Absolute name is resolved via <see cref="FSUtils.KspPaths.makePluginPath"/>. If left
-  /// empty then data is read from the game's database. Note, that database access is read-only.  
+  /// <remarks>
+  /// Absolute name is resolved via <see cref="FSUtils.KspPaths.MakeAbsPathForGameData"/>. If left
+  /// empty then data is read from the game's database. Note, that database access is read-only.
   /// </remarks>
   public readonly string configFilePath;
 
-  /// <param name="configFilePath">A relative or an absolute path to the file. It's resolved via
-  /// <see cref="FSUtils.KspPaths.makePluginPath"/>. If empty then data is read from database.
+  /// <summary>Constructor for a persistent field.</summary>
+  /// <param name="configFilePath">
+  /// A relative or an absolute path to the file. It's resolved via
+  /// <see cref="FSUtils.KspPaths.MakeAbsPathForGameData"/>. If empty then data is read from
+  /// database.
   /// </param>
-  /// <param name="nodePath">A root for the persistent fields when saving or loading via this
-  /// annotation. If empty then root node of the file is used. Cannot be <c>null</c></param>
-  /// <param name="group">A group of the annotation. When saving or loading persistent fields only
-  /// the fields of this group will be considered. Must not be <c>null</c>.</param>
+  /// <param name="nodePath">
+  /// A root for the persistent fields when saving or loading via this annotation. If empty then
+  /// root node of the file is used. Cannot be <c>null</c>
+  /// </param>
+  /// <param name="group">
+  /// A group of the annotation. When saving or loading persistent fields only the fields of this
+  /// group will be considered. Must not be <c>null</c>.
+  /// </param>
   protected AbstractPersistentFieldsFileAttribute(
       string configFilePath, string nodePath, string group) {
     this.configFilePath = configFilePath;
