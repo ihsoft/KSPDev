@@ -45,8 +45,8 @@ public static class ConfigAccessor {
                                         string nodePath = null,
                                         string group = StdPersistentGroups.Default) {
     Debug.LogFormat("Loading persistent fields: file={0}, group=\"{1}\"",
-                    filePath, group ?? "<ALL>");
-    var node = ConfigNode.Load(KspPaths.makePluginPath(filePath));
+                    KspPaths.MakeRelativePathToGameData(filePath), group ?? "<ALL>");
+    var node = ConfigNode.Load(KspPaths.MakeAbsPathForGameData(filePath));
     if (node != null && nodePath.Length > 0) {
       node = node.GetNode(nodePath);
     }
@@ -137,8 +137,8 @@ public static class ConfigAccessor {
                                          string rootNodePath = null, bool mergeMode = true,
                                          string group = StdPersistentGroups.Default) {
     Debug.LogFormat("Writing persistent fields: file={0}, group=\"{1}\", isMerging={2}, root={3}",
-                    filePath, group ?? "<ALL>", mergeMode,
-                    rootNodePath ?? "/");
+                    KspPaths.MakeRelativePathToGameData(filePath),
+                    group ?? "<ALL>", mergeMode, rootNodePath ?? "/");
     var node = mergeMode
         ? ConfigNode.Load(filePath) ?? new ConfigNode()  // Make empty node if file doesn't exist.
         : new ConfigNode();
@@ -148,7 +148,7 @@ public static class ConfigAccessor {
       tagetNode.ClearData();  // In case of it's an existing node.
     }
     WriteFieldsIntoNode(tagetNode, type, instance, group: group);
-    node.Save(KspPaths.makePluginPath(filePath));
+    node.Save(KspPaths.MakeAbsPathForGameData(filePath));
   }
   
   /// <summary>Writes values of the annotated persistent fields into a config node.</summary>
@@ -194,7 +194,7 @@ public static class ConfigAccessor {
     Debug.LogFormat("Writing persistent fields: type={0}, group=\"{1}\"", type, group ?? "<ALL>");
     foreach (var attr in attributes) {
       if (attr.configFilePath.Length > 0) {
-        WriteFieldsIntoFile(KspPaths.makePluginPath(attr.configFilePath), type, instance,
+        WriteFieldsIntoFile(KspPaths.MakeAbsPathForGameData(attr.configFilePath), type, instance,
                             rootNodePath: attr.nodePath, mergeMode: true, group: attr.group);
       } else {
         Debug.LogFormat("Not saving database group: {0}", attr.nodePath);
