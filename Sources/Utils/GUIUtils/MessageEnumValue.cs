@@ -9,6 +9,7 @@ using System.Collections.Generic;
 namespace KSPDev.GUIUtils {
 
 /// <summary>A class to wrap a UI string for an enum value.</summary>
+/// <typeparam name="T">Enum type to define strings for.</typeparam>
 /// <remarks>
 /// <para>
 /// When string needs to be presented use <see cref="Format"/> to make the parameter substitute.
