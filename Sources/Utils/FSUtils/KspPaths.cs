@@ -86,6 +86,7 @@ public static class KspPaths {
   /// var texture = GameDatabase.Instance.GetTexture(textureFolder + "/MyTexture.png", false);
   /// ]]></code>
   /// </example>
+  /// <seealso cref="NormalizePath"/>
   public static string MakeRelativePathToGameData(params string[] pathParts) {
     var path = string.Join("" + Path.DirectorySeparatorChar, pathParts);
     if (!Path.IsPathRooted(path)) {
