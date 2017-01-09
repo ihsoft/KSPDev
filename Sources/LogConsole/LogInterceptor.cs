@@ -66,27 +66,7 @@ public static class LogInterceptor {
   /// be reasonable big without significant impact to the application performance.
   /// </remarks>
   [PersistentField("ExactMatchOverride/source", isCollection = true)]
-  static HashSet<string> exactMatchOverride = new HashSet<string>() {
-      "UnityEngine.Application.CallLogCallback",  // Unity debug log handler.
-      "UnityEngine.MonoBehaviour.print",  // Unity std I/O method.
-      // KAC logging core.
-      "KSPPluginFramework.MonoBehaviourExtended.LogFormatted",
-      "TWP_KACWrapper.KACWrapper.LogFormatted",
-      "KAC_KERWrapper.KERWrapper.LogFormatted",
-      "KAC_VOIDWrapper.VOIDWrapper.LogFormatted",
-      // SCANsat logging core.
-      "SCANsat.SCANUtil.SCANlog",
-      "SCANsat.SCANmainMenuLoader.debugWriter",
-      // KAS logging core.
-      "KAS.KAS_Shared.DebugLog",
-      "KAS.KAS_Shared.DebugError",
-      // Infernal robotics logging core.
-      "InfernalRobotics.Logger.Log",
-      // KER logging core.
-      "KerbalEngineer.Logger.Flush",
-      // AVC logging core.
-      "MiniAVC.Logger.Flush",
-  };
+  static HashSet<string> exactMatchOverride = new HashSet<string>();
 
   /// <summary>
   /// Skips all the matched prefixes up in the stack trace until a non-matching source is found.
@@ -97,10 +77,7 @@ public static class LogInterceptor {
   /// result in a degraded application performance.
   /// </remarks>
   [PersistentField("PrefixMatchOverride/sourcePrefix", isCollection = true)]
-  static List<string> prefixMatchOverride = new List<string>() {
-      "UnityEngine.Debug.",  // Unity debug logs wrapper.
-      "KSPDev.LogUtils.Logger.",  // Own KSPDev logging methods.
-  };
+  static List<string> prefixMatchOverride = new List<string>();
 
   /// <summary>Latest log records.</summary>
   /// <remarks>List contains at maximum <see cref="maxLogLines"/> records.</remarks>
