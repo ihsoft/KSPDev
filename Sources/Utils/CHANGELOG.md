@@ -1,5 +1,8 @@
-### 0.19.1 (January 6th, 2017):
+### 0.20.0 (pre-release):
 - [Fix] Handling "None" collider type in [`ModelUtils.Colliders`](http://ihsoft.github.io/KSPDev/Utils/html/T_KSPDev_ModelUtils_Colliders.htm).
+- [Change] Deprecate `FSUtils.KspPath.makePluginPath` in favor of [`FSUtils.KspPath.MakeAbsPathForGameData`](http://ihsoft.github.io/KSPDev/Utils/html/M_KSPDev_FSUtils_KspPath_MakeAbsPathForGameData.htm).
+- [Enhancement] Add more methods to deal with absolute and relative KSP paths into [`FSUtils.KspPath`](http://ihsoft.github.io/KSPDev/Utils/html/T_KSPDev_FSUtils_KspPath.htm).
+- [Enhancement] Add [version logger](http://ihsoft.github.io/KSPDev/Utils/html/T_VersionLogger.htm) for better troubleshooting.
 
 ### 0.19.0 (December 14th, 2016):
 - [Change] Refactor event system in [`KeyboardInputSwitch`](http://ihsoft.github.io/KSPDev/Utils/html/T_KSPDev_InputUtils_KeyboardInputSwitch.htm).
