@@ -403,7 +403,9 @@
     <HelpKINode Title="methods" Url="html/Methods_T_KSPDev_FSUtils_KspPaths.htm" />
     <HelpKINode Title="properties" Url="html/Properties_T_KSPDev_FSUtils_KspPaths.htm" />
   </HelpKINode>
-  <HelpKINode Title="KspPaths.makePluginPath method" Url="html/M_KSPDev_FSUtils_KspPaths_makePluginPath.htm" />
+  <HelpKINode Title="KspPaths.MakeAbsPathForGameData method" Url="html/M_KSPDev_FSUtils_KspPaths_MakeAbsPathForGameData.htm" />
+  <HelpKINode Title="KspPaths.MakeRelativePathToGameData method" Url="html/M_KSPDev_FSUtils_KspPaths_MakeRelativePathToGameData.htm" />
+  <HelpKINode Title="KspPaths.NormalizePath method" Url="html/M_KSPDev_FSUtils_KspPaths_NormalizePath.htm" />
   <HelpKINode Title="KspPaths.pluginsRoot property" Url="html/P_KSPDev_FSUtils_KspPaths_pluginsRoot.htm" />
   <HelpKINode Title="KspPaths.pluginsRootFolder field" Url="html/F_KSPDev_FSUtils_KspPaths_pluginsRootFolder.htm" />
   <HelpKINode Title="KspTypesProto class">
@@ -419,7 +421,8 @@
   <HelpKINode Title="LeftSideMousePadding field" Url="html/F_KSPDev_GUIUtils_HintOverlay_LeftSideMousePadding.htm" />
   <HelpKINode Title="ListHirerahcy method" Url="html/M_KSPDev_ModelUtils_Hierarchy_ListHirerahcy.htm" />
   <HelpKINode Title="Load method" Url="html/M_KSPDev_InputUtils_KeyboardInputSwitch_Load.htm" />
-  <HelpKINode Title="makePluginPath method" Url="html/M_KSPDev_FSUtils_KspPaths_makePluginPath.htm" />
+  <HelpKINode Title="MakeAbsPathForGameData method" Url="html/M_KSPDev_FSUtils_KspPaths_MakeAbsPathForGameData.htm" />
+  <HelpKINode Title="MakeRelativePathToGameData method" Url="html/M_KSPDev_FSUtils_KspPaths_MakeRelativePathToGameData.htm" />
   <HelpKINode Title="Mesh enumeration member" Url="html/T_KSPDev_ModelUtils_Colliders_PrimitiveCollider.htm" />
   <HelpKINode Title="Meshes class">
     <HelpKINode Title="Meshes Class" Url="html/T_KSPDev_ModelUtils_Meshes.htm" />
@@ -571,11 +574,12 @@
   <HelpKINode Title="MessageSpecialFloatValue.MessageSpecialFloatValue constructor" Url="html/M_KSPDev_GUIUtils_MessageSpecialFloatValue__ctor.htm" />
   <HelpKINode Title="MoveToParent method" Url="html/M_KSPDev_ModelUtils_Hierarchy_MoveToParent.htm" />
   <HelpKINode Title="nodePath field" Url="html/F_KSPDev_ConfigUtils_AbstractPersistentFieldsFileAttribute_nodePath.htm" />
-  <HelpKINode Title="NONE enumeration member" Url="html/T_KSPDev_ModelUtils_KspLayerMask.htm" />
   <HelpKINode Title="None enumeration member">
     <HelpKINode Title="Colliders.PrimitiveCollider Enumeration" Url="html/T_KSPDev_ModelUtils_Colliders_PrimitiveCollider.htm" />
     <HelpKINode Title="KeyModifiers Enumeration" Url="html/T_KSPDev_InputUtils_KeyModifiers.htm" />
   </HelpKINode>
+  <HelpKINode Title="NONE enumeration member" Url="html/T_KSPDev_ModelUtils_KspLayerMask.htm" />
+  <HelpKINode Title="NormalizePath method" Url="html/M_KSPDev_FSUtils_KspPaths_NormalizePath.htm" />
   <HelpKINode Title="OnAwake method" Url="html/M_KSPDev_KSPInterfaces_IPartModule_OnAwake.htm" />
   <HelpKINode Title="OnClick event" Url="html/E_KSPDev_InputUtils_KeyboardInputSwitch_OnClick.htm" />
   <HelpKINode Title="OnDebugStateChange field" Url="html/F_KSPDev_ProcessingUtils_SimpleStateMachine_1_OnDebugStateChange.htm" />
