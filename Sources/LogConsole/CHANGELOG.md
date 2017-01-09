@@ -1,4 +1,4 @@
-### KPSPDev_LogConsole v0.13.0 (pre-release):
+### KPSPDev_LogConsole v0.13.0 (January 8th, 2017):
 - [Change] Rename .settings files into .cfg, and move them into PluginData.
 - [Change] Refine overrides and filters for KSP 1.2.
 - [Change] Use KSPDev_Utils v0.20.0.
