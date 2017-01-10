@@ -12,6 +12,7 @@
     "author"         : ["IgorZ"],
     "$vref"          : "#/ckan/ksp-avc",
     "$kref"          : "#/ckan/github/ihsoft/KSPDev",
+    "x_netkan_version_edit" : "^logconsole_(?<version>.+)$",
     "install"        : [
         {
             "file"       : "GameData/KSPDev",
