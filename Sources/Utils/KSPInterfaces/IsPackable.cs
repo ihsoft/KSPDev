@@ -17,11 +17,11 @@ namespace KSPDev.KSPInterfaces {
 /// public class MyModule : PartModule, IsPackable {
 ///   /// <inheritdoc/>
 ///   public void OnPartPack() {
-///     Debug.LogInfo("OnPartPack");
+///     Debug.Log("OnPartPack");
 ///   }
 ///   /// <inheritdoc/>
 ///   public void OnPartUnpack() {
-///     Debug.LogInfo("OnPartUnpack);
+///     Debug.Log("OnPartUnpack);
 ///   }
 /// }
 /// ]]></code>

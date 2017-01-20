@@ -1043,6 +1043,7 @@
             var texture = GameDatabase.Instance.GetTexture(textureFolder + "/MyTexture.png", false);
             ]]></code>
             </example>
+            <seealso cref="M:KSPDev.FSUtils.KspPaths.NormalizePath(System.String)"/>
         </member>
         <member name="P:KSPDev.FSUtils.KspPaths.pluginsRoot">
             <summary>Returns full path to the plugins root folder (a.k.a. <c>GameData</c>).</summary>
@@ -2405,11 +2406,11 @@
             public class MyModule : PartModule, IsPackable {
               /// <inheritdoc/>
               public void OnPartPack() {
-                Debug.LogInfo("OnPartPack");
+                Debug.Log("OnPartPack");
               }
               /// <inheritdoc/>
               public void OnPartUnpack() {
-                Debug.LogInfo("OnPartUnpack);
+                Debug.Log("OnPartUnpack);
               }
             }
             ]]></code>
