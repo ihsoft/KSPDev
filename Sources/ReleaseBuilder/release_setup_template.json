@@ -1,0 +1,48 @@
+{
+  // IMPORTANT!!! Python JSON files cannot have comments. In order to make
+  // this file working you should drop all the comments from it.
+
+  // Review fields in KspReleaseBuilder.py to figure out what settings exist
+  // and what are the defaults.
+  "JSON_SCHEMA_VERSION": "1.0",
+
+  // Specify your mod name. It will be used to construct default paths.
+  "PACKAGE_NAME": "SampleModName",
+
+  // Specify shell file name that builds binaries. Note that it's not path,
+  // it's a name of the file that must live in the same directory as this
+  // settinsg file.
+  "SHELL_COMPILE_BINARY_SCRIPT" : "make_binary.cmd",
+
+  // Drop this line to enable updating MiniAVC version file. Or specify own
+  // non-empty path to the version file.
+  "MINIAVC_VERSION_FILE" : "",
+
+  // This default structure will handle most of the standard mod source
+  // hierarchies. Though, it's always best to customize it for your mod and
+  // avoid using '?' patterns to detect any missing release files early.
+  "STRUCTURE" : {
+    "/": [
+      "?/Deps/*"
+    ],
+    "" : [
+      "?README.*",
+      "?LICENSE.*"
+    ],
+    "Parts" : [
+      "?/Parts/*"
+    ],
+    "Patches" : [
+      "?/Patches/*"
+    ],
+    "Plugins" : [
+      "{COMPILED_BINARY}",
+      "?{REPOSITORY_VERSION_FILE}",
+      "?/Binaries/*",
+      "-*.xml"
+    ],
+    "Plugins/PluginData" : [
+      "?/Plugins/PluginData"
+    ]
+  }
+}
