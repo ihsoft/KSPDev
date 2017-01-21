@@ -1,4 +1,4 @@
-# KPSPDev: ReleaseBuilder v2.0.0 (pre-release):
+# KPSPDev: ReleaseBuilder v2.0.0 (January 21st, 2017):
 * [Change] All settings are simplified and renamed to give better context. JSON settings created
   for builder older than 1.2 won't work!
 * [Change] Introduced JSON field `JSON_SCHEMA_VERSION` to help managing changes in JSON semantics
