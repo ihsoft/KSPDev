@@ -517,7 +517,7 @@ def main(argv):
       formatter_class=argparse.RawDescriptionHelpFormatter,
       epilog=textwrap.dedent('''
           Arguments can be provided via a file:
-            make_release.py @input.txt
+            %(prog)s @input.txt
 
           Examples:
             %(prog)s -c
