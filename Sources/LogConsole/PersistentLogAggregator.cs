@@ -67,13 +67,13 @@ sealed class PersistentLogAggregator : BaseLogAggregator {
   public override IEnumerable<LogRecord> GetLogRecords() {
     return logRecords;  // It's always empty.
   }
-  
+
   /// <inheritdoc/>
   public override void ClearAllLogs() {
     // Cannot clear persistent log so, restart the files instead.
     StartLogFiles();
   }
-  
+
   /// <inheritdoc/>
   protected override void DropAggregatedLogRecord(LinkedListNode<LogRecord> node) {
     // Do nothing since there is no memory state in the aggregator.
@@ -228,17 +228,17 @@ sealed class PersistentLogAggregatorFlusher : MonoBehaviour {
   }
 
   /// <summary>Flushes all registered persistent aggregators.</summary>
-  private static void FlushAllAggregators() {
+  static void FlushAllAggregators() {
     var aggregators = activeAggregators.ToArray();
     foreach (var aggregator in aggregators) {
       aggregator.FlushBufferedLogs();
     }
   }
-  
+
   /// <summary>Flushes logs to disk periodically.</summary>
   /// <remarks>This method never returns.</remarks>
   /// <returns>Delay till next flush.</returns>
-  private IEnumerator FlushLogsCoroutine() {
+  IEnumerator FlushLogsCoroutine() {
     while (true) {
       yield return new WaitForSeconds(persistentLogsFlushPeriod);
       FlushAllAggregators();
