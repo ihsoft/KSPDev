@@ -1,5 +1,6 @@
 # KPSPDev_LogConsole v0.13.1 (February 6th, 2017):
 * [Enhancement #6] Introduce a setting for logs retention.
+* [Change] Stop storing log records in `LogInterceptor`. Aggregators do it when needed.
 
 # KPSPDev_LogConsole v0.13.0 (January 8th, 2017):
 * [Change] Rename .settings files into .cfg, and move them into PluginData.

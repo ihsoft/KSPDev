@@ -37,14 +37,6 @@ public static class LogInterceptor {
     }
   }
 
-  /// <summary>Maximum number of lines to keep in memory.</summary>
-  /// <remarks>
-  /// Setting to a lower setting doesn't have immediate effect. It's undefined when excessive log
-  /// records get cleaned up from <see cref="logs"/>.
-  /// </remarks>
-  [PersistentField("maxLogLines")]
-  static int maxLogLines = 1000;
-
   /// <summary>Specifies if logs interception is allowed.</summary>
   /// <remarks>
   /// If <c>false</c> then calls to <see cref="StartIntercepting"/> will be ignored.
@@ -78,10 +70,6 @@ public static class LogInterceptor {
   /// </remarks>
   [PersistentField("PrefixMatchOverride/sourcePrefix", isCollection = true)]
   static List<string> prefixMatchOverride = new List<string>();
-
-  /// <summary>Latest log records.</summary>
-  /// <remarks>List contains at maximum <see cref="maxLogLines"/> records.</remarks>
-  static readonly Queue<Log> logs = new Queue<Log>(maxLogLines);
 
   /// <summary>Callback type for the log listeners.</summary>
   /// <param name="log">An immutable KSPDev log record.</param>
@@ -158,20 +146,14 @@ public static class LogInterceptor {
     foreach (var callback in previewCallbacks) {
       try {
         callback(log);
-      } catch (Exception ex) {
-        InternalLog("Preview callback thrown an error and will been unregistered",
-                    stackTrace: ex.StackTrace, type: LogType.Exception);
+      } catch (Exception) {
         badCallbacks.Add(callback);
       }
     }
     if (badCallbacks.Count > 0) {
       previewCallbacks.RemoveWhere(badCallbacks.Contains);
+      Debug.LogErrorFormat("Dropped {0} bad log preview callbacks", badCallbacks.Count);
       badCallbacks.Clear();
-    }
-    
-    logs.Enqueue(log);
-    while (logs.Count > maxLogLines) {
-      logs.Dequeue();
     }
   }
 
@@ -261,19 +243,6 @@ public static class LogInterceptor {
   static string MakeSourceFromFrame(System.Diagnostics.StackFrame frame) {
     var chkMethod = frame.GetMethod();
     return chkMethod.DeclaringType + "." + chkMethod.Name;
-  }
-
-  /// <summary>A helper method to do logging from the interceptor class.</summary>
-  /// <param name="message">A message to show.</param>
-  /// <param name="type">Optional type of the log.</param>
-  /// <param name="stackTrace">Optional stacktrace. When not specified the current stack is used.
-  /// </param>
-  static void InternalLog(string message,
-                                  LogType type = LogType.Log, string stackTrace = null) {
-    var log = new Log(lastLogId++, DateTime.Now,
-                      message, stackTrace ?? new StackTrace(true).ToString(), "KSPDev-Internal",
-                      type);
-    logs.Enqueue(log);
   }
 }
 
