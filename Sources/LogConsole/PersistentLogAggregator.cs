@@ -51,6 +51,27 @@ sealed class PersistentLogAggregator : BaseLogAggregator {
   [PersistentField("writeErrorFile")]
   bool writeErrorFile = true;
 
+  /// <summary>Limits total number of log files in the directory.</summary>
+  /// <remarks>
+  /// Only files that match file prefix are counted. Older files will be drop to stisfy the limit.
+  /// </remarks>
+  [PersistentField("cleaunpLogFiles/totalFiles")]
+  int totalFiles = -1;
+
+  /// <summary>Limits total size of all log files in the directory.</summary>
+  /// <remarks>
+  /// Only files that match file prefix are counted. Older files will be drop to stisfy the limit.
+  /// </remarks>
+  [PersistentField("cleaunpLogFiles/totalSizeMb")]
+  int totalSizeMb = -1;
+
+  /// <summary>Maximum age of the log files in the directory.</summary>
+  /// <remarks>
+  /// Only files that match file prefix are counted. Older files will be drop to stisfy the limit.
+  /// </remarks>
+  [PersistentField("cleaunpLogFiles/maxAgeHours")]
+  float maxAgeHours = -1;
+
   /// <summary>Specifies if new record should be aggregated and persisted.</summary>
   bool writeLogsToDisk = false;
 
@@ -160,6 +181,12 @@ sealed class PersistentLogAggregator : BaseLogAggregator {
   void StartLogFiles() {
     StopLogFiles();  // In case something was opened.
     try {
+      CleanupLogFiles();
+    } catch (Exception ex) {
+      Debug.LogException(ex);
+      Debug.LogError("Error happen while cleaning up old logs");
+    }
+    try {
       if (enableLogger) {
         if (logFilePath.Length > 0) {
           Directory.CreateDirectory(logFilePath);
@@ -206,6 +233,41 @@ sealed class PersistentLogAggregator : BaseLogAggregator {
     errorLogWriter = null;
     writeLogsToDisk = false;
   }
+
+  /// <summary>Drops extra log files.</summary>
+  void CleanupLogFiles() {
+    if (totalFiles < 0 && totalSizeMb < 0 && maxAgeHours < 0) {
+      return;
+    }
+    var logFiles = Directory.GetFiles(logFilePath, logFilePrefix + ".*")
+        .Select(x => new FileInfo(x))
+        .OrderBy(x => x.CreationTimeUtc)
+        .ToArray();
+    if (logFiles.Length == 0) {
+      Debug.Log("No log files found. Nothing to do");
+      return;
+    }
+    var limitTotalSize = logFiles.Sum(x => x.Length);
+    var limitExtraFiles = logFiles.Count() - totalFiles;
+    var limitAge = DateTime.UtcNow.AddHours(-maxAgeHours);
+    Debug.LogFormat("Found peristent logs: totalFiles={0}, totalSize={1}, oldestDate={2}",
+                    logFiles.Count(), limitTotalSize, logFiles.Min(x => x.CreationTimeUtc));
+    for (var i = 0; i < logFiles.Count(); i++) {
+      var fileinfo = logFiles[i];
+      if (totalFiles > 0 && limitExtraFiles > 0) {
+        Debug.LogFormat("Drop log file due to too many log files exist: {0}", fileinfo.FullName);
+        File.Delete(fileinfo.FullName);
+      } else if (totalSizeMb > 0 && limitTotalSize > totalSizeMb * 1024 * 1024) {
+        Debug.LogFormat("Drop log file due to too large total size: {0}", fileinfo.FullName);
+        File.Delete(fileinfo.FullName);
+      } else if (maxAgeHours > 0 && fileinfo.CreationTimeUtc < limitAge) {
+        Debug.LogFormat("Drop log file due to it's too old: {0}", fileinfo.FullName);
+        File.Delete(fileinfo.FullName);
+      }
+      --limitExtraFiles;
+      limitTotalSize -= fileinfo.Length;
+    }
+  }
 }
 
 /// <summary>A helper class to periodically flush logs to disk.</summary>
@@ -239,6 +301,7 @@ sealed class PersistentLogAggregatorFlusher : MonoBehaviour {
   /// <remarks>This method never returns.</remarks>
   /// <returns>Delay till next flush.</returns>
   IEnumerator FlushLogsCoroutine() {
+    //FIXME InvokeRepeating?
     while (true) {
       yield return new WaitForSeconds(persistentLogsFlushPeriod);
       FlushAllAggregators();
