@@ -55,21 +55,21 @@ sealed class PersistentLogAggregator : BaseLogAggregator {
   /// <remarks>
   /// Only files that match file prefix are counted. Older files will be drop to stisfy the limit.
   /// </remarks>
-  [PersistentField("cleaunpLogFiles/totalFiles")]
+  [PersistentField("cleanupPolicy/totalFiles")]
   int totalFiles = -1;
 
   /// <summary>Limits total size of all log files in the directory.</summary>
   /// <remarks>
   /// Only files that match file prefix are counted. Older files will be drop to stisfy the limit.
   /// </remarks>
-  [PersistentField("cleaunpLogFiles/totalSizeMb")]
+  [PersistentField("cleanupPolicy/totalSizeMb")]
   int totalSizeMb = -1;
 
   /// <summary>Maximum age of the log files in the directory.</summary>
   /// <remarks>
   /// Only files that match file prefix are counted. Older files will be drop to stisfy the limit.
   /// </remarks>
-  [PersistentField("cleaunpLogFiles/maxAgeHours")]
+  [PersistentField("cleanupPolicy/maxAgeHours")]
   float maxAgeHours = -1;
 
   /// <summary>Specifies if new record should be aggregated and persisted.</summary>
