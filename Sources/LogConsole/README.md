@@ -6,7 +6,7 @@ records grouping, and many more. See [here](http://imgur.com/a/rwAyt) how it may
 Read discussions, ask questions and suggest features on
 [forum](http://forum.kerbalspaceprogram.com/index.php?/topic/150786-12-kspdev-logconsole-utils).
 
-##Main features
+#Main features
 
 * Full screen window improves visibility.
 * Advanced system of logs filtering. You can blacklist logs you don't want to see.
@@ -20,3 +20,4 @@ Read discussions, ask questions and suggest features on
 * Pause mode to freeze the view when logs records are added to fast.
 * Two special modes for handling high frequency logs (e.g. when logging from `Update()` method). In
   _Condensed_ and _Smart_ modes multiple repeated records are collapsed into just one line!
+* Console settings can be adjusted via `settings.cfg` file.
