@@ -22,7 +22,7 @@ public abstract class BaseLogAggregator {
 
   /// <summary>A live list of the stored logs.</summary>
   /// <remarks>
-  /// This list constantly updates so, *never* iterate over it! Make a copy and then do  whatever
+  /// This list constantly updates so, *never* iterate over it! Make a copy and then do whatever
   /// readonly operations are needed. Write operations are only allowed from the specific methods.
   /// </remarks>
   protected LinkedList<LogRecord> logRecords = new LinkedList<LogRecord>();
