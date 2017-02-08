@@ -13,6 +13,7 @@
     "$vref"          : "#/ckan/ksp-avc",
     "$kref"          : "#/ckan/github/ihsoft/KSPDev",
     "x_netkan_version_edit" : "^logconsole_(?<version>.+)$",
+    "x_netkan_epoch" : "1",
     "install"        : [
         {
             "file"       : "GameData/KSPDev",
@@ -20,4 +21,3 @@
         }
     ]
 }
-
