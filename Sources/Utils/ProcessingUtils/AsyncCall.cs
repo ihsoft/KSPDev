@@ -15,7 +15,7 @@ namespace KSPDev.ProcessingUtils {
 /// <code><![CDATA[
 /// class MyComponent : MonoBehaviour {
 ///   void MyAsyncMethod(string a, int b) {
-///     Debug.DebugLogInfo("MyAsyncMethod({0}, {1})", a, b);
+///     Debug.LogFormat("MyAsyncMethod({0}, {1})", a, b);
 ///   }
 ///   void Update() {
 ///     // Call method at the end of the current frame.
