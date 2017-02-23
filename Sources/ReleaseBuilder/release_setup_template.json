@@ -37,7 +37,7 @@
     ],
     "Plugins" : [
       "{COMPILED_BINARY}",
-      "?{REPOSITORY_VERSION_FILE}",
+      "?{MINIAVC_VERSION_FILE}",
       "?/Binaries/*",
       "-*.xml"
     ],
