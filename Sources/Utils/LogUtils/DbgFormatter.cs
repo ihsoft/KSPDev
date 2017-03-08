@@ -2,9 +2,11 @@
 // Author: igor.zavoychinskiy@gmail.com
 // This software is distributed under Public domain license.
 
+using KSPDev.ModelUtils;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using UnityEngine;
 
 namespace KSPDev.LogUtils {
 
@@ -15,6 +17,37 @@ public static class DbgFormatter {
   /// <returns>ID string.</returns>
   public static string PartId(Part p) {
     return p != null ? string.Format("{0} (id={1})", p.name, p.flightID) : "NULL";
+  }
+
+  /// <summary>Returns a string represenation of a vector with more precision.</summary>
+  /// <param name="vec">Vector to dump.</param>
+  /// <returns>String representation.</returns>
+  public static string Vector(Vector3 vec) {
+    return string.Format("({0:0.0###}, {1:0.0###}, {2:0.0###})", vec.x, vec.y, vec.z);
+  }
+
+  /// <summary>Returns a string represenation of a quaternion with more precision.</summary>
+  /// <param name="rot">Quaternion to dump.</param>
+  /// <returns>String representation.</returns>
+  public static string Quaternion(Quaternion rot) {
+    return string.Format("({0:0.0###}, {1:0.0###}, {2:0.0###}, {3:0.0###})",
+                         rot.x, rot.y, rot.z, rot.w);
+  }
+
+  /// <summary>Returns a full string path for the tranform.</summary>
+  /// <param name="obj">Object to make the path for.</param>
+  /// <param name="parent">Optional parent to use a root.</param>
+  /// <returns>Full string path to the root.</returns>
+  public static string TranformPath(Transform obj, Transform parent = null) {
+    return string.Join("/", Hierarchy.GetFullPath(obj, parent));
+  }
+
+  /// <summary>Returns a full string path for the game object.</summary>
+  /// <param name="obj">Object to make the path for.</param>
+  /// <param name="parent">Optional parent to use a root.</param>
+  /// <returns>Full string path to the root.</returns>
+  public static string TranformPath(GameObject obj, Transform parent = null) {
+    return TranformPath(obj.transform, parent);
   }
 
   /// <summary>Flatterns collection items into a comma separated string.</summary>

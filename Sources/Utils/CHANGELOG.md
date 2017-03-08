@@ -7,6 +7,8 @@
   [`ModelUtils.Hierarchy`](http://ihsoft.github.io/KSPDev/Utils/html/T_KSPDev_ModelUtils_Hierarchy.htm).
   It can now handle paths of any complexity, and can deal with objects with the same names.
   A better help and examples are also provided.
+* [Enhancement] Extend [`LogUtils.DbgFormatter`](http://ihsoft.github.io/KSPDev/Utils/html/T_KSPDev_LogUtils_DbgFormatter.htm)
+  with more methods to log vectors, quaternions and hierarchy paths.
 
 # 0.20.0 (January 8th, 2017):
 * [Fix] Handling "None" collider type in [`ModelUtils.Colliders`](http://ihsoft.github.io/KSPDev/Utils/html/T_KSPDev_ModelUtils_Colliders.htm).
