@@ -15,7 +15,7 @@ namespace KSPDev.ConfigUtils {
 /// <para>Each <c>.cfg</c> file in the mod's folders is scanned and indexed by the game on start. The
 /// data is stored in the database where it can be accessed from the game. The access is read-only,
 /// any changes to the node returned from the database won't affect the database state.</para>
-/// <para>Config file in the database is indentified by a key which is made of three major parts:
+/// <para>The config file in the database is identified by a key which is made of three major parts:
 /// <list type="">
 /// <item>A file path relative to <c>GameData</c>.</item>
 /// <item>The config filename without extension.</item>
@@ -44,9 +44,15 @@ namespace KSPDev.ConfigUtils {
 /// <seealso cref="ConfigAccessor.WriteFieldsFromType"/>
 [AttributeUsage(AttributeTargets.Class | AttributeTargets.Struct, AllowMultiple = true)]
 public sealed class PersistentFieldsDatabaseAttribute : AbstractPersistentFieldsFileAttribute {
-  /// <param name="nodePath">An absolute path to the node in the game's database.</param>
-  /// <param name="group">A group of the annotation. When saving or loading persistent fields only
-  /// the fields of this group will be considered. Must not be <c>null</c>.</param>
+  /// <param name="nodePath">
+  /// An absolute path to the node in the game's database. Note that this must be a path to the
+  /// config's <i>root</i>. This path is used to find the right settings <i>file</i>, not the right
+  /// node within a file.
+  /// </param>
+  /// <param name="group">
+  /// A group of the annotation. When saving or loading the persistent fields only the fields of
+  /// this group will be considered. Must not be <c>null</c>.
+  /// </param>
   public PersistentFieldsDatabaseAttribute(string nodePath,
                                            string group = StdPersistentGroups.Default)
       : base("", nodePath, group) {

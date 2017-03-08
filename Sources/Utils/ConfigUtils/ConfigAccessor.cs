@@ -14,9 +14,11 @@ namespace KSPDev.ConfigUtils {
 /// <seealso cref="PersistentFieldAttribute"/>
 public static class StdPersistentGroups {
   /// <summary>A public group that can be saved/loaded on every game scene.</summary>
-  /// <remarks>By the contract any caller can save/load this group at any time. If class declares
-  /// persistent fields with specific save/load logic then they need to have a group different from
-  /// the default.</remarks>
+  /// <remarks>
+  /// By the contract any caller can save/load this group at any time. If the class declares
+  /// persistent fields with a specific save/load logic then they need to have a group different
+  /// from the default.
+  /// </remarks>
   public const string Default = "";
 }
 
