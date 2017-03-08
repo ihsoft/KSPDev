@@ -11,6 +11,8 @@
   A better help and examples are also provided.
 * [Enhancement] Extend [`LogUtils.DbgFormatter`](http://ihsoft.github.io/KSPDev/Utils/html/T_KSPDev_LogUtils_DbgFormatter.htm)
   with more methods to log vectors, quaternions and hierarchy paths.
+* [Enhancement] Allow `C2S` helper in [`LogUtils.DbgFormatter`](http://ihsoft.github.io/KSPDev/Utils/html/T_KSPDev_LogUtils_DbgFormatter.htm)
+  to accept an arbitrary separator string for joining the collection elements.
 
 # 0.20.0 (January 8th, 2017):
 * [Fix] Handling "None" collider type in [`ModelUtils.Colliders`](http://ihsoft.github.io/KSPDev/Utils/html/T_KSPDev_ModelUtils_Colliders.htm).
