@@ -84,70 +84,121 @@ public static class Hierarchy {
     return null;
   }
 
-  /// <summary>Finds transform treating the name as a hierarchy path.</summary>
+  /// <summary>Finds a transform in the hirerachy by the provided path.</summary>
+  /// <remarks>See path format in <see cref="FindTransformByPath(Transform,string[])"/>.</remarks>
   /// <param name="parent">Transfrom to start looking from.</param>
-  /// <param name="path">
-  /// Path to the target. Path elements are separated by "/" symbol. Element can be name or a
-  /// pattern.
-  /// </param>
+  /// <param name="path">Path to the target.</param>
   /// <returns>Transform or <c>null</c> if nothing found.</returns>
+  /// <seealso cref="FindTransformByPath(Transform,string[])"/>
   public static Transform FindTransformByPath(Transform parent, string path) {
     return FindTransformByPath(parent, path.Split('/'));
   }
 
-  /// <summary>Finds transform treating the name as a hierarchy path.</summary>
+  /// <summary>Finds a transform in the hirerachy by the provided path.</summary>
   /// <remarks>
-  /// Elements of the path may specify exact transform name or be one of the following patterns:
+  /// Every element of the path may specify an exact transform name or a partial match pattern:
   /// <list type="bullet">
   /// <item>
-  /// "*" - any child  will match. I.e. all children of the preceding parent will be checked for the
-  /// branch that follows the pattern. First full match will be returned. E.g. if the are parts
-  /// "a/b/c" and "a/aa/c" then pattern "a/*/c" will match "a/b/c" since child "b" is the first in
-  /// the children list. This pattern can be nested to specify that barcnh is expected to be found
-  /// at the exact depth: "a/*/*/c".
+  /// <c>*</c> - any name matches. Such patterns can be nested to specify the desired level of
+  /// nesting. E.g. <c>*/*/a</c> will look for name <c>a</c> in the grandchildren.
   /// </item>
   /// <item>
-  /// "**" - any path will match. I.e. all the branches of the preceding parent will be checked
-  /// until one of them is matched the sub-path that follows the pattern. The shortest path is used
-  /// in case of multple hits. E.g. if there are paths "a/b/c" and "a/c" then pattern "a/**/c" will
-  /// match path "a/c". This pattern cannot be followed by another pattern, but it can follow "*"
-  /// pattern, e.g. "a/*/**/c" (get "c" from any branch of "a" given the depth level is greater than
-  /// 1).
+  /// <c>*</c> as a prefix - the name is matched by suffix. E.g. <c>*a</c> matches any name that
+  /// ends with <c>a</c>.
+  /// </item>
+  /// <item>
+  /// <c>*</c> as a suffix - the name is matched by prefix. E.g. <c>a*</c> matches any name that
+  /// starts with <c>a</c>.
+  /// </item>
+  /// <item>
+  /// <c>**</c> - any <i>path</i> matches. What will eventually be found depends on the pattern to
+  /// the right of <c>**</c>. The path match pattern does a "breadth-first" search, i.e. it tries to
+  /// find the shortest path possible. E.g. <c>**/a/b</c> will go through all the nodes starting
+  /// from the parent until path <c>a/b</c> is found. Be careful with this pattern since in case of
+  /// not matching anything it will walk thought the <i>whole</i> hirerachy.
   /// </item>
   /// </list>
   /// <para>
-  /// Keep in mind that patterns require children scan, and in a worst case scenario all the
-  /// hirerachy can be scanned multiple times.
+  /// All patterns except <c>**</c> may have a matching index. It can be used to resolve matches
+  /// when there are multiple objects found with the same name and at the <i>same level</i>. E.g. if
+  /// there are two objects with name "a" at the root level then the first one can be accessed by
+  /// pattern <c>a:0</c>, and the second one by pattern <c>a:1</c>.
+  /// </para>
+  /// <para>
+  /// Path search is <i>slow</i> since it needs walking though the hierarchy nodes. In the worst
+  /// case all the nodes will be visited. Don't use this method in the performance demanding
+  /// methods.
   /// </para>
   /// </remarks>
   /// <param name="parent">Transfrom to start looking from.</param>
   /// <param name="names">Path elements.</param>
   /// <returns>Transform or <c>null</c> if nothing found.</returns>
+  /// <example>
+  /// Given the following hierarchy:
+  /// <code lang="c++"><![CDATA[
+  /// // a
+  /// // + b
+  /// // | + c
+  /// // | | + c1
+  /// // | | + d
+  /// // | + c
+  /// // |   + d
+  /// // |     + e
+  /// // |       + e1
+  /// // + abc
+  /// ]]></code>
+  /// <para>The following pattern/output will be possible:</para>
+  /// <code><![CDATA[
+  /// // a/b/c/d/e/e1 => node "e1"
+  /// // a/b/*/d/e/e1 => node "e1"
+  /// // a/b/*/*/e/e1 => node "e1"
+  /// // a/b/c/c1 => node "с1"
+  /// // a/b/*:0 => branch "a/b/c/c1", node "c"
+  /// // a/b/*:1 => branch "a/b/c/d/e/e1", node "c"
+  /// // a/b/c:1/d => branch "a/b/c/d/e/e1", node "d"
+  /// // **/e1 => node "e1"
+  /// // **/c1 => node "c1"
+  /// // **/c/d => AMBIGUITY! The first found branch will be taken
+  /// // a/**/e1 => node "e1"
+  /// // *bc => node "abc"
+  /// // ab* => node "abc"
+  /// // *b* => node "abc"
+  /// ]]></code>
+  /// </example>
   public static Transform FindTransformByPath(Transform parent, string[] names) {
     if (names.Length == 0) {
       return parent;
     }
-    var name = names[0];
-    names = names.Skip(1).ToArray();
-    for (var i = parent.childCount - 1; i >= 0; --i) {
+    // Try each child of the parent.
+    var pair = names[0].Split(':');  // Separate index specifier if any.
+    var pattern = pair[0];
+    var reducedNames = names.Skip(1).ToArray();
+    var index = pair.Length > 1 ? Math.Abs(int.Parse(pair[1])) : -1;
+    for (var i = 0; i < parent.childCount; ++i) {
       var child = parent.GetChild(i);
-      if (name == "*") {
-        var branch = FindTransformByPath(child, names); // slice
-        if (branch != null) {
-          return branch;
+      Transform branch = null;
+      // "**" means "zero or more levels", so try parent's level first.
+      if (pattern == "**") { 
+        branch = FindTransformByPath(parent, reducedNames);
+      }
+      // Try all children treating "**" as "*" (one level).
+      if (branch == null
+          && (pattern == "*" || pattern == "**" || PatternMatch(pattern, child.name))) {
+        if (index == -1 || index-- == 0) {
+          branch = FindTransformByPath(child, reducedNames);
         }
-      } else if (name == "**" && child.name == names[0] || child.name == name) {
-        if (name == "**") {
-          names = names.Skip(1).ToArray();
-        }
-        return FindTransformByPath(child, names);
+      }
+      if (branch != null) {
+        return branch;
       }
     }
-    // If "**" pattern is not found in the children then go thru children branches.
-    if (name == "**") {
-      var nextName = names[0];
-      var nextNames = names.Skip(1).ToArray();
-      return FindTransformInChildren(parent, nextName);
+
+    // If "**" didn't match at this level the try it at the lover levels. For this just make a new
+    // path "*/**" to go thru all the children and try "**" on them.
+    if (pattern == "**") {
+      var extendedNames = names.ToList();
+      extendedNames.Insert(0, "*");
+      return FindTransformByPath(parent, extendedNames.ToArray());
     }
     return null;
   }

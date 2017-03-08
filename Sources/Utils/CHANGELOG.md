@@ -3,6 +3,10 @@
   with `WaitForPhysics` method which allows a flexible waiting for the game physics updates.
 * [Enhancement] Add pattern matching method `PatternMatch` into
   [`ModelUtils.Hierarchy`](http://ihsoft.github.io/KSPDev/Utils/html/T_KSPDev_ModelUtils_Hierarchy.htm).
+* [Enhancement] Major refactoring of method `FindTransformByPath` in
+  [`ModelUtils.Hierarchy`](http://ihsoft.github.io/KSPDev/Utils/html/T_KSPDev_ModelUtils_Hierarchy.htm).
+  It can now handle paths of any complexity, and can deal with objects with the same names.
+  A better help and examples are also provided.
 
 # 0.20.0 (January 8th, 2017):
 * [Fix] Handling "None" collider type in [`ModelUtils.Colliders`](http://ihsoft.github.io/KSPDev/Utils/html/T_KSPDev_ModelUtils_Colliders.htm).
