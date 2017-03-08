@@ -34,6 +34,35 @@ public static class Hierarchy {
     child.localScale = scale;
   }
 
+  /// <summary>
+  /// Checks target string against a simple pattern which allows prefix, suffix, and contains match.
+  /// The match is case-sensitive.
+  /// </summary>
+  /// <param name="pattern">
+  /// Pattern to match for:
+  /// <list type="bullet">
+  /// <item>If pattern ends with <c>*</c> then it's a match by prefix.</item>
+  /// <item>If pattern starts with <c>*</c> then it's a match by suffix.</item>
+  /// <item>
+  /// If pattern starts and ends with <c>*</c> then pattern is searched anywhere in the target.
+  /// </item>
+  /// </list>
+  /// </param>
+  /// <param name="target">Target string to check.</param>
+  /// <returns><c>true</c> if pattern matches the target.</returns>
+  public static bool PatternMatch(string pattern, string target) {
+    if (pattern.Length > 0 && pattern[0] == '*') {
+      return target.EndsWith(pattern.Substring(1), StringComparison.Ordinal);
+    }
+    if (pattern.Length > 0 && pattern[pattern.Length - 1] == '*') {
+      return target.StartsWith(pattern.Substring(0, pattern.Length - 1), StringComparison.Ordinal);
+    }
+    if (pattern.Length > 1 && pattern[0] == '*' && pattern[pattern.Length - 1] == '*') {
+      return target.Contains(pattern.Substring(1, pattern.Length - 2));
+    }
+    return target == pattern;
+  }
+
   /// <summary>Finds a transform by name down the hierarchy.</summary>
   /// <remarks>
   /// Implements breadth-first search approach to minimize depth of the found transform.
