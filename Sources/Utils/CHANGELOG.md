@@ -1,4 +1,6 @@
 # 0.21.0 (pre-release):
+* [Change] Refactor [`ProcessingUtils.AsyncCall`](http://ihsoft.github.io/KSPDev/Utils/html/T_KSPDev_ProcessingUtils_AsyncCall.htm)
+  methods to use a standard `Action` type for the delegates. It's an _incompatible_ change!
 * [Enhancement] Extend [`ProcessingUtils.AsyncCall`](http://ihsoft.github.io/KSPDev/Utils/html/T_KSPDev_ProcessingUtils_AsyncCall.htm)
   with `WaitForPhysics` method which allows a flexible waiting for the game physics updates.
 * [Enhancement] Add pattern matching method `PatternMatch` into
