@@ -1,4 +1,4 @@
-# 0.21.0 (pre-release):
+# 0.21.0 (March 8th, 2017):
 * [Change] Refactor [`ProcessingUtils.AsyncCall`](http://ihsoft.github.io/KSPDev/Utils/html/T_KSPDev_ProcessingUtils_AsyncCall.htm)
   methods to use a standard `Action` type for the delegates. It's an _incompatible_ change!
 * [Enhancement] Extend [`ProcessingUtils.AsyncCall`](http://ihsoft.github.io/KSPDev/Utils/html/T_KSPDev_ProcessingUtils_AsyncCall.htm)
