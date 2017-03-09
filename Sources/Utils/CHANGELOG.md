@@ -1,18 +1,10 @@
 # 0.21.0 (March 8th, 2017):
-* [Change] Refactor [`ProcessingUtils.AsyncCall`](http://ihsoft.github.io/KSPDev/Utils/html/T_KSPDev_ProcessingUtils_AsyncCall.htm)
-  methods to use a standard `Action` type for the delegates. It's an _incompatible_ change!
-* [Enhancement] Extend [`ProcessingUtils.AsyncCall`](http://ihsoft.github.io/KSPDev/Utils/html/T_KSPDev_ProcessingUtils_AsyncCall.htm)
-  with `WaitForPhysics` method which allows a flexible waiting for the game physics updates.
-* [Enhancement] Add pattern matching method `PatternMatch` into
-  [`ModelUtils.Hierarchy`](http://ihsoft.github.io/KSPDev/Utils/html/T_KSPDev_ModelUtils_Hierarchy.htm).
-* [Enhancement] Major refactoring of method `FindTransformByPath` in
-  [`ModelUtils.Hierarchy`](http://ihsoft.github.io/KSPDev/Utils/html/T_KSPDev_ModelUtils_Hierarchy.htm).
-  It can now handle paths of any complexity, and can deal with objects with the same names.
-  A better help and examples are also provided.
-* [Enhancement] Extend [`LogUtils.DbgFormatter`](http://ihsoft.github.io/KSPDev/Utils/html/T_KSPDev_LogUtils_DbgFormatter.htm)
-  with more methods to log vectors, quaternions and hierarchy paths.
-* [Enhancement] Allow `C2S` helper in [`LogUtils.DbgFormatter`](http://ihsoft.github.io/KSPDev/Utils/html/T_KSPDev_LogUtils_DbgFormatter.htm)
-  to accept an arbitrary separator string for joining the collection elements.
+* [Change] Refactor [`ProcessingUtils.AsyncCall`](http://ihsoft.github.io/KSPDev/Utils/html/T_KSPDev_ProcessingUtils_AsyncCall.htm) methods to use a standard `Action` type for the delegates. It's an _incompatible_ change!
+* [Enhancement] Add method [`ProcessingUtils.AsyncCall.WaitForPhysics`](http://ihsoft.github.io/KSPDev/Utils/html/M_KSPDev_ProcessingUtils_AsyncCall_WaitForPhysics.htm) which allows a flexible waiting for the game physics updates.
+* [Enhancement] Add method [`ModelUtils.Hierarchy.PatternMatch`](http://ihsoft.github.io/KSPDev/Utils/html/M_KSPDev_ModelUtils_Hierarchy_PatternMatch.htm) which offers simple but commonly used text search patterns.
+* [Enhancement] Major refactoring of [`ModelUtils.Hierarchy.FindTransformByPath`](http://ihsoft.github.io/KSPDev/Utils/html/M_KSPDev_ModelUtils_Hierarchy_FindTransformByPath_1.htm). It can now handle paths of any complexity, and can deal with objects with the same names. A better help and examples are also provided.
+* [Enhancement] Extend [`LogUtils.DbgFormatter`](http://ihsoft.github.io/KSPDev/Utils/html/T_KSPDev_LogUtils_DbgFormatter.htm) with more methods to log vectors, quaternions and hierarchy paths.
+* [Enhancement] Allow [`LogUtils.DbgFormatter.C2S`](http://ihsoft.github.io/KSPDev/Utils/html/M_KSPDev_LogUtils_DbgFormatter_C2S__1.htm) to accept an arbitrary separator string for joining the collection elements.
 
 # 0.20.0 (January 8th, 2017):
 * [Fix] Handling "None" collider type in [`ModelUtils.Colliders`](http://ihsoft.github.io/KSPDev/Utils/html/T_KSPDev_ModelUtils_Colliders.htm).
