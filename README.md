@@ -7,8 +7,7 @@ It's a set of projects that help developing and debugging mods for Kerbal Space 
 Advanced console for in-game logging system. Supports persistense, filtering, records grouping, and
 many more.
 
-See [README.md](https://github.com/ihsoft/KSPDev/tree/master/Sources/LogConsole/README.md) for more
-information.
+See more details in Wiki: https://github.com/ihsoft/KSPDev/wiki/LogConsole
 
 ## Utils
 
