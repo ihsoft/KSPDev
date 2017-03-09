@@ -56,8 +56,8 @@ public static class DbgFormatter {
   /// into a human readable string.</remarks>
   /// <param name="collection">A collection to represent as a string.</param>
   /// <param name="predicate">A predicate to use to extract string representation of an item. If
-  /// <param name="separator">String to use to glue the parts.</param>
   /// <c>null</c> then standard <c>ToString()</c> is used.</param>
+  /// <param name="separator">String to use to glue the parts.</param>
   /// <returns>Human readable form of the collection.</returns>
   /// <typeparam name="TSource">Collection's item type.</typeparam>
   public static string C2S<TSource>(IEnumerable<TSource> collection,

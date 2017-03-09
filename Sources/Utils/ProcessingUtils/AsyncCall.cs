@@ -111,7 +111,7 @@ public static class AsyncCall {
   /// Unity object to run coroutine on. If this object dies then waiting will be aborted without
   /// calling any callbacks.
   /// </param>
-  /// <param name="maxFrames">Number of fixed frame update to wait before giving up.</param>
+  /// <param name="maxFrames">Number of fixed frame updates to wait before giving up.</param>
   /// <param name="waitUntilFn">
   /// State checking function. It should return <c>true</c> once target state is reached. The very
   /// first execution happens immediately, <i>before</i> exiting from the method. If this
@@ -174,7 +174,23 @@ public static class AsyncCall {
   }
 
   /// <summary>Async version of <see cref="WaitForPhysics"/>.</summary>
-  /// <returns>Enumerator that can be used as coroutine target.</returns>
+  /// <param name="maxFrames">Number of fixed frame updates to wait before giving up.</param>
+  /// <param name="waitUntilFn">
+  /// State checking function. It should return <c>true</c> once target state is reached. The very
+  /// first execution happens immediately, <i>before</i> exiting from the method. If this
+  /// this execution returned <c>true</c> then the successful callback is also called immediately. 
+  /// </param>
+  /// <param name="success">Callback to execute when state has been successfully reached.</param>
+  /// <param name="failure">
+  /// Callabck to execute when state has not been reached before frame update limit is exhausted.
+  /// </param>
+  /// <param name="update">
+  /// Callback to execute every fixed frame update while waiting. This callabck will be called at
+  /// least once, and teh first call happens immediately. The argument tells how many frames the
+  /// method was waiting so far. For the very first call it's, obviously, zero.
+  /// </param>
+  /// <param name="traceUpdates">When <c>true</c> every wiating cycle will be logged.</param>
+  /// <returns>Enumerator that can be used as a coroutine target.</returns>
   /// <seealso cref="WaitForPhysics"/>
   /// <example>
   /// This method is useful when synchronous wait is needed within a coroutine. Instead of
