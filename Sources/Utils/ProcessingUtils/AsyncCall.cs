@@ -159,6 +159,7 @@ public static class AsyncCall {
   /// ]]></code>
   /// <para>If you adjust <c>count</c> to <c>11</c> then the last message will be "Failure!".</para>
   /// </example>
+  /// <seealso cref="AsyncWaitForPhysics"/>
   /// <seealso href="https://docs.unity3d.com/Manual/Coroutines.html">Unity 3D: Coroutines</seealso>
   /// <seealso href="https://docs.unity3d.com/ScriptReference/WaitForFixedUpdate.html">
   /// Unity 3D: WaitForFixedUpdate</seealso>
