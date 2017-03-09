@@ -62,10 +62,12 @@
     <HelpKINode Title="about AsyncCall class" Url="html/T_KSPDev_ProcessingUtils_AsyncCall.htm" />
     <HelpKINode Title="methods" Url="html/Methods_T_KSPDev_ProcessingUtils_AsyncCall.htm" />
   </HelpKINode>
-  <HelpKINode Title="AsyncCall.Action0 delegate" Url="html/T_KSPDev_ProcessingUtils_AsyncCall_Action0.htm" />
+  <HelpKINode Title="AsyncCall.AsyncWaitForPhysics method" Url="html/M_KSPDev_ProcessingUtils_AsyncCall_AsyncWaitForPhysics.htm" />
   <HelpKINode Title="AsyncCall.CallOnEndOfFrame method" Url="html/M_KSPDev_ProcessingUtils_AsyncCall_CallOnEndOfFrame.htm" />
   <HelpKINode Title="AsyncCall.CallOnFixedUpdate method" Url="html/M_KSPDev_ProcessingUtils_AsyncCall_CallOnFixedUpdate.htm" />
   <HelpKINode Title="AsyncCall.CallOnTimeout method" Url="html/M_KSPDev_ProcessingUtils_AsyncCall_CallOnTimeout.htm" />
+  <HelpKINode Title="AsyncCall.WaitForPhysics method" Url="html/M_KSPDev_ProcessingUtils_AsyncCall_WaitForPhysics.htm" />
+  <HelpKINode Title="AsyncWaitForPhysics method" Url="html/M_KSPDev_ProcessingUtils_AsyncCall_AsyncWaitForPhysics.htm" />
   <HelpKINode Title="Bounds enumeration member" Url="html/T_KSPDev_ModelUtils_Colliders_PrimitiveCollider.htm" />
   <HelpKINode Title="C2S(Of TSource) method" Url="html/M_KSPDev_LogUtils_DbgFormatter_C2S__1.htm" />
   <HelpKINode Title="C2S&lt;TSource&gt; method" Url="html/M_KSPDev_LogUtils_DbgFormatter_C2S__1.htm" />
@@ -129,6 +131,9 @@
   <HelpKINode Title="DbgFormatter.C2S(Of TSource) method" Url="html/M_KSPDev_LogUtils_DbgFormatter_C2S__1.htm" />
   <HelpKINode Title="DbgFormatter.C2S&lt;TSource&gt; method" Url="html/M_KSPDev_LogUtils_DbgFormatter_C2S__1.htm" />
   <HelpKINode Title="DbgFormatter.PartId method" Url="html/M_KSPDev_LogUtils_DbgFormatter_PartId.htm" />
+  <HelpKINode Title="DbgFormatter.Quaternion method" Url="html/M_KSPDev_LogUtils_DbgFormatter_Quaternion.htm" />
+  <HelpKINode Title="DbgFormatter.TranformPath method" Url="html/Overload_KSPDev_LogUtils_DbgFormatter_TranformPath.htm" />
+  <HelpKINode Title="DbgFormatter.Vector method" Url="html/M_KSPDev_LogUtils_DbgFormatter_Vector.htm" />
   <HelpKINode Title="DecoupleAction method" Url="html/M_KSPDev_KSPInterfaces_IKSPActivateOnDecouple_DecoupleAction.htm" />
   <HelpKINode Title="Default field" Url="html/F_KSPDev_ConfigUtils_StdPersistentGroups_Default.htm" />
   <HelpKINode Title="DefaultErrorTimeout field" Url="html/F_KSPDev_GUIUtils_ScreenMessaging_DefaultErrorTimeout.htm" />
@@ -225,6 +230,7 @@
   <HelpKINode Title="Hierarchy.GetPartModelTransform method" Url="html/M_KSPDev_ModelUtils_Hierarchy_GetPartModelTransform.htm" />
   <HelpKINode Title="Hierarchy.ListHirerahcy method" Url="html/M_KSPDev_ModelUtils_Hierarchy_ListHirerahcy.htm" />
   <HelpKINode Title="Hierarchy.MoveToParent method" Url="html/M_KSPDev_ModelUtils_Hierarchy_MoveToParent.htm" />
+  <HelpKINode Title="Hierarchy.PatternMatch method" Url="html/M_KSPDev_ModelUtils_Hierarchy_PatternMatch.htm" />
   <HelpKINode Title="HintOverlay class">
     <HelpKINode Title="HintOverlay Class" Url="html/T_KSPDev_GUIUtils_HintOverlay.htm" />
     <HelpKINode Title="about HintOverlay class" Url="html/T_KSPDev_GUIUtils_HintOverlay.htm" />
@@ -388,7 +394,6 @@
   <HelpKINode Title="KSPDev.ModelUtils.Meshes class" Url="html/T_KSPDev_ModelUtils_Meshes.htm" />
   <HelpKINode Title="KSPDev.ProcessingUtils namespace" Url="html/N_KSPDev_ProcessingUtils.htm" />
   <HelpKINode Title="KSPDev.ProcessingUtils.AsyncCall class" Url="html/T_KSPDev_ProcessingUtils_AsyncCall.htm" />
-  <HelpKINode Title="KSPDev.ProcessingUtils.AsyncCall.Action0 delegate" Url="html/T_KSPDev_ProcessingUtils_AsyncCall_Action0.htm" />
   <HelpKINode Title="KSPDev.ProcessingUtils.SimpleStateMachine(Of T) class" Url="html/T_KSPDev_ProcessingUtils_SimpleStateMachine_1.htm" />
   <HelpKINode Title="KSPDev.ProcessingUtils.SimpleStateMachine(Of T).OnChange delegate" Url="html/T_KSPDev_ProcessingUtils_SimpleStateMachine_1_OnChange.htm" />
   <HelpKINode Title="KSPDev.ProcessingUtils.SimpleStateMachine(Of T).OnDebugChange delegate" Url="html/T_KSPDev_ProcessingUtils_SimpleStateMachine_1_OnDebugChange.htm" />
@@ -606,6 +611,7 @@
   <HelpKINode Title="PartId method" Url="html/M_KSPDev_LogUtils_DbgFormatter_PartId.htm" />
   <HelpKINode Title="PARTS enumeration member" Url="html/T_KSPDev_ModelUtils_KspLayerMask.htm" />
   <HelpKINode Title="path field" Url="html/F_KSPDev_ConfigUtils_AbstractPersistentFieldAttribute_path.htm" />
+  <HelpKINode Title="PatternMatch method" Url="html/M_KSPDev_ModelUtils_Hierarchy_PatternMatch.htm" />
   <HelpKINode Title="PersistentFieldAttribute class">
     <HelpKINode Title="PersistentFieldAttribute Class" Url="html/T_KSPDev_ConfigUtils_PersistentFieldAttribute.htm" />
     <HelpKINode Title="about PersistentFieldAttribute class" Url="html/T_KSPDev_ConfigUtils_PersistentFieldAttribute.htm" />
@@ -641,6 +647,7 @@
   <HelpKINode Title="PrimitiveTypesProto.ParseFromString method" Url="html/M_KSPDev_ConfigUtils_PrimitiveTypesProto_ParseFromString.htm" />
   <HelpKINode Title="PrimitiveTypesProto.PrimitiveTypesProto constructor" Url="html/M_KSPDev_ConfigUtils_PrimitiveTypesProto__ctor.htm" />
   <HelpKINode Title="PrimitiveTypesProto.SerializeToString method" Url="html/M_KSPDev_ConfigUtils_PrimitiveTypesProto_SerializeToString.htm" />
+  <HelpKINode Title="Quaternion method" Url="html/M_KSPDev_LogUtils_DbgFormatter_Quaternion.htm" />
   <HelpKINode Title="ReadFieldsFromDatabase method" Url="html/M_KSPDev_ConfigUtils_ConfigAccessor_ReadFieldsFromDatabase.htm" />
   <HelpKINode Title="ReadFieldsFromFile method" Url="html/M_KSPDev_ConfigUtils_ConfigAccessor_ReadFieldsFromFile.htm" />
   <HelpKINode Title="ReadFieldsFromNode method" Url="html/M_KSPDev_ConfigUtils_ConfigAccessor_ReadFieldsFromNode.htm" />
@@ -772,6 +779,7 @@
   <HelpKINode Title="String to Message&lt;T1&gt; conversion" Url="html/M_KSPDev_GUIUtils_Message_1_op_Implicit.htm" />
   <HelpKINode Title="SURFACE enumeration member" Url="html/T_KSPDev_ModelUtils_KspLayerMask.htm" />
   <HelpKINode Title="text property" Url="html/P_KSPDev_GUIUtils_HintOverlay_text.htm" />
+  <HelpKINode Title="TranformPath method" Url="html/Overload_KSPDev_LogUtils_DbgFormatter_TranformPath.htm" />
   <HelpKINode Title="TranslateMesh method" Url="html/M_KSPDev_ModelUtils_Meshes_TranslateMesh.htm" />
   <HelpKINode Title="UISoundPlayer class">
     <HelpKINode Title="UISoundPlayer Class" Url="html/T_KSPDev_GUIUtils_UISoundPlayer.htm" />
@@ -787,6 +795,8 @@
   <HelpKINode Title="Update method" Url="html/M_KSPDev_InputUtils_KeyboardInputSwitch_Update.htm" />
   <HelpKINode Title="UpdateColliders method" Url="html/M_KSPDev_ModelUtils_Colliders_UpdateColliders.htm" />
   <HelpKINode Title="UpdateMaterials method" Url="html/M_KSPDev_ModelUtils_Meshes_UpdateMaterials.htm" />
+  <HelpKINode Title="Vector method" Url="html/M_KSPDev_LogUtils_DbgFormatter_Vector.htm" />
+  <HelpKINode Title="WaitForPhysics method" Url="html/M_KSPDev_ProcessingUtils_AsyncCall_WaitForPhysics.htm" />
   <HelpKINode Title="WarningColor field" Url="html/F_KSPDev_GUIUtils_ScreenMessaging_WarningColor.htm" />
   <HelpKINode Title="WriteFieldsFromType method" Url="html/M_KSPDev_ConfigUtils_ConfigAccessor_WriteFieldsFromType.htm" />
   <HelpKINode Title="WriteFieldsIntoFile method" Url="html/M_KSPDev_ConfigUtils_ConfigAccessor_WriteFieldsIntoFile.htm" />
