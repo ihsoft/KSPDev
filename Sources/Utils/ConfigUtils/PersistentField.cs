@@ -193,7 +193,7 @@ sealed class PersistentField {
     return node;
   }
   
-  /// <summary>Sets compound type field values from the config node.</summary>
+  /// <summary>Sets a compound type field values from the config node.</summary>
   /// <param name="node">Node to read values from.</param>
   /// <param name="instance">Owner of the fields.</param>
   void DeserializeCompoundFieldsFromNode(ConfigNode node, object instance) {
