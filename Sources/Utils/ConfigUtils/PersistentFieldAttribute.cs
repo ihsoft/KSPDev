@@ -6,15 +6,15 @@ using System;
 
 namespace KSPDev.ConfigUtils {
 
-/// <summary>A simple attribute for fields that need (de)serialization.</summary>
+/// <summary>A simple attribute for the fields that need (de)serialization.</summary>
 /// <remarks>
 /// This form allows adjusting any <see cref="AbstractPersistentFieldAttribute"/> property
-/// in the annotation, and has a shortcut to mark a field as collection
+/// in the annotation, and has a shortcut to mark a field as a collection
 /// (<c><see cref="isCollection"/> = true</c>).
 /// <para>
-/// By default ordinal values are handled via <see cref="StandardOrdinaryTypesProto"/>
-/// and collection fields via <see cref="GenericCollectionTypeProto"/>. These proto handlers can
-/// be changed in the annotation by assigning values to properties
+/// By default the ordinal values are handled via <see cref="StandardOrdinaryTypesProto"/>
+/// and the collection fields via <see cref="GenericCollectionTypeProto"/>. These proto handlers can
+/// be changed in the annotation by assigning properties
 /// <see cref="ordinaryTypeProto"/> and/or <see cref="collectionTypeProto"/>.
 /// </para>
 /// </remarks>
@@ -71,13 +71,13 @@ namespace KSPDev.ConfigUtils {
 /// }
 /// ]]></code>
 /// <para>
-/// Note that group is ignored in the nested types. I.e. in <c>ComplexType</c> in this case. Though,
-/// if <c>ComplexType</c> was an immediate target of the <c>WriteFieldsIntoFile</c> call then the
-/// group would be considered.
+/// Note that the group is ignored in the nested types. I.e. in <c>ComplexType</c> in this case.
+/// Hovewer, if <c>ComplexType</c> was an immediate target of the <c>WriteFieldsIntoFile</c> call
+/// then the group would be considered.
 /// </para>
 /// <para>
-/// Visibility of the annotated field is also important. Persistent field attributes are only
-/// visible in the child class if they were public or protected in the parent. Private field
+/// Visibility of the annotated field is also important. The persistent field attributes are only
+/// visible in the child class if they were public or protected in the parent. The private field
 /// annotations are not inherited and need to be handled at the level of the declaring class.
 /// </para>
 /// <code><![CDATA[
@@ -120,13 +120,13 @@ namespace KSPDev.ConfigUtils {
 /// }
 /// ]]></code>
 /// <para>
-/// The code above implies that in a common case unsealed class should put private fields in a group
-/// other than default to avoid settings collision.
+/// The code above implies that in a common case unsealed class should put the private fields in a
+/// group other than default to avoid settings collision.
 /// </para>
 /// <para>
-/// When type of the field is different from primitive C# type or common Unity 4 type you may need
-/// provide custom value handlers to deal with (de)serializing. E.g. for an ordinary type it may
-/// look like this:
+/// When the type of the field is different from a primitive C# type or a common Unity 4 type you
+/// may need to provide a custom value handler to deal with (de)serializing. E.g. for an ordinary
+/// type it may look like this:
 /// </para>
 /// <code><![CDATA[
 /// class CustomType {
@@ -135,8 +135,8 @@ namespace KSPDev.ConfigUtils {
 /// }
 /// ]]></code>
 /// <para>
-/// Or you custom class can implement KSP interface <see cref="IConfigNode"/>, and it will be
-/// invoked during field saving and restoring.
+/// Or your custom class can implement a KSP interface <see cref="IConfigNode"/>, and it will be
+/// invoked during the field saving and restoring.
 /// </para>
 /// <code><![CDATA[
 /// class NodeCustomType : IConfigNode {
@@ -147,17 +147,31 @@ namespace KSPDev.ConfigUtils {
 /// }
 /// ]]></code>
 /// <para>
+/// It's important to note that complex (a.k.a. "compound") types like this are only handled when
+/// the field's value is not <c>null</c>. I.e. in the following example the value of <c>field1</c>
+/// will not be restored even if there is a node in the config file:
+/// </para>
+/// <code><![CDATA[
+/// class MyModule : PartModule {
+///   [PersistentField("field1")]
+///   public NodeCustomType field1;
+///
+///   [PersistentField("field2")]
+///   public NodeCustomType field2 = new NodeCustomType();
+/// }
+/// ]]></code>
+/// <para>
 /// If your custom type is a collection that cannot be handled by the standard proto you can provide
-/// your own collection proto handler. Note that if you do then annotated field will be treated as a
-/// collection. In fact, when you set <c>isCollection = true</c> what actually happens is just
+/// your own collection proto handler. Note that if you do then the annotated field will be treated
+/// as a collection. In fact, when you set <c>isCollection = true</c> what actually happens is just
 /// assigning <see cref="GenericCollectionTypeProto"/> as a collection proto handler.
 /// </para>
 /// <code><![CDATA[
 /// class CustomTypes {
 ///   [PersistentField("my/custom/type", collectionTypeProto = typeof(MyCollectionProto))]
 ///   private MyCollection field1;
-/// ]]>}
-/// </code>
+/// }
+/// ]]></code>
 /// For more examples on custom proto handlers see <see cref="AbstractOrdinaryValueTypeProto"/> and
 /// <see cref="AbstractCollectionTypeProto"/>.
 /// </example>
