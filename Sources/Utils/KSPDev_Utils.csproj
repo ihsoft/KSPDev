@@ -115,6 +115,7 @@
     <Compile Include="ProcessingUtils\AsyncCall.cs" />
     <Compile Include="ProcessingUtils\SimpleStateMachine.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Types\PosAndRot.cs" />
     <Compile Include="VersionLogger.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -126,6 +127,7 @@
     <Folder Include="FSUtils" />
     <Folder Include="ModelUtils" />
     <Folder Include="InputUtils" />
+    <Folder Include="Types" />
     <Folder Include="ProcessingUtils" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

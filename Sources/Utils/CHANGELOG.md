@@ -2,6 +2,7 @@
 * [Enhancement] Add a new utility class to deal with the transformations orientation: [`ModelUtils.AlignTransforms`](http://ihsoft.github.io/KSPDev/Utils/html/T_KSPDev_ModelUtils_AlignTransforms.htm).
 * [Enhancement] Add a new utility class to deal with the parts configs: [`ConfigUtils.PartConfig`](http://ihsoft.github.io/KSPDev/Utils/html/T_KSPDev_ConfigUtils_PartConfig.htm).
 * [Enhancement] Add an interface to allow custom types serializing into/from a string: [`ConfigUtils.IPersistentField`](http://ihsoft.github.io/KSPDev/Utils/html/T_KSPDev_ConfigUtils_IPersistentField.htm).
+* [Enhancement] Add a new serializable type to keep orientation and position: [`Types.PosAndRot`](http://ihsoft.github.io/KSPDev/Utils/html/T_KSPDev_Types_PosAndRot.htm).
 
 # 0.21.0 (March 8th, 2017):
 * [Change] Refactor [`ProcessingUtils.AsyncCall`](http://ihsoft.github.io/KSPDev/Utils/html/T_KSPDev_ProcessingUtils_AsyncCall.htm) methods to use a standard `Action` type for the delegates. It's an _incompatible_ change!
