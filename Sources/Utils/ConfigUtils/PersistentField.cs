@@ -147,7 +147,7 @@ sealed class PersistentField {
               collectionProto.AddItem(value, itemValue);
             } catch (Exception ex) {
               Debug.LogErrorFormat("Cannot parse value \"{0}\" as {1}: {2}",
-                                   itemCfgs, fieldInfo.FieldType.FullName, ex.Message);
+                                   itemCfgs, collectionProto.GetItemType().FullName, ex.Message);
             }
           }
         }
