@@ -175,7 +175,7 @@ sealed class PersistentField {
       }
     }
   }
-  
+
   /// <summary>Makes a config node from the compound type fields.</summary>
   /// <param name="instance">Owner of the fields. Can be <c>null</c> for static fields.</param>
   /// <returns>New configuration node with the data.</returns>
@@ -192,7 +192,7 @@ sealed class PersistentField {
     }
     return node;
   }
-
+  
   /// <summary>Sets a compound type field values from the config node.</summary>
   /// <param name="node">Node to read values from.</param>
   /// <param name="instance">Owner of the fields.</param>
