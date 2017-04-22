@@ -161,6 +161,12 @@ namespace KSPDev.ConfigUtils {
 /// }
 /// ]]></code>
 /// <para>
+/// In case of your type is really simple, and you can serialize it into a plain string, you may
+/// choose to implement <see cref="IPersistentField"/> instead. It works in a similar way but the
+/// source/target of the persistense is a string instead of a config node. Simple types deal with
+/// <c>null</c>'s in a different way (read the docs for the interface).
+/// </para>
+/// <para>
 /// If your custom type is a collection that cannot be handled by the standard proto you can provide
 /// your own collection proto handler. Note that if you do then the annotated field will be treated
 /// as a collection. In fact, when you set <c>isCollection = true</c> what actually happens is just
@@ -178,6 +184,7 @@ namespace KSPDev.ConfigUtils {
 /// <seealso cref="ConfigAccessor"/>
 /// <seealso cref="AbstractOrdinaryValueTypeProto"/>
 /// <seealso cref="AbstractCollectionTypeProto"/>
+/// <seealso cref="IPersistentField"/>
 /// <seealso href="https://kerbalspaceprogram.com/api/interface_i_config_node.html">KSP: IConfigNode</seealso>
 [AttributeUsage(AttributeTargets.Field)]
 public sealed class PersistentFieldAttribute : AbstractPersistentFieldAttribute {

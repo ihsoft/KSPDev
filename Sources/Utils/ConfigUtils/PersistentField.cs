@@ -19,6 +19,7 @@ sealed class PersistentField {
   readonly AbstractOrdinaryValueTypeProto simpleTypeProto;
   readonly AbstractCollectionTypeProto collectionProto;
   readonly bool isCompound;
+  readonly bool isCustomSimpleType;
   readonly PersistentField[] compoundTypeFields;
   readonly bool isDisabled;
 
@@ -38,14 +39,15 @@ sealed class PersistentField {
     simpleTypeProto =
         Activator.CreateInstance(fieldAttr.ordinaryTypeProto)
         as AbstractOrdinaryValueTypeProto;
+    isCustomSimpleType = typeof(IPersistentField).IsAssignableFrom(ordinaryType);
 
     // Determine if field's or collection item's type is a class (compound type).
-    isCompound = !simpleTypeProto.CanHandle(ordinaryType) &&
-        (ordinaryType.IsValueType && !ordinaryType.IsEnum  // IsStruct
-         || ordinaryType.IsClass && ordinaryType != typeof(string)
-            && !ordinaryType.IsEnum);  // IsClass
+    isCompound = !simpleTypeProto.CanHandle(ordinaryType) && !isCustomSimpleType
+        && (ordinaryType.IsValueType && !ordinaryType.IsEnum  // IsStruct
+            || ordinaryType.IsClass && ordinaryType != typeof(string)
+               && !ordinaryType.IsEnum);  // IsClass
 
-    if (!isCompound && !simpleTypeProto.CanHandle(ordinaryType)) {
+    if (!isCompound && !simpleTypeProto.CanHandle(ordinaryType) && !isCustomSimpleType) {
       Debug.LogErrorFormat(
           "Proto {0} cannot handle value in field {1}.{2}",
           ordinaryType.FullName, fieldInfo.DeclaringType.FullName, fieldInfo.Name);
@@ -98,6 +100,9 @@ sealed class PersistentField {
         if (itemValue != null) {
           if (isCompound) {
             ConfigAccessor.AddNodeByPath(node, cfgPath, SerializeCompoundFieldsToNode(itemValue));
+          } else if (isCustomSimpleType) {
+            ConfigAccessor.AddValueByPath(
+                node, cfgPath, ((IPersistentField)itemValue).SerializeToString());
           } else {
             ConfigAccessor.AddValueByPath(
                 node, cfgPath, simpleTypeProto.SerializeToString(itemValue));
@@ -108,6 +113,8 @@ sealed class PersistentField {
       // For ordinal values just serialize the value.
       if (isCompound) {
         ConfigAccessor.SetNodeByPath(node, cfgPath, SerializeCompoundFieldsToNode(value));
+      } else if (isCustomSimpleType) {
+        ConfigAccessor.SetValueByPath(node, cfgPath, ((IPersistentField)value).SerializeToString());
       } else {
         ConfigAccessor.SetValueByPath(node, cfgPath, simpleTypeProto.SerializeToString(value));
       }
@@ -143,7 +150,13 @@ sealed class PersistentField {
         if (itemCfgs != null) {
           foreach (var itemCfg in itemCfgs) {
             try {
-              var itemValue = simpleTypeProto.ParseFromString(itemCfg, collectionProto.GetItemType());
+              object itemValue;
+              if (isCustomSimpleType) {
+                itemValue = Activator.CreateInstance(collectionProto.GetItemType());
+                ((IPersistentField)itemValue).ParseFromString(itemCfg);
+              } else {
+                itemValue = simpleTypeProto.ParseFromString(itemCfg, collectionProto.GetItemType());
+              }
               collectionProto.AddItem(value, itemValue);
             } catch (Exception ex) {
               Debug.LogErrorFormat("Cannot parse value \"{0}\" as {1}: {2}",
@@ -165,8 +178,15 @@ sealed class PersistentField {
         var cfgValue = ConfigAccessor.GetValueByPath(node, cfgPath);
         if (cfgValue != null) {
           try {
-            fieldInfo.SetValue(
-                instance, simpleTypeProto.ParseFromString(cfgValue, fieldInfo.FieldType));
+            object fieldValue;
+            if (isCustomSimpleType) {
+              // Prefer the existing instance of the field value when available.
+              fieldValue = value ?? Activator.CreateInstance(fieldInfo.FieldType);
+              ((IPersistentField)fieldValue).ParseFromString(cfgValue);
+            } else {
+              fieldValue = simpleTypeProto.ParseFromString(cfgValue, fieldInfo.FieldType);
+            }
+            fieldInfo.SetValue(instance, fieldValue);
           } catch (Exception ex) {
             Debug.LogErrorFormat("Cannot parse value \"{0}\" as {1}: {2}",
                                  cfgValue, fieldInfo.FieldType.FullName, ex.Message);
