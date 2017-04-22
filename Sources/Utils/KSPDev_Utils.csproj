@@ -74,6 +74,7 @@
     <Compile Include="ConfigUtils\AbstractOrdinaryValueTypeProto.cs" />
     <Compile Include="ConfigUtils\AbstractPersistentFieldAttribute.cs" />
     <Compile Include="ConfigUtils\AbstractPersistentFieldsFileAttribute.cs" />
+    <Compile Include="ConfigUtils\PartConfig.cs" />
     <Compile Include="ConfigUtils\PersistentFieldsDatabaseAttribute.cs" />
     <Compile Include="ConfigUtils\PersistentFieldsFileAttribute.cs" />
     <Compile Include="ConfigUtils\GenericCollectionTypeProto.cs" />
@@ -105,6 +106,7 @@
     <Compile Include="KSPInterfaces\IsPackable.cs" />
     <Compile Include="KSPInterfaces\IsPhysicalObject.cs" />
     <Compile Include="LogUtils\DbgFormatter.cs" />
+    <Compile Include="ModelUtils\AlignTransforms.cs" />
     <Compile Include="ModelUtils\Colliders.cs" />
     <Compile Include="ModelUtils\Hierarchy.cs" />
     <Compile Include="ModelUtils\KspLayer.cs" />
