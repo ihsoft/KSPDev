@@ -1,3 +1,6 @@
+# 0.22.0 (pre-release):
+* [Enhancement] Add a new utility class to deal with the transformations orientation: [`ModelUtils.AlignTransforms`](http://ihsoft.github.io/KSPDev/Utils/html/T_KSPDev_ModelUtils_AlignTransforms.htm).
+
 # 0.21.0 (March 8th, 2017):
 * [Change] Refactor [`ProcessingUtils.AsyncCall`](http://ihsoft.github.io/KSPDev/Utils/html/T_KSPDev_ProcessingUtils_AsyncCall.htm) methods to use a standard `Action` type for the delegates. It's an _incompatible_ change!
 * [Enhancement] Add method [`ProcessingUtils.AsyncCall.WaitForPhysics`](http://ihsoft.github.io/KSPDev/Utils/html/M_KSPDev_ProcessingUtils_AsyncCall_WaitForPhysics.htm) which allows a flexible waiting for the game physics updates.
