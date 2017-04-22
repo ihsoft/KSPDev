@@ -52,7 +52,7 @@ sealed class PersistentField {
       isDisabled = true;
     }
 
-    // For compuond type retrieve all it's persisted fields. 
+    // For a compound type retrieve all its persisted fields. 
     if (isCompound && !isDisabled) {
       // Ignore static fields of the compound type since it can be used by multiple persistent
       // fields or as an item in a collection field.
@@ -192,7 +192,7 @@ sealed class PersistentField {
     }
     return node;
   }
-  
+
   /// <summary>Sets a compound type field values from the config node.</summary>
   /// <param name="node">Node to read values from.</param>
   /// <param name="instance">Owner of the fields.</param>

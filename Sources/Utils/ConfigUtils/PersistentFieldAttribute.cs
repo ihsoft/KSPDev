@@ -72,7 +72,7 @@ namespace KSPDev.ConfigUtils {
 /// ]]></code>
 /// <para>
 /// Note that the group is ignored in the nested types. I.e. in <c>ComplexType</c> in this case.
-/// Hovewer, if <c>ComplexType</c> was an immediate target of the <c>WriteFieldsIntoFile</c> call
+/// However, if <c>ComplexType</c> was an immediate target of the <c>WriteFieldsIntoFile</c> call
 /// then the group would be considered.
 /// </para>
 /// <para>
