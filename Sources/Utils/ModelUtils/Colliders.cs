@@ -43,8 +43,9 @@ public static class Colliders {
   /// <param name="parent">Parent object.</param>
   /// <param name="type">
   /// Type of the primitive which describes the parent object most precise in terms of the shape.
-  /// Only <see cref="PrimitiveType.Cube"/>, <see cref="PrimitiveType.Capsule"/>, and
-  /// <see cref="PrimitiveType.Sphere"/> are supported.
+  /// Only <see cref="PrimitiveType.Cube"/>, <see cref="PrimitiveType.Sphere"/>,
+  /// <see cref="PrimitiveType.Cylinder"/>, and <see cref="PrimitiveType.Capsule"/> are supported.
+  /// The two latter types produce in the same collider type - the capsule.
   /// </param>
   /// <param name="inscribeBoundaryIntoCollider">
   /// When calculating the total volume of the object, all its meshes produce a single box boundary.
@@ -76,7 +77,7 @@ public static class Colliders {
       var collider = parent.AddComponent<BoxCollider>();
       collider.center = combinedBounds.center;
       collider.size = combinedBounds.size;
-    } else if (type == PrimitiveType.Capsule) {
+    } else if (type == PrimitiveType.Capsule || type == PrimitiveType.Cylinder) {
       // TODO(ihsoft): Choose direction so what the volume is minimized.
       var collider = parent.AddComponent<CapsuleCollider>();
       collider.center = combinedBounds.center;
