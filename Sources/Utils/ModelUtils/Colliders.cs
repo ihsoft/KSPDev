@@ -26,28 +26,30 @@ public static class Colliders {
     Bounds,
   }
 
-  /// <summary>Drops colliders in all children objects, and adds one big collider to the parent.
+  /// <summary>
+  /// Drops the colliders in all the children objects, and adds one big collider to the parent.
   /// </summary>
   /// <remarks>
-  /// Intended to create one fast collider at the cost of precision. All the meshes in the parent
-  /// childs (including the parent) are processed to produce a boundary box. Then, this box is
-  /// applied to the requested primitive type that defines the shape of the collider.
+  /// The main purpose of this method is to create one fast collider at the cost of precision. All
+  /// the meshes in the object (the parent and the children) are processed to produce a single
+  /// boundary box. Then, this box is applied to the requested primitive type that defines the shape
+  /// of the final collider.
   /// <para>
-  /// Note, that rdaius if sphere and capsule is the same in both X and Y axis. If combined boundary
-  /// box has any of the dimensions significantly different then it makes sense to choose a
-  /// different collider type. Or break down the hirearchy into more colliders.
+  /// Note, that radius of the sphere and the capsule colliders is the same on both X and Y axis.
+  /// If the combined boundary box has any of the dimensions significantly different then it makes
+  /// sense to choose a different collider type. Or break down the hirearchy into more colliders.
   /// </para>
   /// </remarks>
   /// <param name="parent">Parent object.</param>
   /// <param name="type">
-  /// Type of the primitive mesh which is the best for wrapping all the meshes of the object. Only
-  /// <see cref="PrimitiveType.Cube"/>, <see cref="PrimitiveType.Capsule"/>, and
+  /// Type of the primitive which describes the parent object most precise in terms of the shape.
+  /// Only <see cref="PrimitiveType.Cube"/>, <see cref="PrimitiveType.Capsule"/>, and
   /// <see cref="PrimitiveType.Sphere"/> are supported.
   /// </param>
   /// <param name="inscribeBoundaryIntoCollider">
-  /// If <c>true</c> then collider will define the outer boundaries so what all the meshes are
-  /// inside the volume. Otherwise, the combined meshes box will define the outer boundary of the
-  /// collider. It only makes sense for the colliders other than <see cref="PrimitiveType.Cube"/>.
+  /// When calculating the total volume of the object, all its meshes produce a single box boundary.
+  /// Then, the collider either wraps this box entirely, or sits inside it entirely. If this
+  /// parameter is <c>true</c> then the collider will cover the boundary box.
   /// </param>
   /// <seealso href="https://docs.unity3d.com/ScriptReference/GameObject.html">
   /// Unity 3D: GameObject</seealso>

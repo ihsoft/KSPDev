@@ -169,19 +169,19 @@ public static class Meshes {
   /// <summary>Translates meshes's verticies.</summary>
   /// <remarks>
   /// This is different from setting postion, rotation and scale to the transform. This method
-  /// actually changes vetricies in the mesh. It's not performance effective, so avoid doing it
-  /// frequiently.
+  /// <i>actually</i> changes vetricies in the mesh. It's not performance effective, so avoid doing
+  /// it frequiently.
   /// </remarks>
-  /// <param name="model">Model object to change mesh in.</param>
+  /// <param name="model">Model object to change the mesh in.</param>
   /// <param name="offset">
-  /// Offset for the verticies. If not specified then offset is zero. Offset is added <i>after</i>
-  /// scale and rotation have been applied.  
+  /// Offset for the verticies. If not specified then the offset is zero. The offset is added
+  /// <i>after</i> the scale and the rotation have been applied.  
   /// </param>
   /// <param name="rotation">
   /// Rotation for the verticies. If not set then no rotation is added.
   /// </param>
   /// <param name="scale">
-  /// Scale for the vertex positions. If not specified then scale is not affected.
+  /// Scale for the vertex positions. If not specified then the scale is not affected.
   /// </param>
   public static void TranslateMesh(GameObject model,
                                    Vector3? offset = null, Quaternion? rotation = null,
