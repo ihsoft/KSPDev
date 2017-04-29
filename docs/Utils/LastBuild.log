@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<shfbBuild product="Sandcastle Help File Builder and Tools" version="2016.9.17.0" projectFile="L:\work\KSP\KSPDev\Sources\Utils\KSPDev_Utils.shfbproj" started="4/29/2017 1:41:31 AM">
+<shfbBuild product="Sandcastle Help File Builder and Tools" version="2016.9.17.0" projectFile="L:\work\KSP\KSPDev\Sources\Utils\KSPDev_Utils.shfbproj" started="4/29/2017 2:05:17 AM">
 <buildStep step="Initializing">
 Finding tools...
 The Sandcastle tools are located in &#39;L:\Program Files (x86)\EWSoftware\Sandcastle Help File Builder\&#39;
@@ -22,7 +22,7 @@ Source: L:\work\KSP\KSPDev\Sources\Utils\KSPDev_Utils.csproj
     Found project &#39;L:\work\KSP\KSPDev\Sources\Utils\KSPDev_Utils.csproj&#39;
 
 Parsing project files
-    Found assembly &#39;L:\work\KSP\KSPDev\Sources\Utils\bin\Release\KSPDev_Utils.0.22.0.dll&#39;
+    Found assembly &#39;L:\work\KSP\KSPDev\Sources\Utils\bin\Release\KSPDev_Utils.0.22.1.dll&#39;
 
 References to include (excluding framework assemblies):
     Assembly-CSharp
@@ -45,12 +45,12 @@ Generating shared content files (en-US, English (United States))...
 </buildStep>
 <buildStep step="GenerateApiFilter">
 Generating API filter for MRefBuilder...
-    Last step completed in 00:00:00.0035
+    Last step completed in 00:00:00.0030
 </buildStep>
 <buildStep step="GenerateReflectionInfo">
 Generating reflection information...
 [C:\Windows\Microsoft.NET\Framework64\v4.0.30319\MSBuild.exe - GenerateRefInfo.proj]
-Build started 4/29/2017 1:41:32 AM.
+Build started 4/29/2017 2:05:18 AM.
 Project &quot;L:\work\KSP\KSPDev\docs\Utils\Working\GenerateRefInfo.proj&quot; on node 1 (default targets).
 Project file contains ToolsVersion=&quot;12.0&quot;. This toolset may be unknown or missing, in which case you may be able to resolve this by installing the appropriate version of MSBuild, or the build may have been forced to a particular ToolsVersion for policy reasons. Treating the project as if it had ToolsVersion=&quot;4.0&quot;. For more information, please see http://go.microsoft.com/fwlink/?LinkId=291333.
 PrepareForBuild:
@@ -59,7 +59,7 @@ GenerateRefInfo:
   MRefBuilder (v2016.9.17.0)
   Copyright c 2006-2016, Microsoft Corporation, All Rights Reserved.
   Portions Copyright c 2006-2016, Eric Woodruff, All Rights Reserved.
-  Found a current program database (PDB) file for &#39;L:\work\KSP\KSPDev\Sources\Utils\bin\Release\KSPDev_Utils.0.22.0.dll&#39;.
+  Found a current program database (PDB) file for &#39;L:\work\KSP\KSPDev\Sources\Utils\bin\Release\KSPDev_Utils.0.22.1.dll&#39;.
   Loaded 1 assemblies for reflection and 10 dependency assemblies.
   Source code location not found for KSPDev.ConfigUtils.StdPersistentGroups
   Source code location not found for KSPDev.InputUtils.KeyModifiers
@@ -75,12 +75,12 @@ Done Building Project &quot;L:\work\KSP\KSPDev\docs\Utils\Working\GenerateRefInf
 Build succeeded.
 
 Time Elapsed 00:00:00.84
-    Last step completed in 00:00:01.0277
+    Last step completed in 00:00:01.0974
 </buildStep>
 <buildStep step="TransformReflectionInfo">
 Transforming reflection output...
 [C:\Windows\Microsoft.NET\Framework64\v4.0.30319\MSBuild.exe - TransformManifest.proj]
-Build started 4/29/2017 1:41:33 AM.
+Build started 4/29/2017 2:05:19 AM.
 Project &quot;L:\work\KSP\KSPDev\docs\Utils\Working\TransformManifest.proj&quot; on node 1 (default targets).
 Project file contains ToolsVersion=&quot;12.0&quot;. This toolset may be unknown or missing, in which case you may be able to resolve this by installing the appropriate version of MSBuild, or the build may have been forced to a particular ToolsVersion for policy reasons. Treating the project as if it had ToolsVersion=&quot;4.0&quot;. For more information, please see http://go.microsoft.com/fwlink/?LinkId=291333.
 TransformManifest:
@@ -121,11 +121,11 @@ Done Building Project &quot;L:\work\KSP\KSPDev\docs\Utils\Working\TransformManif
 Build succeeded.
 
 Time Elapsed 00:00:00.50
-    Last step completed in 00:00:00.6653
+    Last step completed in 00:00:00.6628
 </buildStep>
 <buildStep step="GenerateNamespaceSummaries">
 Generating namespace summary information...
-    Last step completed in 00:00:00.0085
+    Last step completed in 00:00:00.0100
 </buildStep>
 <buildStep step="GenerateInheritedDocumentation">
 Generating inherited documentation...
@@ -143,12 +143,12 @@ Merging inherited documentation...
 
 
 Documentation merged successfully
-    Last step completed in 00:00:00.4602
+    Last step completed in 00:00:00.4607
 </buildStep>
 <buildStep step="CopyAdditionalContent">
 Copying additional content files...
 No additional content to copy
-    Last step completed in 00:00:00.0015
+    Last step completed in 00:00:00.0020
 </buildStep>
 <buildStep step="MergeTablesOfContents">
 Merging conceptual and additional tables of contents...
@@ -157,7 +157,7 @@ Merging conceptual and additional tables of contents...
 <buildStep step="GenerateIntermediateTableOfContents">
 Generating intermediate table of contents file...
 [C:\Windows\Microsoft.NET\Framework64\v4.0.30319\MSBuild.exe - GenerateIntermediateTOC.proj]
-Build started 4/29/2017 1:41:35 AM.
+Build started 4/29/2017 2:05:20 AM.
 Project &quot;L:\work\KSP\KSPDev\docs\Utils\Working\GenerateIntermediateTOC.proj&quot; on node 1 (default targets).
 Project file contains ToolsVersion=&quot;12.0&quot;. This toolset may be unknown or missing, in which case you may be able to resolve this by installing the appropriate version of MSBuild, or the build may have been forced to a particular ToolsVersion for policy reasons. Treating the project as if it had ToolsVersion=&quot;4.0&quot;. For more information, please see http://go.microsoft.com/fwlink/?LinkId=291333.
 GenerateIntermediateTOC:
@@ -171,12 +171,12 @@ Build succeeded.
 
 Time Elapsed 00:00:00.31
 Generating conceptual content intermediate TOC file...
-    Last step completed in 00:00:00.4868
+    Last step completed in 00:00:00.4823
 </buildStep>
 <buildStep step="CreateBuildAssemblerConfigs">
 Creating Sandcastle configuration files...
     sandcastle.config
-    Last step completed in 00:00:00.0421
+    Last step completed in 00:00:00.0436
 </buildStep>
 <buildStep step="MergeCustomConfigs">
 Merging custom build component configurations
@@ -184,12 +184,12 @@ L:\work\KSP\KSPDev\docs\Utils\Working\sandcastle.config
   Updating reference topic configurations.
     Replacing default configuration for &#39;Code Block Component&#39; with the custom configuration
   No conceptual content.  Removing conceptual content components.
-    Last step completed in 00:00:00.0060
+    Last step completed in 00:00:00.0065
 </buildStep>
 <buildStep step="BuildTopics">
 Building help topics...
 [C:\Windows\Microsoft.NET\Framework64\v4.0.30319\MSBuild.exe - BuildTopics.proj]
-Build started 4/29/2017 1:41:35 AM.
+Build started 4/29/2017 2:05:21 AM.
 Project &quot;L:\work\KSP\KSPDev\docs\Utils\Working\BuildTopics.proj&quot; on node 1 (default targets).
 Project file contains ToolsVersion=&quot;12.0&quot;. This toolset may be unknown or missing, in which case you may be able to resolve this by installing the appropriate version of MSBuild, or the build may have been forced to a particular ToolsVersion for policy reasons. Treating the project as if it had ToolsVersion=&quot;4.0&quot;. For more information, please see http://go.microsoft.com/fwlink/?LinkId=291333.
 BuildTopics:
@@ -361,12 +361,12 @@ Done Building Project &quot;L:\work\KSP\KSPDev\docs\Utils\Working\BuildTopics.pr
 
 Build succeeded.
 
-Time Elapsed 00:00:02.86
-    Last step completed in 00:00:03.0331
+Time Elapsed 00:00:02.98
+    Last step completed in 00:00:03.2000
 </buildStep>
 <buildStep step="CombiningIntermediateTocFiles">
 Combining conceptual and API intermediate TOC files...
-    Last step completed in 00:00:00.0010
+    Last step completed in 00:00:00.0020
 </buildStep>
 <buildStep step="ExtractingHtmlInfo">
 Extracting HTML info for HTML Help 1 and/or website...
@@ -463,7 +463,7 @@ L:\Program Files (x86)\EWSoftware\Sandcastle Help File Builder\PresentationStyle
 L:\Program Files (x86)\EWSoftware\Sandcastle Help File Builder\PresentationStyles\VS2013\Web\scripts\branding-Website.js -&gt; L:\work\KSP\KSPDev\docs\Utils\Working\Output\Website\scripts\branding-Website.js
 L:\Program Files (x86)\EWSoftware\Sandcastle Help File Builder\PresentationStyles\VS2013\Web\scripts\clipboard.min.js -&gt; L:\work\KSP\KSPDev\docs\Utils\Working\Output\Website\scripts\clipboard.min.js
 L:\Program Files (x86)\EWSoftware\Sandcastle Help File Builder\PresentationStyles\VS2013\Web\scripts\jquery-1.11.0.min.js -&gt; L:\work\KSP\KSPDev\docs\Utils\Working\Output\Website\scripts\jquery-1.11.0.min.js
-    Last step completed in 00:00:00.0246
+    Last step completed in 00:00:00.0256
 </buildStep>
 <buildStep step="GenerateHelpFormatTableOfContents">
 Generating website table of contents file...
@@ -474,22 +474,22 @@ Generating full-text index for the website...
 
 <plugIn name="Lightweight Website Style" behavior="After" priority="1000">
 Adding lightweight search and TOC elements to each topic...
-</plugIn>    Last step completed in 00:00:00.4647
+</plugIn>    Last step completed in 00:00:00.6402
 </buildStep>
 <buildStep step="CopyingWebsiteFiles">
 Copying website files to output folder...
 
 Copied 500 files
 Copied 610 files for the website content
-    Last step completed in 00:00:00.1770
+    Last step completed in 00:00:00.2396
 </buildStep>
 <buildStep step="CleanIntermediates">
 Removing intermediate files...
-    Last step completed in 00:00:00.5685
+    Last step completed in 00:00:00.4146
 </buildStep>
 <buildStep step="Completed">
 
-Build completed successfully at 4/29/2017 1:41:40 AM.  Total time: 00:00:08.7708
+Build completed successfully at 4/29/2017 2:05:26 AM.  Total time: 00:00:09.0496
 
 </buildStep>
 </shfbBuild>
