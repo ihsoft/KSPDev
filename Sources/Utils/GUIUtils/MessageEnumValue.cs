@@ -9,19 +9,19 @@ using System.Collections.Generic;
 namespace KSPDev.GUIUtils {
 
 /// <summary>A class to wrap a UI string for an enum value.</summary>
-/// <typeparam name="T">Enum type to define strings for.</typeparam>
+/// <typeparam name="T">Enum type to define the strings for.</typeparam>
 /// <remarks>
 /// <para>
-/// When string needs to be presented use <see cref="Format"/> to make the parameter substitute.
+/// When a string needs to be presented, use <see cref="Format"/> to make the parameter substitute.
 /// </para>
 /// <para>
 /// In the future it may support localization but for now it's only a convinience wrapper.
 /// </para>
 /// </remarks>
 /// <example>
-/// Instead of doing switches when an enum value should be presented on UI just define a message
-/// that declares a map between values and their UI representations. You don't need specify every
-/// single value in the map, there is an option to set a UI string for unknown value.  
+/// Instead of doing switches when an enum value should be presented on UI, just define a message
+/// that declares a map between the values and their UI representations. You don't need to specify
+/// every single value in the map, there is an option to set a UI string for an unknown value.  
 /// <code><![CDATA[
 /// class MyMod : MonoBehaviour {
 ///   enum MyEnum {
@@ -32,14 +32,14 @@ namespace KSPDev.GUIUtils {
 ///     UnusedValue3,
 ///   }
 ///
-///   // Lookup with custom value for an unknown key.
+///   // Lookup with a custom value for an unknown key.
 ///   static readonly MessageEnumValue<MyEnum> Msg1 =
 ///       new MessageEnumValue<MyEnum>("UNKNOWN") {
 ///         {MyEnum.Enabled, "ENABLED"},
 ///         {MyEnum.Disabled, "DISABLED"},
 ///       };
 ///
-///   // Default lookup.
+///   // A more extended lookup.
 ///   static readonly MessageEnumValue<MyEnum> Msg2 =
 ///       new MessageEnumValue<MyEnum>() {
 ///         {MyEnum.Enabled, "ENABLED"},
@@ -63,16 +63,17 @@ public class MessageEnumValue<T> : IEnumerable<KeyValuePair<T, string>> {
   readonly Dictionary<T, string> strings;
   readonly string unknownKeyValue;
 
-  /// <summary>Creates an empty message with a default value for unknow entries.</summary>
+  /// <summary>Creates an empty message with a default value for the unknown entries.</summary>
   /// <param name="unknownKeyValue">
-  /// Value to return if lookup dictionary doesn't have the requested key.
+  /// Value to return if the lookup dictionary doesn't have the requested key.
   /// </param>
   public MessageEnumValue(string unknownKeyValue = null) {
     this.strings = new Dictionary<T, string>();
     this.unknownKeyValue = unknownKeyValue;
   }
 
-  /// <inheritdoc/>
+  /// <summary>Returns a key/pair enumerator.</summary>
+  /// <returns>Key/value enumerator.</returns>
   public IEnumerator<KeyValuePair<T, string>> GetEnumerator() {
     return strings.GetEnumerator();
   }
@@ -84,7 +85,7 @@ public class MessageEnumValue<T> : IEnumerable<KeyValuePair<T, string>> {
     strings.Add(key, value);
   }
 
-  /// <summary>Formats message string with the provided arguments.</summary>
+  /// <summary>Formats a message string with the provided arguments.</summary>
   /// <param name="arg1">An argument to substitute.</param>
   /// <returns>Complete message string.</returns>
   public string Format(T arg1) {
@@ -92,6 +93,8 @@ public class MessageEnumValue<T> : IEnumerable<KeyValuePair<T, string>> {
     return strings.TryGetValue(arg1, out value) ? value : unknownKeyValue;
   }
 
+  /// <summary>Returns an untyped key/value enumerator.</summary>
+  /// <returns>Key/value enumerator.</returns>
   IEnumerator IEnumerable.GetEnumerator() {
     return GetEnumerator();
   }

@@ -97,7 +97,8 @@ public sealed class PosAndRot : IPersistentField {
     euler = new Vector3(args[3], args[4], args[5]);
   }
 
-  /// <inheritdoc/>
+  /// <summary>Shows a human redable string represemntation.</summary>
+  /// <returns>String value.</returns>
   public override string ToString() {
     return string.Format(
         "[PosAndRot Pos={0}, Euler={1}]", DbgFormatter.Vector(pos), DbgFormatter.Vector(euler));
