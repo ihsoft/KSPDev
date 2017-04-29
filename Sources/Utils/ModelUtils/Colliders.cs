@@ -2,6 +2,7 @@
 // Author: igor.zavoychinskiy@gmail.com
 // This software is distributed under Public domain license.
 
+using KSPDev.LogUtils;
 using System;
 using System.Linq;
 using UnityEngine;
@@ -165,6 +166,48 @@ public static class Colliders {
       Debug.LogWarningFormat(
           "Unsupported collider type {0}. Droppping whatever collider part had", colliderType);
     }
+  }
+
+  /// <summary>Disables/enables all colliders between the objects.</summary>
+  /// <remarks>
+  /// All colliders in all the children of the both objects are explicitly set to not collide with
+  /// each other. This state is not persistent, and it must be set on every scene load.
+  /// </remarks>
+  /// <param name="obj1">Source object.</param>
+  /// <param name="obj2">Target object.</param>
+  /// <param name="ignore">
+  /// If <c>true</c> then the collisions between the objects will be ignored. Otherwise, the
+  /// collisions will be handled.
+  /// </param>
+  /// <seealso href="https://docs.unity3d.com/ScriptReference/Collider.html">
+  /// Unity3D: Collider</seealso>
+  /// <seealso href="https://docs.unity3d.com/ScriptReference/Physics.IgnoreCollision.html">
+  /// Unity3D: Physics.IgnoreCollision</seealso>
+  public static void SetCollisionIgnores(Transform obj1, Transform obj2, bool ignore) {
+    foreach (var collider1 in obj1.GetComponentsInChildren<Collider>()) {
+      foreach (var collider2 in obj2.GetComponentsInChildren<Collider>()) {
+        Physics.IgnoreCollision(collider1, collider2, ignore);
+      }
+    }
+  }
+
+  /// <summary>Disables/enables all colliders between the parts.</summary>
+  /// <remarks>This state is not persistent, and it must be set on every scene load.</remarks>
+  /// <param name="part1">Source part.</param>
+  /// <param name="part2">Target part.</param>
+  /// <param name="ignore">
+  /// If <c>true</c> then the collisions between the objects will be ignored. Otherwise, the
+  /// collisions will be handled.
+  /// </param>
+  /// <seealso href="https://docs.unity3d.com/ScriptReference/Collider.html">
+  /// Unity3D: Collider</seealso>
+  /// <seealso href="https://docs.unity3d.com/ScriptReference/Physics.IgnoreCollision.html">
+  /// Unity3D: Physics.IgnoreCollision</seealso>
+  public static void SetCollisionIgnores(Part part1, Part part2, bool ignore) {
+    Debug.LogFormat("Set collision ignores between {0} and {1} to {2}",
+                    DbgFormatter.PartId(part1), DbgFormatter.PartId(part2), ignore);
+    SetCollisionIgnores(
+      Hierarchy.GetPartModelTransform(part1), Hierarchy.GetPartModelTransform(part2), ignore);
   }
 }
 
