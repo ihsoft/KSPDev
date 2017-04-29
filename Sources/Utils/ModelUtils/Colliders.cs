@@ -168,10 +168,10 @@ public static class Colliders {
     }
   }
 
-  /// <summary>Disables/enables all colliders between the objects.</summary>
+  /// <summary>Disables/enables all the colliders between the objects.</summary>
   /// <remarks>
   /// All colliders in all the children of the both objects are explicitly set to not collide with
-  /// each other. This state is not persistent, and it must be set on every scene load.
+  /// each other. The ignore state is reset to <c>false</c> on every scene load.
   /// </remarks>
   /// <param name="obj1">Source object.</param>
   /// <param name="obj2">Target object.</param>
@@ -191,12 +191,12 @@ public static class Colliders {
     }
   }
 
-  /// <summary>Disables/enables all colliders between the parts.</summary>
-  /// <remarks>This state is not persistent, and it must be set on every scene load.</remarks>
+  /// <summary>Disables/enables all the colliders between the parts.</summary>
+  /// <remarks>The ignore state is reset to <c>false</c> on every scene load.</remarks>
   /// <param name="part1">Source part.</param>
   /// <param name="part2">Target part.</param>
   /// <param name="ignore">
-  /// If <c>true</c> then the collisions between the objects will be ignored. Otherwise, the
+  /// If <c>true</c> then the collisions between the parts will be ignored. Otherwise, the
   /// collisions will be handled.
   /// </param>
   /// <seealso href="https://docs.unity3d.com/ScriptReference/Collider.html">

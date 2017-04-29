@@ -8,10 +8,10 @@ namespace KSPDev.ConfigUtils {
 
 /// <summary>Helper methods to access and manipulate part's configs.</summary>
 public static class PartConfig {
-  /// <summary>Gets a config the part module.</summary>
+  /// <summary>Gets a config of the part module.</summary>
   /// <remarks>
   /// It takes into account the module index, so in case of the part has multiple modules of the
-  /// same type the right module config will be returned.
+  /// same type, the right module config will be returned.
   /// </remarks>
   /// <param name="module">Module to get config for.</param>
   /// <param name="partNode">

@@ -97,7 +97,7 @@ public sealed class PosAndRot : IPersistentField {
     euler = new Vector3(args[3], args[4], args[5]);
   }
 
-  /// <summary>Shows a human redable string represemntation.</summary>
+  /// <summary>Shows a human readable representation.</summary>
   /// <returns>String value.</returns>
   public override string ToString() {
     return string.Format(
