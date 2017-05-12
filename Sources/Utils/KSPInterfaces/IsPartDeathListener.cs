@@ -4,7 +4,7 @@
 
 namespace KSPDev.KSPInterfaces {
 
-/// <summary>Interface to notify about part's forced destruction.</summary>
+/// <summary>Interface to notify about the part's forced destruction.</summary>
 /// <remarks>
 /// Events of this inteface are triggered by the KSP engine via Unity messaging mechanism. It's not
 /// required for the module to implement the interface to be notified but by implementing it the
@@ -25,7 +25,9 @@ namespace KSPDev.KSPInterfaces {
 /// <seealso href="https://kerbalspaceprogram.com/api/class_part.html">KSP: Part</seealso>
 public interface IsPartDeathListener {
   /// <summary>Triggers when part ois destroyed by the game's logic.</summary>
-  /// <remarks>At this moment the part is already decoupled from the vessel.</remarks>
+  /// <remarks>
+  /// At the moment of this callback call the part is already decoupled from the vessel.
+  /// </remarks>
   void OnPartDie();
 }
 
