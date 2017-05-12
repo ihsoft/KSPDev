@@ -155,6 +155,7 @@
   <HelpKINode Title="Dictionaries.SetDefault(Of K, V) method" Url="html/M_KSPDev_Extensions_Dictionaries_SetDefault__2.htm" />
   <HelpKINode Title="Dictionaries.SetDefault&lt;K, V&gt; method" Url="html/M_KSPDev_Extensions_Dictionaries_SetDefault__2.htm" />
   <HelpKINode Title="ErrorColor field" Url="html/F_KSPDev_GUIUtils_ScreenMessaging_ErrorColor.htm" />
+  <HelpKINode Title="EscapeName method" Url="html/M_KSPDev_ModelUtils_Hierarchy_EscapeName.htm" />
   <HelpKINode Title="euler property" Url="html/P_KSPDev_Types_PosAndRot_euler.htm" />
   <HelpKINode Title="EventChecker class">
     <HelpKINode Title="EventChecker Class" Url="html/T_KSPDev_InputUtils_EventChecker.htm" />
@@ -234,13 +235,17 @@
     <HelpKINode Title="about Hierarchy class" Url="html/T_KSPDev_ModelUtils_Hierarchy.htm" />
     <HelpKINode Title="methods" Url="html/Methods_T_KSPDev_ModelUtils_Hierarchy.htm" />
   </HelpKINode>
+  <HelpKINode Title="Hierarchy.EscapeName method" Url="html/M_KSPDev_ModelUtils_Hierarchy_EscapeName.htm" />
   <HelpKINode Title="Hierarchy.FindTransformByPath method" Url="html/Overload_KSPDev_ModelUtils_Hierarchy_FindTransformByPath.htm" />
   <HelpKINode Title="Hierarchy.FindTransformInChildren method" Url="html/M_KSPDev_ModelUtils_Hierarchy_FindTransformInChildren.htm" />
   <HelpKINode Title="Hierarchy.GetFullPath method" Url="html/M_KSPDev_ModelUtils_Hierarchy_GetFullPath.htm" />
   <HelpKINode Title="Hierarchy.GetPartModelTransform method" Url="html/M_KSPDev_ModelUtils_Hierarchy_GetPartModelTransform.htm" />
   <HelpKINode Title="Hierarchy.ListHirerahcy method" Url="html/M_KSPDev_ModelUtils_Hierarchy_ListHirerahcy.htm" />
+  <HelpKINode Title="Hierarchy.MakePath method" Url="html/M_KSPDev_ModelUtils_Hierarchy_MakePath.htm" />
   <HelpKINode Title="Hierarchy.MoveToParent method" Url="html/M_KSPDev_ModelUtils_Hierarchy_MoveToParent.htm" />
   <HelpKINode Title="Hierarchy.PatternMatch method" Url="html/M_KSPDev_ModelUtils_Hierarchy_PatternMatch.htm" />
+  <HelpKINode Title="Hierarchy.SplitAndUnescapePath method" Url="html/M_KSPDev_ModelUtils_Hierarchy_SplitAndUnescapePath.htm" />
+  <HelpKINode Title="Hierarchy.UnescapeName method" Url="html/M_KSPDev_ModelUtils_Hierarchy_UnescapeName.htm" />
   <HelpKINode Title="HintOverlay class">
     <HelpKINode Title="HintOverlay Class" Url="html/T_KSPDev_GUIUtils_HintOverlay.htm" />
     <HelpKINode Title="about HintOverlay class" Url="html/T_KSPDev_GUIUtils_HintOverlay.htm" />
@@ -268,6 +273,12 @@
     <HelpKINode Title="methods" Url="html/Methods_T_KSPDev_KSPInterfaces_IKSPActivateOnDecouple.htm" />
   </HelpKINode>
   <HelpKINode Title="IKSPActivateOnDecouple.DecoupleAction method" Url="html/M_KSPDev_KSPInterfaces_IKSPActivateOnDecouple_DecoupleAction.htm" />
+  <HelpKINode Title="IKSPDevJointLockState interface">
+    <HelpKINode Title="IKSPDevJointLockState Interface" Url="html/T_KSPDev_KSPInterfaces_IKSPDevJointLockState.htm" />
+    <HelpKINode Title="about IKSPDevJointLockState interface" Url="html/T_KSPDev_KSPInterfaces_IKSPDevJointLockState.htm" />
+    <HelpKINode Title="methods" Url="html/Methods_T_KSPDev_KSPInterfaces_IKSPDevJointLockState.htm" />
+  </HelpKINode>
+  <HelpKINode Title="IKSPDevJointLockState.IsJointUnlocked method" Url="html/M_KSPDev_KSPInterfaces_IKSPDevJointLockState_IsJointUnlocked.htm" />
   <HelpKINode Title="IKSPDevModuleInfo interface">
     <HelpKINode Title="IKSPDevModuleInfo Interface" Url="html/T_KSPDev_KSPInterfaces_IKSPDevModuleInfo.htm" />
     <HelpKINode Title="about IKSPDevModuleInfo interface" Url="html/T_KSPDev_KSPInterfaces_IKSPDevModuleInfo.htm" />
@@ -306,6 +317,7 @@
   </HelpKINode>
   <HelpKINode Title="IsDestroyable.OnDestroy method" Url="html/M_KSPDev_KSPInterfaces_IsDestroyable_OnDestroy.htm" />
   <HelpKINode Title="isHold property" Url="html/P_KSPDev_InputUtils_KeyboardInputSwitch_isHold.htm" />
+  <HelpKINode Title="IsJointUnlocked method" Url="html/M_KSPDev_KSPInterfaces_IKSPDevJointLockState_IsJointUnlocked.htm" />
   <HelpKINode Title="IsModifierCombinationPressed method" Url="html/M_KSPDev_InputUtils_EventChecker_IsModifierCombinationPressed.htm" />
   <HelpKINode Title="IsPackable interface">
     <HelpKINode Title="IsPackable Interface" Url="html/T_KSPDev_KSPInterfaces_IsPackable.htm" />
@@ -314,6 +326,12 @@
   </HelpKINode>
   <HelpKINode Title="IsPackable.OnPartPack method" Url="html/M_KSPDev_KSPInterfaces_IsPackable_OnPartPack.htm" />
   <HelpKINode Title="IsPackable.OnPartUnpack method" Url="html/M_KSPDev_KSPInterfaces_IsPackable_OnPartUnpack.htm" />
+  <HelpKINode Title="IsPartDeathListener interface">
+    <HelpKINode Title="IsPartDeathListener Interface" Url="html/T_KSPDev_KSPInterfaces_IsPartDeathListener.htm" />
+    <HelpKINode Title="about IsPartDeathListener interface" Url="html/T_KSPDev_KSPInterfaces_IsPartDeathListener.htm" />
+    <HelpKINode Title="methods" Url="html/Methods_T_KSPDev_KSPInterfaces_IsPartDeathListener.htm" />
+  </HelpKINode>
+  <HelpKINode Title="IsPartDeathListener.OnPartDie method" Url="html/M_KSPDev_KSPInterfaces_IsPartDeathListener_OnPartDie.htm" />
   <HelpKINode Title="IsPhysicalObject interface">
     <HelpKINode Title="IsPhysicalObject Interface" Url="html/T_KSPDev_KSPInterfaces_IsPhysicalObject.htm" />
     <HelpKINode Title="about IsPhysicalObject interface" Url="html/T_KSPDev_KSPInterfaces_IsPhysicalObject.htm" />
@@ -398,10 +416,12 @@
   <HelpKINode Title="KSPDev.KSPInterfaces namespace" Url="html/N_KSPDev_KSPInterfaces.htm" />
   <HelpKINode Title="KSPDev.KSPInterfaces.IJointEventsListener interface" Url="html/T_KSPDev_KSPInterfaces_IJointEventsListener.htm" />
   <HelpKINode Title="KSPDev.KSPInterfaces.IKSPActivateOnDecouple interface" Url="html/T_KSPDev_KSPInterfaces_IKSPActivateOnDecouple.htm" />
+  <HelpKINode Title="KSPDev.KSPInterfaces.IKSPDevJointLockState interface" Url="html/T_KSPDev_KSPInterfaces_IKSPDevJointLockState.htm" />
   <HelpKINode Title="KSPDev.KSPInterfaces.IKSPDevModuleInfo interface" Url="html/T_KSPDev_KSPInterfaces_IKSPDevModuleInfo.htm" />
   <HelpKINode Title="KSPDev.KSPInterfaces.IPartModule interface" Url="html/T_KSPDev_KSPInterfaces_IPartModule.htm" />
   <HelpKINode Title="KSPDev.KSPInterfaces.IsDestroyable interface" Url="html/T_KSPDev_KSPInterfaces_IsDestroyable.htm" />
   <HelpKINode Title="KSPDev.KSPInterfaces.IsPackable interface" Url="html/T_KSPDev_KSPInterfaces_IsPackable.htm" />
+  <HelpKINode Title="KSPDev.KSPInterfaces.IsPartDeathListener interface" Url="html/T_KSPDev_KSPInterfaces_IsPartDeathListener.htm" />
   <HelpKINode Title="KSPDev.KSPInterfaces.IsPhysicalObject interface" Url="html/T_KSPDev_KSPInterfaces_IsPhysicalObject.htm" />
   <HelpKINode Title="KSPDev.LogUtils namespace" Url="html/N_KSPDev_LogUtils.htm" />
   <HelpKINode Title="KSPDev.LogUtils.DbgFormatter class" Url="html/T_KSPDev_LogUtils_DbgFormatter.htm" />
@@ -449,6 +469,7 @@
   <HelpKINode Title="ListHirerahcy method" Url="html/M_KSPDev_ModelUtils_Hierarchy_ListHirerahcy.htm" />
   <HelpKINode Title="Load method" Url="html/M_KSPDev_InputUtils_KeyboardInputSwitch_Load.htm" />
   <HelpKINode Title="MakeAbsPathForGameData method" Url="html/M_KSPDev_FSUtils_KspPaths_MakeAbsPathForGameData.htm" />
+  <HelpKINode Title="MakePath method" Url="html/M_KSPDev_ModelUtils_Hierarchy_MakePath.htm" />
   <HelpKINode Title="MakeRelativePathToGameData method" Url="html/M_KSPDev_FSUtils_KspPaths_MakeRelativePathToGameData.htm" />
   <HelpKINode Title="Mesh enumeration member" Url="html/T_KSPDev_ModelUtils_Colliders_PrimitiveCollider.htm" />
   <HelpKINode Title="Meshes class">
@@ -602,8 +623,8 @@
   <HelpKINode Title="MoveToParent method" Url="html/M_KSPDev_ModelUtils_Hierarchy_MoveToParent.htm" />
   <HelpKINode Title="nodePath field" Url="html/F_KSPDev_ConfigUtils_AbstractPersistentFieldsFileAttribute_nodePath.htm" />
   <HelpKINode Title="None enumeration member">
-    <HelpKINode Title="KeyModifiers Enumeration" Url="html/T_KSPDev_InputUtils_KeyModifiers.htm" />
     <HelpKINode Title="Colliders.PrimitiveCollider Enumeration" Url="html/T_KSPDev_ModelUtils_Colliders_PrimitiveCollider.htm" />
+    <HelpKINode Title="KeyModifiers Enumeration" Url="html/T_KSPDev_InputUtils_KeyModifiers.htm" />
   </HelpKINode>
   <HelpKINode Title="NONE enumeration member" Url="html/T_KSPDev_ModelUtils_KspLayerMask.htm" />
   <HelpKINode Title="NormalizePath method" Url="html/M_KSPDev_FSUtils_KspPaths_NormalizePath.htm" />
@@ -615,6 +636,7 @@
   <HelpKINode Title="OnInitialize method" Url="html/M_KSPDev_KSPInterfaces_IPartModule_OnInitialize.htm" />
   <HelpKINode Title="OnJointBreak method" Url="html/M_KSPDev_KSPInterfaces_IJointEventsListener_OnJointBreak.htm" />
   <HelpKINode Title="OnLoad method" Url="html/M_KSPDev_KSPInterfaces_IPartModule_OnLoad.htm" />
+  <HelpKINode Title="OnPartDie method" Url="html/M_KSPDev_KSPInterfaces_IsPartDeathListener_OnPartDie.htm" />
   <HelpKINode Title="OnPartPack method" Url="html/M_KSPDev_KSPInterfaces_IsPackable_OnPartPack.htm" />
   <HelpKINode Title="OnPartUnpack method" Url="html/M_KSPDev_KSPInterfaces_IsPackable_OnPartUnpack.htm" />
   <HelpKINode Title="OnPress event" Url="html/E_KSPDev_InputUtils_KeyboardInputSwitch_OnPress.htm" />
@@ -800,6 +822,7 @@
   <HelpKINode Title="SimpleStateMachine&lt;T&gt;.Stop method" Url="html/M_KSPDev_ProcessingUtils_SimpleStateMachine_1_Stop.htm" />
   <HelpKINode Title="SnapAlign method" Url="html/M_KSPDev_ModelUtils_AlignTransforms_SnapAlign.htm" />
   <HelpKINode Title="SpecialValue method" Url="html/Overload_KSPDev_GUIUtils_Formatter_SpecialValue.htm" />
+  <HelpKINode Title="SplitAndUnescapePath method" Url="html/M_KSPDev_ModelUtils_Hierarchy_SplitAndUnescapePath.htm" />
   <HelpKINode Title="StandardOrdinaryTypesProto class">
     <HelpKINode Title="StandardOrdinaryTypesProto Class" Url="html/T_KSPDev_ConfigUtils_StandardOrdinaryTypesProto.htm" />
     <HelpKINode Title="about StandardOrdinaryTypesProto class" Url="html/T_KSPDev_ConfigUtils_StandardOrdinaryTypesProto.htm" />
@@ -845,6 +868,7 @@
   <HelpKINode Title="UISoundPlayer.instance field" Url="html/F_KSPDev_GUIUtils_UISoundPlayer_instance.htm" />
   <HelpKINode Title="UISoundPlayer.Play method" Url="html/M_KSPDev_GUIUtils_UISoundPlayer_Play.htm" />
   <HelpKINode Title="UISoundPlayer.UISoundPlayer constructor" Url="html/M_KSPDev_GUIUtils_UISoundPlayer__ctor.htm" />
+  <HelpKINode Title="UnescapeName method" Url="html/M_KSPDev_ModelUtils_Hierarchy_UnescapeName.htm" />
   <HelpKINode Title="Update method" Url="html/M_KSPDev_InputUtils_KeyboardInputSwitch_Update.htm" />
   <HelpKINode Title="UpdateColliders method" Url="html/M_KSPDev_ModelUtils_Colliders_UpdateColliders.htm" />
   <HelpKINode Title="UpdateMaterials method" Url="html/M_KSPDev_ModelUtils_Meshes_UpdateMaterials.htm" />
