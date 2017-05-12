@@ -39,7 +39,7 @@ public static class DbgFormatter {
   /// <param name="parent">Optional parent to use a root.</param>
   /// <returns>Full string path to the root.</returns>
   public static string TranformPath(Transform obj, Transform parent = null) {
-    return string.Join("/", Hierarchy.GetFullPath(obj, parent));
+    return Hierarchy.MakePath(Hierarchy.GetFullPath(obj, parent));
   }
 
   /// <summary>Returns a full string path for the game object.</summary>

@@ -5,12 +5,16 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text.RegularExpressions;
 using UnityEngine;
 
 namespace KSPDev.ModelUtils {
 
 /// <summary>Various tools to deal with game object hierarchy.</summary>
 public static class Hierarchy {
+  /// <summary>Regex to split an escaped path.</summary>
+  static readonly Regex ReSplitEscapedPath = new Regex("(?<!/)/(?!/)");
+
   /// <summary>Changes transform's parent keeping local postion, rotation and scale.</summary>
   /// <remarks>
   /// Normally, Unity preserves world position, rotation and scale when changing parent. It's
@@ -48,7 +52,7 @@ public static class Hierarchy {
   /// </item>
   /// </list>
   /// </param>
-  /// <param name="target">Target string to check.</param>
+  /// <param name="target">The target string to check.</param>
   /// <returns><c>true</c> if pattern matches the target.</returns>
   public static bool PatternMatch(string pattern, string target) {
     if (pattern.Length > 0 && pattern[0] == '*') {
@@ -67,9 +71,9 @@ public static class Hierarchy {
   /// <remarks>
   /// Implements breadth-first search approach to minimize depth of the found transform.
   /// </remarks>
-  /// <param name="parent">Transfrom to start from.</param>
-  /// <param name="name">Name of the transfrom.</param>
-  /// <returns>Found transform or <c>null</c> if nothing is found.</returns>
+  /// <param name="parent">The transfrom to start from.</param>
+  /// <param name="name">The name of the transfrom.</param>
+  /// <returns>A transform or <c>null</c> if nothing is found.</returns>
   public static Transform FindTransformInChildren(Transform parent, string name) {
     var res = parent.Find(name);
     if (res != null) {
@@ -86,12 +90,15 @@ public static class Hierarchy {
 
   /// <summary>Finds a transform in the hirerachy by the provided path.</summary>
   /// <remarks>See path format in <see cref="FindTransformByPath(Transform,string[])"/>.</remarks>
-  /// <param name="parent">Transfrom to start looking from.</param>
-  /// <param name="path">Path to the target.</param>
-  /// <returns>Transform or <c>null</c> if nothing found.</returns>
+  /// <param name="parent">The transfrom to start looking from.</param>
+  /// <param name="path">
+  /// The path to the target. The name components must be escaped if they contain special symbols.
+  /// </param>
+  /// <returns>A transform or <c>null</c> if nothing found.</returns>
   /// <seealso cref="FindTransformByPath(Transform,string[])"/>
+  /// <seealso cref="EscapeName"/>
   public static Transform FindTransformByPath(Transform parent, string path) {
-    return FindTransformByPath(parent, path.Split('/'));
+    return FindTransformByPath(parent, SplitAndUnescapePath(path));
   }
 
   /// <summary>Finds a transform in the hirerachy by the provided path.</summary>
@@ -130,8 +137,8 @@ public static class Hierarchy {
   /// methods.
   /// </para>
   /// </remarks>
-  /// <param name="parent">Transfrom to start looking from.</param>
-  /// <param name="names">Path elements.</param>
+  /// <param name="parent">The transfrom to start looking from.</param>
+  /// <param name="names">The path elements. All special symbols must be unescaped.</param>
   /// <returns>Transform or <c>null</c> if nothing found.</returns>
   /// <example>
   /// Given the following hierarchy:
@@ -165,6 +172,7 @@ public static class Hierarchy {
   /// // *b* => node "abc"
   /// ]]></code>
   /// </example>
+  /// <seealso cref="UnescapeName"/>
   public static Transform FindTransformByPath(Transform parent, string[] names) {
     if (names.Length == 0) {
       return parent;
@@ -247,9 +255,50 @@ public static class Hierarchy {
     return path.ToArray();
   }
 
+  /// <summary>Splits a path and unescapes the name elements.</summary>
+  /// <remarks>
+  /// The path elements must be separted by a <c>'/'</c> symbol. The name elements must be escaped
+  /// in case of they contain a separator symbol in the content. 
+  /// </remarks>
+  /// <param name="escapedPath">The escaped path to split.</param>
+  /// <returns>An array of unescaped names.</returns>
+  /// <seealso cref="UnescapeName"/>
+  public static string[] SplitAndUnescapePath(string escapedPath) {
+    return ReSplitEscapedPath.Split(escapedPath).Select(v => UnescapeName(v)).ToArray();
+  }
+
+  /// <summary>Escapes the element names and builds a path.</summary>
+  /// <param name="unescapedNames">The raw name elements of the path.</param>
+  /// <returns>An escaped path built of the provided elements.</returns>
+  /// <seealso cref="EscapeName"/>
+  public static string MakePath(string[] unescapedNames) {
+    return string.Join("/", unescapedNames.Select(v => EscapeName(v)).ToArray());
+  }
+
+  /// <summary>Unescapes all the special symbols in the name.</summary>
+  /// <param name="escapedName">The name where all the special symbols are escaped.</param>
+  /// <returns>An unescaped name.</returns>
+  public static string UnescapeName(string escapedName) {
+    return escapedName.Replace("//", "/");
+  }
+
+  /// <summary>Escapes all the special symbols in the name.</summary>
+  /// <remarks>
+  /// For now the only specil symbol is <c>/</c> (slash) because of it's used as a name separator
+  /// in the hierarchy paths. The escaped separator symbol is simple doubled. I.e. string <c>a/b</c>
+  /// transforms into <c>a//b</c>.
+  /// </remarks>
+  /// <param name="unescapedName">The raw name with any symbols.</param>
+  /// <returns>A name where all the special symbols are properly escaped.</returns>
+  public static string EscapeName(string unescapedName) {
+    return unescapedName.Replace("/", "//");
+  }
+
   #region Local helper methods.
-  static void GatherHirerachyNames(Transform parent, string parentPath, List<string> names) {
-    var fullName = (parentPath ?? "/") + parent.name + "/";
+  static void GatherHirerachyNames(Transform parent, string pathPrefix, List<string> names) {
+    var fullName = pathPrefix != ""
+        ? pathPrefix + "/" + EscapeName(parent.name)
+        : EscapeName(parent.name);
     names.Add(fullName);
     for (var i = 0 ; i < parent.childCount; i++) {
       var child = parent.GetChild(i);
