@@ -8,10 +8,10 @@ Read discussions, ask questions and suggest features on
 
 Detailed documentation on API is avalable on [docs site](http://ihsoft.github.io/KSPDev/Utils).
 
-##In nutshell
+## In nutshell
 
 KSPDev Utils offers a lot of different classes and interfaces. Here are some examples but there
-are much more features (read the docs!):
+are _much more_ features (read the API docs!):
 
 * Extensive set of methods to work with config files
   * Save or load simple values without dealing with string<=>type conversion. The type will be detected from the argument, and
