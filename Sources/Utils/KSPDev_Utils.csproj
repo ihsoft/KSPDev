@@ -106,6 +106,7 @@
     <Compile Include="KSPInterfaces\IPartModule.cs" />
     <Compile Include="KSPInterfaces\IsDestroyable.cs" />
     <Compile Include="KSPInterfaces\IsPackable.cs" />
+    <Compile Include="KSPInterfaces\IsPartDeathListener.cs" />
     <Compile Include="KSPInterfaces\IsPhysicalObject.cs" />
     <Compile Include="LogUtils\DbgFormatter.cs" />
     <Compile Include="ModelUtils\AlignTransforms.cs" />
