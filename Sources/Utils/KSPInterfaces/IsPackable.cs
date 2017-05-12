@@ -2,11 +2,9 @@
 // Author: igor.zavoychinskiy@gmail.com
 // This software is distributed under Public domain license.
 
-using System;
-
 namespace KSPDev.KSPInterfaces {
 
-/// <summary>Interface to track physics state changes in the part's module.</summary>
+/// <summary>Interface to track the physics state changes in the part's module.</summary>
 /// <remarks>
 /// Events of this inteface are triggered by KSP engine via Unity messaging mechanism. It's not
 /// required for the module to implement the interface to be notified but by implementing it the
@@ -32,6 +30,7 @@ namespace KSPDev.KSPInterfaces {
 public interface IsPackable {
   /// <summary>Triggers when physics stops on the part.</summary>
   void OnPartPack();
+
   /// <summary>Triggers when physics starts on the part.</summary>
   void OnPartUnpack();
 }

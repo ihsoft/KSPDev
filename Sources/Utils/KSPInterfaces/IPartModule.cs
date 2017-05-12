@@ -2,16 +2,16 @@
 // Author: igor.zavoychinskiy@gmail.com
 // This software is distributed under Public domain license.
 
-using System;
-
 namespace KSPDev.KSPInterfaces {
 
 /// <summary>Interface for KSP part module.</summary>
 /// <remarks>
+/// <para>
 /// Naturally, KSP doesn't declare any part module interface (unfortunately), and all modder's
 /// modules just inherit from <see cref="PartModule"/>. This interface is introduced for the better
 /// OOP approach. It reveals methods that a regular module can override, and provides documentation
 /// for each of them.
+/// </para>
 /// <para>
 /// Some methods of the module interface look familiar to the ones from Unity but they are not
 /// behaving in the same way in every scene. Moreover, not all methods get called in every scene.

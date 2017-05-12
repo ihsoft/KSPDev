@@ -2,8 +2,6 @@
 // Author: igor.zavoychinskiy@gmail.com
 // This software is distributed under Public domain license.
 
-using System;
-
 namespace KSPDev.KSPInterfaces {
 
 /// <summary>Interface for modules that need to know if script object is destroyed.</summary>

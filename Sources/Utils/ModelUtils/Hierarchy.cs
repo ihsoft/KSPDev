@@ -204,8 +204,10 @@ public static class Hierarchy {
   }
 
   /// <summary>Returns part's model transform.</summary>
-  /// <param name="part">Part to get model for.</param>
-  /// <returns>PartModel's transform if it was found. Part's trasnfrom otherwise.</returns>
+  /// <param name="part">The part to get model for.</param>
+  /// <returns>
+  /// The part's model transform if one was found. Or the root part's transform otherwise.
+  /// </returns>
   public static Transform GetPartModelTransform(Part part) {
     var modelTransform = part.FindModelTransform("model");
     if (modelTransform == null) {
@@ -216,24 +218,25 @@ public static class Hierarchy {
   }
 
   /// <summary>
-  /// Returns paths to all transformations in the object. Each item is a full path to the
-  /// transformation.
+  /// Returns the paths to all the transformations in the object. Each item is a full path to the
+  /// transformation starting from the <paramref name="parent"/>.
   /// </summary>
-  /// <param name="parent">Object to start from.</param>
-  /// <param name="parentPath">
-  /// Path to <paramref name="parent"/>. Leave it <c>null</c> if paths should start from "/".
-  /// </param>
-  /// <returns>paths to all transformations separated by LF symbol.</returns>
-  public static string[] ListHirerahcy(Transform parent, string parentPath = null) {
+  /// <param name="parent">The object to start from.</param>
+  /// <param name="pathPrefix">The prefix to add to every path in the result.</param>
+  /// <returns>The paths to all the objects in the hirerachy separated by a LF symbol.</returns>
+  public static string[] ListHirerahcy(Transform parent, string pathPrefix = "") {
     var res = new List<string>();
-    GatherHirerachyNames(parent, parentPath, res);
+    GatherHirerachyNames(parent, pathPrefix, res);
     return res.ToArray();
   }
 
-  /// <summary>Returns full path to the object starting from the specified parent.</summary>
-  /// <param name="obj">Object to find path for.</param>
-  /// <param name="parent">Optional parent to use a root.</param>
-  /// <returns>Full path to the object.</returns>
+  /// <summary>Returns a full path to the object starting from the specified parent.</summary>
+  /// <param name="obj">The object to find path for.</param>
+  /// <param name="parent">
+  /// The object at which the path must stop. If <c>null</c> then the path is gathered to the root
+  /// object.
+  /// </param>
+  /// <returns>A full path name components. The names are not escaped.</returns>
   /// <seealso cref="FindTransformByPath(UnityEngine.Transform, string[])"/>
   public static string[] GetFullPath(Transform obj, Transform parent = null) {
     var path = new List<string>();
