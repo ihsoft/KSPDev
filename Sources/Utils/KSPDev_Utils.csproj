@@ -132,6 +132,9 @@
     <Folder Include="Types" />
     <Folder Include="ProcessingUtils" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="KSPAPI_HelpIndex.xml" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>copy "$(TargetDir)$(ProjectName).xml" "$(TargetDir)$(TargetName).xml" /Y
