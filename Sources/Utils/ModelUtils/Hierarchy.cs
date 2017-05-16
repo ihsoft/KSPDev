@@ -92,7 +92,8 @@ public static class Hierarchy {
   /// <remarks>See path format in <see cref="FindTransformByPath(Transform,string[])"/>.</remarks>
   /// <param name="parent">The transfrom to start looking from.</param>
   /// <param name="path">
-  /// The path to the target. The name components must be escaped if they contain special symbols.
+  /// The path to the target. The name components must be escaped if they contain the special
+  /// symbols.
   /// </param>
   /// <returns>A transform or <c>null</c> if nothing found.</returns>
   /// <seealso cref="FindTransformByPath(Transform,string[])"/>
@@ -285,7 +286,7 @@ public static class Hierarchy {
   /// <summary>Escapes all the special symbols in the name.</summary>
   /// <remarks>
   /// For now the only specil symbol is <c>/</c> (slash) because of it's used as a name separator
-  /// in the hierarchy paths. The escaped separator symbol is simple doubled. I.e. string <c>a/b</c>
+  /// in the hierarchy paths. The escaped separator symbol is simply doubled. I.e. string <c>a/b</c>
   /// transforms into <c>a//b</c>.
   /// </remarks>
   /// <param name="unescapedName">The raw name with any symbols.</param>

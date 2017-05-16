@@ -128,11 +128,11 @@ public static class ScreenMessaging {
 
   /// <summary>Shows an error message with a default timeout.</summary>
   /// <remarks>
-  /// It's no defined how exactly the message is shown, but it's guaranteed it looks like an error
-  /// and player will perceive it like that.
+  /// It's not defined how exactly the message is shown, but it's guaranteed that it will look like
+  /// an "error", and the player will perceive it like that.
   /// </remarks>
-  /// <param name="fmt"><c>string.Format()</c> formatting string.</param>
-  /// <param name="args">Arguments for the formattign string.</param>
+  /// <param name="fmt">The <c>string.Format()</c> formatting string.</param>
+  /// <param name="args">The arguments for the formattign string.</param>
   public static void ShowErrorScreenMessage(String fmt, params object[] args) {
     ScreenMessages.PostScreenMessage(
         SetColorToRichText(String.Format(fmt, args), ErrorColor),
