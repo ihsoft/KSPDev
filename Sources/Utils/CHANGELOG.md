@@ -1,3 +1,6 @@
+# 0.23.1-pre:
+* [Change] Allow any state transition in `SimpleStateMachine` when the strict mode is OFF: [`ProcessingUtils.SimpleStateMachine`](http://ihsoft.github.io/KSPDev/Utils/html/T_KSPDev_ProcessingUtils_SimpleStateMachine_1.htm).
+
 # 0.23.0 (May 11th, 2017):
 * [Enhancement] Add a syntax surgar interface for `IJointLockState`: [`KSPInterfaces.IKSPDevJointLockState`](http://ihsoft.github.io/KSPDev/Utils/html/T_KSPDev_KSPInterfaces_IKSPDevJointLockState.htm).
 * [Enhancement] Add a syntax surgar interface for `OnPartDie` callback: [`KSPInterfaces.IsPartDeathListener`](http://ihsoft.github.io/KSPDev/Utils/html/T_KSPDev_KSPInterfaces_IsPartDeathListener.htm).

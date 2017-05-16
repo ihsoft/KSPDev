@@ -302,14 +302,9 @@ public sealed class SimpleStateMachine<T> where T : struct, IConvertible {
   /// <seealso cref="isStrict"/>
   /// <seealso cref="SetTransitionConstraint"/>
   public bool CheckCanSwitchTo(T newState) {
-    if (isStrict) {
-      // Only allow change if there is explicit constraint.
-      return transitionContstraints.ContainsKey(_currentState)
-          && transitionContstraints[_currentState].IndexOf(newState) != -1;
-    }
-    // Allow change if the state is known to the machine.
-    return !transitionContstraints.ContainsKey(_currentState)
-        || transitionContstraints[_currentState].IndexOf(newState) != -1;
+    return !isStrict
+        || transitionContstraints.ContainsKey(_currentState)
+           && transitionContstraints[_currentState].IndexOf(newState) != -1;
   }
 
   #region Local utility methods
