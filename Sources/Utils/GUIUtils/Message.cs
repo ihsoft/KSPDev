@@ -48,6 +48,15 @@ public class Message {
   public static implicit operator string(Message msg) {
     return msg.messageString;
   }
+
+  /// <summary>Returns the message string.</summary>
+  /// <remarks>
+  /// This is just a compatibility method to make all message classes work in the same way.
+  /// </remarks>
+  /// <returns>Complete message string.</returns>
+  public string Format() {
+    return messageString;
+  }
 }
 
 /// <summary>A class to wrap a UI string with one parameter.</summary>
