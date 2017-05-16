@@ -9,23 +9,22 @@ using KSPDev.Extensions;
 namespace KSPDev.ProcessingUtils {
 
 /// <summary>
-/// Simple state machine that allows tracking states and checking basic conditions.
+/// Simple state machine that allows tracking of the states and checking the basic transition
+/// conditions.
 /// </summary>
 /// <remarks>
-/// If module has more that two modes (which can be controlled by a simple boolean) in makes sense
-/// to define each mode as a state, and intorduce a definite state transition diagram. Once it's
-/// done most of the mode changes logic can be mvoed in state transition callbacks. Such approach
-/// significantly simplifies the code and makes it less error prone.
+/// If a module has more that two modes (which can be controlled by a simple boolean) it makes sense
+/// to define each mode as a state, and introduce a definite state transition diagram. Once it's
+/// done, a state machine can be setup by defining which transitions are allowed. At this point the
+/// module will be able to just react on the state change events instead of checking multiple
+/// conditions.
 /// </remarks>
-/// <typeparam name="T">
-/// Enum to use as state constants. Note, that state machine won't consider any value of the enum as
-/// a valid state. Valid states must be defined via <see cref="SetTransitionConstraint"/>.
-/// </typeparam>
+/// <typeparam name="T">The enum to use as the state constants.</typeparam>
 /// <example>
-/// Here is an example of a module with three states with the following logic:
+/// Let's pretend there is a module with three states:
 /// <list type="bullet">
-/// <item>State <c>One</c> can be transitioned into both <c>Two</c> and <c>Three</c>.</item>
-/// <item>States <c>Two</c> and <c>Three</c> can only return back to <c>One</c>.</item>
+/// <item>The state <c>One</c> can be transitioned into both <c>Two</c> and <c>Three</c>.</item>
+/// <item>The states <c>Two</c> and <c>Three</c> can only return back to <c>One</c>.</item>
 /// <item>In states <c>Two</c> and <c>Three</c> different menu options are available.</item>
 /// <item>In state <c>One</c> no menu options are available.</item>
 /// </list>
@@ -110,20 +109,17 @@ namespace KSPDev.ProcessingUtils {
 /// <para>
 /// The same logic could be achivied in a different way. Instead of enabling/disabling all the menu
 /// items in every "enter" handler the code could define "leave" handlers that would disable the
-/// related menu item. This way every state handler would control own menu item without interacting
-/// with any existing or future items.
+/// related menu item. This way every state handler would control its own menu item without
+/// interacting with any existing or the future items.
 /// </para>
 /// </example>
-/// <seealso href="https://kerbalspaceprogram.com/api/class_k_s_p_field.html">
-/// KSP: KSPField</seealso>
-/// <seealso href="https://kerbalspaceprogram.com/api/class_k_s_p_event.html">
-/// KSP: KSPEvent</seealso>
 public sealed class SimpleStateMachine<T> where T : struct, IConvertible {
   /// <summary>Current state of the machine.</summary>
   /// <remarks>
-  /// Setting same state as the current one is NO-OP. Setting of a new state may be blocked in
-  /// strict mode.
+  /// Setting the same state as the current one is a NO-OP. Setting of a new state may throw an
+  /// exception in the strict mode.
   /// </remarks>
+  /// <value>The current state.</value>
   /// <seealso cref="isStrict"/>
   /// <seealso cref="ForceSetState"/>
   public T currentState {
@@ -132,28 +128,32 @@ public sealed class SimpleStateMachine<T> where T : struct, IConvertible {
   }
   T _currentState;
 
-  /// <summary>Tells if state machine is started.</summary>
+  /// <summary>Tells if the state machine is started.</summary>
+  /// <value>The started state.</value>
   /// <seealso cref="Start"/>
   public bool isStarted { get; private set; }
 
-  /// <summary>
-  /// Tells if invalid state transitions will be blocked.  
-  /// </summary>
+  /// <summary>Tells if all the transitions must be excplicitly declared.</summary>
+  /// <remarks>
+  /// The state transitions are defined via <see cref="SetTransitionConstraint"/>.
+  /// </remarks>
+  /// <value>The strict mode state.</value>
   /// <seealso cref="SetTransitionConstraint"/>
+  /// <seealso cref="ResetTransitionConstraint"/>
   public bool isStrict { get; private set; }
 
-  /// <summary>Delegate for callback which notifies about state change.</summary>
-  /// <param name="state">Current state of the machine.</param>
+  /// <summary>Delegate for a callback which notifies about a state change.</summary>
+  /// <param name="state">The current state of the machine.</param>
   public delegate void OnChange(T state);
 
-  /// <summary>Special debug delegate to track state changes.</summary>
-  /// <remarks>This callback is called before actual state change.</remarks>
-  /// <param name="fromState">State before change.</param>
-  /// <param name="toState">State after change.</param>
+  /// <summary>Special debug delegate to track the state changes.</summary>
+  /// <remarks>This callback is called before the actual state change.</remarks>
+  /// <param name="fromState">The state before the change.</param>
+  /// <param name="toState">The state after the change.</param>
   public delegate void OnDebugChange(T fromState, T toState);
 
   /// <summary>
-  /// Debug handler for tracking state changes. Avoid using it in normal code logic.
+  /// Debug handler to track the state changes. Avoid using it in the normal code logic.
   /// </summary>
   public OnDebugChange OnDebugStateChange;
 
@@ -161,22 +161,22 @@ public sealed class SimpleStateMachine<T> where T : struct, IConvertible {
   readonly Dictionary<T, HashSet<OnChange>> leaveHandlers = new Dictionary<T, HashSet<OnChange>>();
   readonly Dictionary<T, T[]> transitionContstraints = new Dictionary<T, T[]>();
 
-  /// <summary>Constructs new unstarted state machine.</summary>
-  /// <param name="strict">
-  /// If <c>true</c> then only transitions defined via <see cref="SetTransitionConstraint"/> will be
-  /// allowed.
-  /// </param>
+  /// <summary>Constructs a new unstarted state machine.</summary>
+  /// <param name="strict">The strict mode.</param>
+  /// <seealso cref="isStrict"/>
   public SimpleStateMachine(bool strict) {
     isStrict = strict;
   }
 
-  /// <summary>Starts state machine and makes it available for state transitions.</summary>
+  /// <summary>Starts the state machine and makes it available for the state transitions.</summary>
   /// <remarks>
-  /// Until machine is started state transitions are not possible. Attempt to change to any state
-  /// will result in <see cref="InvalidOperationException"/>.
-  /// <para>Starting of the machine will trigger enter state event.</para>
+  /// <para>
+  /// Until the machine is started, the state transitions are not possible. An attempt to move the
+  /// machine into any state will result in a <see cref="InvalidOperationException"/> exception.
+  /// </para>
+  /// <para>Starting of the machine will trigger an enter state event.</para>
   /// </remarks>
-  /// <param name="startState">Initial state of the machine.</param>
+  /// <param name="startState">The initial state of the machine.</param>
   /// <seealso cref="isStarted"/>
   /// <seealso cref="AddStateHandlers"/>
   public void Start(T startState) {
@@ -189,11 +189,13 @@ public sealed class SimpleStateMachine<T> where T : struct, IConvertible {
     FireEnterState();
   }
 
-  /// <summary>Stops stat machine making it unavailable for any state transitions.</summary>
+  /// <summary>Stops the state machine making it unavailable for any state transition.</summary>
   /// <remarks>
-  /// If machine is not started yet then this call is NO-OP.
-  /// <para>Stoping of the machine will trigger leave state event.</para>
+  /// If the machine is not started then this call is a NO-OP. Stoping of the started machine will
+  /// trigger a leave state event.
   /// </remarks>
+  /// <seealso cref="isStarted"/>
+  /// <seealso cref="AddStateHandlers"/>
   public void Stop() {
     if (isStarted) {
       if (OnDebugStateChange != null) {
@@ -204,44 +206,35 @@ public sealed class SimpleStateMachine<T> where T : struct, IConvertible {
     }
   }
 
-  /// <summary>Defines source state and, optionally, allowed trasitions.</summary>
+  /// <summary>Defines a state and the allowed target states for it.</summary>
   /// <remarks>
-  /// State machine figures out full set the allowed states from the transitions. Even if transition
-  /// mode is not strict all the states must be defined via tarnsitions (eitehr as a source or a
-  /// target).
-  /// <para>In strict mode it's required that every transition is declared excplicitly.</para>
-  /// <para>If called multiple times then only last call's setup will be stored.</para>
-  /// <para>State machine must be in stopped state. Otherwise, an exception will thrown.</para>
+  /// In the strict mode it's required that every transition is declared excplicitly.
   /// </remarks>
-  /// <param name="fromState">Source state.</param>
-  /// <param name="toStates">
-  /// List of states that are allowed as targets for <paramref name="fromState"/>.
-  /// </param>
+  /// <param name="fromState">The source state.</param>
+  /// <param name="toStates">The list of the states that are allowed as the targets.</param>
+  /// <seealso cref="isStrict"/>
   public void SetTransitionConstraint(T fromState, T[] toStates) {
     CheckIsNotStarted();
     transitionContstraints.Remove(fromState);
     transitionContstraints.Add(fromState, toStates);
   }
 
-  /// <summary>Clears transitions for the soucre state if any.</summary>
-  /// <remarks>
-  /// Note, that source state is cleared as well. If it's not mentioned in other transitions then
-  /// state machine will completely forget the state.
-  /// </remarks>
-  /// <param name="fromState">Source state to clear tarnsitions for.</param>
+  /// <summary>Clears the transitions for the source state if any.</summary>
+  /// <param name="fromState">The source state to clear the tarnsitions for.</param>
+  /// <seealso cref="isStrict"/>
   public void ResetTransitionConstraint(T fromState) {
     CheckIsNotStarted();
     transitionContstraints.Remove(fromState);
   }
 
-  /// <summary>Changes current state bypassing any transition or state changes.</summary>
+  /// <summary>Changes the current state bypassing all the transition checks.</summary>
   /// <remarks>
-  /// It's discouraged to use this method in normal flow. Though, you it may be handy when
-  /// recovering module from an unknown state (e.g. an unexpected exception in the middle of the
-  /// process).
+  /// It's discouraged to use this method in the normal flow. However, it may be handy when
+  /// recovering a module from an unknown state (e.g. an unexpected exception was thrown in the
+  /// middle of the process).
   /// </remarks>
   /// <param name="newState">
-  /// New current state. It can be a state that is not mentioned in any state transition.
+  /// The new state. It can be a state that is not mentioned in any state transition.
   /// </param>
   public void ForceSetState(T newState) {
     CheckIsStarted();
@@ -255,20 +248,19 @@ public sealed class SimpleStateMachine<T> where T : struct, IConvertible {
     FireEnterState();
   }
 
-  /// <summary>Adds listeners for state enter/leave events.</summary>
+  /// <summary>Adds a state change event.</summary>
   /// <remarks>
-  /// Note, that code must not expect that handlers will be called in the same order as they were
-  /// added. Each handler must be independent from the others.
-  /// <para>Multiple calls for the same handler and state won't create multiple entries.</para>
+  /// Note, that the code must not expect that the handlers will be called in the same order as they
+  /// were added. Each handler must be independent from the others.
   /// </remarks>
-  /// <param name="state">State to call callbacke on.</param>
+  /// <param name="state">The state to call a callback on.</param>
   /// <param name="enterHandler">
-  /// Callback to call when state machine has switched to a new state. Callback is triggered
-  /// <i>after</i> the state has actually changed.
+  /// The callback to call when the state machine has switched to a new state. The callback is
+  /// triggered <i>after</i> the state has actually changed.
   /// </param>
   /// <param name="leaveHandler">
-  /// Callback to call when state machine is going to leave the current state. Callback is triggered
-  /// <i>before</i> the state has actually changed. 
+  /// The callback to call when the state machine is going to leave the current state. The callback
+  /// is triggered <i>before</i> the state has actually changed. 
   /// </param>
   public void AddStateHandlers(
       T state, OnChange enterHandler = null, OnChange leaveHandler = null) {
@@ -281,11 +273,11 @@ public sealed class SimpleStateMachine<T> where T : struct, IConvertible {
     }
   }
 
-  /// <summary>Removes enter state change event handler.</summary>
-  /// <remarks>It's safe to call it for non-existing handler.</remarks>
-  /// <param name="state">State to delete handler for.</param>
-  /// <param name="enterHandler">Enter state handler to delete.</param>
-  /// <param name="leaveHandler">Leave state handler to delete.</param>
+  /// <summary>Removes a state change event handler.</summary>
+  /// <remarks>It's safe to call it for a non-existing handler.</remarks>
+  /// <param name="state">The state to delete a handler for.</param>
+  /// <param name="enterHandler">The enter state handler to delete.</param>
+  /// <param name="leaveHandler">The leave state handler to delete.</param>
   public void RemoveHandlers(T state, OnChange enterHandler = null, OnChange leaveHandler = null) {
     CheckIsNotStarted();
     if (enterHandler != null && enterHandlers.ContainsKey(state)) {
@@ -296,9 +288,9 @@ public sealed class SimpleStateMachine<T> where T : struct, IConvertible {
     }
   }
 
-  /// <summary>Verifies if transition is allowed.</summary>
-  /// <param name="newState">State to check transition into.</param>
-  /// <returns><c>true</c> if transition is allowed.</returns>
+  /// <summary>Verifies if the machine can move into the desired state.</summary>
+  /// <param name="newState">The state to check the transition for.</param>
+  /// <returns><c>true</c> if the transition is allowed.</returns>
   /// <seealso cref="isStrict"/>
   /// <seealso cref="SetTransitionConstraint"/>
   public bool CheckCanSwitchTo(T newState) {
@@ -308,7 +300,7 @@ public sealed class SimpleStateMachine<T> where T : struct, IConvertible {
   }
 
   #region Local utility methods
-  /// <summary>Verifies that state machine is started.</summary>
+  /// <summary>Verifies that the state machine is started.</summary>
   /// <exception cref="InvalidOperationException">If state machine is not yet started.</exception>
   void CheckIsStarted() {
     if (!isStarted) {
@@ -316,7 +308,7 @@ public sealed class SimpleStateMachine<T> where T : struct, IConvertible {
     }
   }
 
-  /// <summary>Verifies that state machine is <i>not</i> started.</summary>
+  /// <summary>Verifies that the state machine is <i>not</i> started.</summary>
   /// <exception cref="InvalidOperationException">If state machine is already started.</exception>
   void CheckIsNotStarted() {
     if (isStarted) {
@@ -325,12 +317,12 @@ public sealed class SimpleStateMachine<T> where T : struct, IConvertible {
   }
 
   /// <summary>
-  /// Changes machine's state if current and new states are different. Checks if transition is
-  /// allowed before actually changing state.
+  /// Changes the machine's state if the current and the new states are different. Checks if the
+  /// transition is allowed before actually changing the state.
   /// </summary>
-  /// <param name="newState">State to change to.</param>
+  /// <param name="newState">The state to change to.</param>
   /// <seealso cref="CheckCanSwitchTo"/>
-  /// <exception cref="InvalidOperationException">If transition is not allowed.</exception>
+  /// <exception cref="InvalidOperationException">If the transition is not allowed.</exception>
   void SetState(T newState) {
     CheckIsStarted();
     if (!_currentState.Equals(newState)) {
@@ -342,7 +334,7 @@ public sealed class SimpleStateMachine<T> where T : struct, IConvertible {
     }
   }
 
-  /// <summary>Notifies all the leave handlers about leaving the current state.</summary>
+  /// <summary>Notifies all the handlers about leaving the current state.</summary>
   void FireLeaveState() {
     HashSet<OnChange> handlers;
     if (leaveHandlers.TryGetValue(_currentState, out handlers)) {
@@ -352,7 +344,7 @@ public sealed class SimpleStateMachine<T> where T : struct, IConvertible {
     }
   }
 
-  /// <summary>Notifies all the enter handlers about entering the current state.</summary>
+  /// <summary>Notifies all the handlers about entering a new state.</summary>
   void FireEnterState() {
     HashSet<OnChange> handlers;
     if (enterHandlers.TryGetValue(_currentState, out handlers)) {
