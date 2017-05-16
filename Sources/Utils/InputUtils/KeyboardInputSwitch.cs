@@ -9,16 +9,25 @@ using UnityEngine;
 namespace KSPDev.InputUtils {
 
 /// <summary>
-/// Wrapper around keyboard key code that incapsulates persiting and handling into a single class.  
+/// Wrapper around a keyboard key code that incapsulates the persiting and the handling logic into
+/// a single class.
 /// </summary>
 /// <remarks>
-/// Fields of this type are correctly handled by <see cref="KSPField"/> and
-/// <see cref="PersistentFieldAttribute"/> attributes.
+/// <para>
+/// The fields of this type are correctly handled by the stock game persisting functionality
+/// (<see cref="KSPField"/>). It's also compatible with the KSPDev persisting logic
+/// (<see cref="PersistentFieldAttribute"/>).
+/// </para>
+/// <para>
+/// <i>Important!</i> This type will be correctly loaded or saved by the KSP core but it will
+/// <i>not</i> be correctly copied in the game's editor. It's not an issue when the field is static
+/// but in case of it's an instance member, the code must not be accessing it in the editor mode.
+/// </para>
 /// </remarks>
 /// <example>
 /// <para>
-/// To define a key binding just create a class with the key code as a parameter and notify the
-/// switch about frame updates so what it could update its state:
+/// To define a key binding just create a class with the key code as a parameter, and notify the
+/// switch about the frame updates so that it could update its state:
 /// </para>
 /// <code><![CDATA[
 /// class MyClass : MonoBehaviour {
@@ -32,7 +41,7 @@ namespace KSPDev.InputUtils {
 /// }
 /// ]]></code>
 /// <para>
-/// In case of switch state needs to be checked from other methods use <see cref="isHold"/>
+/// In case of the switch state needs to be checked from the other methods use <see cref="isHold"/>
 /// property:
 /// </para>
 /// <code><![CDATA[
@@ -51,8 +60,7 @@ namespace KSPDev.InputUtils {
 /// }
 /// ]]></code>
 /// <para>
-/// When code needs to react to the event of changing switch state it can register for the state
-/// change event:
+/// When the code needs to react to a switch state event, it can register a listener:
 /// </para>
 /// <code><![CDATA[
 /// class MyClass : MonoBehaviour {
@@ -72,11 +80,11 @@ namespace KSPDev.InputUtils {
 ///   }
 ///
 ///   void OnDestroy() {
-///     // Do nothing since in this example switch is an instance field, and it will be destroyed
-///     // together with the owning class (and, hence, all the listeners).
-///     // Though, if it was a static field we would do something like this:
+///     // Do nothing since in this example the switch is an instance field, and it will be
+///     // destroyed together with the owning class (and, hence, all the listeners).
+///     // However, if it was a static field we would do something like this:
 ///     mySwitch.OnStateChanged -= OnSwitchStateChange;
-///     // Anonymous functions cannot be unregistered, so don't use them on static fields.
+///     // Anonymous functions cannot be unregistered, so don't use them on the static fields.
 ///   }
 ///
 ///   void OnSwitchStateChange() {
@@ -89,8 +97,8 @@ namespace KSPDev.InputUtils {
 /// }
 /// ]]></code>
 /// <para>
-/// In many cases you may want to load key bining from a config file. Due to switch supports
-/// KSP/KSPDev persistence it can easily be achieved by just adding an attribute:
+/// In many cases you may want to load a key bining from a config file. It can be achieved by
+/// adding an attribute to the field of this type:
 /// </para>
 /// <code><![CDATA[
 /// [PersistentFieldsFile("my/mod/settings.cfg", "")]
@@ -99,8 +107,8 @@ namespace KSPDev.InputUtils {
 ///   [KSPField]
 ///   public KeyboardInputSwitch switchFromPart = new KeyboardInputSwitch(KeyCode.Alpha1);
 ///
-///   // Note that for PersistentField attribute field doesn't need to be public.
-///   // Though, private fields are handled a bit differently (read the docs!).
+///   // Note that for a PersistentField attribute the field doesn't need to be public.
+///   // However, the private fields are handled a bit differently (read the docs!).
 ///   [PersistentField("Keyboard/Bindings")]
 ///   KeyboardInputSwitch switchFromSettings = new KeyboardInputSwitch(KeyCode.Alpha2);
 ///
@@ -112,33 +120,36 @@ namespace KSPDev.InputUtils {
 ///   }
 /// }
 /// ]]></code>
-/// <para>Storing of the key binding works in a similar way.</para>
 /// </example>
-/// <seealso cref="PersistentFieldsFileAttribute"/>
 /// <seealso cref="PersistentFieldAttribute"/>
-/// <seealso href="https://kerbalspaceprogram.com/api/class_k_s_p_field.html">KSP: KSPField</seealso>
+/// <include file="KSPAPI_HelpIndex.xml" path="//item[@name='T:KSPField']"/>
 public class KeyboardInputSwitch : IConfigNode {
-  /// <summary>Says if any switch is being hold.</summary>
+  /// <summary>Tells if any switch is being hold.</summary>
   /// <remarks>
-  /// This value is version specific. I.e. multiple versions of the utils DLL will not see each
-  /// other. So if this property returns <c>true</c> then the only safe assumption is that any
-  /// switch <i>within the running</i> mod is being hold. Ideally, when all mods in the game run the
-  /// same version of the utils DLL this property will truly say if <i>any</i> switch across all
-  /// mods is hold.
+  /// This value is a version specific. I.e. the multiple versions of the utils DLL will not see
+  /// each other. So, if this property returns <c>true</c> then the only safe assumption is that any
+  /// switch <i>within the running</i> mod is being hold. Ideally, when all the mods in the game run
+  /// the same version of the utils DLL, this property will truly say if any in the <i>game</i> is
+  /// in the hold state.
   /// </remarks>
   public static bool isAnyKeyHold { get { return keysHold > 0; } }
   static int keysHold;
 
-  /// <summary>Maximum delay to register click event.</summary>
-  /// <remarks>Value used is the same as in KSP <see cref="KeyBinding"/>.</remarks>
+  /// <summary>Maximum delay to record a click event.</summary>
+  /// <remarks>
+  /// If the key is released later than this delay, then the click event will not be triggered. By
+  /// default the switch uses the same value as defined in the core KSP <see cref="KeyBinding"/>.
+  /// </remarks>
+  /// <seealso cref="OnClick"/>
   /// <seealso href="https://kerbalspaceprogram.com/api/class_key_binding.html">KSP: KeyBinding</seealso>
   public const float ClickDelay = 0.2f;
 
-  /// <summary>Defines current hold state of the switch.</summary>
+  /// <summary>Defines the current hold state of the switch.</summary>
   /// <remarks>
-  /// Note that when reading this property it may not represent actual keyboard key hold state since
-  /// switch state can be assigned from the code.
+  /// This property may not represent the actual keyboard key hold state since it can be assigned
+  /// from the code.
   /// </remarks>
+  /// <see cref="SetHoldState"/>
   public bool isHold {
     get { return _isHold; }
     set { SetHoldState(value); }
@@ -147,55 +158,62 @@ public class KeyboardInputSwitch : IConfigNode {
 
   /// <summary>Key code for the switch.</summary>
   /// <remarks>
-  /// It can be changed in runtime but if hold state was <c>true</c> it must be reset by the caller.
+  /// It can be changed in runtime but if the hold state was <c>true</c> then it must be reset by
+  /// the caller.
   /// </remarks>
   public KeyCode keyCode;
 
   /// <summary>
-  /// Determines if switch should react on keyboard events from <see cref="Update"/> method. 
+  /// Determines if the switch should react on the keyboard events from the <see cref="Update"/>
+  /// method.
   /// </summary>
   /// <remarks>
-  /// Note that if switch is disabled while the key was hold the hold state will <i>not</i> be
-  /// reset. If state needs to be reset then caller must do it explicitly.
+  /// If switch is disabled while the key was pressed then the hold state will <i>not</i> be reset.
+  /// If the state needs to be reset then caller must do it explicitly.
   /// </remarks>
   public bool keyboardEnabled = true;
 
   #region Events
   /// <summary>
-  /// Event that notifies about hold state change. The event is only called when state has actually
-  /// changed.
+  /// Event that notifies about the hold state change. The event is only called when the state has
+  /// actually changed.
   /// </summary>
   /// <remarks>
-  /// Remember to remove listeners when their owner class is destroyed by the game. If it's not done
-  /// no NRE will happen but "ghost" listeners will continue to react on the events.  
+  /// Remember to remove the listeners when their owner class is destroyed by the game. If it's not
+  /// done then no NRE will happen, but the "ghost" listeners will continue to react on the events.  
   /// </remarks>
   public event Callback OnStateChanged;
   
   /// <summary>
-  /// Event that notifies that switch key has been pressed.
+  /// Event that notifies that the switch key has been pressed.
   /// </summary>
   /// <remarks>
-  /// Remember to remove listeners when their owner class is destroyed by the game. If it's not done
-  /// no NRE will happen but "ghost" listeners will continue to react on the events.  
+  /// Remember to remove the listeners when their owner class is destroyed by the game. If it's not
+  /// done then no NRE will happen, but the "ghost" listeners will continue to react on the events.  
   /// </remarks>
   public event Callback OnPress;
 
   /// <summary>
-  /// Event that notifies that switch key has been released.
+  /// Event that notifies that the switch key has been released.
   /// </summary>
   /// <remarks>
-  /// Remember to remove listeners when their owner class is destroyed by the game. If it's not done
-  /// no NRE will happen but "ghost" listeners will continue to react on the events.  
+  /// Remember to remove the listeners when their owner class is destroyed by the game. If it's not
+  /// done then no NRE will happen, but the "ghost" listeners will continue to react on the events.  
   /// </remarks>
   public event Callback OnRelease;
 
   /// <summary>
-  /// Event that notifies about "click" event. Click event requires press and release actions
-  /// separted by a maximum delay.
+  /// Event that notifies about the click event.
   /// </summary>
   /// <remarks>
-  /// Remember to remove listeners when their owner class is destroyed by the game. If it's not done
-  /// no NRE will happen but "ghost" listeners will continue to react on the events.  
+  /// <para>
+  /// In order for the click event to trigger the key release event must happen within the
+  /// <see cref="ClickDelay"/> delay after the preceding press event.
+  /// </para>
+  /// <para>
+  /// Remember to remove the listeners when their owner class is destroyed by the game. If it's not
+  /// done then no NRE will happen, but the "ghost" listeners will continue to react on the events.  
+  /// </para>  
   /// </remarks>
   /// <seealso cref="ClickDelay"/>
   public event Callback OnClick;
@@ -205,22 +223,18 @@ public class KeyboardInputSwitch : IConfigNode {
   float lastPressTime;
 
   #region IConfigNode implementation
-  /// <summary>
-  /// Loads switch binding when field is attributed with KSP or KSPDev persisting attributes. 
-  /// </summary>
-  /// <param name="node">Node to get values from.</param>
+  /// <summary>Loads a persisted switch binding.</summary>
+  /// <param name="node">The node to get values from.</param>
   /// <seealso cref="PersistentFieldAttribute"/>
-  /// <seealso href="https://kerbalspaceprogram.com/api/class_k_s_p_field.html">KSP: KSPField</seealso>
+  /// <include file="KSPAPI_HelpIndex.xml" path="//item[@name='T:KSPField']"/>
   public virtual void Load(ConfigNode node) {
     ConfigAccessor.GetValueByPath(node, "keyCode", ref keyCode);
   }
 
-  /// <summary>
-  /// Saves switch binding when field is attributed with KSP or KSPDev persisting attributes. 
-  /// </summary>
-  /// <param name="node">Node to get values from.</param>
+  /// <summary>Saves the switch binding.</summary>
+  /// <param name="node">The node to store the values into.</param>
   /// <seealso cref="PersistentFieldAttribute"/>
-  /// <seealso href="https://kerbalspaceprogram.com/api/class_k_s_p_field.html">KSP: KSPField</seealso>
+  /// <include file="KSPAPI_HelpIndex.xml" path="//item[@name='T:KSPField']"/>
   public virtual void Save(ConfigNode node) {
     node.SetValue("keyCode", keyCode.ToString(), createIfNotFound: true);
   }
@@ -228,26 +242,26 @@ public class KeyboardInputSwitch : IConfigNode {
 
   /// <summary>
   /// Creates a switch with a <see cref="KeyCode.None"/> key binding. It's a default constructor
-  /// needed for config utils to work.
+  /// needed for the <see cref="PersistentFieldAttribute"/> functionality to work.
   /// </summary>
   public KeyboardInputSwitch() : this(KeyCode.None) {
   }
 
   /// <summary>Main constructor to create a switch for the provided key code.</summary>
   /// <param name="code">
-  /// Key code to activate the switch. Can be <see cref="KeyCode.None"/> in which case this switch
-  /// can only be changed via code.
+  /// The key code to activate the switch. Can be <see cref="KeyCode.None"/> in which case this
+  /// switch can only be changed via the code.
   /// </param>
   public KeyboardInputSwitch(KeyCode code) {
     this.keyCode = code;
   }
 
-  /// <summary>Checks keyboard status and updates the switch accordingly.</summary>
+  /// <summary>Checks the keyboard status and updates the switch accordingly.</summary>
   /// <remarks>
-  /// This method handles game's pause and time warp modes, and disables key handling in these
-  /// modes. It also respects UI locking mode set by the game.
+  /// This method handles the game's pause and time warp modes, and disables the key handling in
+  /// these modes. It also respects the UI locking mode set by the game.
   /// </remarks>
-  /// <returns>Current hold state.</returns>
+  /// <returns>The current hold state.</returns>
   /// <seealso cref="keyboardEnabled"/>
   public virtual bool Update() {
     if (!keyboardEnabled) {
@@ -264,9 +278,11 @@ public class KeyboardInputSwitch : IConfigNode {
     return isHold;
   }
 
-  /// <summary>Updates hold state and triggers event(s) if any.</summary>
-  /// <param name="newState">New hold state.</param>
+  /// <summary>Updates the hold state and triggers the event(s) if any.</summary>
+  /// <remarks>This method can be used to simulate a click event.</remarks>
+  /// <param name="newState">The new hold state.</param>
   /// <seealso cref="OnStateChanged"/>
+  /// <seealso cref="OnClick"/>
   protected virtual void SetHoldState(bool newState) {
     if (_isHold != newState) {
       _isHold = newState;
