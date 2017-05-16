@@ -253,12 +253,12 @@ public class KeyboardInputSwitch : IConfigNode {
     if (!keyboardEnabled) {
       return false;
     }
-    if (Input.GetKeyUp(keyCode)
+    if (!Input.GetKey(keyCode)
         || Mathf.Approximately(Time.timeScale, 0f)
         || Time.timeScale > 1f
         || InputLockManager.IsLocked(ControlTypes.UI)) {
       SetHoldState(false);
-    } else if (Input.GetKeyDown(keyCode) && !isAnyKeyHold) {
+    } else if (Input.GetKey(keyCode) && !isAnyKeyHold) {
       SetHoldState(true);
     }
     return isHold;
