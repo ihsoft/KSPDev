@@ -9,13 +9,19 @@ using UnityEngine;
 
 namespace KSPDev.GUIUtils {
 
-/// <summary>Helper class to play sounds in game GUI. Such sounds are not 3D aligned.</summary>
+/// <summary>Helper class to play sounds in the game GUI. Such sounds are not 3D aligned.</summary>
 /// <remarks>
-/// Use this player when soucre of the sound is player keyboard actions or a mouse pointer. This
-/// class implements all the boilerplate to load and play sound resources.
+/// <para>
+/// Use this player when the source of the sound is a GUI object (e.g. a GUI control). This class
+/// implements all the boilerplate to load and play the sound resources. All the sounds are cached
+/// wihtin the scene, so repeating requests to the same sound won't add extra latency.
+/// </para>
+/// <para>
+/// In case of the very first usage of the sound is latency restricted, the sound resource can be
+/// pre-cached via the <see cref="CacheSound"/> method. It will increase the loading time, though.
+/// </para>
 /// </remarks>
 /// <example>
-/// Here is an example of playing two different sounds on pressing "O" or "P" keys.
 /// <code><![CDATA[
 /// class MyModule : PartModule {
 ///   public override OnAwake() {
@@ -28,7 +34,7 @@ namespace KSPDev.GUIUtils {
 ///       UISoundPlayer.instance.Play("ooo.ogg");  // Played from cache. No delay.
 ///     }
 ///     if (Input.GetKeyDown("P")) {
-///       UISoundPlayer.instance.Play("ppp.ogg");  // May delay game while loading the resource.
+///       UISoundPlayer.instance.Play("ppp.ogg");  // May delay the game while loading the resource.
 ///     }
 ///   }
 /// }
@@ -36,8 +42,9 @@ namespace KSPDev.GUIUtils {
 /// </example>
 [KSPAddon(KSPAddon.Startup.EveryScene, false /*once*/)]
 public sealed class UISoundPlayer : MonoBehaviour {
-  /// <summary>Returns instance for the current scene.</summary>
-  public static UISoundPlayer instance;
+  /// <summary>Returns the instance for the player in the current scene.</summary>
+  /// <value>Instance of the player.</value>
+  public static UISoundPlayer instance { get; private set; }
 
   /// <summary>Global scene cache for all the sounds.</summary>
   static readonly Dictionary<string, AudioSource> audioCache =
@@ -45,13 +52,14 @@ public sealed class UISoundPlayer : MonoBehaviour {
 
   /// <summary>Plays the specified sound.</summary>
   /// <remarks>
-  /// Every request is cached unless requested otherwise. Subsequent calls to the play method won't
-  /// require audio clip loading.
+  /// Every request is cached unless requested otherwise. The subsequent calls to the play method
+  /// won't require the audio clip loading. However, the same cached sound cannot be played
+  /// simultaneously from the different calls: every next call will abort the previous play action
+  /// of the same sound.
   /// </remarks>
   /// <param name="audioPath">File path relative to <c>GameData</c>.</param>
-  /// <param name="dontCache">If <c>true</c> then audio will not be cached.</param>
-  public void Play(string audioPath, bool dontCache = false) {
-    var audio = GetOrLoadAudio(audioPath, dontCache);
+  public void Play(string audioPath) {
+    var audio = GetOrLoadAudio(audioPath);
     if (audio != null) {
       audio.Play();
     }
@@ -59,26 +67,26 @@ public sealed class UISoundPlayer : MonoBehaviour {
 
   /// <summary>Loads the sound into cache but doesn't play it.</summary>
   /// <remarks>
-  /// Use this method when sound is expected to frequently played in the scene. If it worth spending
-  /// a bit more time in the loading to win some latency during the play time then it pre-caching
-  /// sounds is a good idea.
+  /// Use this method when the sound is expected to be frequently played in the scene. However, it
+  /// it only makes sense to pre-cache a resource if the first usage of the sound is a latency
+  /// critical. The latency difference is not hight enough to be significant for the GUI actions.
   /// </remarks>
   /// <param name="audioPath">File path relative to <c>GameData</c>.</param>
   public void CacheSound(string audioPath) {
-    GetOrLoadAudio(audioPath, dontCache: false);
+    GetOrLoadAudio(audioPath);
   }
 
   /// <summary>Initializes <see cref="instance"/>.</summary>
   void Awake() {
     instance = this;
+    // The objects in the cache are already destroyed, so just clean it up.
     audioCache.Clear();
   }
 
-  /// <summary>Loads audio sample and plays it.</summary>
-  /// <param name="audioPath">File path relative to <c>GameData</c>.</param>
-  /// <param name="dontCache">If <c>true</c> then audio will not be cached.</param>
-  /// <returns>Audio resource if loaded or found in the cache, otherwise <c>null</c>.</returns>
-  AudioSource GetOrLoadAudio(string audioPath, bool dontCache) {
+  /// <summary>Loads the audio sample and plays it.</summary>
+  /// <param name="audioPath">The file path relative to <c>GameData</c>.</param>
+  /// <returns>An audio resource if loaded or found in the cache, otherwise <c>null</c>.</returns>
+  AudioSource GetOrLoadAudio(string audioPath) {
     if (HighLogic.LoadedScene == GameScenes.LOADING
         || HighLogic.LoadedScene == GameScenes.LOADINGBUFFER) {
       // Resources are not avaialble during game load. 
@@ -97,9 +105,7 @@ public sealed class UISoundPlayer : MonoBehaviour {
     audio.volume = GameSettings.UI_VOLUME;
     audio.spatialBlend = 0;  // Set as 2D audiosource
     audio.clip = GameDatabase.Instance.GetAudioClip(audioPath);
-    if (!dontCache) {
-      audioCache[audioPath] = audio;
-    }
+    audioCache[audioPath] = audio;
     return audio;
   }
 }
