@@ -4,18 +4,18 @@
 
 namespace KSPDev.KSPInterfaces {
 
-/// <summary>Interface for modules that need handling physics.</summary>
+/// <summary>Interface for the modules that need handling physics.</summary>
 /// <remarks>
-/// Events of this inteface are triggered by Unity engine via reflections. It's not required for the
-/// module to implement the interface to be notified but by implementing it the code becomes more
-/// consistent and less error prone.
+/// The events of this interface are triggered by the Unity engine via reflections. It's not
+/// required for the module to implement the interface to be notified, but by implementing it, the
+/// code becomes more consistent and less error prone.
 /// </remarks>
 /// <example>
 /// <code><![CDATA[
 /// public class MyModule : PartModule, IsPhysicalObject {
 ///   /// <inheritdoc/>
 ///   public void FixedUpdate() {
-///     // Do physics stuff.
+///     // Do the physics stuff.
 ///   }
 /// }
 /// ]]></code>
@@ -23,11 +23,11 @@ namespace KSPDev.KSPInterfaces {
 /// <seealso href="https://docs.unity3d.com/ScriptReference/MonoBehaviour.FixedUpdate.html">
 /// Unity 3D: FixedUpdate</seealso>
 public interface IsPhysicalObject {
-  /// <summary>Notifies that fixed framerate frame is being handled.</summary>
+  /// <summary>Notifies that the fixed rate frame is being handled.</summary>
   /// <remarks>
   /// This method is called by Unity via reflections, so it's not required to implement the
-  /// interface. Though, it's a good idea to implement this interface in objects/modules that need
-  /// physics updates to make code more readable.
+  /// interface to get notified. Though, it's a good idea to implement this interface in the
+  /// objects and modules that need the physics updates. It makes the code more readable.
   /// </remarks>
   void FixedUpdate();
 }
