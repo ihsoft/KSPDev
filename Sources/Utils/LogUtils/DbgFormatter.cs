@@ -16,7 +16,9 @@ public static class DbgFormatter {
   /// <param name="p">Part to get ID string for.</param>
   /// <returns>ID string.</returns>
   public static string PartId(Part p) {
-    return p != null ? string.Format("{0} (id={1})", p.name, p.flightID) : "NULL";
+    return p != null
+        ? string.Format("{0} (id={1})", p.name, p.flightID)
+        : "Part#NULL";
   }
 
   /// <summary>Returns a string represenation of a vector with more precision.</summary>
@@ -39,7 +41,9 @@ public static class DbgFormatter {
   /// <param name="parent">Optional parent to use a root.</param>
   /// <returns>Full string path to the root.</returns>
   public static string TranformPath(Transform obj, Transform parent = null) {
-    return Hierarchy.MakePath(Hierarchy.GetFullPath(obj, parent));
+    return obj != null 
+        ? Hierarchy.MakePath(Hierarchy.GetFullPath(obj, parent))
+        : "Transform#NULL";
   }
 
   /// <summary>Returns a full string path for the game object.</summary>
@@ -47,7 +51,9 @@ public static class DbgFormatter {
   /// <param name="parent">Optional parent to use a root.</param>
   /// <returns>Full string path to the root.</returns>
   public static string TranformPath(GameObject obj, Transform parent = null) {
-    return TranformPath(obj.transform, parent);
+    return obj != null 
+        ? TranformPath(obj.transform, parent)
+        : "GameObject#NULL";
   }
 
   /// <summary>Flatterns collection items into a comma separated string.</summary>
@@ -63,6 +69,9 @@ public static class DbgFormatter {
   public static string C2S<TSource>(IEnumerable<TSource> collection,
                                     Func<TSource, string> predicate = null,
                                     string separator = ",") {
+    if (collection == null) {
+      return "Collection#NULL";
+    }
     var res = new StringBuilder();
     var firstItem = true;
     foreach (var item in collection) {
