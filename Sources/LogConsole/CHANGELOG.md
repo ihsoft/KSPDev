@@ -1,3 +1,6 @@
+# KPSPDev_LogConsole v0.14.0 (May 25th, 2017):
+* KSP 1.3 support.
+
 # KPSPDev_LogConsole v0.13.1 (February 6th, 2017):
 * [Enhancement #6] Introduce a setting for logs retention.
 * [Change] Stop storing log records in `LogInterceptor`. Aggregators do it when needed.
