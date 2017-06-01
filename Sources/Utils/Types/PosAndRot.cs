@@ -90,7 +90,7 @@ public sealed class PosAndRot : IPersistentField {
     var elements = value.Split(',');
     if (elements.Length != 6) {
       throw new ArgumentException(
-          "PosAndRot type needs exactly 6 elements separated by a comma");
+          "PosAndRot type needs exactly 6 elements separated by a comma but found: " + value);
     }
     var args = elements.Select(float.Parse).ToArray();
     pos = new Vector3(args[0], args[1], args[2]);
