@@ -109,6 +109,7 @@
     <Compile Include="KSPInterfaces\IsPartDeathListener.cs" />
     <Compile Include="KSPInterfaces\IsPhysicalObject.cs" />
     <Compile Include="LogUtils\DbgFormatter.cs" />
+    <Compile Include="LogUtils\HostedDebugLog.cs" />
     <Compile Include="ModelUtils\AlignTransforms.cs" />
     <Compile Include="ModelUtils\Colliders.cs" />
     <Compile Include="ModelUtils\Hierarchy.cs" />

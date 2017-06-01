@@ -66,10 +66,12 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Extensions\Dictionary-Examples.cs" />
+    <Compile Include="LogUtils\HostedDebugLog-Examples.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Extensions" />
+    <Folder Include="LogUtils" />
     <Folder Include="Properties" />
   </ItemGroup>
   <ItemGroup>
