@@ -12,10 +12,10 @@ sources-->
     <AssemblyName>Documentation</AssemblyName>
     <RootNamespace>Documentation</RootNamespace>
     <Name>Documentation</Name>
-    <OutputPath>..\..\docs\Utils\</OutputPath>
+    <OutputPath>..\..\..\docs\Utils\</OutputPath>
     <HtmlHelpName>Documentation</HtmlHelpName>
     <DocumentationSources>
-      <DocumentationSource sourceFile="KSPDev_Utils.csproj" subFolders="True" />
+      <DocumentationSource sourceFile="..\KSPDev_Utils.csproj" />
     </DocumentationSources>
     <BuildAssemblerVerbosity>OnlyWarningsAndErrors</BuildAssemblerVerbosity>
     <HelpFileFormat>Website</HelpFileFormat>
@@ -40,52 +40,21 @@ sources-->
     <CopyrightText>
     </CopyrightText>
     <NamespaceSummaries>
-      <NamespaceSummaryItem name="KSPDev.ConfigUtils" isDocumented="True">&lt;para&gt;A set of utility methods and classes to make accessing config files easier. You may choose to work with each field (as you usually do in KSP) but with use of convenience methods. Or you may make use of meta programming approach and only add attributes to the fields that require persistence.&lt;/para&gt;
+      <NamespaceSummaryItem name="KSPDev.ConfigUtils" isDocumented="True">&lt;para&gt;A set of the utility methods and classes to make accessing config files easier. You may choose to work with each field indepengly (as you usually do in KSP), and only use the convinience methods. Or you may make use of the meta programming approach and only add the attributes to the fields that require persistence.&lt;/para&gt;
 
-&lt;para&gt;If you like dealing with settings on yourself then you may find useful &lt;see cref="T:KSPDev.ConfigUtils.ConfigAccessor"/&gt; helper class that simplifies routine operations with configuration nodes and files.&lt;/para&gt;
+&lt;para&gt;If you like dealing with the settings on yourselves, then you may find useful  the &lt;see cref="T:KSPDev.ConfigUtils.ConfigAccessor"/&gt; helper class that simplifies the routine operations with the configuration nodes and files.&lt;/para&gt;
 
-&lt;para&gt;If you'd like to start using new attributes system that allows annotation of the settings fields you may start from &lt;see cref="T:KSPDev.ConfigUtils.PersistentFieldAttribute"/&gt;. This topic has good code examples that will help you to start.&lt;/para&gt;</NamespaceSummaryItem>
-      <NamespaceSummaryItem name="KSPDev.FSUtils" isDocumented="True">A set of utility classes to deal with paths in the game.</NamespaceSummaryItem>
-      <NamespaceSummaryItem name="KSPDev.GUIUtils" isDocumented="True">A set of helper classes to deal with Unity GUI.</NamespaceSummaryItem>
-      <NamespaceSummaryItem name="KSPDev.LogUtils" isDocumented="True">&lt;para&gt;A set of simple wrappers to write logs in a more convinient way.&lt;/para&gt;
-
-&lt;para&gt;It's deprecated. Use &lt;see href="https://docs.unity3d.com/ScriptReference/Debug.html"&gt;Unity stock methods&lt;/see&gt; to log.&lt;/para&gt;</NamespaceSummaryItem>
-      <NamespaceSummaryItem name="(global)" isDocumented="False" />
-      <NamespaceSummaryItem name="KSPDev.KSPInterfaces" isDocumented="True">&lt;para&gt;This namespace defines interfaces that either don't exist in the game or are not documented. In the first case the goal is to make coding more OOP by defining a clear interface so what callers know what to expect from the part's module. In the second case the point is to provide a verbose documentation to the existing KSP interfaces.&lt;/para&gt;
-
-&lt;example&gt;If interface name starts from prefix &lt;c&gt;IKSP&lt;/c&gt; then it's just a "sugar" interface that documents an existing game interface. You must add original KSP interface to implement the game logic, and you may add "sugar" interface to have a nice documentation:
-&lt;code&gt;&lt;![CDATA[
-public class MyModule : PartModule, IActivateOnDecouple, IKSPActivateOnDecouple {
-  /// &lt;inheritdoc/&gt;
-  public virtual void DecoupleAction(string nodeName, bool weDecouple) {
-  }
-}
-]]&gt;&lt;/code&gt;
-&lt;/example&gt;
-
-&lt;example&gt;There are "sugar" interfaces that declare existing methods in the common modules. In this case just inherit from the interface and override the parent method(s):
-&lt;code&gt;&lt;![CDATA[
-public class MyModule : PartModule, IsDestroyable {
-  /// &lt;inheritdoc/&gt;
-  public void OnDestory() {
-  }
-}
-]]&gt;&lt;/code&gt;
-&lt;/example&gt;</NamespaceSummaryItem>
-      <NamespaceSummaryItem name="KSPDev.Extensions" isDocumented="True">&lt;para&gt;A set of handy extensions to the existing C# and KSP classes. Normally, you never call them from this assembly. Instead, you get them at the instance of the affected class.&lt;/para&gt;
-
-&lt;example&gt;For instance, here is how extension to standard C# &lt;c&gt;Dictionary&lt;/c&gt; can be used:
-&lt;code&gt;&lt;![CDATA[
-var a = new Dictionary&lt;int, List&lt;int&gt;&gt;;
-a.SetDefault(0).Add(1);  // Creates empty list and adds it as entry 0.
-a.SetDefault(0).Add(2);  // Re-uses existing entry 0.
-]]&gt;&lt;/code&gt;
-&lt;/example&gt;</NamespaceSummaryItem>
-      <NamespaceSummaryItem name="KSPDev.ModelUtils" isDocumented="True">Offers a variety of methods deal with procedural models. Even if model is create from prefab it's sometime useful to do some adjustments to it.</NamespaceSummaryItem>
-      <NamespaceSummaryItem name="KSPDev.ProcessingUtils" isDocumented="True">Useful methods to simplify processing common game tasks.</NamespaceSummaryItem>
-      <NamespaceSummaryItem name="KSPDev.InputUtils" isDocumented="True">A set of helper classes to deal with game keyboard and mouse input.</NamespaceSummaryItem>
-      <NamespaceSummaryItem name="KSPDev.Types" isDocumented="True">Various custom types for the KSP mods.</NamespaceSummaryItem>
-    </NamespaceSummaries>
+&lt;para&gt;If you'd like to start using the new attributes system that allows annotation of the settings fields, then you may start from the &lt;see cref="T:KSPDev.ConfigUtils.PersistentFieldAttribute"/&gt; class. This topic has good code examples that will help you to start.&lt;/para&gt;</NamespaceSummaryItem>
+<NamespaceSummaryItem name="KSPDev.FSUtils" isDocumented="True">A set of utility classes to deal with the paths in the game.</NamespaceSummaryItem>
+<NamespaceSummaryItem name="KSPDev.GUIUtils" isDocumented="True">A set of helper classes to deal with Unity GUI.</NamespaceSummaryItem>
+<NamespaceSummaryItem name="KSPDev.LogUtils" isDocumented="True">A set of simple wrappers to write the logs in a more clear and convinient way.</NamespaceSummaryItem>
+<NamespaceSummaryItem name="(global)" isDocumented="False" />
+<NamespaceSummaryItem name="KSPDev.KSPInterfaces" isDocumented="True">This namespace defines the interfaces that either don't exist in the game or are not documented. In the first case the goal is to make the coding more OOP by defining a clear interface, so that the callers know what to expect from the part's module. In the second case the point is to provide a verbose documentation to the existing KSP interfaces.</NamespaceSummaryItem>
+<NamespaceSummaryItem name="KSPDev.Extensions" isDocumented="True">A set of handy extensions to the existing C# and KSP classes. Normally, you never call them from this assembly. Instead, you get them at the instance of the affected class. See for the details and examples in the method descriptions.</NamespaceSummaryItem>
+<NamespaceSummaryItem name="KSPDev.ModelUtils" isDocumented="True">Offers a variety of methods to deal with the procedural models. Even if the model is created from a prefab, it's sometimes useful to do some adjustments to it.</NamespaceSummaryItem>
+<NamespaceSummaryItem name="KSPDev.ProcessingUtils" isDocumented="True">A set of useful methods to simplify processing the common game tasks. Like scheduling a co-routine execution, controlling the module state via a simple state machine, etc.</NamespaceSummaryItem>
+<NamespaceSummaryItem name="KSPDev.InputUtils" isDocumented="True">A set of helper classes to deal with the game keyboard and mouse input.</NamespaceSummaryItem>
+<NamespaceSummaryItem name="KSPDev.Types" isDocumented="True">Various custom types for the KSP mods.</NamespaceSummaryItem></NamespaceSummaries>
     <WebsiteSdkLinkType>Msdn</WebsiteSdkLinkType>
     <HtmlSdkLinkType>Msdn</HtmlSdkLinkType>
     <IncludeFavorites>True</IncludeFavorites>
@@ -95,7 +64,7 @@ a.SetDefault(0).Add(2);  // Re-uses existing entry 0.
       <PlugInConfig id="Additional Reference Links" enabled="True">
         <configuration>
           <targets>
-            <target htmlSdkLinkType="None" helpViewerSdkLinkType="Id" websiteSdkLinkType="None" helpFileProject="docs_project\KSP_API.shfbproj" />
+            <target htmlSdkLinkType="None" helpViewerSdkLinkType="Id" websiteSdkLinkType="None" helpFileProject="KSP_API.shfbproj" />
           </targets>
         </configuration>
       </PlugInConfig>
@@ -113,7 +82,7 @@ a.SetDefault(0).Add(2);  // Re-uses existing entry 0.
 <ComponentConfig id="API Token Resolution" enabled="True"><component id="API Token Resolution">{@TokenFiles}
 <replace elements="/*//token" item="string(.)" /></component></ComponentConfig></ComponentConfigurations>
     <WarnOnMissingSourceContext>False</WarnOnMissingSourceContext>
-    <SourceCodeBasePath>.\</SourceCodeBasePath>
+    <SourceCodeBasePath>..\</SourceCodeBasePath>
     <TransformComponentArguments>
       <Argument Key="logoFile" Value="" />
       <Argument Key="logoHeight" Value="" />
@@ -128,7 +97,8 @@ a.SetDefault(0).Add(2);  // Re-uses existing entry 0.
       <Argument Key="requestExampleUrl" Value="https://github.com/ihsoft/KSPDev/issues/new" />
     </TransformComponentArguments>
     <SaveComponentCacheCapacity>100</SaveComponentCacheCapacity>
-    <WorkingPath>Help\Work\</WorkingPath>
+    <WorkingPath>Work\</WorkingPath>
+    <MissingTags>Summary, Parameter, Returns, Value, AutoDocumentCtors, Namespace, TypeParameter, AutoDocumentDispose</MissingTags>
   </PropertyGroup>
   <!--There are no properties for these groups.  AnyCPU needs to appear in
 order for Visual Studio to perform the build.  The others are optional
