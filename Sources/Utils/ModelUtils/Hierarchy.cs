@@ -5,6 +5,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using KSPDev.LogUtils;
 using System.Text.RegularExpressions;
 using UnityEngine;
 
@@ -89,17 +90,24 @@ public static class Hierarchy {
   }
 
   /// <summary>Finds a transform in the hirerachy by the provided path.</summary>
-  /// <remarks>See path format in <see cref="FindTransformByPath(Transform,string[])"/>.</remarks>
+  /// <remarks>
+  /// See the path format in <see cref="FindTransformByPath(Transform,string[],Transform)"/>.
+  /// </remarks>
   /// <param name="parent">The transfrom to start looking from.</param>
   /// <param name="path">
   /// The path to the target. The name components must be escaped if they contain the special
   /// symbols.
   /// </param>
+  /// <param name="defValue">
+  /// An object to return if the path is not found. This situation will be treated as a danger, and
+  /// a warning log record will be made.
+  /// </param>
   /// <returns>A transform or <c>null</c> if nothing found.</returns>
-  /// <seealso cref="FindTransformByPath(Transform,string[])"/>
   /// <seealso cref="EscapeName"/>
-  public static Transform FindTransformByPath(Transform parent, string path) {
-    return FindTransformByPath(parent, SplitAndUnescapePath(path));
+  /// <include file="Unity3D_HelpIndex.xml" path="//item[@name='T:UnityEngine.Transform']/*"/>
+  public static Transform FindTransformByPath(Transform parent, string path,
+                                              Transform defValue = null) {
+    return FindTransformByPath(parent, SplitAndUnescapePath(path), defValue: defValue);
   }
 
   /// <summary>Finds a transform in the hirerachy by the provided path.</summary>
@@ -139,7 +147,11 @@ public static class Hierarchy {
   /// </para>
   /// </remarks>
   /// <param name="parent">The transfrom to start looking from.</param>
-  /// <param name="names">The path elements. All special symbols must be unescaped.</param>
+  /// <param name="path">The path elements. All the special symbols must be unescaped.</param>
+  /// <param name="defValue">
+  /// An object to return if the path is not found. This situation will be treated as a danger, and
+  /// a warning log record will be made.
+  /// </param>
   /// <returns>Transform or <c>null</c> if nothing found.</returns>
   /// <example>
   /// Given the following hierarchy:
@@ -174,42 +186,16 @@ public static class Hierarchy {
   /// ]]></code>
   /// </example>
   /// <seealso cref="UnescapeName"/>
-  public static Transform FindTransformByPath(Transform parent, string[] names) {
-    if (names.Length == 0) {
-      return parent;
+  /// <include file="Unity3D_HelpIndex.xml" path="//item[@name='T:UnityEngine.Transform']/*"/>
+  public static Transform FindTransformByPath(Transform parent, string[] path,
+                                              Transform defValue = null) {
+    var obj = FindTransformByPathInternal(parent, path);
+    if (obj == null && defValue != null) {
+      HostedDebugLog.Warning(parent, "Cannot find path: {0}. Using a fallback: {1}",
+                             MakePath(path), DbgFormatter.TranformPath(defValue));
+      return defValue;
     }
-    // Try each child of the parent.
-    var pair = names[0].Split(':');  // Separate index specifier if any.
-    var pattern = pair[0];
-    var reducedNames = names.Skip(1).ToArray();
-    var index = pair.Length > 1 ? Math.Abs(int.Parse(pair[1])) : -1;
-    for (var i = 0; i < parent.childCount; ++i) {
-      var child = parent.GetChild(i);
-      Transform branch = null;
-      // "**" means "zero or more levels", so try parent's level first.
-      if (pattern == "**") { 
-        branch = FindTransformByPath(parent, reducedNames);
-      }
-      // Try all children treating "**" as "*" (one level).
-      if (branch == null
-          && (pattern == "*" || pattern == "**" || PatternMatch(pattern, child.name))) {
-        if (index == -1 || index-- == 0) {
-          branch = FindTransformByPath(child, reducedNames);
-        }
-      }
-      if (branch != null) {
-        return branch;
-      }
-    }
-
-    // If "**" didn't match at this level the try it at the lover levels. For this just make a new
-    // path "*/**" to go thru all the children and try "**" on them.
-    if (pattern == "**") {
-      var extendedNames = names.ToList();
-      extendedNames.Insert(0, "*");
-      return FindTransformByPath(parent, extendedNames.ToArray());
-    }
-    return null;
+    return obj;
   }
 
   /// <summary>Returns part's model transform.</summary>
@@ -246,7 +232,7 @@ public static class Hierarchy {
   /// object.
   /// </param>
   /// <returns>A full path name components. The names are not escaped.</returns>
-  /// <seealso cref="FindTransformByPath(UnityEngine.Transform, string[])"/>
+  /// <seealso cref="FindTransformByPath(Transform,string[],Transform)"/>
   public static string[] GetFullPath(Transform obj, Transform parent = null) {
     var path = new List<string>();
     while (obj != null && obj != parent) {
@@ -305,6 +291,44 @@ public static class Hierarchy {
       var child = parent.GetChild(i);
       GatherHirerachyNames(child, fullName, names);
     }
+  }
+
+  static Transform FindTransformByPathInternal(Transform parent, string[] names) {
+    if (names.Length == 0) {
+      return parent;
+    }
+    // Try each child of the parent.
+    var pair = names[0].Split(':');  // Separate index specifier if any.
+    var pattern = pair[0];
+    var reducedNames = names.Skip(1).ToArray();
+    var index = pair.Length > 1 ? Math.Abs(int.Parse(pair[1])) : -1;
+    for (var i = 0; i < parent.childCount; ++i) {
+      var child = parent.GetChild(i);
+      Transform branch = null;
+      // "**" means "zero or more levels", so try parent's level first.
+      if (pattern == "**") { 
+        branch = FindTransformByPathInternal(parent, reducedNames);
+      }
+      // Try all children treating "**" as "*" (one level).
+      if (branch == null
+          && (pattern == "*" || pattern == "**" || PatternMatch(pattern, child.name))) {
+        if (index == -1 || index-- == 0) {
+          branch = FindTransformByPathInternal(child, reducedNames);
+        }
+      }
+      if (branch != null) {
+        return branch;
+      }
+    }
+
+    // If "**" didn't match at this level the try it at the lover levels. For this just make a new
+    // path "*/**" to go thru all the children and try "**" on them.
+    if (pattern == "**") {
+      var extendedNames = names.ToList();
+      extendedNames.Insert(0, "*");
+      return FindTransformByPathInternal(parent, extendedNames.ToArray());
+    }
+    return null;
   }
   #endregion
 }
