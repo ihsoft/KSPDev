@@ -198,6 +198,18 @@ public static class Hierarchy {
     return obj;
   }
 
+  /// <inheritdoc cref="FindTransformByPath(Transform,string,Transform)"/>
+  public static Transform FindPartModelByPath(Part parent, string path,
+                                              Transform defValue = null) {
+    return FindTransformByPath(Hierarchy.GetPartModelTransform(parent), path, defValue: defValue);
+  }
+
+  /// <inheritdoc cref="FindTransformByPath(Transform,string,Transform)"/>
+  public static Transform FindPartModelByPath(Part parent, string[] path,
+                                              Transform defValue = null) {
+    return FindTransformByPath(Hierarchy.GetPartModelTransform(parent), path, defValue: defValue);
+  }
+
   /// <summary>Returns part's model transform.</summary>
   /// <param name="part">The part to get model for.</param>
   /// <returns>
