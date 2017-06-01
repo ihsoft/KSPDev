@@ -4,6 +4,7 @@
 * [Change] Add an optional parameter to: [`Hierarchy.FindTransformByPath`](http://ihsoft.github.io/KSPDev/Utils/html/M_KSPDev_ModelUtils_Hierarchy_FindTransformByPath_1.htm).
 * [Enhancement] Add a new utility class for better logging of an object state: [`LogUtils.HostedDebugLog`](http://ihsoft.github.io/KSPDev/Utils/html/T_KSPDev_LogUtils_HostedDebugLog.htm).
 * [Enhancement] Add method overloads for [`ModelUtils.FindTransformByPath`](http://ihsoft.github.io/KSPDev/Utils/html/T_KSPDev_ModelUtils_Hierarchy.htm) to simplify finding the models in the part.
+* [Enhancement] Add a method to parse `PosAndRot` from a string: [`Types.PosAndRot`](http://ihsoft.github.io/KSPDev/Utils/html/T_KSPDev_Types_PosAndRot.htm).
 * [Fix #12] Keyboard input switch misses release key event.
 * [Fix #13] AlignTransforms.SnapAlign sets a wrong direction to the source.
 

@@ -103,6 +103,26 @@ public sealed class PosAndRot : IPersistentField {
     return string.Format(
         "[PosAndRot Pos={0}, Euler={1}]", DbgFormatter.Vector(pos), DbgFormatter.Vector(euler));
   }
+
+  /// <summary>Creates a new instance from the provided string.</summary>
+  /// <param name="strValue">The value to parse.</param>
+  /// <param name="failOnError">
+  /// If <c>true</c> then a parsing error will fail the creation. Otherwise, a default instance will
+  /// be returned.
+  /// </param>
+  /// <returns>An instance, intialized from the string.</returns>
+  public static PosAndRot FromString(string strValue, bool failOnError = false) {
+    var res = new PosAndRot();
+    try {
+      res.ParseFromString(strValue);
+    } catch (ArgumentException ex) {
+      if (failOnError) {
+        throw;
+      }
+      Debug.LogWarningFormat("Cannot parse PosAndRot, using default: {0}", ex.Message);
+    }
+    return res;
+  }
   
   /// <summary>
   /// Ensures that all the angles are in the range of <c>[0; 360)</c>. 
