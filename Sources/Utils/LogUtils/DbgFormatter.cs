@@ -88,6 +88,15 @@ public static class DbgFormatter {
     }
     return res.ToString();
   }
+
+  /// <summary>Prints out a content if the nullable type.</summary>
+  /// <param name="value">The value to print.</param>
+  /// <param name="defStr">A string to present when the value is <c>null</c>.</param>
+  /// <returns>The content of the non-null value, or <paramref name="defStr"/>, or "NULL".</returns>
+  public static string Nullable<T>(T? value, string defStr = null)
+      where T : struct, IConvertible {
+    return (value.HasValue ? value.Value.ToString() : null) ?? defStr ?? "NULL";
+  }
 }
 
 }  // namespace
