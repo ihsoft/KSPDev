@@ -7,8 +7,8 @@ using KSPDev.LogUtils;
 
 namespace Examples {
 
-#region HostedLogExample1
-public class HostedLogExample1 : PartModule {
+#region HostedDebugLog1
+public class HostedDebugLog1 : PartModule {
   public override void OnAwake() {
     base.OnAwake();
     // The logging below will identify the owning part instance.
