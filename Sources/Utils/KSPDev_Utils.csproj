@@ -119,6 +119,7 @@
     <Compile Include="ProcessingUtils\AsyncCall.cs" />
     <Compile Include="ProcessingUtils\SimpleStateMachine.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ResourceUtils\StockResourceNames.cs" />
     <Compile Include="Types\PosAndRot.cs" />
     <Compile Include="VersionLogger.cs" />
   </ItemGroup>
@@ -131,6 +132,7 @@
     <Folder Include="FSUtils" />
     <Folder Include="ModelUtils" />
     <Folder Include="InputUtils" />
+    <Folder Include="ResourceUtils" />
     <Folder Include="Types" />
     <Folder Include="ProcessingUtils" />
   </ItemGroup>
