@@ -14,7 +14,7 @@ namespace KSPDev.LogUtils {
   /// </remarks>
   /// <example><code source="Examples/LogUtils/HostedDebugLog-Examples.cs" region="HostedDebugLog1"/></example>
   public static class HostedDebugLog {
-    /// <summary>Logs a formatted INFO message with a host indentifier.</summary>
+    /// <summary>Logs a formatted INFO message with a host identifier.</summary>
     /// <remarks>
     /// For the <see cref="Part"/>, <see cref="PartModule"/> and <see cref="Transform"/> objects
     /// the identifier will be the most informative.
@@ -29,14 +29,14 @@ namespace KSPDev.LogUtils {
       Debug.logger.LogFormat(LogType.Log, GetHostName(host) + format, args);
     }
 
-    /// <summary>Logs a formatted WARNING message with a host indentifier.</summary>
+    /// <summary>Logs a formatted WARNING message with a host identifier.</summary>
     /// <inheritdoc cref="Info"/>
     /// <example><code source="Examples/LogUtils/HostedDebugLog-Examples.cs" region="HostedDebugLog1"/></example>
     public static void Warning(object host, string format, params object[] args) {
       Debug.logger.LogFormat(LogType.Warning, GetHostName(host) + format, args);
     }
 
-    /// <summary>Logs a formatted ERROR message with a host indentifier.</summary>
+    /// <summary>Logs a formatted ERROR message with a host identifier.</summary>
     /// <inheritdoc cref="Info"/>
     /// <example><code source="Examples/LogUtils/HostedDebugLog-Examples.cs" region="HostedDebugLog1"/></example>
     public static void Error(object host, string format, params object[] args) {
