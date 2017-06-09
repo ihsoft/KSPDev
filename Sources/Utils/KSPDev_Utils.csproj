@@ -90,6 +90,7 @@
     <Compile Include="FSUtils\KspPaths.cs" />
     <Compile Include="GUIUtils\Formatter.cs" />
     <Compile Include="GUIUtils\IHasContextMenu.cs" />
+    <Compile Include="GUIUtils\LocalizableMessage.cs" />
     <Compile Include="GUIUtils\MessageBoolValue.cs" />
     <Compile Include="GUIUtils\MessageEnumValue.cs" />
     <Compile Include="GUIUtils\MessageSpecialFloatValue.cs" />
