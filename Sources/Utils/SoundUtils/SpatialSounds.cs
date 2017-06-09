@@ -14,6 +14,7 @@ public static class SpatialSounds {
   /// <param name="sndPath">The URL to the audio clip.</param>
   /// <param name="loop">Specifies if the clip playbac kshoold be looped.</param>
   /// <param name="maxDistance">The mximum distance at which the sound is hearable.</param>
+  /// <returns>An audio source object attached to the <paramref name="obj"/>.</returns>
   public static AudioSource Create3dSound(GameObject obj, string sndPath,
                                           bool loop = false, float maxDistance = 30f) {
     if (HighLogic.LoadedScene == GameScenes.LOADING

@@ -90,6 +90,7 @@ public static class DbgFormatter {
   }
 
   /// <summary>Prints out a content if the nullable type.</summary>
+  /// <typeparam name="T">Type of the nullable value.</typeparam>
   /// <param name="value">The value to print.</param>
   /// <param name="nullStr">A string to present when the value is <c>null</c>.</param>
   /// <returns>The content of a non-null value or <paramref name="nullStr"/>.</returns>

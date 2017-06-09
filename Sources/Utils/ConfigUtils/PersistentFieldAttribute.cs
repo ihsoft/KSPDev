@@ -189,22 +189,31 @@ namespace KSPDev.ConfigUtils {
 [AttributeUsage(AttributeTargets.Field)]
 public sealed class PersistentFieldAttribute : AbstractPersistentFieldAttribute {
   /// <summary>A proto for handling the annotated field.</summary>
-  /// <remarks>If field is a collection then this proto will be used to handle values of the
-  /// collection items.</remarks>
+  /// <remarks>
+  /// If field is a collection then this proto will be used to handle values of the collection
+  /// items.
+  /// </remarks>
+  /// <value>
+  /// The type of the class that handles the oridnary value or the values in a collection field.
+  /// </value>
   public Type ordinaryTypeProto {
     set { _ordinaryTypeProto = value; }
     get { return _ordinaryTypeProto; }
   }
 
   /// <summary>A proto for handling collection fields.</summary>
-  /// <remarks>If this property is not <c>null</c> than the annotated field is trreated as a
-  /// collection of values.</remarks>
+  /// <remarks>
+  /// If this property is not <c>null</c> than the annotated field is trreated as a collection of
+  /// values.
+  /// </remarks>
+  /// <value>The type of the class that handles the collections.</value>
   public Type collectionTypeProto {
     set { _collectionTypeProto = value; }
     get { return _collectionTypeProto; }
   }
 
   /// <summary>Specifies if the annotated field is a collection of values.</summary>
+  /// <value><c>true</c> if the field is a collection.</value>
   public bool isCollection {
     set { collectionTypeProto = value ? typeof(GenericCollectionTypeProto) : null; }
     get { return collectionTypeProto != null; }

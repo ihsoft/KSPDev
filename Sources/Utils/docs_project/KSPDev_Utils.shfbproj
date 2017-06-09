@@ -54,7 +54,9 @@ sources-->
 <NamespaceSummaryItem name="KSPDev.ModelUtils" isDocumented="True">Offers a variety of methods to deal with the procedural models. Even if the model is created from a prefab, it's sometimes useful to do some adjustments to it.</NamespaceSummaryItem>
 <NamespaceSummaryItem name="KSPDev.ProcessingUtils" isDocumented="True">A set of useful methods to simplify processing the common game tasks. Like scheduling a co-routine execution, controlling the module state via a simple state machine, etc.</NamespaceSummaryItem>
 <NamespaceSummaryItem name="KSPDev.InputUtils" isDocumented="True">A set of helper classes to deal with the game keyboard and mouse input.</NamespaceSummaryItem>
-<NamespaceSummaryItem name="KSPDev.Types" isDocumented="True">Various custom types for the KSP mods.</NamespaceSummaryItem></NamespaceSummaries>
+<NamespaceSummaryItem name="KSPDev.Types" isDocumented="True">Various custom types for the KSP mods.</NamespaceSummaryItem>
+<NamespaceSummaryItem name="KSPDev.ResourceUtils" isDocumented="True">A set of methods and constants to deal with the stock game resources.</NamespaceSummaryItem>
+<NamespaceSummaryItem name="KSPDev.SoundsUtils" isDocumented="True">A set of methods to deal with the sounds playing.</NamespaceSummaryItem></NamespaceSummaries>
     <WebsiteSdkLinkType>Msdn</WebsiteSdkLinkType>
     <HtmlSdkLinkType>Msdn</HtmlSdkLinkType>
     <IncludeFavorites>True</IncludeFavorites>
@@ -72,15 +74,18 @@ sources-->
     <ComponentConfigurations>
       <ComponentConfig id="Code Block Component" enabled="True">
         <component id="Code Block Component">
-  <basePath value="{@HtmlEncProjectFolder}" />
-  <outputPaths>{@HelpFormatOutputPaths}</outputPaths>
-  <allowMissingSource value="false" />
-  <removeRegionMarkers value="false" />
-  <colorizer syntaxFile="{@SHFBFolder}PresentationStyles\Colorizer\highlight.xml" styleFile="{@SHFBFolder}PresentationStyles\Colorizer\highlight.xsl" stylesheet="{@SHFBFolder}PresentationStyles\Colorizer\highlight.css" scriptFile="{@SHFBFolder}PresentationStyles\Colorizer\highlight.js" disabled="{@DisableCodeBlockComponent}" language="cs" tabSize="2" numberLines="false" outlining="true" keepSeeTags="true" defaultTitle="true" />
-</component>
+          <basePath value="{@HtmlEncProjectFolder}" />
+          <outputPaths>{@HelpFormatOutputPaths}</outputPaths>
+          <allowMissingSource value="false" />
+          <removeRegionMarkers value="false" />
+          <colorizer syntaxFile="{@SHFBFolder}PresentationStyles\Colorizer\highlight.xml" styleFile="{@SHFBFolder}PresentationStyles\Colorizer\highlight.xsl" stylesheet="{@SHFBFolder}PresentationStyles\Colorizer\highlight.css" scriptFile="{@SHFBFolder}PresentationStyles\Colorizer\highlight.js" disabled="{@DisableCodeBlockComponent}" language="cs" tabSize="2" numberLines="false" outlining="true" keepSeeTags="true" defaultTitle="true" />
+        </component>
       </ComponentConfig>
-<ComponentConfig id="API Token Resolution" enabled="True"><component id="API Token Resolution">{@TokenFiles}
-<replace elements="/*//token" item="string(.)" /></component></ComponentConfig></ComponentConfigurations>
+      <ComponentConfig id="API Token Resolution" enabled="True">
+        <component id="API Token Resolution">{@TokenFiles}
+<replace elements="/*//token" item="string(.)" /></component>
+      </ComponentConfig>
+    </ComponentConfigurations>
     <WarnOnMissingSourceContext>False</WarnOnMissingSourceContext>
     <SourceCodeBasePath>..\</SourceCodeBasePath>
     <TransformComponentArguments>

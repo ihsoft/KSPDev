@@ -13,6 +13,7 @@ public static class KspPaths {
   public static readonly string pluginsRootFolder = "GameData" + Path.DirectorySeparatorChar;
 
   /// <summary>Returns full path to the plugins root folder (a.k.a. <c>GameData</c>).</summary>
+  /// <value>The full path to the plugins folder.</value>
   public static string pluginsRoot {
     get {
       return Path.GetFullPath(new Uri(KSPUtil.ApplicationRootPath + pluginsRootFolder).LocalPath);

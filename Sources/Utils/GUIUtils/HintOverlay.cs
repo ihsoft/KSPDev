@@ -44,9 +44,12 @@ public class HintOverlay {
   public int LeftSideMousePadding = 4;
 
   /// <summary>The hint overlay text.</summary>
-  /// <remarks>Linefeed symbols are correctly handled. Use them to make multiline content. Setting
-  /// text is an expensive operation since it results in window size recalculation. Don't update it
-  /// more frequently than the underlaying data does.</remarks>
+  /// <remarks>
+  /// Linefeed symbols are correctly handled. Use them to make multiline content. Setting text is an
+  /// expensive operation since it results in window size recalculation. Don't update it more
+  /// frequently than the underlaying data does.
+  /// </remarks>
+  /// <value>The text to be show as a hint.</value>
   public string text {
     get { return _text; }
     set {

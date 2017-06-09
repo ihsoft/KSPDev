@@ -28,6 +28,7 @@ public sealed class PosAndRot : IPersistentField {
   /// <remarks>
   /// The rotation angles are automatically adjusted to stay within the [0; 360) range.
   /// </remarks>
+  /// <value>The Euler angles of the rotation.</value>
   public Vector3 euler {
     get { return _euler; }
     set {
@@ -39,6 +40,7 @@ public sealed class PosAndRot : IPersistentField {
   Vector3 _euler;
 
   /// <summary>Orientation of the transform.</summary>
+  /// <value>The rotation of the transfrom.</value>
   public Quaternion rot { get; private set; }
 
   /// <summary>Constructs a default instance.</summary>
