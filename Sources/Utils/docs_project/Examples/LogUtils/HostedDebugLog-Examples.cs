@@ -2,7 +2,6 @@
 // Author: igor.zavoychinskiy@gmail.com
 // This software is distributed under Public domain license.
 
-using System.Collections.Generic;
 using KSPDev.LogUtils;
 
 namespace Examples {

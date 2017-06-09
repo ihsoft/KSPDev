@@ -66,6 +66,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Extensions\Dictionary-Examples.cs" />
+    <Compile Include="GUIUtils\Message-Examples.cs" />
     <Compile Include="LogUtils\HostedDebugLog-Examples.cs" />
     <Compile Include="ProcessingUtils\SimpleStateMachine-Examples.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -73,6 +74,7 @@
   <ItemGroup>
     <Folder Include="Extensions" />
     <Folder Include="LogUtils" />
+    <Folder Include="GUIUtils" />
     <Folder Include="ProcessingUtils" />
     <Folder Include="Properties" />
   </ItemGroup>
