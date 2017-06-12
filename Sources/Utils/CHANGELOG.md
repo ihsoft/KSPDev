@@ -12,6 +12,7 @@
 * [Enhancement] Add a new utility class to deal with the stock resource names: [`ResourceUtils.StockResourceNames`](http://ihsoft.github.io/KSPDev/Utils/html/T_KSPDev_ResourceUtils_StockResourceNames.htm).
 * [Enhancement] Add a new utility class to deal with the 3D sounds: [`SoundsUtils.SpatialSounds`](http://ihsoft.github.io/KSPDev/Utils/html/T_KSPDev_SoundsUtils_SpatialSounds.htm).
 * [Enhancement] Add a base class to deal with the localizable strings (KSP 1.3+): [`GUIUtils.LocalizableMessage`](http://ihsoft.github.io/KSPDev/Utils/html/T_KSPDev_GUIUtils_LocalizableMessage.htm).
+* [Enhancement] Add a localization class to format a distance: [`GUIUtils.DistanceType`](http://ihsoft.github.io/KSPDev/Utils/html/T_KSPDev_GUIUtils_DistanceType.htm).
 * [Fix #12] Keyboard input switch misses release key event.
 * [Fix #13] AlignTransforms.SnapAlign sets a wrong direction to the source.
 
