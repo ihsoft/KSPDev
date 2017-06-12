@@ -10,11 +10,15 @@ namespace KSPDev.GUIUtils {
 
 /// <summary>Base class for the messages that support localization.</summary>
 /// <remarks>
-/// This class is not intended for the use on its own. See how the other classes (e.g.
-/// <see cref="Message"/> or <see cref="Message&lt;T&gt;"/>) are inheriting it.
+/// This class is not intended for the use on its own. See the "seealso" section for the classes
+/// that inherit it.
 /// </remarks>
 /// <seealso cref="Message"/>
-/// <seealso cref="Message&lt;T&gt;"/>
+/// <seealso cref="Message&lt;T1&gt;"/>
+/// <seealso cref="Message&lt;T1,T2&gt;"/>
+/// <seealso cref="Message&lt;T1,T2,T3&gt;"/>
+/// <seealso cref="Message&lt;T1,T2,T3,T4&gt;"/>
+/// <seealso cref="Message&lt;T1,T2,T3,T4,T5&gt;"/>
 public class LocalizableMessage {
   /// <summary>Template to use if no localized template found.</summary>
   public readonly string defaultTemplate;
