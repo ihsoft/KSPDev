@@ -12,6 +12,24 @@ public static class KspPaths {
   /// <summary>Standard plug-ins folder.</summary>
   public static readonly string pluginsRootFolder = "GameData" + Path.DirectorySeparatorChar;
 
+  /// <summary>A standard directory name to place the mod's binary.</summary>
+  /// <remarks>
+  /// This name is not mandatory, and is not enforced by the game's core. It's a community adopted
+  /// name.
+  /// </remarks>
+  public static readonly string PluginFolderName = "Plugins";
+
+  /// <summary>
+  /// A standard name to place the configs that should be ignored by the game's core.
+  /// </summary>
+  /// <remarks>
+  /// The files in this directory will be ignored by the game during the loading process. This
+  /// is a common palce to put tghe mod's settings. A directory with such name can be placed
+  /// anywhere within the <c>GameData</c> folder. However, it's usually a subfolder of
+  /// <see cref="PluginFolderName"/>.
+  /// </remarks>
+  public static readonly string PluginDataFolderName = "PluginData";
+
   /// <summary>Returns full path to the plugins root folder (a.k.a. <c>GameData</c>).</summary>
   /// <value>The full path to the plugins folder.</value>
   public static string pluginsRoot {
@@ -97,6 +115,52 @@ public static class KspPaths {
     return rootUri.MakeRelativeUri(new Uri(path))
         .ToString()
         .Replace(Path.DirectorySeparatorChar, '/');
+  }
+
+  /// <summary>Returns a relative game's path to the mod's root folder.</summary>
+  /// <example>
+  /// <para>
+  /// Given the mod's assembly was loaded from
+  /// <c>GameData/ModFolder1/ModFolder2/Plugins/mod.dll</c>, the returned path will be
+  /// <c>GameData/ModFolder1/ModFolder2/</c> because of <c>Plugins</c> folder name is considered to
+  /// be a common name for the mod's  binaries.
+  /// </para>
+  /// <para>
+  /// If the mod's DLL is located in the folder other than <c>Plugins</c>, then just the parent
+  /// folder is returned. E.g. for <c>GameData/ModFolder1/ModFolder2/MyDLLs/mod.dll</c>, the result
+  /// would be <c>GameData/ModFolder1/ModFolder2/MyDLLs/</c>.
+  /// </para>
+  /// </example>
+  /// <param name="target">The target to resolve the assembly for.</param>
+  /// <returns>
+  /// An absolute path. There is always a trailing directory separator symbol.
+  /// </returns>
+  public static string GetModsPath(Type target) {
+    var parent = Path.GetDirectoryName(target.Assembly.Location);
+    if (parent.EndsWith(PluginFolderName, StringComparison.Ordinal)) {
+      parent = Path.GetDirectoryName(parent);  // It will just chomp of the last folder name.
+    }
+    return parent + Path.DirectorySeparatorChar;
+  }
+
+  /// <inheritdoc cref="GetModsPath(Type)"/>
+  public static string GetModsPath(object target) {
+    return GetModsPath(target.GetType());
+  }
+
+  /// <summary>Returns a relative game's path to the file located in the data folder.</summary>
+  /// <param name="obj">The object instance to use to resolve the mod's assembly.</param>
+  /// <param name="fileName">The data file name.</param>
+  /// <param name="createMissingDirs">
+  /// Instructs the method to create all the directories and subdirectories in the specified path,
+  /// should they not already exist.
+  /// </param>
+  /// <returns>An absolute path.</returns>
+  public static string GetModsDataFilePath(object obj, string fileName,
+                                           bool createMissingDirs = false) {
+    var dataDirectory = Path.Combine(GetModsPath(obj), PluginDataFolderName);
+    Directory.CreateDirectory(dataDirectory);
+    return Path.Combine(dataDirectory, fileName);
   }
 }
 
