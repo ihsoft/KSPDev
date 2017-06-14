@@ -57,8 +57,15 @@ public sealed class Message : LocalizableMessage {
 /// <summary>A class to wrap a localizable UI string with parameter(s).</summary>
 /// <typeparam name="T1">Type of the <![CDATA[<<1>>]]> argument in the template.</typeparam>
 /// <remarks>
+/// <para>
 /// Define the parameter(s) type via the generic argument(s). When the string needs to be
 /// presented, use the <see cref="Format"/> method to get the final value.
+/// </para>
+/// <para>
+/// The arguments can be complex types that override the <c>ToString()</c> method. This approach
+/// can be used to customize the output format of the specific argument types. E.g. such values as
+/// "distance" can be formatted in a user friendly manner using <see cref="DistanceType"/>.
+/// </para>
 /// </remarks>
 /// <example><code source="Examples/GUIUtils/Message-Examples.cs" region="Message1Demo"/></example>
 /// <seealso cref="Message"/>
@@ -66,6 +73,7 @@ public sealed class Message : LocalizableMessage {
 /// <seealso cref="Message&lt;T1,T2,T3&gt;"/>
 /// <seealso cref="Message&lt;T1,T2,T3,T4&gt;"/>
 /// <seealso cref="Message&lt;T1,T2,T3,T4,T5&gt;"/>
+/// <seealso cref="DistanceType"/>
 public sealed class Message<T1> : LocalizableMessage {
   /// <inheritdoc cref="LocalizableMessage(string,string,string,string)"/>
   /// <seealso cref="LocalizableMessage"/>
@@ -107,8 +115,15 @@ public sealed class Message<T1> : LocalizableMessage {
 /// <typeparam name="T1">Type of the <![CDATA[<<1>>]]> argument in the template.</typeparam>
 /// <typeparam name="T2">Type of the <![CDATA[<<2>>]]> argument in the template.</typeparam>
 /// <remarks>
+/// <para>
 /// Define the parameter(s) type via the generic argument(s). When the string needs to be
 /// presented, use the <see cref="Format"/> method to get the final value.
+/// </para>
+/// <para>
+/// The arguments can be complex types that override the <c>ToString()</c> method. This approach
+/// can be used to customize the output format of the specific argument types. E.g. such values as
+/// "distance" can be formatted in a user friendly manner using <see cref="DistanceType"/>.
+/// </para>
 /// </remarks>
 /// <example><code source="Examples/GUIUtils/Message-Examples.cs" region="Message2Demo"/></example>
 /// <seealso cref="Message"/>
@@ -116,6 +131,7 @@ public sealed class Message<T1> : LocalizableMessage {
 /// <seealso cref="Message&lt;T1,T2,T3&gt;"/>
 /// <seealso cref="Message&lt;T1,T2,T3,T4&gt;"/>
 /// <seealso cref="Message&lt;T1,T2,T3,T4,T5&gt;"/>
+/// <seealso cref="DistanceType"/>
 public class Message<T1, T2> : LocalizableMessage {
   /// <inheritdoc cref="LocalizableMessage(string,string,string,string)"/>
   /// <seealso cref="LocalizableMessage"/>
@@ -159,8 +175,15 @@ public class Message<T1, T2> : LocalizableMessage {
 /// <typeparam name="T2">Type of the <![CDATA[<<2>>]]> argument in the template.</typeparam>
 /// <typeparam name="T3">Type of the <![CDATA[<<3>>]]> argument in the template.</typeparam>
 /// <remarks>
+/// <para>
 /// Define the parameter(s) type via the generic argument(s). When the string needs to be
 /// presented, use the <see cref="Format"/> method to get the final value.
+/// </para>
+/// <para>
+/// The arguments can be complex types that override the <c>ToString()</c> method. This approach
+/// can be used to customize the output format of the specific argument types. E.g. such values as
+/// "distance" can be formatted in a user friendly manner using <see cref="DistanceType"/>.
+/// </para>
 /// </remarks>
 /// <example><code source="Examples/GUIUtils/Message-Examples.cs" region="Message3Demo"/></example>
 /// <seealso cref="Message"/>
@@ -168,6 +191,7 @@ public class Message<T1, T2> : LocalizableMessage {
 /// <seealso cref="Message&lt;T1,T2&gt;"/>
 /// <seealso cref="Message&lt;T1,T2,T3,T4&gt;"/>
 /// <seealso cref="Message&lt;T1,T2,T3,T4,T5&gt;"/>
+/// <seealso cref="DistanceType"/>
 public class Message<T1, T2, T3> : LocalizableMessage {
   /// <inheritdoc cref="LocalizableMessage(string,string,string,string)"/>
   /// <seealso cref="LocalizableMessage"/>
@@ -213,8 +237,15 @@ public class Message<T1, T2, T3> : LocalizableMessage {
 /// <typeparam name="T3">Type of the <![CDATA[<<3>>]]> argument in the template.</typeparam>
 /// <typeparam name="T4">Type of the <![CDATA[<<4>>]]> argument in the template.</typeparam>
 /// <remarks>
+/// <para>
 /// Define the parameter(s) type via the generic argument(s). When the string needs to be
 /// presented, use the <see cref="Format"/> method to get the final value.
+/// </para>
+/// <para>
+/// The arguments can be complex types that override the <c>ToString()</c> method. This approach
+/// can be used to customize the output format of the specific argument types. E.g. such values as
+/// "distance" can be formatted in a user friendly manner using <see cref="DistanceType"/>.
+/// </para>
 /// </remarks>
 /// <example><code source="Examples/GUIUtils/Message-Examples.cs" region="Message4Demo"/></example>
 /// <seealso cref="Message"/>
@@ -222,6 +253,7 @@ public class Message<T1, T2, T3> : LocalizableMessage {
 /// <seealso cref="Message&lt;T1,T2&gt;"/>
 /// <seealso cref="Message&lt;T1,T2,T3&gt;"/>
 /// <seealso cref="Message&lt;T1,T2,T3,T4,T5&gt;"/>
+/// <seealso cref="DistanceType"/>
 public class Message<T1, T2, T3, T4> : LocalizableMessage {
   /// <inheritdoc cref="LocalizableMessage(string,string,string,string)"/>
   /// <seealso cref="LocalizableMessage"/>
@@ -269,8 +301,15 @@ public class Message<T1, T2, T3, T4> : LocalizableMessage {
 /// <typeparam name="T4">Type of the <![CDATA[<<4>>]]> argument in the template.</typeparam>
 /// <typeparam name="T5">Type of the <![CDATA[<<5>>]]> argument in the template.</typeparam>
 /// <remarks>
+/// <para>
 /// Define the parameter(s) type via the generic argument(s). When the string needs to be
 /// presented, use the <see cref="Format"/> method to get the final value.
+/// </para>
+/// <para>
+/// The arguments can be complex types that override the <c>ToString()</c> method. This approach
+/// can be used to customize the output format of the specific argument types. E.g. such values as
+/// "distance" can be formatted in a user friendly manner using <see cref="DistanceType"/>.
+/// </para>
 /// </remarks>
 /// <example><code source="Examples/GUIUtils/Message-Examples.cs" region="Message5Demo"/></example>
 /// <seealso cref="Message"/>
@@ -278,6 +317,7 @@ public class Message<T1, T2, T3, T4> : LocalizableMessage {
 /// <seealso cref="Message&lt;T1,T2&gt;"/>
 /// <seealso cref="Message&lt;T1,T2,T3&gt;"/>
 /// <seealso cref="Message&lt;T1,T2,T3,T4&gt;"/>
+/// <seealso cref="DistanceType"/>
 public class Message<T1, T2, T3, T4, T5> : LocalizableMessage {
   /// <inheritdoc cref="LocalizableMessage(string,string,string,string)"/>
   /// <seealso cref="LocalizableMessage"/>
