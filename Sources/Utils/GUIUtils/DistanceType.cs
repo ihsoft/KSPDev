@@ -11,10 +11,17 @@ namespace KSPDev.GUIUtils {
 /// Localized message formatting class for a numeric value that represents a <i>distance</i>.
 /// </summary>
 /// <remarks>
+/// <para>
+/// Use it as a generic parameter when creating a <see cref="LocalizableMessage"/> descendants.
+/// </para>
+/// <para>
 /// The class uses the unit name localizations from the stock module <c>ModuleEnviroSensor</c>. In
 /// case of this module is deprecated or the tags are changed, the default English values will be
 /// used for the unit names.
+/// </para>
 /// </remarks>
+/// <seealso cref="LocalizableMessage"/>
+/// <seealso cref="EnumType&lt;T&gt;"/>
 /// <example><code source="Examples/GUIUtils/DistanceType-Examples.cs" region="DistanceTypeDemo1"/></example>
 /// <example><code source="Examples/GUIUtils/DistanceType-Examples.cs" region="DistanceTypeDemo2_FormatDefault"/></example>
 /// <example><code source="Examples/GUIUtils/DistanceType-Examples.cs" region="DistanceTypeDemo2_FormatWithScale"/></example>

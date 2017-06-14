@@ -20,6 +20,7 @@ namespace KSPDev.GUIUtils {
 /// </para>
 /// </remarks>
 /// <seealso cref="LocalizableMessage"/>
+/// <seealso cref="DistanceType"/>
 /// <seealso href="http://lingoona.com/cgi-bin/grammar#l=en&amp;oh=1">Lingoona Grammar help</seealso>
 /// <example><code source="Examples/GUIUtils/EnumType-Examples.cs" region="EnumTypeDemo1"/></example>
 public sealed class EnumType<T> where T : struct, IConvertible {
