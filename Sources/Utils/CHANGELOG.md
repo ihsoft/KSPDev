@@ -7,6 +7,7 @@
 * [Change] Drop a messaging type that doesn't support localization: `GUIUtils.MessageBoolValue`.
 * [Change] Drop a messaging type that doesn't support localization: `GUIUtils.MessageSpecialFloatValue`.
 * [Change] Drop a GUI helper that doesn't support localization: `GUIUtils.Formatter`.
+* [Change] Drop a messaging type that doesn't support localization: `GUIUtils.MessageEnumValue<T>`. Use [`GUIUtils.EnumType`](http://ihsoft.github.io/KSPDev/Utils/html/T_KSPDev_GUIUtils_EnumType_1.htm) instead.
 * [Enhancement] Add method overloads for [`ModelUtils.FindTransformByPath`](http://ihsoft.github.io/KSPDev/Utils/html/T_KSPDev_ModelUtils_Hierarchy.htm) to simplify finding the models in the part.
 * [Enhancement] Add a method to parse `PosAndRot` from a string: [`Types.PosAndRot`](http://ihsoft.github.io/KSPDev/Utils/html/T_KSPDev_Types_PosAndRot.htm).
 * [Enhancement] Add a method to log nullable values: [`DbgFormatter.Nullable`](http://ihsoft.github.io/KSPDev/Utils/html/M_KSPDev_LogUtils_DbgFormatter_Nullable.htm).
