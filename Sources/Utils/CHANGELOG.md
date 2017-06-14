@@ -16,6 +16,7 @@
 * [Enhancement] Add a new utility class to deal with the 3D sounds: [`SoundsUtils.SpatialSounds`](http://ihsoft.github.io/KSPDev/Utils/html/T_KSPDev_SoundsUtils_SpatialSounds.htm).
 * [Enhancement] Add a base class to deal with the localizable strings (KSP 1.3+): [`GUIUtils.LocalizableMessage`](http://ihsoft.github.io/KSPDev/Utils/html/T_KSPDev_GUIUtils_LocalizableMessage.htm).
 * [Enhancement] Add a localization class to format a distance: [`GUIUtils.DistanceType`](http://ihsoft.github.io/KSPDev/Utils/html/T_KSPDev_GUIUtils_DistanceType.htm).
+* [Enhancement] Add a localization class to format a enum value: [`GUIUtils.EnumType`](http://ihsoft.github.io/KSPDev/Utils/html/T_KSPDev_GUIUtils_EnumType_1.htm).
 * [Enhancement] A major improvement in the methods that deal with the mod's paths resolving: [`KspPaths`](http://ihsoft.github.io/KSPDev/Utils/html/N_KSPDev_KspPaths.htm).
 * [Fix #12] Keyboard input switch misses release key event.
 * [Fix #13] AlignTransforms.SnapAlign sets a wrong direction to the source.

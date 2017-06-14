@@ -67,6 +67,7 @@
   <ItemGroup>
     <Compile Include="Extensions\Dictionary-Examples.cs" />
     <Compile Include="GUIUtils\DistanceType-Examples.cs" />
+    <Compile Include="GUIUtils\EnumType-Examples.cs" />
     <Compile Include="GUIUtils\Message-Examples.cs" />
     <Compile Include="LogUtils\HostedDebugLog-Examples.cs" />
     <Compile Include="ProcessingUtils\SimpleStateMachine-Examples.cs" />
