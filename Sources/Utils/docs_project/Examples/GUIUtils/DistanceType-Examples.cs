@@ -14,7 +14,7 @@ public class DistanceTypeDemo1 : PartModule {
   static readonly Message<DistanceType> msg1 = new Message<DistanceType>(
       "#DistanceTypeDemo_msg1", defaultTemplate: "Distance is: <<0>>");
 
-  // Depending on the current languge in the system, this method will present different unit names. 
+  // Depending on the current language in the system, this method will present different unit names. 
   void ShowDistance() {
     HostedDebugLog.Info(this, msg1.Format(0.051));
     // Prints: "Distance is: 0.051 m"
