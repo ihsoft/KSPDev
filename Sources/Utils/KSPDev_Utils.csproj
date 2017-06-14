@@ -88,7 +88,6 @@
     <Compile Include="ConfigUtils\KspTypesProto.cs" />
     <Compile Include="Extensions\Dictionaries.cs" />
     <Compile Include="FSUtils\KspPaths.cs" />
-    <Compile Include="GUIUtils\Formatter.cs" />
     <Compile Include="GUIUtils\IHasContextMenu.cs" />
     <Compile Include="GUIUtils\LocalizableMessage.cs" />
     <Compile Include="GUIUtils\MessageEnumValue.cs" />
