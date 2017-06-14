@@ -38,9 +38,8 @@ public class LocalizableMessage {
   public readonly string example;
 
   /// <summary>Tag to use when resolving the string via the Localizer.</summary>
-  /// <value>A tag in the language file.</value>
   /// <include file="KSPAPI_HelpIndex.xml" path="//item[@name='T:KSP.Localization.Localizer']"/>
-  public string tag { get; private set; }
+  public readonly string tag;
 
   /// <summary>Localized Lingoona Grammar template for the <c>tag</c>.</summary>
   /// <remarks>
@@ -79,8 +78,10 @@ public class LocalizableMessage {
   public virtual void LoadLocalization() {
     if (!Localizer.TryGetStringByTag(tag, out _localizedTemplate)) {
       _localizedTemplate = defaultTemplate;
-      Debug.LogWarningFormat("Cannot find localized content for: tag={0}, lang={1}",
-                             tag, Localizer.CurrentLanguage);
+      if (GameSettings.LOG_MISSING_KEYS_TO_FILE) {
+        Debug.LogWarningFormat("Cannot find localized content for: tag={0}, lang={1}",
+                               tag, Localizer.CurrentLanguage);
+      }
     }
   }
 
