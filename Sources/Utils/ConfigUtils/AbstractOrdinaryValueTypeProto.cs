@@ -27,7 +27,7 @@ namespace KSPDev.ConfigUtils {
 /// </code>
 /// </example>
 /// <seealso cref="ConfigAccessor"/>
-/// <seealso cref="AbstractPersistentFieldAttribute"/>
+/// <seealso cref="BasePersistentFieldAttribute"/>
 public abstract class AbstractOrdinaryValueTypeProto {
   AbstractOrdinaryValueTypeProto(params object[] args) {
     // Disallow parameterized constructors. This class will only be created via reflection.

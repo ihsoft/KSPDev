@@ -16,14 +16,14 @@ namespace KSPDev.ConfigUtils {
 /// <code>
 /// class MyTypeAttribute : AbstractPersistentFieldAttribute {
 ///   public MyTypeAttribute(string cfgPath) : base(cfgPath) {
-///     _ordinaryTypeProto = typeof(PrimitiveTypesProto);
+///     ordinaryTypeProto = typeof(PrimitiveTypesProto);
 ///   }
 /// }
 ///
 /// class MyTypesCollectionAttribute : AbstractPersistentFieldAttribute {
 ///   public MyTypesCollectionAttribute(string cfgPath) : base(cfgPath) {
-///     _ordinaryTypeProto = typeof(PrimitiveTypesProto);
-///     _collectionTypeProto = typeof(GenericCollectionTypeProto);
+///     ordinaryTypeProto = typeof(PrimitiveTypesProto);
+///     collectionTypeProto = typeof(GenericCollectionTypeProto);
 ///   }
 /// }
 /// </code>
@@ -31,7 +31,7 @@ namespace KSPDev.ConfigUtils {
 /// <seealso cref="AbstractOrdinaryValueTypeProto"/>
 /// <seealso cref="AbstractCollectionTypeProto"/>
 /// <seealso cref="ConfigAccessor"/>
-public abstract class AbstractPersistentFieldAttribute : Attribute {
+public abstract class BasePersistentFieldAttribute : Attribute {
   /// <summary>Relative path to the value or node. Case-insensitive.</summary>
   /// <remarks>Absolute path depends on the context.</remarks>
   public readonly string[] path;
@@ -47,21 +47,21 @@ public abstract class AbstractPersistentFieldAttribute : Attribute {
   /// <remarks>
   /// This type must be a descendant of <see cref="AbstractOrdinaryValueTypeProto"/>.
   /// </remarks>
-  protected Type _ordinaryTypeProto;
+  public Type ordinaryTypeProto { get; protected set; }
 
   /// <summary>A proto that handles field's value as a collection of persistent values.</summary>
   /// <remarks>If it's <c>null</c> then field is assumed to be not a collection.</remarks>
   /// <para>
   /// This type must be a descendant of <see cref="AbstractCollectionTypeProto"/>.
   /// </para>
-  protected Type _collectionTypeProto;
+  public Type collectionTypeProto { get; protected set; }
 
   /// <param name="cfgPath">
   /// A path to the fields's value in the config. Components must be separated by symbol <c>/</c>.
   /// The path is relative, the absolute path is determined when doing actual (de)serialization.
   /// The path is case-insensitive.
   /// </param>
-  protected AbstractPersistentFieldAttribute(string cfgPath) {
+  protected BasePersistentFieldAttribute(string cfgPath) {
     this.path = cfgPath.Split('/');
   }
 }

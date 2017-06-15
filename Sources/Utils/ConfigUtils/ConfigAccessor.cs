@@ -46,7 +46,7 @@ public static class ConfigAccessor {
   /// <param name="nodePath">
   /// An optional path in the file. All type's field will be read relative to this part.
   /// </param>
-  /// <param name="group">A group tag (see <see cref="AbstractPersistentFieldAttribute"/>).</param>
+  /// <param name="group">A group tag (see <see cref="BasePersistentFieldAttribute"/>).</param>
   /// <seealso cref="PersistentFieldAttribute"/>
   public static void ReadFieldsFromFile(string filePath, Type type, object instance,
                                         string nodePath = null,
@@ -67,7 +67,7 @@ public static class ConfigAccessor {
   /// <param name="type">A type to load fields for.</param>
   /// <param name="instance">An instance of type <paramref name="type"/>. If it's <c>null</c> then
   /// only static fields will be loaded.</param>
-  /// <param name="group">A group tag (see <see cref="AbstractPersistentFieldAttribute"/>).</param>
+  /// <param name="group">A group tag (see <see cref="BasePersistentFieldAttribute"/>).</param>
   /// <seealso cref="PersistentFieldAttribute"/>
   public static void ReadFieldsFromDatabase(string nodePath, Type type, object instance,
                                             string group = StdPersistentGroups.Default) {
@@ -84,7 +84,7 @@ public static class ConfigAccessor {
   /// <param name="type">A type to load fields for.</param>
   /// <param name="instance">An instance of type <paramref name="type"/>. If it's <c>null</c> then
   /// only static fields will be loaded.</param>
-  /// <param name="group">A group tag (see <see cref="AbstractPersistentFieldAttribute"/>).</param>
+  /// <param name="group">A group tag (see <see cref="BasePersistentFieldAttribute"/>).</param>
   /// <seealso cref="PersistentFieldAttribute"/>
   public static void ReadFieldsFromNode(ConfigNode node, Type type, object instance,
                                         string group = StdPersistentGroups.Default) {
@@ -145,7 +145,7 @@ public static class ConfigAccessor {
   /// <param name="mergeMode">
   /// If <c>true</c> and the file already exists then only will be created.
   /// </param>
-  /// <param name="group">A group tag (see <see cref="AbstractPersistentFieldAttribute"/>).</param>
+  /// <param name="group">A group tag (see <see cref="BasePersistentFieldAttribute"/>).</param>
   /// <seealso cref="PersistentFieldAttribute"/>
   public static void WriteFieldsIntoFile(string filePath,
                                          Type type, object instance,
@@ -174,7 +174,7 @@ public static class ConfigAccessor {
   /// <param name="type">A type to write fields for.</param>
   /// <param name="instance">An instance of type <paramref name="type"/>. If it's <c>null</c> then
   /// only static fields will be written.</param>
-  /// <param name="group">A group tag (see <see cref="AbstractPersistentFieldAttribute"/>).</param>
+  /// <param name="group">A group tag (see <see cref="BasePersistentFieldAttribute"/>).</param>
   /// <seealso cref="PersistentFieldAttribute"/>
   public static void WriteFieldsIntoNode(ConfigNode node, Type type, object instance,
                                          string group = StdPersistentGroups.Default) {
