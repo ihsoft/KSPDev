@@ -68,7 +68,7 @@ public class LocalizableMessage {
       if (_localizedTemplate == null) {
         LoadLocalization();
       }
-      return _localizedTemplate;
+      return GameSettings.SHOW_TRANSLATION_KEYS_ON_SCREEN ? tag : _localizedTemplate;
     }
   }
   string _localizedTemplate;
