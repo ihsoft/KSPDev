@@ -19,6 +19,7 @@ namespace KSPDev.GUIUtils {
 /// <seealso cref="Message&lt;T1,T2,T3&gt;"/>
 /// <seealso cref="Message&lt;T1,T2,T3,T4&gt;"/>
 /// <seealso cref="Message&lt;T1,T2,T3,T4,T5&gt;"/>
+/// <seealso cref="LocalizableItemAttribute"/>
 public class LocalizableMessage {
   /// <summary>Template to use if no localized template found.</summary>
   public readonly string defaultTemplate;
