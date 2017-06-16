@@ -400,6 +400,10 @@ class Scanner : MonoBehaviour {
   /// </param>
   /// <returns>A properly formatted line.</returns>
   string MakeConfigNodeLine(int indentation, string key, string value) {
+    if (value.StartsWith(" ", StringComparison.Ordinal)) {
+      // The leading space will be lost on the config file load.
+      value = "\\u0020" + value.Substring(1);
+    }
     return new string('\t', indentation) + key + " = " + value.Replace("\n", "\\n");
   }
 
