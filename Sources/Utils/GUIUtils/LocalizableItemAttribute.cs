@@ -38,7 +38,13 @@ public class LocalizableItemAttribute : Attribute {
   public string description;
 
   /// <inheritdoc cref="LocalizableMessage.tag"/>
+  /// <remarks>
+  /// It can be set to <c>null</c> to indicate that the attributed item doesn't need localization.
+  /// Such attributes are NO-OP during the game, but for the localization tool it's a signal to not
+  /// include the item into the localization config.
+  /// </remarks>
   /// <example><code source="Examples/GUIUtils/LocalizableItemAttribute-Examples.cs" region="ItemField"/></example>
+  /// <example><code source="Examples/GUIUtils/LocalizableItemAttribute-Examples.cs" region="ItemField_NullTag"/></example>
   public string tag;
 
   /// <summary>

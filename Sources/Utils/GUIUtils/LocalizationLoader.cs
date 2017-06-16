@@ -79,9 +79,12 @@ public static class LocalizationLoader {
 
   #region Local utility methods
   static void LocalizeKSPField(BaseField kspField) {
-    var locItems = kspField.FieldInfo.GetCustomAttributes(typeof(LocalizableItemAttribute), false)
-        as LocalizableItemAttribute[];
+    var locItems = kspField.FieldInfo.GetCustomAttributes(false)
+        .OfType<LocalizableItemAttribute>();
     foreach (var locItem in locItems) {
+      if (string.IsNullOrEmpty(locItem.tag)) {
+        continue;  // Localization is disabled for the item.
+      }
       if (string.IsNullOrEmpty(locItem.spec)) {
         kspField.guiName = locItem.GetLocalizedString();
       } else if (locItem.spec == KspFieldUnitsSpec) {
@@ -96,17 +99,19 @@ public static class LocalizationLoader {
   }
 
   static void LocalizeKSPEvent(ICustomAttributeProvider info, BaseEvent item) {
-    var locItem = info.GetCustomAttributes(typeof(LocalizableItemAttribute), false)
-        .FirstOrDefault() as LocalizableItemAttribute;
-    if (locItem != null) {
+    var locItem = info.GetCustomAttributes(false)
+        .OfType<LocalizableItemAttribute>()
+        .FirstOrDefault();
+    if (locItem != null && !string.IsNullOrEmpty(locItem.tag)) {
       item.guiName = locItem.GetLocalizedString();
     }
   }
 
   static void LocalizeKSPAction(ICustomAttributeProvider info, BaseAction item) {
-    var locItem = info.GetCustomAttributes(typeof(LocalizableItemAttribute), false)
-        .FirstOrDefault() as LocalizableItemAttribute;
-    if (locItem != null) {
+    var locItem = info.GetCustomAttributes(false)
+        .OfType<LocalizableItemAttribute>()
+        .FirstOrDefault();
+    if (locItem != null && !string.IsNullOrEmpty(locItem.tag)) {
       item.guiName = locItem.GetLocalizedString();
     }
   }

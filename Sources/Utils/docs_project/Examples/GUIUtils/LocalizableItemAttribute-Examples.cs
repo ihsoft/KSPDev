@@ -41,6 +41,13 @@ public class LocalizableItemAttributeDemo1 : PartModule {
   public string field3 = "";
   #endregion
 
+  #region ItemField_NullTag
+  // This field won't be localized but translation tool will be aware of it.  
+  [KSPField(guiName = "just-in-case text", guiActive = true)]
+  [LocalizableItem(tag = null)]
+  public string field4 = "";
+  #endregion
+
   #region ItemEvent
   [KSPEvent(guiName = "just-in-case text", guiActive = true)]
   [LocalizableItem(
