@@ -29,19 +29,6 @@ namespace KSPDev.GUIUtils {
 [AttributeUsage(AttributeTargets.Field | AttributeTargets.Method,
                 AllowMultiple = true)]
 public class LocalizableItemAttribute : Attribute {
-  /// <summary>
-  /// Specialization tag. It's used when multiple attributes are assigned to the same member.
-  /// </summary>
-  /// <example><code source="Examples/GUIUtils/LocalizableItemAttribute-Examples.cs" region="ItemField2"/></example>
-  public enum Spec {
-    /// <summary>No specialization.</summary>
-    None,
-    /// <summary>The units literal for <see cref="KSPField"/>.</summary>
-    /// <include file="KSPAPI_HelpIndex.xml" path="//item[@name='T:KSPField']"/>
-    /// <example><code source="Examples/GUIUtils/LocalizableItemAttribute-Examples.cs" region="ItemField2"/></example>
-    KspFieldUnits,
-  }
-
   /// <inheritdoc cref="LocalizableMessage.defaultTemplate"/>
   /// <example><code source="Examples/GUIUtils/LocalizableItemAttribute-Examples.cs" region="ItemField"/></example>
   public string defaultTemplate;
@@ -59,8 +46,8 @@ public class LocalizableItemAttribute : Attribute {
   /// </summary>
   /// <remarks>The meaning of this key depends on the attributed member.</remarks>
   /// <seealso cref="LocalizationLoader.LoadItemsInModule"/>
-  public Spec spec = Spec.None;
   /// <example><code source="Examples/GUIUtils/LocalizableItemAttribute-Examples.cs" region="ItemField_WithUnits"/></example>
+  public string spec;
 
   /// <summary>Returns the localized string.</summary>
   /// <remarks>

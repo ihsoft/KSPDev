@@ -13,6 +13,16 @@ namespace KSPDev.GUIUtils {
 /// <seealso cref="LocalizableItemAttribute"/>
 /// <example><code source="Examples/GUIUtils/LocalizationLoader-Examples.cs" region="LocalizationLoaderDemo1"/></example>
 public static class LocalizationLoader {
+  /// <summary>
+  /// Specification for the <see cref="KSPField"/> <c>guiUnits</c> localization. 
+  /// </summary>
+  /// <remarks>
+  /// Use it when specifying a <see cref="LocalizableItemAttribute"/> for a field with the units.
+  /// </remarks>
+  /// <example><code source="Examples/GUIUtils/LocalizableItemAttribute-Examples.cs" region="ItemField_WithUnits"/></example>
+  /// <include file="KSPAPI_HelpIndex.xml" path="//item[@name='T:KSPField']"/>
+  public const string KspFieldUnitsSpec = "units";
+  
   /// <summary>Localizes the <see cref="PartModule"/> items.</summary>
   /// <remarks>
   /// <para>
@@ -21,8 +31,7 @@ public static class LocalizationLoader {
   /// <list type="bullet">
   /// <item>
   /// <see cref="KSPField"/>. This type may have multiple localization items: for <c>guiName</c>
-  /// (spec=<see cref="LocalizableItemAttribute.Spec.None"/>) and for <c>guiUnits</c>
-  /// (spec=<see cref="LocalizableItemAttribute.Spec.KspFieldUnits"/>).
+  /// (spec=<c>null</c>) and for <c>guiUnits</c> (spec=<see cref="KspFieldUnitsSpec"/>).
   /// </item>
   /// <item><see cref="KSPEvent"/>.</item>
   /// <item><see cref="KSPAction"/>.</item>
@@ -73,9 +82,9 @@ public static class LocalizationLoader {
     var locItems = kspField.FieldInfo.GetCustomAttributes(typeof(LocalizableItemAttribute), false)
         as LocalizableItemAttribute[];
     foreach (var locItem in locItems) {
-      if (locItem.spec == LocalizableItemAttribute.Spec.None) {
+      if (string.IsNullOrEmpty(locItem.spec)) {
         kspField.guiName = locItem.GetLocalizedString();
-      } else if (locItem.spec == LocalizableItemAttribute.Spec.KspFieldUnits) {
+      } else if (locItem.spec == KspFieldUnitsSpec) {
         kspField.guiUnits = locItem.GetLocalizedString();
       } else {
         Debug.LogWarningFormat("Bad specialization tag for field {0}.{1}: {2}",
