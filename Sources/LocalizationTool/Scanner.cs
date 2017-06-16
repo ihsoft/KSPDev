@@ -153,7 +153,7 @@ class Scanner : MonoBehaviour {
           groupKey = groupKey,
           sortKey = sortKey,
           fullFilePath = info.DeclaringType.Assembly.Location,
-          locTag = MakeTypeMemberLocalizationTag(info, "_Field_"),
+          locTag = MakeTypeMemberLocalizationTag(info),
           locDefaultValue = attrObj.guiName,
       };
     }
@@ -170,7 +170,7 @@ class Scanner : MonoBehaviour {
           groupKey = groupKey,
           sortKey = sortKey,
           fullFilePath = info.DeclaringType.Assembly.Location,
-          locTag = MakeTypeMemberLocalizationTag(info, "_FieldUnits_"),
+          locTag = MakeTypeMemberLocalizationTag(info, nameSuffix: "_Units"),
           locDefaultValue = attrObj.guiUnits,
       };
     }
@@ -198,7 +198,7 @@ class Scanner : MonoBehaviour {
             groupKey = groupKey,
             sortKey = sortKey,
             fullFilePath = info.DeclaringType.Assembly.Location,
-            locTag = MakeTypeMemberLocalizationTag(info, "_Event_"),
+            locTag = MakeTypeMemberLocalizationTag(info),
             locDefaultValue = attrObj.guiName,
         };
       }
@@ -226,7 +226,7 @@ class Scanner : MonoBehaviour {
             groupKey = groupKey,
             sortKey = sortKey,
             fullFilePath = info.DeclaringType.Assembly.Location,
-            locTag = MakeTypeMemberLocalizationTag(info, "_Action_"),
+            locTag = MakeTypeMemberLocalizationTag(info),
             locDefaultValue = attrObj.guiName,
         };
       }
@@ -356,10 +356,12 @@ class Scanner : MonoBehaviour {
 
   /// <summary>Makes a tag for the type member.</summary>
   /// <param name="info">The member to make a tag for.</param>
-  /// <param name="fieldTypeStr">A string to distinguish the dafferent field types.</param>
+  /// <param name="nameSuffix">
+  /// A string to add at the tag end to disambiguate the otherwise identical strings.
+  /// </param>
   /// <returns>A complete and correct localization tag.</returns>
-  string MakeTypeMemberLocalizationTag(MemberInfo info, string fieldTypeStr = "_") {
-    return "#" + info.DeclaringType.FullName.Replace(".", "_") + fieldTypeStr + info.Name;
+  string MakeTypeMemberLocalizationTag(MemberInfo info, string nameSuffix = "") {
+    return "#" + info.DeclaringType.FullName.Replace(".", "_") + "_" + info.Name + nameSuffix;
   }
 
   /// <summary>Extracts the localization items from the part's config.</summary>
