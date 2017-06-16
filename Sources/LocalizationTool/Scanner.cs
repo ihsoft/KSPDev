@@ -366,7 +366,7 @@ class Scanner : MonoBehaviour {
         file.WriteLine(MakeMultilineComment(2, groupItems.Key));
         foreach (var item in groupItems) {
           if (!string.IsNullOrEmpty(item.locDescription)) {
-            file.WriteLine(MakeMultilineComment(2, item.locDescription));
+            file.WriteLine(MakeMultilineComment(2, item.locDescription, maxLineLength: 100));
           }
           if (!string.IsNullOrEmpty(item.locExample)) {
             file.WriteLine(MakeMultilineComment(2, "Example usage:"));
@@ -385,11 +385,39 @@ class Scanner : MonoBehaviour {
   /// <param name="comment">
   /// The comment to format. It can contain multiple lines separated by a "\n" symbols.
   /// </param>
+  /// <param name="maxLineLength">
+  /// A maximum length of the line in the file. If the comment exceeds this limit, then it's
+  /// wrapped.
+  /// </param>
   /// <returns>A properly formatted comment block.</returns>
-  string MakeMultilineComment(int indentation, string comment) {
+  string MakeMultilineComment(int indentation, string comment, int? maxLineLength = null) {
     return string.Join(
         "\n",
-        comment.Split('\n').Select(x => new string('\t', indentation) + "// " + x).ToArray());
+        comment.Split('\n')
+            .SelectMany(l => WrapLine(l, maxLineLength))
+            .Select(x => new string('\t', indentation) + "// " + x).ToArray());
+  }
+
+  List<string> WrapLine(string line, int? maxLength) {
+    var lines = new List<string>();
+    if (!maxLength.HasValue) {
+      lines.Add(line);
+      return lines;
+    }
+    var wordMatch = Regex.Match(line.Trim(), @"(\s*\S+\s*)");
+    var currentLine = "";
+    while (wordMatch.Success) {
+      if (currentLine.Length + wordMatch.Value.Length > maxLength) {
+        lines.Add(currentLine);
+        currentLine = "";
+      }
+      currentLine += wordMatch.Value;
+      wordMatch = wordMatch.NextMatch();
+    }
+    if (currentLine.Length > 0) {
+      lines.Add(currentLine);
+    }
+    return lines;
   }
 
   /// <summary>Formats a config node key/value line.</summary>
