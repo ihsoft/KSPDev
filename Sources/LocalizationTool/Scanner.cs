@@ -165,7 +165,7 @@ class Scanner : MonoBehaviour {
     var guiUnitsLoc = GetItemFromLocalizableObject(
         info, groupKey, sortKey, spec: LocalizationLoader.KspFieldUnitsSpec);
     if (!guiUnitsLoc.HasValue && !string.IsNullOrEmpty(attrObj.guiUnits)) {
-      // Fallabck to the KSPField values.
+      // Fallback to the KSPField values.
       guiUnitsLoc = new LocItem() {
           groupKey = groupKey,
           sortKey = sortKey,
@@ -221,7 +221,7 @@ class Scanner : MonoBehaviour {
       // Get guiName localization.
       var guiNameLoc = GetItemFromLocalizableObject(info, groupKey, sortKey);
       if (!guiNameLoc.HasValue && !string.IsNullOrEmpty(attrObj.guiName)) {
-        // Fallback to the KSPEvent values.
+        // Fallback to the KSPAction values.
         guiNameLoc = new LocItem() {
             groupKey = groupKey,
             sortKey = sortKey,
