@@ -93,6 +93,7 @@
     <Compile Include="GUIUtils\IHasContextMenu.cs" />
     <Compile Include="GUIUtils\LocalizableItemAttribute.cs" />
     <Compile Include="GUIUtils\LocalizableMessage.cs" />
+    <Compile Include="GUIUtils\LocalizationLoader.cs" />
     <Compile Include="GUIUtils\ScreenMessaging.cs" />
     <Compile Include="GUIUtils\HintOverlay.cs" />
     <Compile Include="GUIUtils\Message.cs" />
