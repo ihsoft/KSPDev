@@ -27,7 +27,7 @@ public class LocalizableItemAttributeDemo1 : PartModule {
   public string field2 = "";
   #endregion
 
-  #region ItemField2
+  #region ItemField_WithUnits
   [KSPField(guiName = "just-in-case text", guiUnits = "just-in-case units", guiActive = true)]
   [LocalizableItem(
       tag = "#tag1",

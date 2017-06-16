@@ -59,8 +59,8 @@ public class LocalizableItemAttribute : Attribute {
   /// </summary>
   /// <remarks>The meaning of this key depends on the attributed member.</remarks>
   /// <seealso cref="LocalizationLoader.LoadItemsInModule"/>
-  /// <example><code source="Examples/GUIUtils/LocalizableItemAttribute-Examples.cs" region="ItemField2"/></example>
   public Spec spec = Spec.None;
+  /// <example><code source="Examples/GUIUtils/LocalizableItemAttribute-Examples.cs" region="ItemField_WithUnits"/></example>
 
   /// <summary>Returns the localized string.</summary>
   /// <remarks>
