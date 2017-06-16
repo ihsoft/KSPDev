@@ -4,6 +4,7 @@
 
 using KSP.Localization;
 using KSPDev.FSUtils;
+using KSPDev.GUIUtils;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -16,9 +17,7 @@ namespace KSPDev.LocalizationTool {
 
 [KSPAddon(KSPAddon.Startup.MainMenu, true /*once*/)]
 class Scanner : MonoBehaviour {
-  /// <summary>
-  /// List of the part's fields that need localization.
-  /// </summary>
+  /// <summary>List of the part's fields that need localization.</summary>
   string[] localizablePartFields = {"title", "manufacturer", "description", "tags"};
 
   /// <summary>A container for an item that needs localization.</summary>
@@ -139,25 +138,46 @@ class Scanner : MonoBehaviour {
   /// <returns>All the localization items for the member.</returns>
   List<LocItem> EmitItemsForKSPField(MemberInfo info) {
     var res = new List<LocItem>();
-    var attrObj = info.GetCustomAttributes(typeof(KSPField), false).FirstOrDefault() as KSPField;
-    if (attrObj != null && !string.IsNullOrEmpty(attrObj.guiName)) {
-      res.Add(new LocItem() {
-          groupKey = "Type: " + info.DeclaringType.FullName,
-          sortKey = "000",
+    var attrObj = info.GetCustomAttributes(false).OfType<KSPField>().FirstOrDefault();
+    if (attrObj == null) {
+      return res;
+    }
+
+    var groupKey = "Type: " + info.DeclaringType.FullName;
+    const string sortKey = "KSP Fields";
+    // Get guiName localization.
+    var guiNameLoc = GetItemFromLocalizableObject(info, groupKey, sortKey);
+    if (!guiNameLoc.HasValue && !string.IsNullOrEmpty(attrObj.guiName)) {
+      // Fallback to the KSPField values.
+      guiNameLoc = new LocItem() {
+          groupKey = groupKey,
+          sortKey = sortKey,
           fullFilePath = info.DeclaringType.Assembly.Location,
           locTag = MakeTypeMemberLocalizationTag(info, "_Field_"),
           locDefaultValue = attrObj.guiName,
-      });
-      if (!string.IsNullOrEmpty(attrObj.guiUnits)) {
-        res.Add(new LocItem() {
-            groupKey = "Type: " + info.DeclaringType.FullName,
-            sortKey = "000",
-            fullFilePath = info.DeclaringType.Assembly.Location,
-            locTag = MakeTypeMemberLocalizationTag(info, "_FieldUnits_"),
-            locDefaultValue = attrObj.guiUnits,
-        });
-      }
+      };
     }
+    if (guiNameLoc.HasValue) {
+      res.Add(guiNameLoc.Value);
+    }
+
+    // Get localization for the units if present.
+    var guiUnitsLoc = GetItemFromLocalizableObject(
+        info, groupKey, sortKey, spec: LocalizationLoader.KspFieldUnitsSpec);
+    if (!guiUnitsLoc.HasValue && !string.IsNullOrEmpty(attrObj.guiUnits)) {
+      // Fallabck to the KSPField values.
+      guiUnitsLoc = new LocItem() {
+          groupKey = groupKey,
+          sortKey = sortKey,
+          fullFilePath = info.DeclaringType.Assembly.Location,
+          locTag = MakeTypeMemberLocalizationTag(info, "_FieldUnits_"),
+          locDefaultValue = attrObj.guiUnits,
+      };
+    }
+    if (guiUnitsLoc.HasValue) {
+      res.Add(guiUnitsLoc.Value);
+    }
+
     return res;
   }
 
@@ -166,15 +186,25 @@ class Scanner : MonoBehaviour {
   /// <returns>All the localization items for the member.</returns>
   List<LocItem> EmitItemsForKSPEvent(MemberInfo info) {
     var res = new List<LocItem>();
-    var attrObj = info.GetCustomAttributes(typeof(KSPEvent), false).FirstOrDefault() as KSPEvent;
-    if (attrObj != null && !string.IsNullOrEmpty(attrObj.guiName)) {
-      res.Add(new LocItem() {
-          groupKey = "Type: " + info.DeclaringType.FullName,
-          sortKey = "001",
-          fullFilePath = info.DeclaringType.Assembly.Location,
-          locTag = MakeTypeMemberLocalizationTag(info, "_Event_"),
-          locDefaultValue = attrObj.guiName,
-      });
+    var attrObj = info.GetCustomAttributes(false).OfType<KSPEvent>().FirstOrDefault();
+    if (attrObj != null) {
+      var groupKey = "Type: " + info.DeclaringType.FullName;
+      const string sortKey = "KSP Events";
+      // Get guiName localization.
+      var guiNameLoc = GetItemFromLocalizableObject(info, groupKey, sortKey);
+      if (!guiNameLoc.HasValue && !string.IsNullOrEmpty(attrObj.guiName)) {
+        // Fallback to the KSPEvent values.
+        guiNameLoc = new LocItem() {
+            groupKey = groupKey,
+            sortKey = sortKey,
+            fullFilePath = info.DeclaringType.Assembly.Location,
+            locTag = MakeTypeMemberLocalizationTag(info, "_Event_"),
+            locDefaultValue = attrObj.guiName,
+        };
+      }
+      if (guiNameLoc.HasValue) {
+        res.Add(guiNameLoc.Value);
+      }
     }
     return res;
   }
@@ -184,15 +214,25 @@ class Scanner : MonoBehaviour {
   /// <returns>All the localization items for the member.</returns>
   List<LocItem> EmitItemsForKSPAction(MemberInfo info) {
     var res = new List<LocItem>();
-    var attrObj = info.GetCustomAttributes(typeof(KSPAction), false).FirstOrDefault() as KSPAction;
-    if (attrObj != null && !string.IsNullOrEmpty(attrObj.guiName)) {
-      res.Add(new LocItem() {
-          groupKey = "Type: " + info.DeclaringType.FullName,
-          sortKey = "002",
-          fullFilePath = info.DeclaringType.Assembly.Location,
-          locTag = MakeTypeMemberLocalizationTag(info, "_Action_"),
-          locDefaultValue = attrObj.guiName,
-      });
+    var attrObj = info.GetCustomAttributes(false).OfType<KSPAction>().FirstOrDefault();
+    if (attrObj != null) {
+      var groupKey = "Type: " + info.DeclaringType.FullName;
+      const string sortKey = "KSP Actions";
+      // Get guiName localization.
+      var guiNameLoc = GetItemFromLocalizableObject(info, groupKey, sortKey);
+      if (!guiNameLoc.HasValue && !string.IsNullOrEmpty(attrObj.guiName)) {
+        // Fallback to the KSPEvent values.
+        guiNameLoc = new LocItem() {
+            groupKey = groupKey,
+            sortKey = sortKey,
+            fullFilePath = info.DeclaringType.Assembly.Location,
+            locTag = MakeTypeMemberLocalizationTag(info, "_Action_"),
+            locDefaultValue = attrObj.guiName,
+        };
+      }
+      if (guiNameLoc.HasValue) {
+        res.Add(guiNameLoc.Value);
+      }
     }
     return res;
   }
@@ -205,36 +245,26 @@ class Scanner : MonoBehaviour {
   List<LocItem> EmitItemsForLocalizableMessage(MemberInfo info) {
     var res = new List<LocItem>();
     var field = info as FieldInfo;
-    if (field == null) {
+    if (field == null
+        || !CheckReflectionParent(field.FieldType, "KSPDev.GUIUtils.LocalizableMessage")) {
       return res;
-    }
-    // Different modules may use own versions of the KSPDev Utils library. So access the data
-    // through the reflections rather than casting to a type (which would be very convinient).
-    var fieldType = field.FieldType;
-    while (fieldType != null
-           && (fieldType.Namespace != "KSPDev.GUIUtils"
-               || !fieldType.Name.StartsWith("LocalizableMessage", StringComparison.Ordinal))) {
-      fieldType = fieldType.BaseType;
-    }
-    if (fieldType == null) {
-      return res; // It's not a LocalizableMessage instance. 
     }
     if ((field.Attributes | FieldAttributes.Static) == 0) {
       Debug.LogWarningFormat("Skipping a non-static message field: {0}.{1}",
-                             field.DeclaringType.Namespace, field.Name);
+                             field.DeclaringType.FullName, field.Name);
       return res;
     }
     var value = field.GetValue(null);
     if (value == null) {
       Debug.LogErrorFormat("The message field is NULL: {0}.{1}",
-                           field.DeclaringType.Namespace, field.Name);
+                           field.DeclaringType.FullName, field.Name);
       return res;
     }
-    var msgTag = GetFieldOrPropertyString(value, "tag");
-    var defaultTemplate = GetFieldOrPropertyString(value, "defaultTemplate");
-    var description = GetFieldOrPropertyString(value, "description");
-    var locExample = GetFieldOrPropertyString(value, "example");
-    if (string.IsNullOrEmpty(msgTag) || string.IsNullOrEmpty(defaultTemplate)) {
+    var msgTag = GetReflectedString(value, "tag");
+    var defaultTemplate = GetReflectedString(value, "defaultTemplate");
+    var description = GetReflectedString(value, "description");
+    var locExample = GetReflectedString(value, "example");
+    if (string.IsNullOrEmpty(msgTag)) {
       Debug.LogErrorFormat("Failed to read a message from {0} in {1}.{2}",
                            field.FieldType.FullName,
                            field.DeclaringType.FullName, field.Name);
@@ -242,11 +272,11 @@ class Scanner : MonoBehaviour {
     }
     if (msgTag[0] != '#') {
       msgTag = MakeTypeMemberLocalizationTag(info);
-      Debug.LogFormat("Auto generate a tag {0}", msgTag);
+      Debug.LogWarningFormat("Auto generate a tag {0}", msgTag);
     }
     res.Add(new LocItem() {
         groupKey = "Type: " + info.DeclaringType.FullName,
-        sortKey = "003",
+        sortKey = "KSPDev Messages",
         fullFilePath = field.FieldType.Assembly.Location,
         locTag = msgTag,
         locDefaultValue = defaultTemplate,
@@ -256,17 +286,72 @@ class Scanner : MonoBehaviour {
     return res;
   }
 
-  /// <summary>Gets a string value from a filed of paroperty via reflection.</summary>
-  /// <param name="obj">The object to read value from.</param>
-  /// <param name="memberName">The field or property name to read.</param>
-  /// <returns>A string value or <c>null</c> if the value cannot be obtained.</returns>
-  string GetFieldOrPropertyString(object obj, string memberName) {
-    var fieldInfo = obj.GetType().GetField(memberName);
-    if (fieldInfo != null) {
-      return (fieldInfo != null ? fieldInfo.GetValue(obj) : null) as string;
+  /// <summary>Checks if the specified type is a descendant of the parent class.</summary>
+  /// <remarks>
+  /// Different modules may use own versions of the KSPDev Utils library. So access the data through
+  /// the reflections rather than casting to a type (which would be much more simpler).
+  /// </remarks>
+  /// <param name="type">The descendant type to check.</param>
+  /// <param name="fullClassName">The full name of the parent type.</param>
+  /// <returns><c>true</c> if the type is a descendant of the parent.</returns>
+  bool CheckReflectionParent(Type type, string fullClassName) {
+    // Search the class by a prefix since it may have an assembly version part.
+    while (type != null && !type.FullName.StartsWith(fullClassName, StringComparison.Ordinal)) {
+      type = type.BaseType;
     }
-    var propertyInfo = obj.GetType().GetProperty(memberName);
-    return (propertyInfo != null ? propertyInfo.GetValue(obj, null) : null) as string;
+    return type != null;
+  }
+
+  /// <summary>Returns a string value of the fiel or porperty via reflections.</summary>
+  /// <param name="instance">The instance to get the value from.</param>
+  /// <param name="memberName">The name of the meber (either a field or a property).</param>
+  /// <returns>A string value or <c>null</c> if the value canot be casted to string.</returns>
+  string GetReflectedString(object instance, string memberName) {
+    var fieldInfo = instance.GetType().GetField(memberName);
+    if (fieldInfo != null) {
+      return fieldInfo.GetValue(instance) as string;
+    }
+    var propertyInfo = instance.GetType().GetProperty(memberName);
+    if (propertyInfo != null) {
+      return propertyInfo.GetValue(instance, null) as string;
+    }
+    return null;
+  }
+
+  /// <summary>
+  /// Extarcts localization information from a member attributed with a KSPDev loсalization
+  /// attribute.
+  /// </summary>
+  /// <param name="info">The member to extract the attribute for.</param>
+  /// <param name="groupKey">The group key to apply to the item if it's found.</param>
+  /// <param name="sortKey">The sort key to apply to the item if it's found.</param>
+  /// <param name="spec">The specialization string to pick the attribute.</param>
+  /// <returns>
+  /// A localization item or <c>null</c> if no attrribute was found, or if the attribute is
+  /// explicilty specifying that there is no localization information for the member
+  /// (tag = <c>null</c>).
+  /// </returns>
+  LocItem? GetItemFromLocalizableObject(
+      MemberInfo info, string groupKey, string sortKey, string spec = null) {
+    var attrObj = info.GetCustomAttributes(false)
+        .FirstOrDefault(o =>
+            CheckReflectionParent(o.GetType(), "KSPDev.GUIUtils.LocalizableItemAttribute")
+            && GetReflectedString(o, "spec") == spec);
+    if (attrObj == null) {
+      return null;
+    }
+    var locTag = GetReflectedString(attrObj, "tag");
+    if (string.IsNullOrEmpty(locTag)) {
+      return null;  // The item is explicitly saying there is no localization.
+    }
+    return new LocItem() {
+        groupKey = groupKey,
+        sortKey = sortKey,
+        fullFilePath = info.DeclaringType.Assembly.Location,
+        locTag = locTag,
+        locDefaultValue = GetReflectedString(attrObj, "defaultTemplate"),
+        locDescription = GetReflectedString(attrObj, "description"),
+    };
   }
 
   /// <summary>Makes a tag for the type member.</summary>
@@ -355,18 +440,22 @@ class Scanner : MonoBehaviour {
   /// <param name="filePath">The file path to write the data into.</param>
   void WriteLocItems(List<LocItem> items, string lang, string filePath) {
     using (var file = new StreamWriter(filePath)) {
-      file.WriteLine("// Auto generated by KSPDev Locaziation tool at: " + DateTime.Now);
+      file.WriteLine("// Auto generated by KSPDev Localization tool at: " + DateTime.Now);
       file.Write("Localization\n{\n\t" + lang + "\n\t{\n");
-      var grouped = items
+      var byGroupKey = items
           .OrderBy(x => x.groupKey)
           .ThenBy(x => x.sortKey)
           .ThenBy(x => x.locTag)
-          .GroupBy(x => x.groupKey);
-      foreach (var groupItems in grouped) {
-        file.WriteLine(MakeMultilineComment(2, groupItems.Key));
-        foreach (var item in groupItems) {
+          .GroupBy(x => new { x.groupKey, x.sortKey });
+      
+      foreach (var groupKeyItems in byGroupKey) {
+        var groupText = !string.IsNullOrEmpty(groupKeyItems.Key.sortKey)
+            ? groupKeyItems.Key.groupKey + ", " + groupKeyItems.Key.sortKey
+            : groupKeyItems.Key.groupKey;
+        file.WriteLine("\n\t\t// ********** " + groupText + "\n");
+        foreach (var item in groupKeyItems) {
           if (!string.IsNullOrEmpty(item.locDescription)) {
-            file.WriteLine(MakeMultilineComment(2, item.locDescription, maxLineLength: 100));
+            file.WriteLine(MakeMultilineComment(2, item.locDescription, maxLineLength: 100 - 2*8));
           }
           if (!string.IsNullOrEmpty(item.locExample)) {
             file.WriteLine(MakeMultilineComment(2, "Example usage:"));
@@ -374,7 +463,6 @@ class Scanner : MonoBehaviour {
           }
           file.WriteLine(MakeConfigNodeLine(2, item.locTag, item.locDefaultValue ?? item.locTag));
         }
-        file.WriteLine("");
       }
       file.Write("\t}\n}\n");
     }
@@ -394,24 +482,30 @@ class Scanner : MonoBehaviour {
     return string.Join(
         "\n",
         comment.Split('\n')
-            .SelectMany(l => WrapLine(l, maxLineLength))
+            .SelectMany(l => WrapLine(l, maxLineLength - 3))  // -3 for the comment.
             .Select(x => new string('\t', indentation) + "// " + x).ToArray());
   }
 
+  /// <summary>Wraps the line so that each item's length is not greater than the limit.</summary>
+  /// <remarks>This method doesn't recognize any special symbols like tabs or line feeds.</remarks>
+  /// <param name="line">The line to wrap.</param>
+  /// <param name="maxLength">The maximum length of each item.</param>
+  /// <returns>A list of line items.</returns>
   List<string> WrapLine(string line, int? maxLength) {
     var lines = new List<string>();
     if (!maxLength.HasValue) {
       lines.Add(line);
       return lines;
     }
-    var wordMatch = Regex.Match(line.Trim(), @"(\s*\S+\s*)");
+    var wordMatch = Regex.Match(line.Trim(), @"(\s*\S+\s*?)");
     var currentLine = "";
     while (wordMatch.Success) {
       if (currentLine.Length + wordMatch.Value.Length > maxLength) {
         lines.Add(currentLine);
-        currentLine = "";
+        currentLine = wordMatch.Value.TrimStart();
+      } else {
+        currentLine += wordMatch.Value;
       }
-      currentLine += wordMatch.Value;
       wordMatch = wordMatch.NextMatch();
     }
     if (currentLine.Length > 0) {
