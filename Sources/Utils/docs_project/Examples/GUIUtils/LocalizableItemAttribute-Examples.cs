@@ -2,7 +2,6 @@
 // Author: igor.zavoychinskiy@gmail.com
 // This software is distributed under Public domain license.
 
-using KSPDev.LogUtils;
 using KSPDev.GUIUtils;
 using UnityEngine;
 
@@ -14,17 +13,17 @@ public class LocalizableItemAttributeDemo1 : PartModule {
   [LocalizableItem(
       tag = "#tag1",
       defaultTemplate = "English text 1",
-      description = "A field which demonstrates a localizable GUI field")]
+      description = "A field which demonstrates a localizable GUI string")]
   public string field1 = "";
 
   // This field doesn't have guiName and it would, normally, be treated as a non-GUI field. However,
-  // due to the localization attribute the guiName value will be assigned when the appropriate
-  // method is called. For this reason it's a good idea to always give something as a guiName.
+  // due to the localization attribute, the guiName value will be assigned when the appropriate
+  // method is called.
   [KSPField(guiActive = true)]
   [LocalizableItem(
       tag = "#tag2",
       defaultTemplate = "English text 2",
-      description = "A field which demonstrates a localizable GUI field without guiName")]
+      description = "A field which demonstrates a localizable GUI string without guiName")]
   public string field2 = "";
   #endregion
 
@@ -33,12 +32,12 @@ public class LocalizableItemAttributeDemo1 : PartModule {
   [LocalizableItem(
       tag = "#tag1",
       defaultTemplate = "English text 1",
-      description = "A field which demonstrates a localizable GUI field")]
+      description = "A field which demonstrates a localizable GUI string")]
   [LocalizableItem(
       tag = "#tag1_units",
       spec = LocalizableItemAttribute.Spec.KspFieldUnits,
       defaultTemplate = "meters",
-      description = "Units for the field which demonstrates a localizable GUI field")]
+      description = "Units for the field which demonstrates a localizable GUI string")]
   public string field3 = "";
   #endregion
 

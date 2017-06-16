@@ -4,7 +4,6 @@
 
 using KSPDev.LogUtils;
 using KSPDev.GUIUtils;
-using UnityEngine;
 
 namespace Examples {
 
