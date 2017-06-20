@@ -29,12 +29,12 @@ namespace KSPDev.GUIUtils {
 public sealed class DistanceType {
   /// <summary>Localized suffix for the "meter" units. Scale x1.</summary>
   public static readonly Message meter = new Message(
-      "#autoLOC_7001411", defaultTemplate: "\u0020m",
+      "#autoLOC_7001411", defaultTemplate: " m",
       description: "Meter unit for a distance value");
 
   /// <summary>Localized suffix for the "kilometer" untis. Scale x1000</summary>
   public static readonly Message kilometer = new Message(
-      "#autoLOC_7001405", defaultTemplate: "\u0020km",
+      "#autoLOC_7001405", defaultTemplate: " km",
       description: "Kilometer unit for a distance value");
 
   /// <summary>A wrapped numeric value.</summary>
