@@ -12,7 +12,7 @@ namespace Examples {
 public class DistanceTypeDemo1 : PartModule {
   // This message uses a distance type as a parameter.
   static readonly Message<DistanceType> msg1 = new Message<DistanceType>(
-      "#DistanceTypeDemo_msg1", defaultTemplate: "Distance is: <<0>>");
+      "#DistanceTypeDemo_msg1", defaultTemplate: "Distance is: <<1>>");
 
   // Depending on the current language in the system, this method will present different unit names. 
   void ShowDistance() {
@@ -23,13 +23,13 @@ public class DistanceTypeDemo1 : PartModule {
     HostedDebugLog.Info(this, msg1.Format(95.45));
     // Prints: "Distance is: 95.5 m"
     HostedDebugLog.Info(this, msg1.Format(120.45));
-    // Prints: "Distance is: 120 m"
+    // Prints: "Distance is: 121 m"
     HostedDebugLog.Info(this, msg1.Format(9535.45));
-    // Prints: "Distance is: 9535 m"
+    // Prints: "Distance is: 9536 m"
     HostedDebugLog.Info(this, msg1.Format(12345.45));
-    // Prints: "Distance is: 12.4 km"
+    // Prints: "Distance is: 12.5 km"
     HostedDebugLog.Info(this, msg1.Format(123456.45));
-    // Prints: "Distance is: 123456 km"
+    // Prints: "Distance is: 123457 km"
   }
 }
 #endregion
@@ -44,20 +44,20 @@ public class DistanceTypeDemo2 {
     Debug.Log(DistanceType.Format(95.45));
     // Prints: "Distance is: 95.5 m"
     Debug.Log(DistanceType.Format(120.45));
-    // Prints: "Distance is: 120 m"
+    // Prints: "Distance is: 121 m"
     Debug.Log(DistanceType.Format(9535.45));
-    // Prints: "Distance is: 9535 m"
+    // Prints: "Distance is: 9536 m"
     Debug.Log(DistanceType.Format(12345.45));
-    // Prints: "Distance is: 12.4 km"
+    // Prints: "Distance is: 12.5 km"
     Debug.Log(DistanceType.Format(123456.45));
-    // Prints: "Distance is: 123456 km"
+    // Prints: "Distance is: 123457 km"
     #endregion
   }
 
   void FormatWithScale() {
     #region DistanceTypeDemo2_FormatWithScale
     Debug.Log(DistanceType.Format(123456.56, scale: 1000));
-    // Prints: "Distance is: 123.5 km"
+    // Prints: "Distance is: 123.6 km"
     Debug.Log(DistanceType.Format(123456.56, scale: 1));
     // Prints: "Distance is: 123456.6 km"
     Debug.Log(DistanceType.Format(123456.56, scale: 10));

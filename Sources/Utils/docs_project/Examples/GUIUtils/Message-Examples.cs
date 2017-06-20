@@ -15,7 +15,7 @@ public class MessageDemo : PartModule {
       defaultTemplate: "Sample text in English",
       description: "A string to present in the KSPDevUtils documentation example. It illustrates"
       + " how the class can be used to localize a message.",
-      example: "Format() => Sample text in English");
+      example: "Sample text in English");
 
   // A simple way when no extra details are provided.
   static readonly Message msg2 = "#myLocalizationTag";
@@ -48,7 +48,7 @@ public class Message1Demo : PartModule {
       defaultTemplate: "The value is <<1>>",
       description: "A string to present in the KSPDevUtils documentation example. It illustrates"
       + " how the class can be used to localize a message.",
-      example: "Format(123) => The value is 123");
+      example: "The value is 123");
 
   // A simple way when no extra details are provided.
   static readonly Message<int> msg2 = "#myLocalizationTag";
@@ -74,7 +74,7 @@ public class Message2Demo : PartModule {
       defaultTemplate: "The value of <<1>> is <<2>>",
       description: "A string to present in the KSPDevUtils documentation example. It illustrates"
       + " how the class can be used to localize a message.",
-      example: "Format(\"Blah\", 123) => The value of Blah is 123");
+      example: "The value of Blah is 123");
 
   // A simple way when no extra details are provided.
   static readonly Message<string, int> msg2 = "#myLocalizationTag";
@@ -100,7 +100,7 @@ public class Message3Demo : PartModule {
       defaultTemplate: "The value of <<1>> is <<2>> or <<3>>",
       description: "A string to present in the KSPDevUtils documentation example. It illustrates"
       + " how the class can be used to localize a message.",
-      example: "Format(\"Blah\", 123, 123.5f) => The value of Blah is 123 or 123.5");
+      example: "The value of Blah is 123 or 123.5");
 
   // A simple way when no extra details are provided.
   static readonly Message<string, int, float> msg2 = "#myLocalizationTag";
@@ -127,7 +127,7 @@ public class Message4Demo : PartModule {
           defaultTemplate: "<<1>> = <<2>>, <<3>> = <<4>>",
           description: "A string to present in the KSPDevUtils documentation example. It"
           + " illustrates how the class can be used to localize a message.",
-          example: "Format(\"val1\", 123, \"val2\", 123.5f) => val1 = 123, val2 = 123.5");
+          example: "val1 = 123, val2 = 123.5");
 
   // A simple way when no extra details are provided.
   static readonly Message<string, int, string, float> msg2 = "#myLocalizationTag";
@@ -154,7 +154,7 @@ public class Message5Demo : PartModule {
           defaultTemplate: "<<1>> = <<2>>, <<3>> = <<4>>, avg = <<5>>",
           description: "A string to present in the KSPDevUtils documentation example. It"
           + " illustrates how the class can be used to localize a message.",
-          example: "Format(\"v1\", 1, \"v2\", 2, 1.5f) => v1 = 1, v2 = 2, avg = 1.5");
+          example: "v1 = 1, v2 = 2, avg = 1.5");
 
   // A simple way when no extra details are provided.
   static readonly Message<string, int, string, int, float> msg2 = "#myLocalizationTag";
