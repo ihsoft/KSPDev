@@ -2,9 +2,6 @@
 // Author: igor.zavoychinskiy@gmail.com
 // This software is distributed under Public domain license.
 
-using System;
-using UnityEngine;
-
 namespace KSPDev.GUIUtils {
 
 /// <summary>
