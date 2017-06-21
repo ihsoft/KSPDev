@@ -72,9 +72,15 @@ public sealed class DistanceType {
   /// <param name="value">The unscaled numeric value to format.</param>
   /// <param name="scale">
   /// The fixed scale to apply to the value before formatting. The formatting method can uderstand
-  /// only a few scales: metters (x1) and kilometers (x1000). The unknown scales will be rounded to
-  /// the closest known scale. If this parameter is omitted, then the best scale for the value will
-  /// be choosen automatically.
+  /// only a few scales:
+  /// <list type="bullet">
+  /// <item>Meters: scale=<c>1.0</c>.</item>
+  /// <item>Kilometers: scale=<c>1.0e+3</c>.</item>
+  /// </list>
+  /// <para>
+  /// The unknown scales will be rounded down to the closest known scale. If this parameter is
+  /// omitted, then the best scale for the value will be choosen automatically.
+  /// </para>
   /// </param>
   /// <param name="format">
   /// The specific float number format to use. If this parameter is specified, then the method
