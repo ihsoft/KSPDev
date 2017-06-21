@@ -2,7 +2,6 @@
 // Author: igor.zavoychinskiy@gmail.com
 // This software is distributed under Public domain license.
 
-using KSPDev.LogUtils;
 using KSPDev.GUIUtils;
 using UnityEngine;
 
@@ -16,19 +15,19 @@ public class DistanceTypeDemo1 : PartModule {
 
   // Depending on the current language in the system, this method will present different unit names. 
   void Show() {
-    HostedDebugLog.Info(this, msg1.Format(0.051));
+    Debug.Log(msg1.Format(0.051));
     // Prints: "Distance is: 0.051 m"
-    HostedDebugLog.Info(this, msg1.Format(0.45));
+    Debug.Log(msg1.Format(0.45));
     // Prints: "Distance is: 0.45 m"
-    HostedDebugLog.Info(this, msg1.Format(95.45));
+    Debug.Log(msg1.Format(95.45));
     // Prints: "Distance is: 95.5 m"
-    HostedDebugLog.Info(this, msg1.Format(120.45));
+    Debug.Log(msg1.Format(120.45));
     // Prints: "Distance is: 121 m"
-    HostedDebugLog.Info(this, msg1.Format(9535.45));
+    Debug.Log(msg1.Format(9535.45));
     // Prints: "Distance is: 9536 m"
-    HostedDebugLog.Info(this, msg1.Format(12345.45));
+    Debug.Log(msg1.Format(12345.45));
     // Prints: "Distance is: 12.5 km"
-    HostedDebugLog.Info(this, msg1.Format(123456.45));
+    Debug.Log(msg1.Format(123456.45));
     // Prints: "Distance is: 123457 km"
   }
 }
