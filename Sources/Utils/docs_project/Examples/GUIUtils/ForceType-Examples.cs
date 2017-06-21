@@ -9,7 +9,6 @@ namespace Examples {
 
 #region ForceTypeDemo1
 public class ForceTypeDemo1 : PartModule {
-  // This message uses a force type as a parameter.
   static readonly Message<ForceType> msg1 = new Message<ForceType>(
       "#TypeDemo_msg1", defaultTemplate: "Force is: <<1>>");
 

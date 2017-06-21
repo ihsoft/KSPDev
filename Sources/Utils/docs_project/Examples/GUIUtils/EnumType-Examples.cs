@@ -15,7 +15,6 @@ public class EnumTypeDemo1 : PartModule {
     Three
   }
   
-  // This message uses a enum type as a parameter.
   static readonly Message<EnumType<MyEnum>> msg1 = new Message<EnumType<MyEnum>>(
       "#TypeDemo_msg1", defaultTemplate: "Enum value is: <<0[-ONE-/-TWO-/-THREE-]>>");
 

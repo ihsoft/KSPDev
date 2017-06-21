@@ -9,7 +9,6 @@ namespace Examples {
 
 #region DistanceTypeDemo1
 public class DistanceTypeDemo1 : PartModule {
-  // This message uses a distance type as a parameter.
   static readonly Message<DistanceType> msg1 = new Message<DistanceType>(
       "#TypeDemo_msg1", defaultTemplate: "Distance is: <<1>>");
 
@@ -58,10 +57,10 @@ public class DistanceTypeDemo2 {
     Debug.Log(DistanceType.Format(123456.56, scale: 1000));
     // Prints: "123.6 km"
     Debug.Log(DistanceType.Format(123456.56, scale: 1));
-    // Prints: "123456.6 km"
+    // Prints: "123456.6 m"
     Debug.Log(DistanceType.Format(123456.56, scale: 10));
     // Scale 10 is not known, so it's rounded down to 1.
-    // Prints: "123456.6 km"
+    // Prints: "123456.6 m"
     Debug.Log(DistanceType.Format(123.56, scale: 1000));
     // Prints: "0.1 km"
     #endregion

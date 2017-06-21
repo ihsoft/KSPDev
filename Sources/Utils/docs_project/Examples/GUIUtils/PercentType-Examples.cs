@@ -9,7 +9,6 @@ namespace Examples {
 
 #region PercentTypeDemo1
 public class PercentTypeDemo1 : PartModule {
-  // This message uses a force type as a parameter.
   static readonly Message<PercentType> msg1 = new Message<PercentType>(
       "#TypeDemo_msg1", defaultTemplate: "Ratio is: <<1>>");
 
