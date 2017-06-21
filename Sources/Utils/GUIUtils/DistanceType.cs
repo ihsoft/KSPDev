@@ -74,18 +74,19 @@ public sealed class DistanceType {
   /// The fixed scale to apply to the value before formatting. The formatting method can uderstand
   /// only a few scales:
   /// <list type="bullet">
-  /// <item>Meters: scale=<c>1.0</c>.</item>
+  /// <item>Meters: scale=<c>1.0</c>. <i>It's a base distance unit in the game.</i></item>
   /// <item>Kilometers: scale=<c>1.0e+3</c>.</item>
   /// </list>
   /// <para>
-  /// The unknown scales will be rounded down to the closest known scale. If this parameter is
-  /// omitted, then the best scale for the value will be choosen automatically.
+  /// The unknown scales will be rounded <i>down</i> to the closest known scale. If this parameter
+  /// is omitted, then the best scale for the value will be choosen automatically.
   /// </para>
   /// </param>
   /// <param name="format">
-  /// The specific float number format to use. If this parameter is specified, then the method
-  /// doesn't try to guess the right scale. Instead, it uses either the provided scale, or <c>x1</c>
-  /// if nothing is provided. If the format is not specified, then it's choosen basing on the scale.
+  /// The specific numeric number format to use. If this parameter is specified, then the method
+  /// doesn't try to guess the right scale. Instead, it uses either the provided
+  /// <paramref name="scale"/>, or <c>1.0</c> if nothing is provided. If the format is not
+  /// specified, then it's choosen basing on the scale.
   /// </param>
   /// <returns>A formatted and localized string</returns>
   /// <example><code source="Examples/GUIUtils/DistanceType-Examples.cs" region="DistanceTypeDemo2_FormatDefault"/></example>

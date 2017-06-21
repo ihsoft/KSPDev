@@ -65,7 +65,7 @@ public sealed class ForceType {
   /// </para>
   /// <para>
   /// The base force unit in the game is <i>kilonewton</i>. I.e. value <c>1.0</c> in the game
-  /// units is <c>1 kN</c>. Keep it in mind when passing the argument.
+  /// units is <i>one kilonewton</i>. Keep it in mind when passing the argument.
   /// </para>
   /// </remarks>
   /// <param name="value">The numeric value to format.</param>
