@@ -2,8 +2,8 @@
 // Author: igor.zavoychinskiy@gmail.com
 // This software is distributed under Public domain license.
 
-using KSPDev.LogUtils;
 using KSPDev.GUIUtils;
+using UnityEngine;
 
 namespace Examples {
 
@@ -17,16 +17,16 @@ public class EnumTypeDemo1 : PartModule {
   
   // This message uses a enum type as a parameter.
   static readonly Message<EnumType<MyEnum>> msg1 = new Message<EnumType<MyEnum>>(
-      "#EnumTypeDemo_msg1", defaultTemplate: "Enum value is: <<0[-ONE-/-TWO-/-THREE-]>>");
+      "#TypeDemo_msg1", defaultTemplate: "Enum value is: <<0[-ONE-/-TWO-/-THREE-]>>");
 
   // Depending on the current language in the system, this method will present the values in
   // different languages.
-  void ShowDistance() {
-    HostedDebugLog.Info(this, msg1.Format(MyEnum.One));
+  void Show() {
+    Debug.Log(msg1.Format(MyEnum.One));
     // Prints: "Enum value is: -ONE-"
-    HostedDebugLog.Info(this, msg1.Format(MyEnum.Two));
+    Debug.Log(msg1.Format(MyEnum.Two));
     // Prints: "Enum value is: -TWO-"
-    HostedDebugLog.Info(this, msg1.Format(MyEnum.Three));
+    Debug.Log(msg1.Format(MyEnum.Three));
     // Prints: "Enum value is: -THREE-"
 
     // This will work due to implicit conversion to the enum type.
@@ -36,7 +36,7 @@ public class EnumTypeDemo1 : PartModule {
   }
 
   void PrintEnum(MyEnum value) {
-    HostedDebugLog.Info(this, "Value is: {0}", value);
+    Debug.LogFormat("Value is: {0}", value);
   }
 }
 #endregion
