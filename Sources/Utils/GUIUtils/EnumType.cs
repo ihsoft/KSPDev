@@ -7,6 +7,7 @@ using System;
 namespace KSPDev.GUIUtils {
 
 /// <summary>Localized message formatting class for a enum value.</summary>
+/// <typeparam name="T">Type of the enum to wrap.</typeparam>
 /// <remarks>
 /// <para>
 /// Use it as a generic parameter when creating a <see cref="LocalizableMessage"/> descendants. In
@@ -19,8 +20,8 @@ namespace KSPDev.GUIUtils {
 /// used in the places where the enum value would normally be used, and vise versa.
 /// </para>
 /// </remarks>
-/// <seealso cref="LocalizableMessage"/>
-/// <seealso cref="DistanceType"/>
+/// <include file="SpecialDocTags.xml" path="Tags/MessageTypeWithArg/*"/>
+/// <include file="SpecialDocTags.xml" path="Tags/MessageArgumentType/*"/>
 /// <seealso href="http://lingoona.com/cgi-bin/grammar#l=en&amp;oh=1">Lingoona Grammar help</seealso>
 /// <example><code source="Examples/GUIUtils/EnumType-Examples.cs" region="EnumTypeDemo1"/></example>
 public sealed class EnumType<T> where T : struct, IConvertible {

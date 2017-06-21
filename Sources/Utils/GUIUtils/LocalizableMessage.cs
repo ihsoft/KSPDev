@@ -10,15 +10,9 @@ namespace KSPDev.GUIUtils {
 
 /// <summary>Base class for the messages that support localization.</summary>
 /// <remarks>
-/// This class is not intended for the use on its own. See the "seealso" section for the classes
+/// This class is not intended for the use on its own. See the inheritance hierarchy for the classes
 /// that inherit it.
 /// </remarks>
-/// <seealso cref="Message"/>
-/// <seealso cref="Message&lt;T1&gt;"/>
-/// <seealso cref="Message&lt;T1,T2&gt;"/>
-/// <seealso cref="Message&lt;T1,T2,T3&gt;"/>
-/// <seealso cref="Message&lt;T1,T2,T3,T4&gt;"/>
-/// <seealso cref="Message&lt;T1,T2,T3,T4,T5&gt;"/>
 /// <seealso cref="LocalizableItemAttribute"/>
 public class LocalizableMessage {
   /// <summary>Template to use if no localized template found.</summary>
@@ -108,7 +102,7 @@ public class LocalizableMessage {
   /// An example of how the template can be used and what is the output in the langauge of the
   /// <paramref name="defaultTemplate"/>. Provide it to illustrate the non-obvious cases. 
   /// </param>
-  /// <seealso href="http://lingoona.com/cgi-bin/grammar#l=en&amp;oh=1">Lingoona Grammar help</seealso>
+  /// <include file="SpecialDocTags.xml" path="Tags/Lingoona/*"/>
   protected LocalizableMessage(string tag,
                                string defaultTemplate = null,
                                string description = null, string example = null) {

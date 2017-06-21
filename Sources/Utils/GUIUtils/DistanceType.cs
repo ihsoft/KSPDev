@@ -5,7 +5,8 @@
 namespace KSPDev.GUIUtils {
 
 /// <summary>
-/// Localized message formatting class for a numeric value that represents a <i>distance</i>.
+/// Localized message formatting class for a numeric value that represents a <i>distance</i>. The
+/// resulted message may have a unit specification.
 /// </summary>
 /// <remarks>
 /// <para>
@@ -17,8 +18,8 @@ namespace KSPDev.GUIUtils {
 /// used for the unit names.
 /// </para>
 /// </remarks>
-/// <seealso cref="LocalizableMessage"/>
-/// <seealso cref="EnumType&lt;T&gt;"/>
+/// <include file="SpecialDocTags.xml" path="Tags/MessageTypeWithArg/*"/>
+/// <include file="SpecialDocTags.xml" path="Tags/MessageArgumentType/*"/>
 /// <example><code source="Examples/GUIUtils/DistanceType-Examples.cs" region="DistanceTypeDemo1"/></example>
 /// <example><code source="Examples/GUIUtils/DistanceType-Examples.cs" region="DistanceTypeDemo2_FormatDefault"/></example>
 /// <example><code source="Examples/GUIUtils/DistanceType-Examples.cs" region="DistanceTypeDemo2_FormatWithScale"/></example>
@@ -38,7 +39,7 @@ public sealed class DistanceType {
   /// <remarks>This is the original non-rounded and unscaled value.</remarks>
   public readonly double value;
 
-  /// <summary>Constructs a distance type object.</summary>
+  /// <summary>Constructs an object from a numeric value.</summary>
   /// <param name="value">The numeric value in meters.</param>
   /// <seealso cref="Format"/>
   /// <example><code source="Examples/GUIUtils/DistanceType-Examples.cs" region="DistanceTypeDemo1"/></example>
@@ -49,38 +50,36 @@ public sealed class DistanceType {
     this.value = value;
   }
 
-  /// <summary>Coverts a numeric value into a distance type object.</summary>
+  /// <summary>Coverts a numeric value into a type object.</summary>
   /// <param name="value">The numeric value to convert.</param>
-  /// <returns>A distance type object.</returns>
+  /// <returns>An object.</returns>
   public static implicit operator DistanceType(double value) {
     return new DistanceType(value);
   }
 
-  /// <summary>Converts a distance type object into a numeric value.</summary>
-  /// <param name="distanceObj">The object type to convert.</param>
+  /// <summary>Converts a type object into a numeric value.</summary>
+  /// <param name="obj">The object type to convert.</param>
   /// <returns>A numeric value.</returns>
-  public static implicit operator double(DistanceType distanceObj) {
-    return distanceObj.value;
+  public static implicit operator double(DistanceType obj) {
+    return obj.value;
   }
 
-  /// <summary>Formats the distance to a human friendly string.</summary>
+  /// <summary>Formats the value into a human friendly string with a unit specification.</summary>
   /// <remarks>
-  /// <para>
   /// The method tries to keep the resulted string meaningful and as short as possible. For this
   /// reason the big values may be scaled down and/or rounded.
-  /// </para>
   /// </remarks>
-  /// <param name="value">The numeric value to format.</param>
+  /// <param name="value">The unscaled numeric value to format.</param>
   /// <param name="scale">
   /// The fixed scale to apply to the value before formatting. The formatting method can uderstand
-  /// only a few scales: metters (x1) and kilometers (x1000). Unknown scales will be rounded to the
-  /// closest known scale. If this parameter is omitted, then the best scale for the value will be
-  /// choosen automatically.
+  /// only a few scales: metters (x1) and kilometers (x1000). The unknown scales will be rounded to
+  /// the closest known scale. If this parameter is omitted, then the best scale for the value will
+  /// be choosen automatically.
   /// </param>
   /// <param name="format">
   /// The specific float number format to use. If this parameter is specified, then the method
   /// doesn't try to guess the right scale. Instead, it uses either the provided scale, or <c>x1</c>
-  /// if nothing is provided.
+  /// if nothing is provided. If the format is not specified, then it's choosen basing on the scale.
   /// </param>
   /// <returns>A formatted and localized string</returns>
   /// <example><code source="Examples/GUIUtils/DistanceType-Examples.cs" region="DistanceTypeDemo2_FormatDefault"/></example>

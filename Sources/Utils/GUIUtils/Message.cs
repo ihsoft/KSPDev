@@ -11,11 +11,7 @@ namespace KSPDev.GUIUtils {
 /// Messages of this type don't have placeholders and can be just casted to a string. 
 /// </remarks>
 /// <example><code source="Examples/GUIUtils/Message-Examples.cs" region="MessageDemo"/></example>
-/// <seealso cref="Message&lt;T1&gt;"/>
-/// <seealso cref="Message&lt;T1,T2&gt;"/>
-/// <seealso cref="Message&lt;T1,T2,T3&gt;"/>
-/// <seealso cref="Message&lt;T1,T2,T3,T4&gt;"/>
-/// <seealso cref="Message&lt;T1,T2,T3,T4,T5&gt;"/>
+/// <include file="SpecialDocTags.xml" path="Tags/MessageTypeWithArg/*"/>
 public sealed class Message : LocalizableMessage {
   /// <inheritdoc cref="LocalizableMessage(string,string,string,string)"/>
   /// <seealso cref="LocalizableMessage"/>
@@ -55,7 +51,7 @@ public sealed class Message : LocalizableMessage {
 }
 
 /// <summary>A class to wrap a localizable UI string with parameter(s).</summary>
-/// <typeparam name="T1">Type of the <![CDATA[<<1>>]]> argument in the template.</typeparam>
+/// <typeparam name="T1">Type of argument <![CDATA[<<1>>]]> in the Lingoona template.</typeparam>
 /// <remarks>
 /// <para>
 /// Define the parameter(s) type via the generic argument(s). When the string needs to be
@@ -69,12 +65,9 @@ public sealed class Message : LocalizableMessage {
 /// </remarks>
 /// <example><code source="Examples/GUIUtils/Message-Examples.cs" region="Message1Demo"/></example>
 /// <seealso cref="Message"/>
-/// <seealso cref="Message&lt;T1,T2&gt;"/>
-/// <seealso cref="Message&lt;T1,T2,T3&gt;"/>
-/// <seealso cref="Message&lt;T1,T2,T3,T4&gt;"/>
-/// <seealso cref="Message&lt;T1,T2,T3,T4,T5&gt;"/>
-/// <seealso cref="DistanceType"/>
-/// <seealso cref="EnumType&lt;T&gt;"/>
+/// <include file="SpecialDocTags.xml" path="Tags/MessageTypeWithArg/*"/>
+/// <include file="SpecialDocTags.xml" path="Tags/MessageArgumentType/*"/>
+/// <include file="SpecialDocTags.xml" path="Tags/Lingoona/*"/>
 public sealed class Message<T1> : LocalizableMessage {
   /// <inheritdoc cref="LocalizableMessage(string,string,string,string)"/>
   /// <seealso cref="LocalizableMessage"/>
@@ -113,8 +106,8 @@ public sealed class Message<T1> : LocalizableMessage {
 }
 
 /// <summary>A class to wrap a localizable UI string with parameter(s).</summary>
-/// <typeparam name="T1">Type of the <![CDATA[<<1>>]]> argument in the template.</typeparam>
-/// <typeparam name="T2">Type of the <![CDATA[<<2>>]]> argument in the template.</typeparam>
+/// <typeparam name="T1">Type of argument <![CDATA[<<1>>]]> in the Lingoona template.</typeparam>
+/// <typeparam name="T2">Type of argument <![CDATA[<<2>>]]> in the Lingoona template.</typeparam>
 /// <remarks>
 /// <para>
 /// Define the parameter(s) type via the generic argument(s). When the string needs to be
@@ -128,12 +121,9 @@ public sealed class Message<T1> : LocalizableMessage {
 /// </remarks>
 /// <example><code source="Examples/GUIUtils/Message-Examples.cs" region="Message2Demo"/></example>
 /// <seealso cref="Message"/>
-/// <seealso cref="Message&lt;T1&gt;"/>
-/// <seealso cref="Message&lt;T1,T2,T3&gt;"/>
-/// <seealso cref="Message&lt;T1,T2,T3,T4&gt;"/>
-/// <seealso cref="Message&lt;T1,T2,T3,T4,T5&gt;"/>
-/// <seealso cref="DistanceType"/>
-/// <seealso cref="EnumType&lt;T&gt;"/>
+/// <include file="SpecialDocTags.xml" path="Tags/MessageTypeWithArg/*"/>
+/// <include file="SpecialDocTags.xml" path="Tags/MessageArgumentType/*"/>
+/// <include file="SpecialDocTags.xml" path="Tags/Lingoona/*"/>
 public class Message<T1, T2> : LocalizableMessage {
   /// <inheritdoc cref="LocalizableMessage(string,string,string,string)"/>
   /// <seealso cref="LocalizableMessage"/>
@@ -173,9 +163,9 @@ public class Message<T1, T2> : LocalizableMessage {
 }
 
 /// <summary>A class to wrap a localizable UI string with parameter(s).</summary>
-/// <typeparam name="T1">Type of the <![CDATA[<<1>>]]> argument in the template.</typeparam>
-/// <typeparam name="T2">Type of the <![CDATA[<<2>>]]> argument in the template.</typeparam>
-/// <typeparam name="T3">Type of the <![CDATA[<<3>>]]> argument in the template.</typeparam>
+/// <typeparam name="T1">Type of argument <![CDATA[<<1>>]]> in the Lingoona template.</typeparam>
+/// <typeparam name="T2">Type of argument <![CDATA[<<2>>]]> in the Lingoona template.</typeparam>
+/// <typeparam name="T3">Type of argument <![CDATA[<<3>>]]> in the Lingoona template.</typeparam>
 /// <remarks>
 /// <para>
 /// Define the parameter(s) type via the generic argument(s). When the string needs to be
@@ -189,12 +179,9 @@ public class Message<T1, T2> : LocalizableMessage {
 /// </remarks>
 /// <example><code source="Examples/GUIUtils/Message-Examples.cs" region="Message3Demo"/></example>
 /// <seealso cref="Message"/>
-/// <seealso cref="Message&lt;T1&gt;"/>
-/// <seealso cref="Message&lt;T1,T2&gt;"/>
-/// <seealso cref="Message&lt;T1,T2,T3,T4&gt;"/>
-/// <seealso cref="Message&lt;T1,T2,T3,T4,T5&gt;"/>
-/// <seealso cref="DistanceType"/>
-/// <seealso cref="EnumType&lt;T&gt;"/>
+/// <include file="SpecialDocTags.xml" path="Tags/MessageTypeWithArg/*"/>
+/// <include file="SpecialDocTags.xml" path="Tags/MessageArgumentType/*"/>
+/// <include file="SpecialDocTags.xml" path="Tags/Lingoona/*"/>
 public class Message<T1, T2, T3> : LocalizableMessage {
   /// <inheritdoc cref="LocalizableMessage(string,string,string,string)"/>
   /// <seealso cref="LocalizableMessage"/>
@@ -235,10 +222,10 @@ public class Message<T1, T2, T3> : LocalizableMessage {
 }
 
 /// <summary>A class to wrap a localizable UI string with parameter(s).</summary>
-/// <typeparam name="T1">Type of the <![CDATA[<<1>>]]> argument in the template.</typeparam>
-/// <typeparam name="T2">Type of the <![CDATA[<<2>>]]> argument in the template.</typeparam>
-/// <typeparam name="T3">Type of the <![CDATA[<<3>>]]> argument in the template.</typeparam>
-/// <typeparam name="T4">Type of the <![CDATA[<<4>>]]> argument in the template.</typeparam>
+/// <typeparam name="T1">Type of argument <![CDATA[<<1>>]]> in the Lingoona template.</typeparam>
+/// <typeparam name="T2">Type of argument <![CDATA[<<2>>]]> in the Lingoona template.</typeparam>
+/// <typeparam name="T3">Type of argument <![CDATA[<<3>>]]> in the Lingoona template.</typeparam>
+/// <typeparam name="T4">Type of argument <![CDATA[<<4>>]]> in the Lingoona template.</typeparam>
 /// <remarks>
 /// <para>
 /// Define the parameter(s) type via the generic argument(s). When the string needs to be
@@ -252,12 +239,9 @@ public class Message<T1, T2, T3> : LocalizableMessage {
 /// </remarks>
 /// <example><code source="Examples/GUIUtils/Message-Examples.cs" region="Message4Demo"/></example>
 /// <seealso cref="Message"/>
-/// <seealso cref="Message&lt;T1&gt;"/>
-/// <seealso cref="Message&lt;T1,T2&gt;"/>
-/// <seealso cref="Message&lt;T1,T2,T3&gt;"/>
-/// <seealso cref="Message&lt;T1,T2,T3,T4,T5&gt;"/>
-/// <seealso cref="DistanceType"/>
-/// <seealso cref="EnumType&lt;T&gt;"/>
+/// <include file="SpecialDocTags.xml" path="Tags/MessageTypeWithArg/*"/>
+/// <include file="SpecialDocTags.xml" path="Tags/MessageArgumentType/*"/>
+/// <include file="SpecialDocTags.xml" path="Tags/Lingoona/*"/>
 public class Message<T1, T2, T3, T4> : LocalizableMessage {
   /// <inheritdoc cref="LocalizableMessage(string,string,string,string)"/>
   /// <seealso cref="LocalizableMessage"/>
@@ -299,11 +283,11 @@ public class Message<T1, T2, T3, T4> : LocalizableMessage {
 }
 
 /// <summary>A class to wrap a localizable UI string with parameter(s).</summary>
-/// <typeparam name="T1">Type of the <![CDATA[<<1>>]]> argument in the template.</typeparam>
-/// <typeparam name="T2">Type of the <![CDATA[<<2>>]]> argument in the template.</typeparam>
-/// <typeparam name="T3">Type of the <![CDATA[<<3>>]]> argument in the template.</typeparam>
-/// <typeparam name="T4">Type of the <![CDATA[<<4>>]]> argument in the template.</typeparam>
-/// <typeparam name="T5">Type of the <![CDATA[<<5>>]]> argument in the template.</typeparam>
+/// <typeparam name="T1">Type of argument <![CDATA[<<1>>]]> in the Lingoona template.</typeparam>
+/// <typeparam name="T2">Type of argument <![CDATA[<<2>>]]> in the Lingoona template.</typeparam>
+/// <typeparam name="T3">Type of argument <![CDATA[<<3>>]]> in the Lingoona template.</typeparam>
+/// <typeparam name="T4">Type of argument <![CDATA[<<4>>]]> in the Lingoona template.</typeparam>
+/// <typeparam name="T5">Type of argument <![CDATA[<<5>>]]> in the Lingoona template.</typeparam>
 /// <remarks>
 /// <para>
 /// Define the parameter(s) type via the generic argument(s). When the string needs to be
@@ -317,12 +301,9 @@ public class Message<T1, T2, T3, T4> : LocalizableMessage {
 /// </remarks>
 /// <example><code source="Examples/GUIUtils/Message-Examples.cs" region="Message5Demo"/></example>
 /// <seealso cref="Message"/>
-/// <seealso cref="Message&lt;T1&gt;"/>
-/// <seealso cref="Message&lt;T1,T2&gt;"/>
-/// <seealso cref="Message&lt;T1,T2,T3&gt;"/>
-/// <seealso cref="Message&lt;T1,T2,T3,T4&gt;"/>
-/// <seealso cref="DistanceType"/>
-/// <seealso cref="EnumType&lt;T&gt;"/>
+/// <include file="SpecialDocTags.xml" path="Tags/MessageTypeWithArg/*"/>
+/// <include file="SpecialDocTags.xml" path="Tags/MessageArgumentType/*"/>
+/// <include file="SpecialDocTags.xml" path="Tags/Lingoona/*"/>
 public class Message<T1, T2, T3, T4, T5> : LocalizableMessage {
   /// <inheritdoc cref="LocalizableMessage(string,string,string,string)"/>
   /// <seealso cref="LocalizableMessage"/>
