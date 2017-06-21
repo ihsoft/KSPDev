@@ -20,9 +20,9 @@ public class AngleTypeDemo1 : PartModule {
     Debug.Log(msg1.Format(0.41));
     // Prints: "Angle is: 0.41°"
     Debug.Log(msg1.Format(1.0));
-    // Prints: "Angle is: 1° kN"
+    // Prints: "Angle is: 1°"
     Debug.Log(msg1.Format(1.41));
-    // Prints: "Angle is: 1.4° kN"
+    // Prints: "Angle is: 1.4°"
     Debug.Log(msg1.Format(12.555));
     // Prints: "Angle is: 13°"
   }
@@ -37,9 +37,9 @@ public class AngleTypeDemo2 {
     Debug.Log(AngleType.Format(0.41));
     // Prints: "0.41°"
     Debug.Log(AngleType.Format(1.0));
-    // Prints: "1° kN"
+    // Prints: "1°"
     Debug.Log(AngleType.Format(1.41));
-    // Prints: "1.4° kN"
+    // Prints: "1.4°"
     Debug.Log(AngleType.Format(12.555));
     // Prints: "13°"
     #endregion
