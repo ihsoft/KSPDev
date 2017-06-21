@@ -91,6 +91,7 @@
     <Compile Include="GUIUtils\AngleType.cs" />
     <Compile Include="GUIUtils\DistanceType.cs" />
     <Compile Include="GUIUtils\EnumType.cs" />
+    <Compile Include="GUIUtils\ForceType.cs" />
     <Compile Include="GUIUtils\IHasContextMenu.cs" />
     <Compile Include="GUIUtils\LocalizableItemAttribute.cs" />
     <Compile Include="GUIUtils\LocalizableMessage.cs" />
