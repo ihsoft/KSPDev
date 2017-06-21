@@ -88,6 +88,7 @@
     <Compile Include="ConfigUtils\KspTypesProto.cs" />
     <Compile Include="Extensions\Dictionaries.cs" />
     <Compile Include="FSUtils\KspPaths.cs" />
+    <Compile Include="GUIUtils\AngleType.cs" />
     <Compile Include="GUIUtils\DistanceType.cs" />
     <Compile Include="GUIUtils\EnumType.cs" />
     <Compile Include="GUIUtils\IHasContextMenu.cs" />

@@ -66,6 +66,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Extensions\Dictionary-Examples.cs" />
+    <Compile Include="GUIUtils\AngleType-Examples.cs.cs" />
     <Compile Include="GUIUtils\DistanceType-Examples.cs" />
     <Compile Include="GUIUtils\EnumType-Examples.cs" />
     <Compile Include="GUIUtils\ForceType-Examples.cs" />
