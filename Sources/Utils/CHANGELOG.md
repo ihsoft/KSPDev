@@ -20,6 +20,7 @@
 * [Enhancement] Add a localization class to format a enum value: [`GUIUtils.EnumType`](http://ihsoft.github.io/KSPDev/Utils/html/T_KSPDev_GUIUtils_EnumType_1.htm).
 * [Enhancement] Add a localization class to format an angle value: [`GUIUtils.AngleType`](http://ihsoft.github.io/KSPDev/Utils/html/T_KSPDev_GUIUtils_AngleType.htm).
 * [Enhancement] Add a localization class to format a force value: [`GUIUtils.ForceType`](http://ihsoft.github.io/KSPDev/Utils/html/T_KSPDev_GUIUtils_ForceType.htm).
+* [Enhancement] Add a localization class to format a percent value: [`GUIUtils.PercentType`](http://ihsoft.github.io/KSPDev/Utils/html/T_KSPDev_GUIUtils_PercentType.htm).
 * [Enhancement] A major improvement in the methods that deal with the mod's paths resolving: [`KspPaths`](http://ihsoft.github.io/KSPDev/Utils/html/N_KSPDev_KspPaths.htm).
 * [Fix #12] Keyboard input switch misses release key event.
 * [Fix #13] AlignTransforms.SnapAlign sets a wrong direction to the source.
