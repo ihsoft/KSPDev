@@ -63,7 +63,8 @@ public sealed class ForceType {
   /// The method tries to keep the resulted string meaningful and as short as possible. For this
   /// reason the big values may be scaled down and/or rounded.
   /// </para>
-  /// <para>The base force unit in the game is <i>kilonewton</i>. I.e. value <c>1.0</c> in the game
+  /// <para>
+  /// The base force unit in the game is <i>kilonewton</i>. I.e. value <c>1.0</c> in the game
   /// units is <c>1 kN</c>. Keep it in mind when passing the argument.
   /// </para>
   /// </remarks>
