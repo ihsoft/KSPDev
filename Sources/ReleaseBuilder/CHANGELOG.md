@@ -1,3 +1,6 @@
+# KPSPDev: ReleaseBuilder v2.1.0 (pre-release):
+* [Enhancement] Add new configuration parameter [RELEASE_NAME_FREE_FORMAT](https://github.com/ihsoft/KSPDev/wiki/ReleaseBuilder-Schema-1.1).
+
 # KPSPDev: ReleaseBuilder v2.0.0 (January 21st, 2017):
 * [Change] All settings are simplified and renamed to give better context. JSON settings created
   for builder older than 1.2 won't work!

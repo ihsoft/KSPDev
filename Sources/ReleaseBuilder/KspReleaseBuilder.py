@@ -1,7 +1,7 @@
 # Public domain license.
 # Author: igor.zavoychinskiy@gmail.com
 # GitHub: https://github.com/ihsoft/KSPDev/tree/master/Sources/ReleaseBuilder
-SCRIPT_VERSION = "2.0"  # (check if SUPPORTED_JSON_SCHEMA_VERSION needs to be updated!)
+SCRIPT_VERSION = "2.1"  # (check if SUPPORTED_JSON_SCHEMA_VERSION needs to be updated!)
 
 # A very simple class to produce a .ZIP archive with a KSP mod distribution.
 
@@ -16,13 +16,14 @@ import sys
 import textwrap
 
 
-# Version of the settings JSON file. When release script changes its interpretation of
-# the values in the file this version must be adjusted:
-# - Increase minor part when change is backward-comptible. I.e. new script version can
-#   handle old minor versions with the same output as the old script would produce.
-# - Increase major part and reset minor part if change is NOT backward-comptible.
-# Preserve old versions as comments to keep the history.
-SUPPORTED_JSON_SCHEMA_VERSION = "1.0"  # Starting from script version "2.0"
+# Version of the settings JSON file. When a new version of the script changes the way of
+# interpreting the configuration file, the supported version cobnstant must be extended.
+# - Increase the minor part when the change is backward-comptible. I.e. the new script version can
+#   handle the old minor versions with the same output as the old script would produce.
+# - Increase the major part and reset the minor part if the change is NOT backward-comptible.
+# Preserve the old versions as comments to keep the history.
+#SUPPORTED_JSON_SCHEMA_VERSION = "1.0"  # Starting from script version "2.0"
+SUPPORTED_JSON_SCHEMA_VERSION = "1.1"  # Starting from script version "2.1"
 
 
 class Builder(object):
@@ -73,11 +74,17 @@ class Builder(object):
   ARCHIVE_DEST = ''
 
   # Format string which accepts MAJOR, MINOR and PATCH numbers as arguments and
-  # returns realese package file name with no extension.
+  # returns release package file name with no extension.
   RELEASE_NAME_FMT = '{PACKAGE_NAME}_v%d.%d.%d'
 
   # File name format for releases with build field other than zero.
   RELEASE_NAME_WITH_BUILD_FMT = '{PACKAGE_NAME}_v%d.%d.%d_build%d'
+
+  # Formatting string with the positional arguments for a release package file name.
+  # If specified, then the other formatting parameters are ignored. The free format can have any
+  # of the following arguments:
+  # {0} - major, {1} - minor, {2} - build, {3} - revision.
+  RELEASE_NAME_FREE_FORMAT = None
 
   # Definition of the main release structure:
   # - KEY is a path in the {RELEASE} folder. Keys are sorted before handling.
@@ -113,6 +120,7 @@ class Builder(object):
     'RELEASE_MOD_FOLDER',
     'RELEASE_NAME_FMT',
     'RELEASE_NAME_WITH_BUILD_FMT',
+    'RELEASE_NAME_FREE_FORMAT',
     'SHELL_COMPILE_BINARY_SCRIPT',
     'SOURCE',
     'STRUCTURE',
@@ -192,7 +200,7 @@ class Builder(object):
 
     def parse_macros(value):
       return re.sub(
-          r'\{(\w+)}',
+          r'\{(\D\w*)}',
           lambda x: parse_macros(get_macro_value(x.group(1))),
           value)
 
@@ -381,19 +389,24 @@ class Builder(object):
       if line.lstrip().startswith('//'):
         continue
       # Expect: [assembly: AssemblyVersion("X.Y.Z")]
-      matches = re.match(r'\[assembly: AssemblyVersion.*\("(\d+)\.(\d+)\.(\d+)(.(\d+))?"\)\]',
-                         line)
+      matches = re.match(
+          r'\[assembly: AssemblyVersion.*\("(\d+)\.(\d+)\.(\*|\d+)(.(\*|\d+))?"\)\]', line)
       if matches:
+        build, rev = matches.group(3), matches.group(5)
+        if build == '*':
+          build = 0
+        if not rev or rev == '*':
+          rev = 0
         self.VERSION = (int(matches.group(1)),  # MAJOR
                         int(matches.group(2)),  # MINOR
-                        int(matches.group(3)),  # PATCH
-                        int(matches.group(5) or 0))  # BUILD, optional.
+                        int(build),  # BUILD, optional.
+                        int(rev))  # REVISION, optional.
         break
         
     if self.VERSION is None:
       print 'ERROR: Cannot extract version from: %s' % file_path
       exit(-1)
-    print '=> found version: v%d.%d.%d build %d' % self.VERSION
+    print '=> found version: v%d.%d, revision %d, build %d' % self.VERSION
   
   
   # Updates the source files with the version info.
@@ -420,9 +433,12 @@ class Builder(object):
   # Creates a package for re-destribution.
   def __Step_MakePackage(self, overwrite_existing):
     print 'Making %s package...' % (self.PACKAGE_NAME or '<NONE>')
-    release_name = (self.VERSION[3]
-        and self.__ParseMacros(self.RELEASE_NAME_WITH_BUILD_FMT % self.VERSION)
-        or self.__ParseMacros(self.RELEASE_NAME_FMT % self.VERSION[:3]))
+    if self.RELEASE_NAME_FREE_FORMAT:
+      release_name = self.__ParseMacros(self.RELEASE_NAME_FREE_FORMAT).format(*self.VERSION)
+    else:
+      release_name = (self.VERSION[3]
+          and self.__ParseMacros(self.RELEASE_NAME_WITH_BUILD_FMT % self.VERSION)
+          or self.__ParseMacros(self.RELEASE_NAME_FMT % self.VERSION[:3]))
     package_file_name = self.__MakeSrcPath(os.path.join('/', self.ARCHIVE_DEST, release_name))
     archive_name = package_file_name + '.zip'
     if os.path.exists(archive_name): 

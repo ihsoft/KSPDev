@@ -4,7 +4,7 @@
 
   // Review fields in KspReleaseBuilder.py to figure out what settings exist
   // and what are the defaults.
-  "JSON_SCHEMA_VERSION": "1.0",
+  "JSON_SCHEMA_VERSION": "1.1",
 
   // Specify your mod name. It will be used to construct default paths.
   "PACKAGE_NAME": "SampleModName",
@@ -17,6 +17,10 @@
   // Drop this line to enable updating MiniAVC version file. Or specify own
   // non-empty path to the version file.
   "MINIAVC_VERSION_FILE" : "",
+
+  // Drop this line to have the legacy schema 1.0 behavior to work.
+  // Or make your own format using place holders {0}, {1}, {2}, and {3}.
+  "RELEASE_NAME_FREE_FORMAT" : "{PACKAGE_NAME}_v{0}.{1}",
 
   // This default structure will handle most of the standard mod source
   // hierarchies. Though, it's always best to customize it for your mod and
