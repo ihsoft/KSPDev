@@ -25,7 +25,7 @@ static class PersistentFieldsFactory {
     var fieldsInfo = FindAnnotatedFields(type, needStatic, needInstance, group);
     foreach (var fieldInfo in fieldsInfo) {
       var fieldAttr =
-          fieldInfo.GetCustomAttributes(typeof(AbstractPersistentFieldAttribute), true).First()
+          fieldInfo.GetCustomAttributes(typeof(BasePersistentFieldAttribute), true).First()
           as PersistentFieldAttribute;
       try {
         var persistentField = new PersistentField(fieldInfo, fieldAttr);
@@ -59,8 +59,8 @@ static class PersistentFieldsFactory {
   /// <summary>Filters only persitent fields of the required group.</summary>
   private static bool FieldFilter(ICustomAttributeProvider fieldInfo, string group) {
     // We need descendants of AbstractPersistentFieldAttribute as well.
-    var attributes = fieldInfo.GetCustomAttributes(typeof(AbstractPersistentFieldAttribute), true)
-        as AbstractPersistentFieldAttribute[];
+    var attributes = fieldInfo.GetCustomAttributes(typeof(BasePersistentFieldAttribute), true)
+        as BasePersistentFieldAttribute[];
     if (attributes.Length == 0) {
       return false;
     }

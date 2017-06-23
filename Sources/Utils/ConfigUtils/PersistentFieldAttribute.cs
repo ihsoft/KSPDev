@@ -8,14 +8,15 @@ namespace KSPDev.ConfigUtils {
 
 /// <summary>A simple attribute for the fields that need (de)serialization.</summary>
 /// <remarks>
-/// This form allows adjusting any <see cref="AbstractPersistentFieldAttribute"/> property
+/// This form allows adjusting any <see cref="BasePersistentFieldAttribute"/> property
 /// in the annotation, and has a shortcut to mark a field as a collection
 /// (<c><see cref="isCollection"/> = true</c>).
 /// <para>
 /// By default the ordinal values are handled via <see cref="StandardOrdinaryTypesProto"/>
 /// and the collection fields via <see cref="GenericCollectionTypeProto"/>. These proto handlers can
 /// be changed in the annotation by assigning properties
-/// <see cref="ordinaryTypeProto"/> and/or <see cref="collectionTypeProto"/>.
+/// <see cref="BasePersistentFieldAttribute.ordinaryTypeProto"/> and/or
+/// <see cref="BasePersistentFieldAttribute.collectionTypeProto"/>.
 /// </para>
 /// </remarks>
 /// <example>
@@ -187,24 +188,9 @@ namespace KSPDev.ConfigUtils {
 /// <seealso cref="IPersistentField"/>
 /// <seealso href="https://kerbalspaceprogram.com/api/interface_i_config_node.html">KSP: IConfigNode</seealso>
 [AttributeUsage(AttributeTargets.Field)]
-public sealed class PersistentFieldAttribute : AbstractPersistentFieldAttribute {
-  /// <summary>A proto for handling the annotated field.</summary>
-  /// <remarks>If field is a collection then this proto will be used to handle values of the
-  /// collection items.</remarks>
-  public Type ordinaryTypeProto {
-    set { _ordinaryTypeProto = value; }
-    get { return _ordinaryTypeProto; }
-  }
-
-  /// <summary>A proto for handling collection fields.</summary>
-  /// <remarks>If this property is not <c>null</c> than the annotated field is trreated as a
-  /// collection of values.</remarks>
-  public Type collectionTypeProto {
-    set { _collectionTypeProto = value; }
-    get { return _collectionTypeProto; }
-  }
-
+public sealed class PersistentFieldAttribute : BasePersistentFieldAttribute {
   /// <summary>Specifies if the annotated field is a collection of values.</summary>
+  /// <value><c>true</c> if the field is a collection.</value>
   public bool isCollection {
     set { collectionTypeProto = value ? typeof(GenericCollectionTypeProto) : null; }
     get { return collectionTypeProto != null; }

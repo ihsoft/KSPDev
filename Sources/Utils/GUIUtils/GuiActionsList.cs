@@ -9,13 +9,13 @@ using UnityEngine;
 namespace KSPDev.GUIUtils {
 
 /// <summary>A helper to accumulate GUI actions.</summary>
-/// <remarks>Unity may issue multiple GUI passes during a frame, and it requires number of UI
+/// <remarks>Unity may issue multiple GUI passes during a frame, and it requires the number of UI
 /// elements not to change between the passes. Unity expects the number of UI
 /// controls in every pass to be exactly the same as in the very first one:
 /// <see href="http://docs.unity3d.com/ScriptReference/EventType.Layout.html">EventType.Layout</see>.
-/// When UI interactions affect representation all the changes must be postponed till the frame
-/// rendering is ended. This helper can be used to store actions that will be executed at the
-/// beginning of the next frame.</remarks>
+/// When the UI interactions affect the representation, all the changes must be postponed till the
+/// frame rendering is ended. This helper can be used to store the actions that will be executed at
+/// the beginning of the next frame.</remarks>
 /// <example>
 /// <code>
 /// public class MyUI : MonoBehaviour {

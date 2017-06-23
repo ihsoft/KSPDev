@@ -100,7 +100,7 @@ public static class ScreenMessaging {
   }
 
   /// <summary>Shows an important message with a default timeout.</summary>
-  /// <remarks>It's no defined how exactly the message is shown. The only thing required is that
+  /// <remarks>It's not defined how exactly the message is shown. The only thing required is that
   /// player won't miss it.</remarks>
   /// <param name="fmt">A formatting string.</param>
   /// <param name="args">Arguments for the formatting string.</param>

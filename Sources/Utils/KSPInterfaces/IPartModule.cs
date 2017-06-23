@@ -160,9 +160,9 @@ public interface IPartModule {
   void OnStart(PartModule.StartState state);
 
   /// <summary>
-  /// Called on vessel go off rails. Basically, every time the vessel becomes physics.
+  /// Called on a vessel when it's time to start the physics on it.
   /// </summary>
-  /// <remarks>Can be called multiple times during the part's life.</remarks>
+  /// <remarks>It can be called multiple times during the part's life.</remarks>
   void OnInitialize();
 
   /// <summary>Notifies about a frame update.</summary>

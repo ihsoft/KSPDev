@@ -52,13 +52,17 @@ public sealed class UISoundPlayer : MonoBehaviour {
 
   /// <summary>Plays the specified sound.</summary>
   /// <remarks>
-  /// Every request is cached unless requested otherwise. The subsequent calls to the play method
-  /// won't require the audio clip loading. However, the same cached sound cannot be played
-  /// simultaneously from the different calls: every next call will abort the previous play action
-  /// of the same sound.
+  /// Every request is cached so that the subsequent calls to play the same sound won't require the
+  /// audio clip to load. However, the same cached sound cannot be played simultaneously from the
+  /// different calls - each call will abort the previous play action of the sound.
   /// </remarks>
-  /// <param name="audioPath">File path relative to <c>GameData</c>.</param>
+  /// <param name="audioPath">
+  /// The file path relative to <c>GameData</c>. It can be empty, in which case nothing is played.
+  /// </param>
   public void Play(string audioPath) {
+    if (audioPath == "") {
+      return;
+    }
     var audio = GetOrLoadAudio(audioPath);
     if (audio != null) {
       audio.Play();

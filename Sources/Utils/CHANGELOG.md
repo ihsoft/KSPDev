@@ -1,7 +1,30 @@
-# 0.23.1-pre:
+# 0.24 (June 22nd, 2017):
 * [Change] Allow any state transition in `SimpleStateMachine` when the strict mode is OFF: [`ProcessingUtils.SimpleStateMachine`](http://ihsoft.github.io/KSPDev/Utils/html/T_KSPDev_ProcessingUtils_SimpleStateMachine_1.htm).
 * [Change] Drop `donCache` option from `UISoundPlayer`: [`UISoundPlayer.Play`](http://ihsoft.github.io/KSPDev/Utils/html/M_KSPDev_GUIUtils_UISoundPlayer_Play.htm).
+* [Change] Add an optional parameter to: [`Hierarchy.FindTransformByPath`](http://ihsoft.github.io/KSPDev/Utils/html/M_KSPDev_ModelUtils_Hierarchy_FindTransformByPath_1.htm).
+* [Change] Major refactoring of the state machine: [`ProcessingUtils.SimpleStateMachine`](http://ihsoft.github.io/KSPDev/Utils/html/T_KSPDev_ProcessingUtils_SimpleStateMachine_1.htm).
+* [Change] Support KSP 1.3 localization in the [`GUIUtils` message classes](http://ihsoft.github.io/KSPDev/Utils/html/N_KSPDev_GUIUtils.htm).
+* [Change] Drop a messaging type that doesn't support localization: `GUIUtils.MessageBoolValue`.
+* [Change] Drop a messaging type that doesn't support localization: `GUIUtils.MessageSpecialFloatValue`.
+* [Change] Drop a GUI helper that doesn't support localization: `GUIUtils.Formatter`.
+* [Change] Drop a messaging type that doesn't support localization: `GUIUtils.MessageEnumValue<T>`. Use [`GUIUtils.EnumType`](http://ihsoft.github.io/KSPDev/Utils/html/T_KSPDev_GUIUtils_EnumType_1.htm) instead.
+* [Enhancement] Add method overloads for [`ModelUtils.FindTransformByPath`](http://ihsoft.github.io/KSPDev/Utils/html/T_KSPDev_ModelUtils_Hierarchy.htm) to simplify finding the models in the part.
+* [Enhancement] Add a method to parse `PosAndRot` from a string: [`Types.PosAndRot`](http://ihsoft.github.io/KSPDev/Utils/html/T_KSPDev_Types_PosAndRot.htm).
+* [Enhancement] Add a method to log nullable values: [`DbgFormatter.Nullable`](http://ihsoft.github.io/KSPDev/Utils/html/M_KSPDev_LogUtils_DbgFormatter_Nullable.htm).
+* [Enhancement] Add a new interface for the modules that need their context menu updated: [`GUIUtils.IHasContextMenu`](http://ihsoft.github.io/KSPDev/Utils/html/T_KSPDev_GUIUtils_IHasContextMenu.htm).
+* [Enhancement] Add a new utility class for better logging of an object state: [`LogUtils.HostedDebugLog`](http://ihsoft.github.io/KSPDev/Utils/html/T_KSPDev_LogUtils_HostedDebugLog.htm).
+* [Enhancement] Add a new utility class to deal with the stock resource names: [`ResourceUtils.StockResourceNames`](http://ihsoft.github.io/KSPDev/Utils/html/T_KSPDev_ResourceUtils_StockResourceNames.htm).
+* [Enhancement] Add a new utility class to deal with the 3D sounds: [`SoundsUtils.SpatialSounds`](http://ihsoft.github.io/KSPDev/Utils/html/T_KSPDev_SoundsUtils_SpatialSounds.htm).
+* [Enhancement] Add a base class to deal with the localizable strings (KSP 1.3+): [`GUIUtils.LocalizableMessage`](http://ihsoft.github.io/KSPDev/Utils/html/T_KSPDev_GUIUtils_LocalizableMessage.htm).
+* [Enhancement] Add a localization class to format a distance: [`GUIUtils.DistanceType`](http://ihsoft.github.io/KSPDev/Utils/html/T_KSPDev_GUIUtils_DistanceType.htm).
+* [Enhancement] Add a localization class to format a enum value: [`GUIUtils.EnumType`](http://ihsoft.github.io/KSPDev/Utils/html/T_KSPDev_GUIUtils_EnumType_1.htm).
+* [Enhancement] Add a localization class to format an angle value: [`GUIUtils.AngleType`](http://ihsoft.github.io/KSPDev/Utils/html/T_KSPDev_GUIUtils_AngleType.htm).
+* [Enhancement] Add a localization class to format a force value: [`GUIUtils.ForceType`](http://ihsoft.github.io/KSPDev/Utils/html/T_KSPDev_GUIUtils_ForceType.htm).
+* [Enhancement] Add a localization class to format a mass value: [`GUIUtils.MassType`](http://ihsoft.github.io/KSPDev/Utils/html/T_KSPDev_GUIUtils_MassType.htm).
+* [Enhancement] Add a localization class to format a percent value: [`GUIUtils.PercentType`](http://ihsoft.github.io/KSPDev/Utils/html/T_KSPDev_GUIUtils_PercentType.htm).
+* [Enhancement] A major improvement in the methods that deal with the mod's paths resolving: [`KspPaths`](http://ihsoft.github.io/KSPDev/Utils/html/N_KSPDev_KspPaths.htm).
 * [Fix #12] Keyboard input switch misses release key event.
+* [Fix #13] AlignTransforms.SnapAlign sets a wrong direction to the source.
 
 # 0.23.0 (May 11th, 2017):
 * [Enhancement] Add a syntax surgar interface for `IJointLockState`: [`KSPInterfaces.IKSPDevJointLockState`](http://ihsoft.github.io/KSPDev/Utils/html/T_KSPDev_KSPInterfaces_IKSPDevJointLockState.htm).

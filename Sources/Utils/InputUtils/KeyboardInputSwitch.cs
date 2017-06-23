@@ -132,6 +132,7 @@ public class KeyboardInputSwitch : IConfigNode {
   /// the same version of the utils DLL, this property will truly say if any in the <i>game</i> is
   /// in the hold state.
   /// </remarks>
+  /// <value><c>true</c> if any <i>switch</i> key is being hold.</value>
   public static bool isAnyKeyHold { get { return keysHold > 0; } }
   static int keysHold;
 
@@ -149,6 +150,7 @@ public class KeyboardInputSwitch : IConfigNode {
   /// This property may not represent the actual keyboard key hold state since it can be assigned
   /// from the code.
   /// </remarks>
+  /// <value><c>true</c> if this switch is being hold.</value>
   /// <see cref="SetHoldState"/>
   public bool isHold {
     get { return _isHold; }

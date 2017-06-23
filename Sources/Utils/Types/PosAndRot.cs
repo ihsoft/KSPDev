@@ -28,6 +28,7 @@ public sealed class PosAndRot : IPersistentField {
   /// <remarks>
   /// The rotation angles are automatically adjusted to stay within the [0; 360) range.
   /// </remarks>
+  /// <value>The Euler angles of the rotation.</value>
   public Vector3 euler {
     get { return _euler; }
     set {
@@ -39,6 +40,7 @@ public sealed class PosAndRot : IPersistentField {
   Vector3 _euler;
 
   /// <summary>Orientation of the transform.</summary>
+  /// <value>The rotation of the transfrom.</value>
   public Quaternion rot { get; private set; }
 
   /// <summary>Constructs a default instance.</summary>
@@ -90,7 +92,7 @@ public sealed class PosAndRot : IPersistentField {
     var elements = value.Split(',');
     if (elements.Length != 6) {
       throw new ArgumentException(
-          "PosAndRot type needs exactly 6 elements separated by a comma");
+          "PosAndRot type needs exactly 6 elements separated by a comma but found: " + value);
     }
     var args = elements.Select(float.Parse).ToArray();
     pos = new Vector3(args[0], args[1], args[2]);
@@ -102,6 +104,26 @@ public sealed class PosAndRot : IPersistentField {
   public override string ToString() {
     return string.Format(
         "[PosAndRot Pos={0}, Euler={1}]", DbgFormatter.Vector(pos), DbgFormatter.Vector(euler));
+  }
+
+  /// <summary>Creates a new instance from the provided string.</summary>
+  /// <param name="strValue">The value to parse.</param>
+  /// <param name="failOnError">
+  /// If <c>true</c> then a parsing error will fail the creation. Otherwise, a default instance will
+  /// be returned.
+  /// </param>
+  /// <returns>An instance, intialized from the string.</returns>
+  public static PosAndRot FromString(string strValue, bool failOnError = false) {
+    var res = new PosAndRot();
+    try {
+      res.ParseFromString(strValue);
+    } catch (ArgumentException ex) {
+      if (failOnError) {
+        throw;
+      }
+      Debug.LogWarningFormat("Cannot parse PosAndRot, using default: {0}", ex.Message);
+    }
+    return res;
   }
   
   /// <summary>
