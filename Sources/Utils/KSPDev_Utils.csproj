@@ -146,6 +146,7 @@
   <ItemGroup>
     <None Include="KSPAPI_HelpIndex.xml" />
     <None Include="SpecialDocTags.xml" />
+    <None Include="Unity3D_HelpIndex.xml" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
