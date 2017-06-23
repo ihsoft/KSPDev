@@ -1,8 +1,11 @@
 <!-- Index file for Unity3D methods help -->
-<!-- v3, 05.24.2017 -->
+<!-- v4, 06.23.2017 -->
 <index>
 
 <!--************ TYPES ************-->
+<item name="T:UnityEngine.GameObject">
+  <seealso href="https://docs.unity3d.com/ScriptReference/GameObject.html">Untiy3D: GameObject</seealso>
+</item>
 <item name="T:UnityEngine.Renderer">
   <seealso href="https://docs.unity3d.com/ScriptReference/Renderer.html">Untiy3D: Renderer</seealso>
 </item>

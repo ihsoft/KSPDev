@@ -1,9 +1,15 @@
 <!-- Index file for KSP core methods help -->
-<!-- v3, 06.15.2017 -->
+<!-- v4, 06.23.2017 -->
 <index>
 
 <item name="T:BaseField">
   <seealso href="https://kerbalspaceprogram.com/api/class_base_field.html">KSP: BaseField</seealso>
+</item>
+<item name="T:Part">
+  <seealso href="https://kerbalspaceprogram.com/api/class_part.html">KSP: Part</seealso>
+</item>
+<item name="T:PartModule">
+  <seealso href="https://kerbalspaceprogram.com/api/class_part_module.html">KSP: PartModule</seealso>
 </item>
 <item name="T:KSPAction">
   <seealso href="https://kerbalspaceprogram.com/api/class_k_s_p_action.html">KSP: KSPAction</seealso>
