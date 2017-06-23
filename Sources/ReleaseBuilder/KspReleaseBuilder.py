@@ -322,7 +322,7 @@ class Builder(object):
     for (dest_folder, src_patterns) in sorted_targets:
       dest_path = self.__MakeDestPath(dest_folder)
       print 'Release folder:', dest_path
-      copy_sources = []
+      copy_sources = None
       drop_patterns = []
       for src_pattern in src_patterns:
         allow_no_matches = False
@@ -349,14 +349,16 @@ class Builder(object):
             print 'ERROR: Nothing is found for pattern:', pattern
             print 'HINT: If this pattern is allowed to return nothing then add prefix "?"'
             exit(-1)
+        if copy_sources is None:
+          copy_sources = []
         copy_sources.extend(entry_sources)
 
       # Copy files.
-      if copy_sources:
+      if copy_sources is not None:
         for source in copy_sources:
           self.__OsSafeCopyToRelease(source, dest_path)
-      else:
-        print '=> skip empty folder:', source
+        if not copy_sources:
+          print '=> skip empty folder:', source
 
       # Drop files.
       for pattern in drop_patterns:
