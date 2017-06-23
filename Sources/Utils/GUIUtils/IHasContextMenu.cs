@@ -13,18 +13,27 @@ namespace KSPDev.GUIUtils {
 /// KPS: GameEvents.onPartActionUIDismiss</seealso>
 public interface IHasContextMenu {
   /// <summary>
-  /// A callback that is called every time the module's conetxt menu items need to update. 
+  /// A callback which is called every time the module's context menu items need to update. 
   /// </summary>
   /// <remarks>
   /// <para>
   /// When a part needs to update its context menu, it must not be doing it in the methods other
-  /// this one. By doing the update in a just one method, the part ensures there will be a
+  /// this one. By doing the update in a single method, the part ensures there will be a
   /// consistency.
   /// </para>
   /// <para>
   /// It's very implementation dependent when and why the update is needed. However, at the very
   /// least this callback must be called from the <see cref="IPartModule.OnLoad">OnLoad</see> method
   /// to let the module to update the state and the titles.
+  /// </para>
+  /// <para>
+  /// The method implemenation must expect to be called at any arbitrary moment of the module's
+  /// life. If there are members that can be null, then they must be checked in this method to not
+  /// throw an NPE.
+  /// </para>
+  /// <para>
+  /// Unless the implementing class is <i>sealed</i>, the method must be declared as <i>virtual</i>.
+  /// The descendants may want to react on the callback as well.
   /// </para>
   /// </remarks>
   void UpdateContextMenu();
