@@ -354,6 +354,7 @@
   <HelpKINode Title="HostedDebugLog.Error method" Url="html/Overload_KSPDev_LogUtils_HostedDebugLog_Error.htm" />
   <HelpKINode Title="HostedDebugLog.Info method" Url="html/Overload_KSPDev_LogUtils_HostedDebugLog_Info.htm" />
   <HelpKINode Title="HostedDebugLog.Log method" Url="html/M_KSPDev_LogUtils_HostedDebugLog_Log.htm" />
+  <HelpKINode Title="HostedDebugLog.ObjectToString method" Url="html/M_KSPDev_LogUtils_HostedDebugLog_ObjectToString.htm" />
   <HelpKINode Title="HostedDebugLog.Warning method" Url="html/Overload_KSPDev_LogUtils_HostedDebugLog_Warning.htm" />
   <HelpKINode Title="IHasContextMenu interface">
     <HelpKINode Title="IHasContextMenu Interface" Url="html/T_KSPDev_GUIUtils_IHasContextMenu.htm" />
@@ -773,6 +774,7 @@
   <HelpKINode Title="NormalizePath method" Url="html/M_KSPDev_FSUtils_KspPaths_NormalizePath.htm" />
   <HelpKINode Title="Nullable(Of T) method" Url="html/M_KSPDev_LogUtils_DbgFormatter_Nullable__1.htm" />
   <HelpKINode Title="Nullable&lt;T&gt; method" Url="html/M_KSPDev_LogUtils_DbgFormatter_Nullable__1.htm" />
+  <HelpKINode Title="ObjectToString method" Url="html/M_KSPDev_LogUtils_HostedDebugLog_ObjectToString.htm" />
   <HelpKINode Title="onAfterTransition event" Url="html/E_KSPDev_ProcessingUtils_SimpleStateMachine_1_onAfterTransition.htm" />
   <HelpKINode Title="OnAwake method" Url="html/M_KSPDev_KSPInterfaces_IPartModule_OnAwake.htm" />
   <HelpKINode Title="OnClick event" Url="html/E_KSPDev_InputUtils_KeyboardInputSwitch_OnClick.htm" />
