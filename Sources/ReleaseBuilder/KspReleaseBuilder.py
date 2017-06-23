@@ -354,7 +354,7 @@ class Builder(object):
         for source in copy_sources:
           self.__OsSafeCopyToRelease(source, dest_path)
       else:
-        print '=> skip release folder due to it\'s EMPTY'
+        print '=> skip empty folder:', source
 
       # Drop files.
       for pattern in drop_patterns:
