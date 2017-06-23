@@ -406,9 +406,9 @@ class Builder(object):
     if self.VERSION is None:
       print 'ERROR: Cannot extract version from: %s' % file_path
       exit(-1)
-    print '=> found version: v%d.%d, revision %d, build %d' % self.VERSION
-  
-  
+    print '=> found version: v%d.%d, build %d, revision %d' % self.VERSION
+
+
   # Updates the source files with the version info.
   def __Step_UpdateVersionInSources(self):
     print 'Update MiniAVC info...'
