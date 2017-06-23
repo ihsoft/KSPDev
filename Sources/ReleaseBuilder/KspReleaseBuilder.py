@@ -6,6 +6,8 @@ SCRIPT_VERSION = "2.1"  # (check if SUPPORTED_JSON_SCHEMA_VERSION needs to be up
 # A very simple class to produce a .ZIP archive with a KSP mod distribution.
 
 import argparse
+import array
+import ctypes
 import glob
 import json
 import os.path
@@ -392,15 +394,8 @@ class Builder(object):
       matches = re.match(
           r'\[assembly: AssemblyVersion.*\("(\d+)\.(\d+)\.(\*|\d+)(.(\*|\d+))?"\)\]', line)
       if matches:
-        build, rev = matches.group(3), matches.group(5)
-        if build == '*':
-          build = 0
-        if not rev or rev == '*':
-          rev = 0
-        self.VERSION = (int(matches.group(1)),  # MAJOR
-                        int(matches.group(2)),  # MINOR
-                        int(build),  # BUILD, optional.
-                        int(rev))  # REVISION, optional.
+        self.__MakeVersion(
+            matches.group(1), matches.group(2), matches.group(3), matches.group(5) or 0)
         break
         
     if self.VERSION is None:
@@ -451,6 +446,28 @@ class Builder(object):
     print '=> stored in:', package_file_name
 
 
+  # Fills VERSION given the string or int compinents. The build and revision could be "*".
+  def __MakeVersion(self, major, minor, build, revision):
+    # Get build/rev from the binary if it's auto generated.
+    if build == '*' or revision == '*':
+      filename = self.__MakeSrcPath(self.COMPILED_BINARY)
+      version = self.__GetFileInfo(filename) or ''
+      parts = version.split('.')
+      if build == '*' and len(parts) >= 3:
+        build = parts[2]
+      if len(parts) >= 4:
+        revision = parts[3]
+    # Handle fallbacks in case of the version wasn't extracted.
+    if build == '*':
+      print 'WARNING: Couldn\'t resolve version BUILD, fallback to 0'
+      build = 0
+    if revision == '*':
+      print 'WARNING: Couldn\'t resolve version REVISION, fallback to 0'
+      revision = 0
+    # Fill the version
+    self.VERSION = (int(major), int(minor), int(build), int(revision))
+
+ 
   # Checks if path doesn't try to address file above the root. All path arguments can contain
   # macros.
   #
@@ -510,6 +527,30 @@ class Builder(object):
       print '=> drop folder:', abs_path
       shutil.rmtree(abs_path, True)
 
+  # Extracts information from a DLL file.
+  def __GetFileInfo(self, filename):
+    filename = u'' + filename  # Ensure it's wide-string encoding.
+    size = ctypes.windll.version.GetFileVersionInfoSizeW(filename, None)
+    if not size:
+      return None
+    res = ctypes.create_string_buffer(size)
+    if not ctypes.windll.version.GetFileVersionInfoW(filename, None, size, res):
+      return None
+    l = ctypes.c_uint()
+    r = ctypes.c_void_p()
+    if not ctypes.windll.version.VerQueryValueA(
+        res, '\\VarFileInfo\\Translation', ctypes.byref(r), ctypes.byref(l)):
+      return None
+    if not l.value:
+      return None
+    codepages = array.array('H', ctypes.string_at(r.value, l.value))
+    codepage = tuple(codepages[:2].tolist())
+    r = ctypes.c_char_p()
+    if not ctypes.windll.version.VerQueryValueA(
+        res, ('\\StringFileInfo\\%04x%04x\\FileVersion') % codepage,
+        ctypes.byref(r), ctypes.byref(l)):
+      return None
+    return ctypes.string_at(r)
 
 
 # Default JSON settings file to search in the current folder when "-J"
