@@ -47,9 +47,9 @@ public class ForceTypeDemo2 {
   void FormatFixed() {
     #region ForceTypeDemo2_FormatFixed
     Debug.Log(ForceType.Format(1234.5678, format: "0.0000"));
-    // Prints: "1234.5678 m"
+    // Prints: "1234.5678 kN"
     Debug.Log(ForceType.Format(1234.5678, format: "0.00"));
-    // Prints: "1234.57 m"
+    // Prints: "1234.57 kN"
     #endregion
   }
 }
