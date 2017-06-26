@@ -50,8 +50,8 @@
     <Reference Include="Assembly-CSharp-firstpass">
       <HintPath>Q:\KSP_Data\Managed\Assembly-CSharp-firstpass.dll</HintPath>
     </Reference>
-    <Reference Include="KSPDev_Utils.0.24">
-      <HintPath>..\..\Binaries\KSPDev_Utils.0.24.dll</HintPath>
+    <Reference Include="KSPDev_Utils.0.25">
+      <HintPath>..\..\Binaries\KSPDev_Utils.0.25.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core">
@@ -70,6 +70,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ConfigStore.cs" />
+    <Compile Include="Controller.cs" />
     <Compile Include="Extractor.cs" />
     <Compile Include="LocItem.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
