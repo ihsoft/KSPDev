@@ -12,9 +12,12 @@ public class KspTypesProto : AbstractOrdinaryValueTypeProto {
   /// <inheritdoc/>
   public override bool CanHandle(Type type) {
     return type == typeof(Color) || type == typeof(Color32)
-        || type == typeof(Vector3) || type == typeof(Vector3d) || type == typeof(Vector4)
+        || type == typeof(Vector2)
+        || type == typeof(Vector3) || type == typeof(Vector3d)
+        || type == typeof(Vector4)
         || type == typeof(Quaternion) || type == typeof(QuaternionD)
-        || type == typeof(Matrix4x4);
+        || type == typeof(Matrix4x4)
+        || type.IsEnum;
   }
   
   /// <inheritdoc/>
@@ -24,6 +27,9 @@ public class KspTypesProto : AbstractOrdinaryValueTypeProto {
     }
     if (value is Color32) {
       return ConfigNode.WriteColor((Color32) value);
+    }
+    if (value is Vector2) {
+      return ConfigNode.WriteVector((Vector2) value);
     }
     if (value is Vector3) {
       return ConfigNode.WriteVector((Vector3) value);
@@ -43,6 +49,9 @@ public class KspTypesProto : AbstractOrdinaryValueTypeProto {
     if (value is Matrix4x4) {
       return ConfigNode.WriteMatrix4x4((Matrix4x4) value);
     }
+    if (value.GetType().IsEnum) {
+      return ConfigNode.WriteEnum((Enum) value);
+    }
     throw new ArgumentException("Unexpected type: " + value.GetType());
   }
   
@@ -54,6 +63,9 @@ public class KspTypesProto : AbstractOrdinaryValueTypeProto {
       }
       if (type == typeof(Color32)) {
         return ConfigNode.ParseColor32(value);
+      }
+      if (type == typeof(Vector2)) {
+        return ConfigNode.ParseVector2(value);
       }
       if (type == typeof(Vector3)) {
         return ConfigNode.ParseVector3(value);
@@ -72,6 +84,9 @@ public class KspTypesProto : AbstractOrdinaryValueTypeProto {
       }
       if (type == typeof(Matrix4x4)) {
         return ConfigNode.ParseMatrix4x4(value);
+      }
+      if (type.IsEnum) {
+        return ConfigNode.ParseEnum(type, value);
       }
       throw new ArgumentException("Unexpected type: " + type);
     } catch (Exception ex) {

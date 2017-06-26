@@ -1,3 +1,6 @@
+# 0.25 (pre-release):
+* [Enhancement] Support (de)serialization of types `Vector2` and `Enum`. See [`ConfigUtils.KspTypesProto`](http://ihsoft.github.io/KSPDev/Utils/html/T_KSPDev_ConfigUtils_KspTypesProto.htm).
+
 # 0.24 (June 22nd, 2017):
 * [Change] Allow any state transition in `SimpleStateMachine` when the strict mode is OFF: [`ProcessingUtils.SimpleStateMachine`](http://ihsoft.github.io/KSPDev/Utils/html/T_KSPDev_ProcessingUtils_SimpleStateMachine_1.htm).
 * [Change] Drop `donCache` option from `UISoundPlayer`: [`UISoundPlayer.Play`](http://ihsoft.github.io/KSPDev/Utils/html/M_KSPDev_GUIUtils_UISoundPlayer_Play.htm).
