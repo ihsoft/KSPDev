@@ -22,7 +22,7 @@ class Scanner : MonoBehaviour {
   }
 
   /// <summary>
-  /// Finds all the entities that macthes the prefix, and extracts the items for them.
+  /// Finds all the entities that matches the prefix, and extracts the items for them.
   /// </summary>
   /// <param name="prefix">
   /// The file path prefix. It's relative to the game's <c>GameData</c> directory.
