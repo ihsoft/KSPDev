@@ -17,7 +17,8 @@ namespace KSPDev.LocalizationTool {
 
 static class Extractor {
   /// <summary>List of the part's fields that need localization.</summary>
-  static string[] localizablePartFields = {"title", "manufacturer", "description", "tags"};
+  public readonly static string[] localizablePartFields =
+      {"title", "manufacturer", "description", "tags"};
 
   /// <summary>Extracts the localization items from the part's config.</summary>
   /// <param name="part">The part to extract items for.</param>
@@ -236,7 +237,7 @@ static class Extractor {
     var res = new List<LocItem>();
     var field = info as FieldInfo;
     if (field == null
-        || !RelectionHelper.CheckReflectionParent(field.FieldType,
+        || !ReflectionHelper.CheckReflectionParent(field.FieldType,
                                                   "KSPDev.GUIUtils.LocalizableMessage")) {
       return res;
     }
@@ -251,10 +252,10 @@ static class Extractor {
                            field.DeclaringType.FullName, field.Name);
       return res;
     }
-    var msgTag = RelectionHelper.GetReflectedString(value, "tag");
-    var defaultTemplate = RelectionHelper.GetReflectedString(value, "defaultTemplate");
-    var description = RelectionHelper.GetReflectedString(value, "description");
-    var locExample = RelectionHelper.GetReflectedString(value, "example");
+    var msgTag = ReflectionHelper.GetReflectedString(value, "tag");
+    var defaultTemplate = ReflectionHelper.GetReflectedString(value, "defaultTemplate");
+    var description = ReflectionHelper.GetReflectedString(value, "description");
+    var locExample = ReflectionHelper.GetReflectedString(value, "example");
     if (string.IsNullOrEmpty(msgTag)) {
       Debug.LogErrorFormat("Failed to read a message from {0} in {1}.{2}",
                            field.FieldType.FullName,
@@ -294,13 +295,13 @@ static class Extractor {
       MemberInfo info, string groupKey, string sortKey, string spec = null) {
     var attrObj = info.GetCustomAttributes(false)
         .FirstOrDefault(o =>
-            RelectionHelper.CheckReflectionParent(
+            ReflectionHelper.CheckReflectionParent(
                 o.GetType(), "KSPDev.GUIUtils.LocalizableItemAttribute")
-            && RelectionHelper.GetReflectedString(o, "spec") == spec);
+            && ReflectionHelper.GetReflectedString(o, "spec") == spec);
     if (attrObj == null) {
       return null;
     }
-    var locTag = RelectionHelper.GetReflectedString(attrObj, "tag");
+    var locTag = ReflectionHelper.GetReflectedString(attrObj, "tag");
     if (string.IsNullOrEmpty(locTag)) {
       return null;  // The item is explicitly saying there is no localization.
     }
@@ -309,8 +310,8 @@ static class Extractor {
         sortKey = sortKey,
         fullFilePath = info.DeclaringType.Assembly.Location,
         locTag = locTag,
-        locDefaultValue = RelectionHelper.GetReflectedString(attrObj, "defaultTemplate"),
-        locDescription = RelectionHelper.GetReflectedString(attrObj, "description"),
+        locDefaultValue = ReflectionHelper.GetReflectedString(attrObj, "defaultTemplate"),
+        locDescription = ReflectionHelper.GetReflectedString(attrObj, "description"),
     };
   }
   #endregion

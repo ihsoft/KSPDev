@@ -8,7 +8,7 @@ using System.Reflection;
 namespace KSPDev.LocalizationTool {
 
 /// <summary>A set of the methods to deal with a type via the reflections.</summary>
-static class RelectionHelper {
+static class ReflectionHelper {
   /// <summary>Checks if the specified type is a descendant of the parent class.</summary>
   /// <remarks>
   /// Different modules may use own versions of the KSPDev Utils library. So access the data through
