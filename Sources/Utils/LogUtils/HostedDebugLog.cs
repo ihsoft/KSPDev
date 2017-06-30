@@ -104,7 +104,7 @@ public static class HostedDebugLog {
   /// </remarks>
   /// <param name="obj">The object to stringify. It can be <c>null</c>.</param>
   /// <returns>A human friendly string which identifies the host.</returns>
-  static string ObjectToString(object obj) {
+  public static string ObjectToString(object obj) {
     if (obj == null) {
       return "[NULL]";
     }
