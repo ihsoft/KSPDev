@@ -25,10 +25,10 @@ static class RelectionHelper {
     return type != null;
   }
 
-  /// <summary>Returns a string value of the fiel or porperty via reflections.</summary>
+  /// <summary>Returns a string value of a field or property via reflections.</summary>
   /// <param name="instance">The instance to get the value from.</param>
-  /// <param name="memberName">The name of the meber (either a field or a property).</param>
-  /// <returns>A string value or <c>null</c> if the value canot be casted to string.</returns>
+  /// <param name="memberName">The name of the member (either a field or a property).</param>
+  /// <returns>A string value or <c>null</c> if the value cannot be casted to string.</returns>
   public static string GetReflectedString(object instance, string memberName) {
     var fieldInfo = instance.GetType().GetField(memberName);
     if (fieldInfo != null) {
