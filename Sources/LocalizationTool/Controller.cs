@@ -23,7 +23,9 @@ class Controller : MonoBehaviour {
   /// <summary>Base class for the records that represent the extractor entities.</summary>
   abstract class ScannedRecord {
     public bool selected;
-    public abstract void GUIAddItem();
+    public virtual void GUIAddItem() {
+      selected = GUILayout.Toggle(selected, ToString());
+    }
   }
 
   /// <summary>Simple item to display info in the scroll box. It cannot be selected.</summary>
@@ -40,11 +42,6 @@ class Controller : MonoBehaviour {
     public string urlPrefix = "";
 
     /// <inheritdoc/>
-    public override void GUIAddItem() {
-      selected = GUILayout.Toggle(selected, ToString());
-    }
-
-    /// <inheritdoc/>
     public override string ToString() {
       return string.Format("{0} ({1} parts)", urlPrefix, parts.Count);
     }
@@ -54,11 +51,6 @@ class Controller : MonoBehaviour {
   class AssemblyRecord : ScannedRecord {
     public Assembly assembly;
     public List<Type> types;
-
-    /// <inheritdoc/>
-    public override void GUIAddItem() {
-      selected = GUILayout.Toggle(selected, ToString());
-    }
 
     /// <inheritdoc/>
     public override string ToString() {
@@ -139,7 +131,7 @@ class Controller : MonoBehaviour {
     if (isUIVisible) {
       windowRect = GUILayout.Window(
           WindowId, windowRect, MakeConsoleWindow,
-          "KSPDev LocalizationTool v" + this.GetType().Assembly.GetName().Version);
+          "KSPDev LocalizationTool v" + GetType().Assembly.GetName().Version);
     }
   }
   #endregion
@@ -206,29 +198,27 @@ class Controller : MonoBehaviour {
     }
 
     // Find part configs for the prefix.
-    var parts = PartLoader.LoadedPartsList
+    targets.AddRange(PartLoader.LoadedPartsList
         .Where(x => x.partUrl.StartsWith(prefix, StringComparison.CurrentCultureIgnoreCase))
         .GroupBy(x => {
           var pos = x.partUrl.LastIndexOf("/Parts", StringComparison.OrdinalIgnoreCase);
           return pos != -1 ? x.partUrl.Substring(0, pos + 6) : x.partUrl;
-        });
-    foreach (var group in parts) {
-      targets.Add(new PartsRecord() {
-          urlPrefix = group.Key,
-          parts = group.ToList(),
-      });
-    }
+        })
+        .Select(group => new PartsRecord() {
+            urlPrefix = group.Key,
+            parts = group.ToList(),
+        })
+        .Cast<ScannedRecord>());
 
     // Find assemblies for the prefix.
-    var assemblies = AssemblyLoader.loadedAssemblies
-      .Where(x => x.url.StartsWith(prefix, StringComparison.CurrentCultureIgnoreCase)
-                  && x.types.Count > 0);
-    foreach (var assembly in assemblies) {
-      targets.Add(new AssemblyRecord() {
-          assembly = assembly.assembly,
-          types = assembly.types.SelectMany(x => x.Value).ToList(),
-      });
-    }
+    targets.AddRange(AssemblyLoader.loadedAssemblies
+        .Where(x => x.url.StartsWith(prefix, StringComparison.CurrentCultureIgnoreCase)
+                    && x.types.Count > 0)
+        .Select(assembly => new AssemblyRecord() {
+            assembly = assembly.assembly,
+            types = assembly.types.SelectMany(x => x.Value).ToList(),
+        })
+        .Cast<ScannedRecord>());
 
     if (targets.Count == 0) {
       targets.Add(new StubRecord() {

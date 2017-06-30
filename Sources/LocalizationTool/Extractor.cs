@@ -2,12 +2,9 @@
 // Author: igor.zavoychinskiy@gmail.com
 // This software is distributed under Public domain license.
 
-using KSP.Localization;
-using KSPDev.FSUtils;
 using KSPDev.GUIUtils;
 using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Text.RegularExpressions;
