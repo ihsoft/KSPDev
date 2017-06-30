@@ -55,6 +55,9 @@ public class LocalizableItemAttribute : Attribute {
   /// <example><code source="Examples/GUIUtils/LocalizableItemAttribute-Examples.cs" region="ItemField_WithUnits"/></example>
   public string spec;
 
+  /// <summary>Cached localized message.</summary>
+  Message localizedString;
+
   /// <summary>Returns the localized string.</summary>
   /// <remarks>
   /// This method is primary designed for the KSPDev localization code. There are no good use cases
@@ -64,18 +67,11 @@ public class LocalizableItemAttribute : Attribute {
   /// The localized string of the <see cref="defaultTemplate"/> if no localization content found.
   /// </returns>
   public string GetLocalizedString() {
-    if (GameSettings.SHOW_TRANSLATION_KEYS_ON_SCREEN) {
-      return tag;
+    if (localizedString == null) {
+      localizedString =
+          new Message(tag, defaultTemplate: defaultTemplate, description: description);
     }
-    string res;
-    if (!Localizer.TryGetStringByTag(tag, out res)) {
-      res = defaultTemplate;
-      if (GameSettings.LOG_MISSING_KEYS_TO_FILE) {
-        Debug.LogWarningFormat("Cannot find localized content for: tag={0}, lang={1}",
-                               tag, Localizer.CurrentLanguage);
-      }
-    }
-    return res;
+    return localizedString;
   }
 }
 
