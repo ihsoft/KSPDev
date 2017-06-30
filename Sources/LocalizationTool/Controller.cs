@@ -59,6 +59,21 @@ class Controller : MonoBehaviour {
                            assembly.GetName().Version, types.Count);
     }
   }
+
+  /// <summary>Item that represents a localization config.</summary>
+  class ConfigRecord : ScannedRecord {
+    public string url;
+    public string filePath;
+    public string lang;
+    public ConfigNode node;
+
+    /// <inheritdoc/>
+    public override string ToString() {
+      return string.Format(
+          "{0}, lang={1} ({2} strings)",
+          KspPaths.MakeRelativePathToGameData(url), lang, node.GetValues().Length);
+    }
+  }
   #endregion
 
   /// <summary>Name of the persistent group to keep session settings in.</summary>
@@ -187,7 +202,6 @@ class Controller : MonoBehaviour {
   
   /// <summary>Finds all the entities for the prefix, and populates the list.</summary>
   /// <param name="prefix">The prefix to find URL by.</param>
-  //FIXME: Create localization targets.
   void GuiActionUpdateTargets(string prefix) {
     targets.Clear();
     if (prefix.Length < 3) {
@@ -217,6 +231,18 @@ class Controller : MonoBehaviour {
         .Select(assembly => new AssemblyRecord() {
             assembly = assembly.assembly,
             types = assembly.types.SelectMany(x => x.Value).ToList(),
+        })
+        .Cast<ScannedRecord>());
+
+    // Find localization files for the prefix.
+    targets.AddRange(GameDatabase.Instance.GetConfigs("Localization")
+        .Where(x => x.url.StartsWith(lookupPrefix, StringComparison.OrdinalIgnoreCase)
+                    && x.config.GetNodes(Localizer.CurrentLanguage).Any())
+        .Select(url => new ConfigRecord() {
+            url = url.url,
+            filePath = url.parent.fullPath,
+            lang = Localizer.CurrentLanguage,
+            node = url.config.GetNodes(Localizer.CurrentLanguage).FirstOrDefault(),
         })
         .Cast<ScannedRecord>());
 
