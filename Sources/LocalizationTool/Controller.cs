@@ -88,7 +88,7 @@ class Controller : MonoBehaviour {
   static KeyboardInputSwitch switchKey = new KeyboardInputSwitch(KeyCode.LeftAlt);
 
   [PersistentField("keyToggle")]
-  static KeyCode toggleKey = KeyCode.F9;
+  static KeyCode toggleKey = KeyCode.F8;
 
   [PersistentField("scrollHeight")]
   static int scrollHeight = 150;
