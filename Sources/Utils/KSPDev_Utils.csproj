@@ -114,6 +114,7 @@
     <Compile Include="KSPInterfaces\IsPackable.cs" />
     <Compile Include="KSPInterfaces\IsPartDeathListener.cs" />
     <Compile Include="KSPInterfaces\IsPhysicalObject.cs" />
+    <Compile Include="LibraryLoader.cs" />
     <Compile Include="LogUtils\DbgFormatter.cs" />
     <Compile Include="LogUtils\HostedDebugLog.cs" />
     <Compile Include="ModelUtils\AlignTransforms.cs" />
@@ -127,7 +128,6 @@
     <Compile Include="ResourceUtils\StockResourceNames.cs" />
     <Compile Include="SoundUtils\SpatialSounds.cs" />
     <Compile Include="Types\PosAndRot.cs" />
-    <Compile Include="VersionLogger.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Extensions" />
