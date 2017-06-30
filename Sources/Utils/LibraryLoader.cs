@@ -5,7 +5,6 @@
 using KSPDev.GUIUtils;
 using KSPDev.FSUtils;
 using System;
-using System.Reflection;
 using System.Linq;
 using UnityEngine;
 
@@ -20,7 +19,7 @@ namespace KSPDev.GUIUtils {
 /// loaded. It helps understanding which libraries are actually loaded in case of there are multiple
 /// libraries/versions in the game.
 /// </remarks>
-[KSPAddon(KSPAddon.Startup.MainMenu, true /*once*/)]
+[KSPAddon(KSPAddon.Startup.Instantly, true /*once*/)]
 class LibraryLoader : MonoBehaviour {
   /// <summary>Loaded library indentifier.</summary>
   static string assemblyVersionStr;
@@ -41,14 +40,50 @@ class LibraryLoader : MonoBehaviour {
         KspPaths.MakeRelativePathToGameData(assembly.Location),
         assembly.GetName().Version);
     Debug.LogFormat("Loading KSPDevUtils: {0}", assemblyVersionStr);
+
+    // Install the localization callbacks. The object must not be destroyed.
+    UnityEngine.Object.DontDestroyOnLoad(gameObject);
+    GameEvents.onVesselCreate.Add(LocalizeVessel);
+    GameEvents.onVesselLoaded.Add(LocalizeVessel);
+    GameEvents.onLanguageSwitched.Add(UpdateLocalizationVersion);
+    //FIXME: Handle editor parts actions.
   }
 
   /// <summary>Loads all the localizable strings in a vessel.</summary>
   /// <param name="vessel">The vessel to load strings in.</param>
   void LocalizeVessel(Vessel vessel) {
-    Debug.LogWarningFormat("Load vessel localizations in \"{0}\" from: {1}",
-                           vessel, assemblyVersionStr);
-    vessel.parts.ForEach(UpdatePartModulesLocalization);
+    if (vessel.loaded) {
+      Debug.LogFormat("Load vessel localizations in \"{0}\" from: {1}",
+                      vessel, assemblyVersionStr);
+      vessel.parts.ForEach(UpdatePartModulesLocalization);
+    }
+  }
+
+  /// <summary>Invalidates all the localization caches and updates the current vessels.</summary>
+  /// <remarks>It updates all the currently loaded vessels.</remarks>
+  void UpdateLocalizationVersion() {
+    LocalizableMessage.systemLocVersion++;
+    Debug.LogWarningFormat("Localization version is updated to {0} in: {1}",
+                           LocalizableMessage.systemLocVersion, assemblyVersionStr);
+    // Update all the vessels.
+    FlightGlobals.Vessels
+        .SelectMany(x => x.parts)
+        .ToList()
+        .ForEach(UpdatePartModulesLocalization);
+    //FIXME: In the editor find the parts in a different way.
+  }
+
+  /// <summary>Updates all the localizable strings in a part.</summary>
+  /// <param name="part">The part to load the data in.</param>
+  static void UpdatePartModulesLocalization(Part part) {
+    part.Modules.Cast<PartModule>().ToList()
+        .ForEach(module => {
+          LocalizationLoader.LoadItemsInModule(module);
+          var hasContextMenu = module as IHasContextMenu;
+          if (hasContextMenu != null) {
+            hasContextMenu.UpdateContextMenu();
+          }
+        });
   }
 }
 
