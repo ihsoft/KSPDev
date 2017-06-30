@@ -116,6 +116,13 @@ class Controller : MonoBehaviour {
   static Rect windowRect;
   #endregion
 
+  #region UI strings
+  const string ExportBtnFmtNotSelected = "<i>Select an assembly or a parts folder</i>";
+  const string ExportBtnFmt = "Export strings from {0} part(s) and {1} module(s) into exported.cfg";
+  const string RefreshBtnFmtNotSelected = "<i>Select a localization</i>";
+  const string RefreshBtnFmt = "Reload {0} localization config(s) and update {1} part(s)";
+  #endregion
+
   readonly List<ScannedRecord> targets = new List<ScannedRecord>();
   Vector2 partsScrollPos;
   string lastCachedLookupPrefix;
@@ -178,28 +185,90 @@ class Controller : MonoBehaviour {
       }
 
       // Action buttons.
-      if (GUILayout.Button("Export strings into a new file")) {
-        GuiActionExportStrings();
+      var selectedModulesCount = targets.OfType<AssemblyRecord>()
+          .Where(x => x.selected)
+          .Sum(x => x.types.Count);
+      var selectedPartsCount = targets.OfType<PartsRecord>()
+          .Where(x => x.selected)
+          .Sum(x => x.parts.Count);
+      var selectedLocsCount = targets.OfType<ConfigRecord>()
+          .Count(x => x.selected);
+
+      var selectedModules = targets.OfType<AssemblyRecord>().Where(x => x.selected);
+      var selectedParts = targets.OfType<PartsRecord>().Where(x => x.selected);
+      var selectedConfigs = targets.OfType<ConfigRecord>().Where(x => x.selected);
+      if (selectedPartsCount > 0 || selectedModulesCount > 0) {
+        var title = string.Format(ExportBtnFmt,
+                                  selectedParts.Sum(x => x.parts.Count),
+                                  selectedModules.Sum(x => x.types.Count));
+        if (GUILayout.Button(title)) {
+          GuiActionExportStrings(selectedParts, selectedModules);
+        }
+      } else {
+        GUI.enabled = false;
+        GUILayout.Button(ExportBtnFmtNotSelected);
+        GUI.enabled = true;
       }
-      if (GUILayout.Button("Refresh strings from the configs")) {
-        GuiActionRefreshStrings();
+      if (selectedLocsCount > 0) {
+        var title = string.Format(RefreshBtnFmt,
+                                  selectedConfigs.Count(),
+                                  selectedParts.Sum(x => x.parts.Count));
+        if (GUILayout.Button(title)) {
+          GuiActionRefreshStrings(selectedConfigs, selectedParts);
+        }
+      } else {
+        GUI.enabled = false;
+        GUILayout.Button(RefreshBtnFmtNotSelected);
+        GUI.enabled = true;
       }
     }
     GUI.DragWindow(titleBarRect);
   }
 
   /// <summary>Saves the strings for the selected entities into a new file.</summary>
-  void GuiActionExportStrings() {
-    //FIXME
-    Debug.LogWarningFormat("*** GuiActionExportStrings");
+  /// <param name="parts">The parts to export the strings from.</param>
+  /// <param name="assemblies">The mod assemblies to export teh strinsg from.</param>
+  void GuiActionExportStrings(IEnumerable<PartsRecord> parts,
+                              IEnumerable<AssemblyRecord> assemblies) {
+    var partsLocs = parts
+        .SelectMany(x => x.parts)
+        .Select(Extractor.EmitItemsForPart)
+        .SelectMany(x => x)
+        .ToList();
+    var modulesLocs = assemblies
+        .SelectMany(x => x.types)
+        .Select(Extractor.EmitItemsForType)
+        .SelectMany(x => x)
+        .ToList();
+    Debug.LogWarningFormat("Export {0} parts strings and {1} modules strings",
+                           partsLocs.Count, modulesLocs.Count);
+    var locItems = partsLocs.Union(modulesLocs);
+    var filename = KspPaths.GetModsDataFilePath(this, "export.cfg", createMissingDirs: true);
+    ConfigStore.WriteLocItems(locItems, Localizer.CurrentLanguage, filename);
+    Debug.LogWarningFormat("Strings are written into: {0}", filename);
   }
   
   /// <summary>Saves the strings for the selected entities into a new file.</summary>
-  void GuiActionRefreshStrings() {
-    //FIXME
-    Debug.LogWarningFormat("*** GuiActionRefreshStrings");
+  /// <param name="configs">The configs to update the localization strings for.</param>
+  /// <param name="parts">The parts to update the string in.</param>
+  void GuiActionRefreshStrings(IEnumerable<ConfigRecord> configs,
+                               IEnumerable<PartsRecord> parts) {
+    // Updatate game's database with a fresh content from the disk.
+    configs.ToList().ForEach(
+        x => LocalizationManager.UpdateLocalizationContent(x.filePath, x.node));
+
+    // Notify listeners about the localization content changes.
+    GameEvents.onLanguageSwitched.Fire();
+
+    // Update the part infos for the new language/content.
+    var selectedParts = new HashSet<string>(
+        parts.SelectMany(x => x.parts).Select(x => x.name));
+    PartLoader.LoadedPartsList
+        .Where(x => selectedParts.Contains(x.name))
+        .ToList()
+        .ForEach(LocalizationManager.LocalizePartInfo);
   }
-  
+
   /// <summary>Finds all the entities for the prefix, and populates the list.</summary>
   /// <param name="prefix">The prefix to find URL by.</param>
   void GuiActionUpdateTargets(string prefix) {
