@@ -40,5 +40,22 @@ static class ReflectionHelper {
     }
     return null;
   }
+
+  /// <summary>Sets a string value to a field or porperty via reflections.</summary>
+  /// <param name="instance">The instance to get the value from.</param>
+  /// <param name="memberName">The name of the member (either a field or a property).</param>
+  /// <param name="newValue">The value to set.</param>
+  public static void SetReflectedString(object instance, string memberName, string newValue) {
+    var fieldInfo = instance.GetType().GetField(memberName);
+    if (fieldInfo != null) {
+      fieldInfo.SetValue(instance, newValue);
+      return;
+    }
+    var propertyInfo = instance.GetType().GetProperty(memberName);
+    if (propertyInfo != null) {
+      propertyInfo.SetValue(instance, newValue, null);
+    }
+  }
 }
+
 }  // namespace
