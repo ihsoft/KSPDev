@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <doc>
     <assembly>
-        <name>KSPDev_Utils.0.25</name>
+        <name>KSPDev_Utils.0.25-pre</name>
     </assembly>
     <members>
         <member name="T:KSPDev.ConfigUtils.AbstractCollectionTypeProto">
@@ -1531,6 +1531,9 @@
             <seealso cref="M:KSPDev.GUIUtils.LocalizationLoader.LoadItemsInModule(PartModule)"/>
             <example><code source="Examples/GUIUtils/LocalizableItemAttribute-Examples.cs" region="ItemField_WithUnits"/></example>
         </member>
+        <member name="F:KSPDev.GUIUtils.LocalizableItemAttribute.localizedString">
+            <summary>Cached localized message.</summary>
+        </member>
         <member name="M:KSPDev.GUIUtils.LocalizableItemAttribute.GetLocalizedString">
             <summary>Returns the localized string.</summary>
             <remarks>
@@ -1544,10 +1547,24 @@
         <member name="T:KSPDev.GUIUtils.LocalizableMessage">
             <summary>Base class for the messages that support localization.</summary>
             <remarks>
+            <para>
             This class is not intended for the use on its own. See the inheritance hierarchy for the classes
             that inherit it.
+            </para>
+            <para>
+            This class is performance optimized. Once a string is resolved to the localized content, it's
+            cached and reused in the subsequent calls. The cache can be reset by inceremnting the
+            <see cref="F:KSPDev.GUIUtils.LocalizableMessage.systemLocVersion"/>.
+            </para>
             </remarks>
             <seealso cref="T:KSPDev.GUIUtils.LocalizableItemAttribute"/>
+            <seealso cref="F:KSPDev.GUIUtils.LocalizableMessage.systemLocVersion"/>
+        </member>
+        <member name="F:KSPDev.GUIUtils.LocalizableMessage.systemLocVersion">
+            <summary>Current version of the loaded localizations.</summary>
+            <remarks>Increase it to have all the caches to invalidate.</remarks>
+            <seealso cref="P:KSPDev.GUIUtils.LocalizableMessage.localizedTemplate"/>
+            <seealso cref="F:KSPDev.GUIUtils.LocalizableMessage.loadedLocVersion"/>
         </member>
         <member name="F:KSPDev.GUIUtils.LocalizableMessage.defaultTemplate">
             <summary>Template to use if no localized template found.</summary>
@@ -1571,6 +1588,15 @@
             <item name="T:KSP.Localization.Localizer">
   <seealso href="https://kerbalspaceprogram.com/api/class_k_s_p_1_1_localization_1_1_localizer.html">KSP: Localization.Localizer</seealso>
 </item>
+        </member>
+        <member name="F:KSPDev.GUIUtils.LocalizableMessage.loadedLocVersion">
+            <summary>Currently cached version of the localization content.</summary>
+            <remarks>
+            If this version is different from the <see cref="F:KSPDev.GUIUtils.LocalizableMessage.systemLocVersion"/>, then the message
+            <see cref="P:KSPDev.GUIUtils.LocalizableMessage.localizedTemplate"/> will be reloaded from the config when accessed.
+            </remarks>
+            <seealso cref="P:KSPDev.GUIUtils.LocalizableMessage.localizedTemplate"/>
+            <seealso cref="F:KSPDev.GUIUtils.LocalizableMessage.systemLocVersion"/>
         </member>
         <member name="M:KSPDev.GUIUtils.LocalizableMessage.LoadLocalization">
             <summary>Instructs the implementation to load a localized template.</summary>
@@ -3181,6 +3207,35 @@
             objects and modules that need the physics updates. It makes the code more readable.
             </remarks>
         </member>
+        <member name="T:KSPDev.GUIUtils.LibraryLoader">
+            <summary>
+            Initialization class that installs the game event listeners needed by the library.
+            </summary>
+            <remarks>
+            It only acts on the very first invocation since the same versions of the library can be copied
+            in multiple folders. This class also logs the version and the location from which the library is
+            loaded. It helps understanding which libraries are actually loaded in case of there are multiple
+            libraries/versions in the game.
+            </remarks>
+        </member>
+        <member name="F:KSPDev.GUIUtils.LibraryLoader.assemblyVersionStr">
+            <summary>Loaded library indentifier.</summary>
+        </member>
+        <member name="F:KSPDev.GUIUtils.LibraryLoader.loaded">
+            <summary>Tells if the loader has already initialized.</summary>
+        </member>
+        <member name="M:KSPDev.GUIUtils.LibraryLoader.LocalizeVessel(Vessel)">
+            <summary>Loads all the localizable strings in a vessel.</summary>
+            <param name="vessel">The vessel to load strings in.</param>
+        </member>
+        <member name="M:KSPDev.GUIUtils.LibraryLoader.UpdateLocalizations">
+            <summary>Invalidates all the localization caches and updates the current vessels.</summary>
+            <remarks>It updates all the currently loaded vessels.</remarks>
+        </member>
+        <member name="M:KSPDev.GUIUtils.LibraryLoader.UpdatePartModulesLocalization(Part)">
+            <summary>Updates all the localizable strings in a part.</summary>
+            <param name="part">The part to load the data in.</param>
+        </member>
         <member name="T:KSPDev.LogUtils.DbgFormatter">
             <summary>A set of tools to format various game enities for debugging purposes.</summary>
         </member>
@@ -4313,15 +4368,6 @@
         <member name="P:KSPDev.Types.PosAndRot.rot">
             <summary>Orientation of the transform.</summary>
             <value>The rotation of the transfrom.</value>
-        </member>
-        <member name="T:VersionLogger">
-            <summary>
-            Debugging class that reports which DLL was actually loaded for the Utils assembly.
-            </summary>
-            <remarks>
-            It helps understanding which binary is used in case of multiple mods are using same version of
-            KSPDev_utils assembly.
-            </remarks>
         </member>
     </members>
 </doc>
