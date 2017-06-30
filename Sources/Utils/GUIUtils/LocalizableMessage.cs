@@ -10,11 +10,25 @@ namespace KSPDev.GUIUtils {
 
 /// <summary>Base class for the messages that support localization.</summary>
 /// <remarks>
+/// <para>
 /// This class is not intended for the use on its own. See the inheritance hierarchy for the classes
 /// that inherit it.
+/// </para>
+/// <para>
+/// This class is performance optimized. Once a string is resolved to the localized content, it's
+/// cached and reused in the subsequent calls. The cache can be reset by inceremnting the
+/// <see cref="systemLocVersion"/>.
+/// </para>
 /// </remarks>
 /// <seealso cref="LocalizableItemAttribute"/>
+/// <seealso cref="systemLocVersion"/>
 public class LocalizableMessage {
+  /// <summary>Current version of the loaded localizations.</summary>
+  /// <remarks>Increase it to have all the caches to invalidate.</remarks>
+  /// <seealso cref="localizedTemplate"/>
+  /// <seealso cref="loadedLocVersion"/>
+  public static int systemLocVersion = 1;
+
   /// <summary>Template to use if no localized template found.</summary>
   public readonly string defaultTemplate;
 
@@ -60,13 +74,22 @@ public class LocalizableMessage {
   /// <include file="KSPAPI_HelpIndex.xml" path="//item[@name='T:KSP.Localization.Localizer']"/>
   public string localizedTemplate {
     get {
-      if (_localizedTemplate == null) {
+      if (loadedLocVersion != systemLocVersion) {
         LoadLocalization();
       }
       return GameSettings.SHOW_TRANSLATION_KEYS_ON_SCREEN ? tag : _localizedTemplate;
     }
   }
   string _localizedTemplate;
+
+  /// <summary>Currently cached version of the localization content.</summary>
+  /// <remarks>
+  /// If this version is different from the <see cref="systemLocVersion"/>, then the message
+  /// <see cref="localizedTemplate"/> will be reloaded from the config when accessed.
+  /// </remarks>
+  /// <seealso cref="localizedTemplate"/>
+  /// <seealso cref="systemLocVersion"/>
+  protected int loadedLocVersion;
 
   /// <summary>Instructs the implementation to load a localized template.</summary>
   /// <remarks>If there is a value cached, it will be reloaded.</remarks>
@@ -78,6 +101,7 @@ public class LocalizableMessage {
                                tag, Localizer.CurrentLanguage);
       }
     }
+    loadedLocVersion = systemLocVersion;
   }
 
   /// <summary>Constructs a localizable message.</summary>
