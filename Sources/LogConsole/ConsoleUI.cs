@@ -23,7 +23,7 @@ sealed class ConsoleUI : MonoBehaviour {
   /// </remarks>
   const string SessionGroup = "session";
 
-  // ===== Session settings start.  
+  #region Session settings
   [PersistentField("showInfo", group = SessionGroup)]
   static bool showInfo = false;
 
@@ -38,9 +38,9 @@ sealed class ConsoleUI : MonoBehaviour {
 
   [PersistentField("logMode", group = SessionGroup)]
   static ShowMode logShowMode = ShowMode.Smart;
-  // ===== Session settings end.  
+  #endregion  
 
-  // ===== Console UI settings start.
+  #region Mod's settings
   [PersistentField("consoleToggleKey")]
   static KeyCode toggleKey = KeyCode.BackQuote;
 
@@ -55,7 +55,7 @@ sealed class ConsoleUI : MonoBehaviour {
 
   [PersistentField("ColorSchema/exceptionLog")]
   static Color exceptionLogColor = Color.magenta;
-  // ===== Console UI settings end.
+  #endregion
 
   /// <summary>Console window margin on the screen.</summary>
   const int Margin = 20;
