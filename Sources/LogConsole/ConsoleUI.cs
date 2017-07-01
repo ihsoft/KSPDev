@@ -223,7 +223,22 @@ sealed class ConsoleUI : MonoBehaviour {
     // Bottom menu.
     GUILayout.BeginHorizontal();
     
-    // Clear logs in the current aggregator. 
+    // Window size/snap.
+    if (GUILayout.Button(new GUIContent("\u21d5"), minSizeLayout)) {
+      windowRect = new Rect(Margin, Margin,
+                            Screen.width - Margin * 2, Screen.height - Margin * 2);
+    }
+    if (GUILayout.Button(new GUIContent("\u21d1"), minSizeLayout)) {
+      windowRect = new Rect(Margin, Margin,
+                            Screen.width - Margin * 2, (Screen.height - Margin * 2) / 3);
+    }
+    if (GUILayout.Button(new GUIContent("\u21d3"), minSizeLayout)) {
+      var clientHeight = (Screen.height - 2 * Margin) / 3;
+      windowRect = new Rect(Margin, Screen.height - Margin - clientHeight,
+                            Screen.width - Margin * 2, clientHeight);
+    }
+
+    // Clear logs in the current aggregator.
     if (GUILayout.Button(new GUIContent("Clear"))) {
       guiActions.Add(GuiActionClearLogs);
     }
