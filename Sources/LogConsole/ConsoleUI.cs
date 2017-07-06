@@ -159,8 +159,8 @@ sealed class ConsoleUI : MonoBehaviour {
   }
 
   /// <summary>Shows a window that displays the recorded logs.</summary>
-  /// <param name="windowID">Window ID.</param>
-  void MakeConsoleWindow(int windowID) {
+  /// <param name="windowId">Window ID.</param>
+  void MakeConsoleWindow(int windowId) {
     // Only logs snapshot when it's safe to change GUI leayout.
     if (guiActions.ExecutePendingGuiActions()) {
       UpdateLogsView(forceUpdate: logUpdateIsPaused);
