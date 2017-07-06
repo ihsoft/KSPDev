@@ -3,6 +3,7 @@
 // This software is distributed under Public Domain license.
 
 using KSPDev.ConfigUtils;
+using KSPDev.GUIUtils;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -133,6 +134,9 @@ sealed class ConsoleUI : MonoBehaviour {
   /// <summary>A list of actions to apply at the end of the GUI frame.</summary>
   static readonly GUIUtils.GuiActionsList guiActions = new GUIUtils.GuiActionsList();
 
+  /// <summary>Tells if the controls should be shown at the bottom of the dialog.</summary>
+  bool isToolbarAtTheBottom = true;
+
   /// <summary>Only loads session settings.</summary>
   void Awake() {
     ConfigAccessor.ReadFieldsInType(typeof(ConsoleUI), this, group: SessionGroup);
@@ -164,6 +168,12 @@ sealed class ConsoleUI : MonoBehaviour {
     // Only logs snapshot when it's safe to change GUI leayout.
     if (guiActions.ExecutePendingGuiActions()) {
       UpdateLogsView(forceUpdate: logUpdateIsPaused);
+      // Check if the toolbar goes out of the screen.
+      isToolbarAtTheBottom = windowRect.yMax < Screen.height;
+    }
+
+    if (!isToolbarAtTheBottom) {
+      CreateGUIToolbar();
     }
 
     scrollPosition = GUILayout.BeginScrollView(scrollPosition);
@@ -218,58 +228,62 @@ sealed class ConsoleUI : MonoBehaviour {
     }
     GUILayout.EndScrollView();
 
-    GUI.contentColor = Color.white;
-
-    // Bottom menu.
-    GUILayout.BeginHorizontal();
-    
-    // Window size/snap.
-    if (GUILayout.Button(new GUIContent("\u21d5"), minSizeLayout)) {
-      windowRect = new Rect(Margin, Margin,
-                            Screen.width - Margin * 2, Screen.height - Margin * 2);
+    if (isToolbarAtTheBottom) {
+      CreateGUIToolbar();
     }
-    if (GUILayout.Button(new GUIContent("\u21d1"), minSizeLayout)) {
-      windowRect = new Rect(Margin, Margin,
-                            Screen.width - Margin * 2, (Screen.height - Margin * 2) / 3);
-    }
-    if (GUILayout.Button(new GUIContent("\u21d3"), minSizeLayout)) {
-      var clientHeight = (Screen.height - 2 * Margin) / 3;
-      windowRect = new Rect(Margin, Screen.height - Margin - clientHeight,
-                            Screen.width - Margin * 2, clientHeight);
-    }
-
-    // Clear logs in the current aggregator.
-    if (GUILayout.Button(new GUIContent("Clear"))) {
-      guiActions.Add(GuiActionClearLogs);
-    }
-    
-    // Log mode selection. 
-    GUI.changed = false;
-    var showMode = GUILayout.SelectionGrid(
-        (int) logShowMode, logShowingModes, logShowingModes.Length, GUILayout.ExpandWidth(false));
-    logsViewChanged |= GUI.changed;
-    if (GUI.changed) {
-      guiActions.Add(() => GuiActionSetMode(mode: (ShowMode) showMode));
-    }
-
-    GUI.changed = false;
-    logUpdateIsPaused = GUILayout.Toggle(logUpdateIsPaused, "PAUSED", GUILayout.ExpandWidth(false));
-    if (GUI.changed) {
-      guiActions.Add(() => GuiActionSetPaused(isPaused: logUpdateIsPaused));
-    }
-    
-    // Draw logs filter by level and refresh logs when filter changes.
-    GUI.changed = false;
-    showInfo = MakeFormattedToggle(showInfo, infoLogColor, "INFO ({0})", infoLogs);
-    showWarning = MakeFormattedToggle(showWarning, warningLogColor, "WARNING ({0})", warningLogs);
-    showError = MakeFormattedToggle(showError, errorLogColor, "ERROR ({0})", errorLogs);
-    showException =
-        MakeFormattedToggle(showException, exceptionLogColor, "EXCEPTION ({0})", exceptionLogs);
-    logsViewChanged |= GUI.changed;
-    GUILayout.EndHorizontal();
 
     // Allow the window to be dragged by its title bar.
-    GUI.DragWindow(titleBarRect);
+    GuiWindow.DragWindow(ref windowRect, titleBarRect);
+  }
+
+  /// <summary>Creates controls for the console.</summary>
+  void CreateGUIToolbar() {
+    GUI.contentColor = Color.white;
+    using (new GUILayout.HorizontalScope()) {
+      // Window size/snap.
+      if (GUILayout.Button(new GUIContent("\u21d5"), GUILayout.ExpandWidth(false))) {
+        windowRect = new Rect(Margin, Margin,
+                              Screen.width - Margin * 2, Screen.height - Margin * 2);
+      }
+      if (GUILayout.Button(new GUIContent("\u21d1"), GUILayout.ExpandWidth(false))) {
+        windowRect = new Rect(Margin, Margin,
+                              Screen.width - Margin * 2, (Screen.height - Margin * 2) / 3);
+      }
+      if (GUILayout.Button(new GUIContent("\u21d3"), GUILayout.ExpandWidth(false))) {
+        var clientHeight = (Screen.height - 2 * Margin) / 3;
+        windowRect = new Rect(Margin, Screen.height - Margin - clientHeight,
+                              Screen.width - Margin * 2, clientHeight);
+      }
+  
+      // Clear logs in the current aggregator.
+      if (GUILayout.Button(new GUIContent("Clear"))) {
+        guiActions.Add(GuiActionClearLogs);
+      }
+      
+      // Log mode selection. 
+      GUI.changed = false;
+      var showMode = GUILayout.SelectionGrid(
+          (int) logShowMode, logShowingModes, logShowingModes.Length, GUILayout.ExpandWidth(false));
+      logsViewChanged |= GUI.changed;
+      if (GUI.changed) {
+        guiActions.Add(() => GuiActionSetMode(mode: (ShowMode) showMode));
+      }
+  
+      GUI.changed = false;
+      logUpdateIsPaused = GUILayout.Toggle(logUpdateIsPaused, "PAUSED", GUILayout.ExpandWidth(false));
+      if (GUI.changed) {
+        guiActions.Add(() => GuiActionSetPaused(isPaused: logUpdateIsPaused));
+      }
+      
+      // Draw logs filter by level and refresh logs when filter changes.
+      GUI.changed = false;
+      showInfo = MakeFormattedToggle(showInfo, infoLogColor, "INFO ({0})", infoLogs);
+      showWarning = MakeFormattedToggle(showWarning, warningLogColor, "WARNING ({0})", warningLogs);
+      showError = MakeFormattedToggle(showError, errorLogColor, "ERROR ({0})", errorLogs);
+      showException =
+          MakeFormattedToggle(showException, exceptionLogColor, "EXCEPTION ({0})", exceptionLogs);
+      logsViewChanged |= GUI.changed;
+    }
   }
 
   /// <summary>Verifies if level of the log record is needed by the UI.</summary>
