@@ -71,6 +71,7 @@
     <Compile Include="GUIUtils\DistanceType-Examples.cs" />
     <Compile Include="GUIUtils\EnumType-Examples.cs" />
     <Compile Include="GUIUtils\ForceType-Examples.cs" />
+    <Compile Include="GUIUtils\GuiWindow-Examples.cs" />
     <Compile Include="GUIUtils\LocalizableItemAttribute-Examples.cs" />
     <Compile Include="GUIUtils\LocalizationLoader-Examples.cs" />
     <Compile Include="GUIUtils\MassType-Examples.cs" />
