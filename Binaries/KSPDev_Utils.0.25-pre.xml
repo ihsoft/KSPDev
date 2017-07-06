@@ -1058,11 +1058,11 @@
         <member name="M:KSPDev.ConfigUtils.KspTypesProto.ParseFromString(System.String,System.Type)">
             <inheritdoc/>
         </member>
-        <member name="T:KSPDev.Extensions.Dictionaries">
+        <member name="T:KSPDev.Extensions.DictExtensions">
             <summary>Helper extensions for the generic dictionary container.</summary>
-            <example><code source="Examples/Extensions/Dictionary-Examples.cs" region="SetDefaultAddToDict"/></example>
+            <example><code source="Examples/Extensions/DictExtensions-Examples.cs" region="SetDefaultAddToDict"/></example>
         </member>
-        <member name="M:KSPDev.Extensions.Dictionaries.SetDefault``2(System.Collections.Generic.Dictionary{``0,``1},``0)">
+        <member name="M:KSPDev.Extensions.DictExtensions.SetDefault``2(System.Collections.Generic.Dictionary{``0,``1},``0)">
             <summary>
             Returns a value from the dictionary by a key. If the key is not present yet, then a new
             default entry is created and returned.
@@ -1075,10 +1075,21 @@
             <example>
             If there is a dictionary which values are collections or a class, then a special code is
             always needed to properly access this dictionary:
-            <code source="Examples/Extensions/Dictionary-Examples.cs" region="ClassicAddToDict"/>
+            <code source="Examples/Extensions/DictExtensions-Examples.cs" region="ClassicAddToDict"/>
             With this extension the key can safely be accessed with just one call:   
-            <code source="Examples/Extensions/Dictionary-Examples.cs" region="SetDefaultAddToDict"/>
+            <code source="Examples/Extensions/DictExtensions-Examples.cs" region="SetDefaultAddToDict"/>
             </example>
+        </member>
+        <member name="T:KSPDev.Extensions.RectExtensions">
+            <summary>Helper extensions to handel Unity rectangles.</summary>
+            <example><code source="Examples/Extensions/RectExtensions-Examples.cs" region="Intersect"/></example>
+        </member>
+        <member name="M:KSPDev.Extensions.RectExtensions.Intersect(UnityEngine.Rect,UnityEngine.Rect)">
+            <summary>Returns the intersection of the specified rectangles.</summary>
+            <param name="rect1">The first rectangle to compare.</param>
+            <param name="rect2">The second rectangle to compare.</param>
+            <returns>The intersection rectangle.</returns>
+            <example><code source="Examples/Extensions/RectExtensions-Examples.cs" region="Intersect"/></example>
         </member>
         <member name="T:KSPDev.FSUtils.KspPaths">
             <summary>A helper class to deal with plugins file structure.</summary>
@@ -1451,6 +1462,33 @@
             <summary>Returns a string formatted as a human friendly force specification.</summary>
             <returns>A string representing the value.</returns>
             <seealso cref="M:KSPDev.GUIUtils.ForceType.Format(System.Double,System.String)"/>
+        </member>
+        <member name="T:KSPDev.GUIUtils.GuiWindow">
+            <summary>A utility class to deal with the GUI windows.</summary>
+            <example><code source="Examples/GUIUtils/GuiWindow-Examples.cs" region="GuiWindowDemo1"/></example>
+        </member>
+        <member name="M:KSPDev.GUIUtils.GuiWindow.DragWindow(UnityEngine.Rect@,UnityEngine.Rect)">
+            <summary>
+            Makes the window movable. It's an improved version of the stock <c>GUI.DragWindow()</c>
+            method.
+            </summary>
+            <remarks>
+            The stock method cancels dragging when the window layout is changed. It makes it useless when
+            dealing with windows that can change their layout depending on the position. This method
+            doesn't have this drawback. Moreover, it can tell if the window is being dragged, so that the
+            code could postpone the layout update until the dragging is over. 
+            </remarks>
+            <param name="windowRect">
+            The window rectangle. It must be the same instance which is passed to the
+            <c>GUILayout.Window</c> method.
+            </param>
+            <param name="dragArea">
+            The rectangle in the local windows's space that defines the dragging area. In case of it's
+            out of bounds of the window rectangle, it will be clipped.
+            </param>
+            <returns><c>true</c> if the window is being dragged.</returns>
+            <example><code source="Examples/GUIUtils/GuiWindow-Examples.cs" region="GuiWindowDemo1"/></example>
+            <seealso href="https://docs.unity3d.com/ScriptReference/GUI.DragWindow.html">Untiy3D: GUI.DragWindow</seealso>
         </member>
         <member name="T:KSPDev.GUIUtils.IHasContextMenu">
             <summary>Generic interface for the modules that implement a UI context menu.</summary>
@@ -3228,7 +3266,7 @@
             <summary>Loads all the localizable strings in a vessel.</summary>
             <param name="vessel">The vessel to load strings in.</param>
         </member>
-        <member name="M:KSPDev.GUIUtils.LibraryLoader.UpdateLocalizations">
+        <member name="M:KSPDev.GUIUtils.LibraryLoader.UpdateLocalizationVersion">
             <summary>Invalidates all the localization caches and updates the current vessels.</summary>
             <remarks>It updates all the currently loaded vessels.</remarks>
         </member>
