@@ -7,7 +7,7 @@ using KSPDev.Extensions;
 
 namespace Examples {
 
-public static class SetDefaultExample {
+public static class DictExtensions {
   #region ClassicAddToDict
   public static void ClassicAddToDict(Dictionary<int, HashSet<string>> dict) {
     if (!dict.ContainsKey(123)) {
@@ -20,7 +20,7 @@ public static class SetDefaultExample {
 
   #region SetDefaultAddToDict
   public static void SetDefaultAddToDict(Dictionary<int, HashSet<string>> dict) {
-    // If key 123 doesn't exist it will be created automtically.
+    // If key 123 doesn't exist it will be created automatically.
     dict.SetDefault(123).Add("abc");
   }
   #endregion

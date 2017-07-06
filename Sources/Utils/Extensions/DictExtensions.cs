@@ -8,9 +8,8 @@ using System.Collections.Generic;
 namespace KSPDev.Extensions {
 
 /// <summary>Helper extensions for the generic dictionary container.</summary>
-/// <example><code source="Examples/Extensions/Dictionary-Examples.cs" region="SetDefaultAddToDict"/></example>
-//TODO: Add an example why it's so good.
-public static class Dictionaries {
+/// <example><code source="Examples/Extensions/DictExtensions-Examples.cs" region="SetDefaultAddToDict"/></example>
+public static class DictExtensions {
   /// <summary>
   /// Returns a value from the dictionary by a key. If the key is not present yet, then a new
   /// default entry is created and returned.
@@ -23,9 +22,9 @@ public static class Dictionaries {
   /// <example>
   /// If there is a dictionary which values are collections or a class, then a special code is
   /// always needed to properly access this dictionary:
-  /// <code source="Examples/Extensions/Dictionary-Examples.cs" region="ClassicAddToDict"/>
+  /// <code source="Examples/Extensions/DictExtensions-Examples.cs" region="ClassicAddToDict"/>
   /// With this extension the key can safely be accessed with just one call:   
-  /// <code source="Examples/Extensions/Dictionary-Examples.cs" region="SetDefaultAddToDict"/>
+  /// <code source="Examples/Extensions/DictExtensions-Examples.cs" region="SetDefaultAddToDict"/>
   /// </example>
   public static V SetDefault<K, V>(this Dictionary<K, V> dict, K key) where V : new() {
     V value;
