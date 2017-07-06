@@ -87,6 +87,7 @@
     <Compile Include="ConfigUtils\PersistentFieldAttribute.cs" />
     <Compile Include="ConfigUtils\KspTypesProto.cs" />
     <Compile Include="Extensions\DictExtensions.cs" />
+    <Compile Include="Extensions\RectExtensions.cs" />
     <Compile Include="FSUtils\KspPaths.cs" />
     <Compile Include="GUIUtils\AngleType.cs" />
     <Compile Include="GUIUtils\DistanceType.cs" />
