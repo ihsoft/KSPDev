@@ -316,8 +316,11 @@ sealed class ConsoleUI : MonoBehaviour {
   /// <param name="args">Arguments for the formatting string.</param>
   /// <returns></returns>
   bool MakeFormattedToggle(bool value, Color color, string fmt, params object[] args) {
+    var oldColor = GUI.contentColor;
     GUI.contentColor = color;
-    return GUILayout.Toggle(value, string.Format(fmt, args), GUILayout.ExpandWidth(false));
+    var res = GUILayout.Toggle(value, string.Format(fmt, args), GUILayout.ExpandWidth(false));
+    GUI.contentColor = oldColor;
+    return res;
   }
 
   /// <summary>Populates <see cref="logsToShow"/> and stats numbers.</summary>
