@@ -39,6 +39,9 @@ sealed class ConsoleUI : MonoBehaviour {
 
   [PersistentField("logMode", group = SessionGroup)]
   static ShowMode logShowMode = ShowMode.Smart;
+
+  [PersistentField("quickFilter", group = SessionGroup)]
+  static string quickFilterStr = "";
   #endregion  
 
   #region Mod's settings
@@ -208,7 +211,23 @@ sealed class ConsoleUI : MonoBehaviour {
                     + " the current logs", logRecordStyle);
     }
 
-    foreach (var log in logsToShow.Where(LogLevelFilter)) {
+    // Report a quick filter state.
+    if (quickFilterInputEnabled) {
+      ShowStatusText("Logs update is PAUSED due to the quick filter editing is active."
+                      + " Hit ENTER to accept the filter, or ESC to discard.");
+    }
+
+    // Show the records. Report if there is none.
+    var capturedRecords = logsToShow.Where(LogLevelFilter);
+    var showRecords = capturedRecords.Where(LogQuickFilter);
+    if (!quickFilterInputEnabled && !showRecords.Any()) {
+      var msg = "No records available for the selected levels";
+      if (capturedRecords.Any()) {
+        msg += " and quick filter \"" + quickFilterStr + "\"";
+      }
+      ShowStatusText(msg);
+    }
+    foreach (var log in showRecords) {
       var recordMsg = log.MakeTitle()
           + (selectedLogRecordId == log.srcLog.id ? ":\n" + log.srcLog.stackTrace : "");
       GUI.contentColor = GetLogTypeColor(log.srcLog.type);
@@ -273,10 +292,41 @@ sealed class ConsoleUI : MonoBehaviour {
         windowRect = new Rect(Margin, Screen.height - Margin - clientHeight,
                               Screen.width - Margin * 2, clientHeight);
       }
-  
+
+      // Quick filter.
+      // Due to Unity GUI behavior, any change to the layout resets the text field focus. We do some
+      // tricks here to set initial focus to the field but not locking it permanently.
+      GUILayout.Label("Quick filter:", GUILayout.ExpandWidth(false));
+      if (quickFilterInputEnabled) {
+        GUI.SetNextControlName("quickFilter");
+        quickFilterStr = GUILayout.TextField(quickFilterStr, GUILayout.Width(quickFilterFieldWidth));
+        if (Event.current.type == EventType.KeyUp) {
+          if (Event.current.keyCode == KeyCode.Return) {
+            guiActions.Add(GuiActionAcceptQuickFilter);
+          } else if (Event.current.keyCode == KeyCode.Escape) {
+            guiActions.Add(GuiActionCancelQuickFilter);
+          }
+        } else if (Event.current.type == EventType.Layout
+                   && GUI.GetNameOfFocusedControl() != "quickFilter") {
+          if (oldQuickFilterInputEnabled != quickFilterInputEnabled
+              && !oldQuickFilterInputEnabled) {
+            GUI.FocusControl("quickFilter");  // Initial set of the focus.
+          } else {
+            guiActions.Add(GuiActionCancelQuickFilter);  // The field has lost the focus.
+          }
+        }  
+      } else {
+        var title = quickFilterStr == "" ? "<i>NONE</i>" : quickFilterStr;
+        if (GUILayout.Button(title, GUILayout.Width(quickFilterFieldWidth))) {
+          guiActions.Add(GuiActionStartQuickFilter);
+        }
+      }
+      oldQuickFilterInputEnabled = quickFilterInputEnabled;
+      
       // Clear logs in the current aggregator.
       if (GUILayout.Button(new GUIContent("Clear"))) {
         guiActions.Add(GuiActionClearLogs);
+        guiActions.Add(GuiActionCancelQuickFilter);
       }
       
       // Log mode selection. 
@@ -286,12 +336,16 @@ sealed class ConsoleUI : MonoBehaviour {
       logsViewChanged |= GUI.changed;
       if (GUI.changed) {
         guiActions.Add(() => GuiActionSetMode((ShowMode) showMode));
+        guiActions.Add(GuiActionCancelQuickFilter);
       }
   
       GUI.changed = false;
       logUpdateIsPaused = GUILayout.Toggle(logUpdateIsPaused, "PAUSED", GUILayout.ExpandWidth(false));
       if (GUI.changed) {
         guiActions.Add(() => GuiActionSetPaused(logUpdateIsPaused));
+        if (!logUpdateIsPaused) {
+          guiActions.Add(GuiActionCancelQuickFilter);
+        }
       }
       
       // Draw logs filter by level and refresh logs when filter changes.
@@ -302,6 +356,9 @@ sealed class ConsoleUI : MonoBehaviour {
       showException =
           MakeFormattedToggle(showException, exceptionLogColor, "EXCEPTION ({0})", exceptionLogs);
       logsViewChanged |= GUI.changed;
+      if (GUI.changed) {
+        guiActions.Add(GuiActionCancelQuickFilter);
+      }
     }
   }
 
@@ -328,6 +385,15 @@ sealed class ConsoleUI : MonoBehaviour {
     return Color.gray;
   }
 
+  /// <summary>Verifies if the log record matches the quick filter criteria.</summary>
+  /// <remarks>The quick filter string is a case-insensitive prefix of the log's source.</remarks>
+  /// <param name="log">The log record to verify.</param>
+  /// <returns><c>true</c> if this log passes the quick filter check.</returns>
+  bool LogQuickFilter(LogRecord log) {
+    var filter = quickFilterInputEnabled ? oldQuickFilterStr : quickFilterStr;
+    return log.srcLog.source.StartsWith(filter, StringComparison.OrdinalIgnoreCase);
+  }
+
   /// <summary>Makes a standard toggle GUI element.</summary>
   /// <param name="value">A toggle initial state.</param>
   /// <param name="color">A toggle color foreground.</param>
@@ -340,6 +406,14 @@ sealed class ConsoleUI : MonoBehaviour {
     var res = GUILayout.Toggle(value, string.Format(fmt, args), GUILayout.ExpandWidth(false));
     GUI.contentColor = oldColor;
     return res;
+  }
+
+  /// <summary>Shows a simple string in the scrolling area.</summary>
+  /// <param name="text">The text to present.</param>
+  void ShowStatusText(string text) {
+    GUI.contentColor = Color.gray;
+    GUILayout.Label("<i>" + text + "</i>");
+    GUI.contentColor = Color.white;
   }
 
   /// <summary>Populates <see cref="logsToShow"/> and stats numbers.</summary>
@@ -386,6 +460,27 @@ sealed class ConsoleUI : MonoBehaviour {
     }
     logUpdateIsPaused = isPaused;
     logsViewChanged = true;
+  }
+
+  void GuiActionCancelQuickFilter() {
+    if (quickFilterInputEnabled) {
+      quickFilterInputEnabled = false;
+      quickFilterStr = oldQuickFilterStr;
+      oldQuickFilterStr = null;
+      GuiActionSetPaused(false);
+    }
+  }
+
+  void GuiActionAcceptQuickFilter() {
+    quickFilterInputEnabled = false;
+    oldQuickFilterStr = null;
+    GuiActionSetPaused(false);
+  }
+
+  void GuiActionStartQuickFilter() {
+    quickFilterInputEnabled = true;
+    oldQuickFilterStr = quickFilterStr;
+    GuiActionSetPaused(true);
   }
 
   void GuiActionClearLogs() {
