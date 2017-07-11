@@ -165,17 +165,13 @@ sealed class ConsoleUI : MonoBehaviour {
   void OnDestroy() {
     ConfigAccessor.WriteFieldsFromType(typeof(ConsoleUI), this, group: SessionGroup);
   }
-
-  /// <summary>Only used to capture console toggle key.</summary>
-  void Update() {
-    if (Input.GetKeyDown(toggleKey)) {
-      isConsoleVisible = !isConsoleVisible;
-    }
-  }
   #endregion
 
   /// <summary>Actually renders the console window.</summary>
   void OnGUI() {
+    if (Event.current.type == EventType.KeyDown && Event.current.keyCode == toggleKey) {
+      isConsoleVisible = !isConsoleVisible;
+    }
     if (isConsoleVisible) {
       windowRect = GUILayout.Window(
           WindowId, windowRect, MakeConsoleWindow, "KSPDev Logs Console");
