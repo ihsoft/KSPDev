@@ -285,7 +285,7 @@ sealed class ConsoleUI : MonoBehaviour {
           (int) logShowMode, logShowingModes, logShowingModes.Length, GUILayout.ExpandWidth(false));
       logsViewChanged |= GUI.changed;
       if (GUI.changed) {
-        guiActions.Add(() => GuiActionSetMode(mode: (ShowMode) showMode));
+        guiActions.Add(() => GuiActionSetMode((ShowMode) showMode));
       }
   
       GUI.changed = false;
