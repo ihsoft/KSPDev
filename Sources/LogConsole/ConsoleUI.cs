@@ -173,8 +173,11 @@ sealed class ConsoleUI : MonoBehaviour {
       isConsoleVisible = !isConsoleVisible;
     }
     if (isConsoleVisible) {
-      windowRect = GUILayout.Window(
-          WindowId, windowRect, MakeConsoleWindow, "KSPDev Logs Console");
+      var title = "KSPDev Logs Console";
+      if (logUpdateIsPaused) {
+        title += " <i>(PAUSED)</i>";
+      }
+      windowRect = GUILayout.Window(WindowId, windowRect, MakeConsoleWindow, title);
     }
   }
 
