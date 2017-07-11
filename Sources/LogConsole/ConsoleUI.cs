@@ -91,23 +91,24 @@ sealed class ConsoleUI : MonoBehaviour {
     Smart = 2
   }
   
-  /// <summary>Log scrool box position.</summary>
+  /// <summary>Log scroll box position.</summary>
   static Vector2 scrollPosition;
 
-  /// <summary>Specifies if debug console is visible.</summary>
-  static bool isConsoleVisible = false;
+  /// <summary>Specifies if the debug console is visible.</summary>
+  static bool isConsoleVisible;
 
   /// <summary>ID of the curently selected log record.</summary>
   /// <remarks>It shows expanded.</remarks>
   static int selectedLogRecordId = -1;
 
-  /// <summary>Indicates that visible log records should be queried from
+  /// <summary>Indicates that the visible log records should be queried from a
   /// <see cref="snapshotLogAggregator"/>.</summary>
-  static bool logUpdateIsPaused = false;
-  
-  /// <summary>Idicates that logs from the current aggergator need to be requeryied.</summary>
-  static bool logsViewChanged = false;
-  
+  static bool logUpdateIsPaused;
+
+  /// <summary>Idicates that the logs from the current aggergator need to be re-queried.</summary>
+  static bool logsViewChanged;
+
+  #region Log aggregators
   /// <summary>A logger that keeps records on th disk.</summary>
   internal static PersistentLogAggregator diskLogAggregator = new PersistentLogAggregator();
   /// <summary>A logger to show when <see cref="ShowMode.Raw"/> is selected.</summary>
@@ -118,31 +119,49 @@ sealed class ConsoleUI : MonoBehaviour {
   internal static SmartLogAggregator smartLogAggregator = new SmartLogAggregator();
   /// <summary>A logger to show a static snapshot.</summary>
   static SnapshotLogAggregator snapshotLogAggregator = new SnapshotLogAggregator();
+  #endregion
 
-  /// <summary>A snapshot of logs for the current view.</summary>
+  /// <summary>A snapshot of the logs for the current view.</summary>
   static IEnumerable<LogRecord> logsToShow = new LogRecord[0];
   
-  /// <summary>Number of INFO records in <see cref="logsToShow"/>.</summary>
+  /// <summary>Number of the INFO records in the <see cref="logsToShow"/> collection.</summary>
   static int infoLogs = 0;
-  /// <summary>Number of WARNING records in <see cref="logsToShow"/>.</summary>
+  /// <summary>Number of the WARNING records in the <see cref="logsToShow"/> collection.</summary>
   static int warningLogs = 0;
-  /// <summary>Number of ERROR records in <see cref="logsToShow"/>.</summary>
+  /// <summary>Number of the ERROR records in the <see cref="logsToShow"/> collection.</summary>
   static int errorLogs = 0;
-  /// <summary>Number of EXCEPTION records in <see cref="logsToShow"/>.</summary>
+  /// <summary>Number of the EXCEPTION records in the <see cref="logsToShow"/> collection.</summary>
   static int exceptionLogs = 0;
 
   /// <summary>A list of actions to apply at the end of the GUI frame.</summary>
-  static readonly GUIUtils.GuiActionsList guiActions = new GUIUtils.GuiActionsList();
+  static readonly GuiActionsList guiActions = new GuiActionsList();
 
   /// <summary>Tells if the controls should be shown at the bottom of the dialog.</summary>
   bool isToolbarAtTheBottom = true;
 
-  /// <summary>Only loads session settings.</summary>
+  #region Quick filter fields
+  /// <summary>Tells if the quick filter editing is active.</summary>
+  /// <remarks>Log console update is freezed until the mode is ended.</remarks>
+  static bool quickFilterInputEnabled;
+
+  /// <summary>Tells the last known qick filter status.</summary>
+  /// <remarks>It's updated in every <c>OnGUI</c> call. Used to detect the mode change.</remarks>
+  static bool oldQuickFilterInputEnabled;
+
+  /// <summary>The old value of the quick feilter before the edit mode has started.</summary>
+  static string oldQuickFilterStr;
+
+  /// <summary>The size for the quick filter input field.</summary>
+  const int quickFilterFieldWidth = 100;
+  #endregion
+
+  #region Session persistence
+  /// <summary>Only loads the session settings.</summary>
   void Awake() {
     ConfigAccessor.ReadFieldsInType(typeof(ConsoleUI), this, group: SessionGroup);
   }
-
-  /// <summary>Only stores session settings.</summary>
+  
+  /// <summary>Only stores the session settings.</summary>
   void OnDestroy() {
     ConfigAccessor.WriteFieldsFromType(typeof(ConsoleUI), this, group: SessionGroup);
   }
@@ -153,6 +172,7 @@ sealed class ConsoleUI : MonoBehaviour {
       isConsoleVisible = !isConsoleVisible;
     }
   }
+  #endregion
 
   /// <summary>Actually renders the console window.</summary>
   void OnGUI() {
@@ -165,7 +185,7 @@ sealed class ConsoleUI : MonoBehaviour {
   /// <summary>Shows a window that displays the recorded logs.</summary>
   /// <param name="windowId">Window ID.</param>
   void MakeConsoleWindow(int windowId) {
-    // Only logs snapshot when it's safe to change GUI leayout.
+    // Only show the logs snapshot when it's safe to change the GUI layout.
     if (guiActions.ExecutePendingGuiActions()) {
       UpdateLogsView(forceUpdate: logUpdateIsPaused);
       // Check if the toolbar goes out of the screen.
@@ -272,7 +292,7 @@ sealed class ConsoleUI : MonoBehaviour {
       GUI.changed = false;
       logUpdateIsPaused = GUILayout.Toggle(logUpdateIsPaused, "PAUSED", GUILayout.ExpandWidth(false));
       if (GUI.changed) {
-        guiActions.Add(() => GuiActionSetPaused(isPaused: logUpdateIsPaused));
+        guiActions.Add(() => GuiActionSetPaused(logUpdateIsPaused));
       }
       
       // Draw logs filter by level and refresh logs when filter changes.
@@ -287,7 +307,7 @@ sealed class ConsoleUI : MonoBehaviour {
   }
 
   /// <summary>Verifies if level of the log record is needed by the UI.</summary>
-  /// <param name="log">A log record to verify.</param>
+  /// <param name="log">The log record to verify.</param>
   /// <returns><c>true</c> if this level is visible.</returns>
   static bool LogLevelFilter(LogRecord log) {
     return log.srcLog.type == LogType.Exception && showException
@@ -327,7 +347,7 @@ sealed class ConsoleUI : MonoBehaviour {
   /// <remarks>Current aggregator is determined from <see cref="logShowMode"/> and
   /// <see cref="logUpdateIsPaused"/></remarks>
   /// <param name="forceUpdate">If <c>false</c> then logs view will only be updated if there were
-  /// newly aggregated records in teh current aggregator.</param>
+  /// newly aggregated records in the current aggregator.</param>
   void UpdateLogsView(bool forceUpdate = false) {
     BaseLogAggregator currentAggregator = GetCurrentAggregator();
     if (currentAggregator.FlushBufferedLogs() || logsViewChanged || forceUpdate) {
@@ -367,7 +387,7 @@ sealed class ConsoleUI : MonoBehaviour {
   }
 
   void GuiActionClearLogs() {
-    GuiActionSetPaused(isPaused: false);
+    GuiActionSetPaused(false);
     GetCurrentAggregator().ClearAllLogs();
     logsViewChanged = true;
   }
@@ -393,13 +413,13 @@ sealed class ConsoleUI : MonoBehaviour {
   
   void GuiActionSetMode(ShowMode mode) {
     logShowMode = mode;
-    GuiActionSetPaused(isPaused: false);  // New mode invalidates snapshot.
+    GuiActionSetPaused(false);  // New mode invalidates the snapshot.
     logsViewChanged = true;
   }
   #endregion
 }
 
-/// <summary>Only used to start logs aggregation and load configs.</summary>
+/// <summary>Only used to start logs aggregation and load the configs.</summary>
 [KSPAddon(KSPAddon.Startup.Instantly, true /*once*/)]
 sealed class AggregationStarter : MonoBehaviour {
   void Awake() {
