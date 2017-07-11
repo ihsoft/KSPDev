@@ -378,6 +378,9 @@ sealed class ConsoleUI : MonoBehaviour {
 
   #region GUI action handlers
   void GuiActionSetPaused(bool isPaused) {
+    if (isPaused == logUpdateIsPaused) {
+      return;  // Prevent refreshing of the snapshot if the mode hasn't changed.
+    }
     if (isPaused) {
       snapshotLogAggregator.LoadLogs(GetCurrentAggregator(ignorePaused: true));
     }
