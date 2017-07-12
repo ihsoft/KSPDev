@@ -47,6 +47,10 @@ public class LocalizableMessage {
   public readonly string example;
 
   /// <summary>Tag to use when resolving the string via the Localizer.</summary>
+  /// <remarks>
+  /// It can be <c>null</c> to indicate that the localization is not needed. In this case the
+  /// <see cref="defaultTemplate"/> will be used as text.
+  /// </remarks>
   /// <include file="KSPAPI_HelpIndex.xml" path="//item[@name='T:KSP.Localization.Localizer']"/>
   public readonly string tag;
 
@@ -94,9 +98,9 @@ public class LocalizableMessage {
   /// <summary>Instructs the implementation to load a localized template.</summary>
   /// <remarks>If there is a value cached, it will be reloaded.</remarks>
   public virtual void LoadLocalization() {
-    if (!Localizer.TryGetStringByTag(tag, out _localizedTemplate)) {
+    if (tag == null || !Localizer.TryGetStringByTag(tag, out _localizedTemplate)) {
       _localizedTemplate = defaultTemplate;
-      if (GameSettings.LOG_MISSING_KEYS_TO_FILE) {
+      if (tag != null && GameSettings.LOG_MISSING_KEYS_TO_FILE) {
         Debug.LogWarningFormat("Cannot find localized content for: tag={0}, lang={1}",
                                tag, Localizer.CurrentLanguage);
       }
@@ -105,7 +109,10 @@ public class LocalizableMessage {
   }
 
   /// <summary>Constructs a localizable message.</summary>
-  /// <param name="tag">The tag to use when getting the localized version of the template.</param>
+  /// <param name="tag">
+  /// The tag to use when getting the localized version of the template. If <c>null</c> then the
+  /// message will alaways use <paramref name="defaultTemplate"/> as text.
+  /// </param>
   /// <param name="defaultTemplate">
   /// <para>
   /// The template to use if no localizable content can be found. It can be in any language, but
@@ -130,11 +137,8 @@ public class LocalizableMessage {
   protected LocalizableMessage(string tag,
                                string defaultTemplate = null,
                                string description = null, string example = null) {
-    if (tag == null) {
-      throw new ArgumentException("The tag cannot be NULL");
-    }
     this.tag = tag;
-    this.defaultTemplate = defaultTemplate ?? tag;
+    this.defaultTemplate = defaultTemplate ?? tag ?? "";
     this.description = description ?? "";
     this.example = example ?? "";
   }
