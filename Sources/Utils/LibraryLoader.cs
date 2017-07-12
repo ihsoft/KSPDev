@@ -47,6 +47,17 @@ class LibraryLoader : MonoBehaviour {
     GameEvents.onVesselLoaded.Add(LocalizeVessel);
     GameEvents.onLanguageSwitched.Add(UpdateLocalizationVersion);
     //FIXME: Handle editor parts actions.
+    GameEvents.onEditorPartEvent.Add(OnEditorPartEvent);
+  }
+
+  /// <summary>Reacts on an editor part event and localizaes the part when needed.</summary>
+  /// <param name="eventType">The type of the event.</param>
+  /// <param name="part">The part being acted on.</param>
+  void OnEditorPartEvent(ConstructionEventType eventType, Part part) {
+    if (eventType == ConstructionEventType.PartCreated
+        || eventType == ConstructionEventType.PartCopied) {
+      UpdatePartModulesLocalization(part);
+    }
   }
 
   /// <summary>Loads all the localizable strings in a vessel.</summary>
