@@ -174,6 +174,7 @@ sealed class ConsoleUI : MonoBehaviour {
   void OnGUI() {
     if (Event.current.type == EventType.KeyDown && Event.current.keyCode == toggleKey) {
       isConsoleVisible = !isConsoleVisible;
+      Event.current.Use();
     }
     if (isConsoleVisible) {
       var title = "KSPDev Logs Console";
