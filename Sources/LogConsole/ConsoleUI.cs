@@ -230,15 +230,18 @@ sealed class ConsoleUI : MonoBehaviour {
 
     // Report if log interceptor is not handling logs.
     if (!LogInterceptor.isStarted) {
-      GUI.contentColor = GetLogTypeColor(LogType.Error);
-      GUILayout.Box("KSPDev is not handling system logs. Open standard in-game debug console to see"
-                    + " the current logs", logRecordStyle);
+      using (new GuiColor(contentColor: errorLogColor)) {
+        GUILayout.Box("KSPDev is not handling system logs. Open standard in-game debug console to see"
+                      + " the current logs", logRecordStyle);
+      }
     }
 
     // Report a quick filter state.
     if (quickFilterInputEnabled) {
-      ShowStatusText("Logs update is PAUSED due to the quick filter editing is active."
-                      + " Hit ENTER to accept the filter, or ESC to discard.");
+      using (new GuiColor(contentColor: Color.gray)) {
+        GUILayout.Label("<i>Logs update is PAUSED due to the quick filter editing is active."
+                        + " Hit ENTER to accept the filter, or ESC to discard.</i>");
+      }
     }
 
     // Show the records. Report if there is none.
@@ -249,27 +252,28 @@ sealed class ConsoleUI : MonoBehaviour {
       if (capturedRecords.Any()) {
         msg += " and quick filter \"" + quickFilterStr + "\"";
       }
-      ShowStatusText(msg);
+      using (new GuiColor(contentColor: Color.gray)) {
+        GUILayout.Label(msg);
+      }
     }
     foreach (var log in showRecords) {
-      var recordMsg = log.MakeTitle()
-          + (selectedLogRecordId == log.srcLog.id ? ":\n" + log.srcLog.stackTrace : "");
-      GUI.contentColor = GetLogTypeColor(log.srcLog.type);
-      GUILayout.Box(recordMsg, logRecordStyle);
-
-      // Check if log record is selected.
-      if (Event.current.type == EventType.MouseDown) {
-        Rect logBoxRect = GUILayoutUtility.GetLastRect();
-        if (GUILayoutUtility.GetLastRect().Contains(Event.current.mousePosition)) {
-          // Toggle selection.
-          var newSelectedId = selectedLogRecordId == log.srcLog.id ? -1 : log.srcLog.id;
-          guiActions.Add(() => GuiActionSelectLog(newSelectedId));
+      using (new GuiColor(contentColor: GetLogTypeColor(log.srcLog.type))) {
+        var recordMsg = log.MakeTitle()
+            + (selectedLogRecordId == log.srcLog.id ? ":\n" + log.srcLog.stackTrace : "");
+        GUILayout.Box(recordMsg, logRecordStyle);
+        // Check if log record is selected.
+        if (Event.current.type == EventType.MouseDown) {
+          Rect logBoxRect = GUILayoutUtility.GetLastRect();
+          if (GUILayoutUtility.GetLastRect().Contains(Event.current.mousePosition)) {
+            // Toggle selection.
+            var newSelectedId = selectedLogRecordId == log.srcLog.id ? -1 : log.srcLog.id;
+            guiActions.Add(() => GuiActionSelectLog(newSelectedId));
+          }
         }
       }
-      
+
       // Add source and filter controls when expanded.
       if (selectedLogRecordId == log.srcLog.id && log.srcLog.source.Any()) {
-        GUI.contentColor = Color.white;
         GUILayout.BeginHorizontal();
         GUILayout.Label("Silence: source", MinSizeLayout);
         if (GUILayout.Button(log.srcLog.source, MinSizeLayout)) {
@@ -300,7 +304,6 @@ sealed class ConsoleUI : MonoBehaviour {
 
   /// <summary>Creates controls for the console.</summary>
   void CreateGUIToolbar() {
-    GUI.contentColor = Color.white;
     using (new GUILayout.HorizontalScope()) {
       // Window size/snap.
       if (GUILayout.Button("\u21d5", MinSizeLayout)) {
@@ -362,19 +365,29 @@ sealed class ConsoleUI : MonoBehaviour {
           guiActions.Add(() => GuiActionSetMode((ShowMode) showMode));
         }
 
+        // Paused state selection.
         GUI.changed = false;
         var isPaused = GUILayout.Toggle(logUpdateIsPaused, "PAUSED", MinSizeLayout);
         if (GUI.changed) {
           guiActions.Add(() => GuiActionSetPaused(isPaused));
         }
-
+        
         // Draw logs filter by level and refresh logs when filter changes.
         GUI.changed = false;
-        showInfo = MakeFormattedToggle(showInfo, infoLogColor, "INFO ({0})", infoLogs);
-        showWarning = MakeFormattedToggle(showWarning, warningLogColor, "WARNING ({0})", warningLogs);
-        showError = MakeFormattedToggle(showError, errorLogColor, "ERROR ({0})", errorLogs);
-        showException =
-            MakeFormattedToggle(showException, exceptionLogColor, "EXCEPTION ({0})", exceptionLogs);
+        using (new GuiColor()) {
+          GUI.contentColor = infoLogColor;
+          showInfo = GUILayout.Toggle(
+              showInfo, string.Format("INFO ({0})", infoLogs), MinSizeLayout);
+          GUI.contentColor = warningLogColor;
+          showWarning = GUILayout.Toggle(
+              showWarning, string.Format("WARNING ({0})", warningLogs), MinSizeLayout);
+          GUI.contentColor = errorLogColor;
+          showError = GUILayout.Toggle(
+              showError, string.Format("ERROR ({0})", errorLogs), MinSizeLayout);
+          GUI.contentColor = exceptionLogColor;
+          showException = GUILayout.Toggle(
+              showException, string.Format("EXCEPTION ({0})", exceptionLogs), MinSizeLayout);
+        }
         logsViewChanged |= GUI.changed;
       }
     }
@@ -410,28 +423,6 @@ sealed class ConsoleUI : MonoBehaviour {
   bool LogQuickFilter(LogRecord log) {
     var filter = quickFilterInputEnabled ? oldQuickFilterStr : quickFilterStr;
     return log.srcLog.source.StartsWith(filter, StringComparison.OrdinalIgnoreCase);
-  }
-
-  /// <summary>Makes a standard toggle GUI element.</summary>
-  /// <param name="value">A toggle initial state.</param>
-  /// <param name="color">A toggle color foreground.</param>
-  /// <param name="fmt">A formatting string for the toggle caption</param>
-  /// <param name="args">Arguments for the formatting string.</param>
-  /// <returns><c>true</c> the new state.</returns>
-  bool MakeFormattedToggle(bool value, Color color, string fmt, params object[] args) {
-    var oldColor = GUI.contentColor;
-    GUI.contentColor = color;
-    var res = GUILayout.Toggle(value, string.Format(fmt, args), MinSizeLayout);
-    GUI.contentColor = oldColor;
-    return res;
-  }
-
-  /// <summary>Shows a simple string in the scrolling area.</summary>
-  /// <param name="text">The text to present.</param>
-  void ShowStatusText(string text) {
-    GUI.contentColor = Color.gray;
-    GUILayout.Label("<i>" + text + "</i>");
-    GUI.contentColor = Color.white;
   }
 
   /// <summary>Populates <see cref="logsToShow"/> and the stats numbers.</summary>
