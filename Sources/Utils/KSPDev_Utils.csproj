@@ -93,6 +93,7 @@
     <Compile Include="GUIUtils\DistanceType.cs" />
     <Compile Include="GUIUtils\EnumType.cs" />
     <Compile Include="GUIUtils\ForceType.cs" />
+    <Compile Include="GUIUtils\GuiEnabledState.cs" />
     <Compile Include="GUIUtils\GuiWindow.cs" />
     <Compile Include="GUIUtils\IHasContextMenu.cs" />
     <Compile Include="GUIUtils\LocalizableItemAttribute.cs" />
