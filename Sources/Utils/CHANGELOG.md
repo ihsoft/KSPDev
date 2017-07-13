@@ -4,6 +4,7 @@
 * [Enhancement] Add a new utility class to deal with the GUI windows. See [`GUIUtils.GuiWindow`](http://ihsoft.github.io/KSPDev/Utils/html/T_KSPDev_GUIUtils_GuiWindow.htm).
 * [Enhancement] Allow defining a message which won't try to localize. See [`GUIUtils.LocalizableMessage`](http://ihsoft.github.io/KSPDev/Utils/html/T_KSPDev_GUIUtils_LocalizableMessage.htm).
 * [Enhancement] Add a new utility class to deal with the GUI elements enabled state. See [`GUIUtils.GuiEnabledState`](http://ihsoft.github.io/KSPDev/Utils/html/T_KSPDev_GUIUtils_GuiEnabledState.htm).
+* [Enhancement] Add a new utility class to deal with the GUI elements colors. See [`GUIUtils.GuiColor`](http://ihsoft.github.io/KSPDev/Utils/html/T_KSPDev_GUIUtils_GuiColor.htm).
 
 # 0.24 (June 22nd, 2017):
 * [Change] Allow any state transition in `SimpleStateMachine` when the strict mode is OFF: [`ProcessingUtils.SimpleStateMachine`](http://ihsoft.github.io/KSPDev/Utils/html/T_KSPDev_ProcessingUtils_SimpleStateMachine_1.htm).
