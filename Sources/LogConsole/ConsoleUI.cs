@@ -339,10 +339,10 @@ sealed class ConsoleUI : MonoBehaviour {
       }
   
       GUI.changed = false;
-      logUpdateIsPaused = GUILayout.Toggle(logUpdateIsPaused, "PAUSED", MinSizeLayout);
+      var isPaused = GUILayout.Toggle(logUpdateIsPaused, "PAUSED", MinSizeLayout);
       if (GUI.changed) {
-        guiActions.Add(() => GuiActionSetPaused(logUpdateIsPaused));
-        if (!logUpdateIsPaused) {
+        guiActions.Add(() => GuiActionSetPaused(isPaused));
+        if (!isPaused) {
           guiActions.Add(GuiActionCancelQuickFilter);
         }
       }
