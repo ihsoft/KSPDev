@@ -444,7 +444,8 @@ sealed class ConsoleUI : MonoBehaviour {
   /// <see cref="logUpdateIsPaused"/> state.
   /// </remarks>
   void UpdateLogsView() {
-    BaseLogAggregator currentAggregator = GetCurrentAggregator();
+    var currentAggregator =
+        logUpdateIsPaused ? snapshotLogAggregator : GetCurrentAggregator();
     if (currentAggregator.FlushBufferedLogs() || logsViewChanged) {
       logsToShow = currentAggregator.GetLogRecords();
       infoLogs = currentAggregator.infoLogsCount;
@@ -456,20 +457,15 @@ sealed class ConsoleUI : MonoBehaviour {
   }
   
   /// <summary>Returns an aggregator for the currently selected mode.</summary>
-  /// <param name="ignorePaused">
-  /// If <c>true</c> then the snapshot aggregator is not considered.
-  /// </param>
   /// <returns>An aggregator.</returns>
-  BaseLogAggregator GetCurrentAggregator(bool ignorePaused = false) {
-    BaseLogAggregator currentAggregator = snapshotLogAggregator;
-    if (ignorePaused || !logUpdateIsPaused) {
-      if (logShowMode == ShowMode.Raw) {
-        currentAggregator = rawLogAggregator;
-      } else if (logShowMode == ShowMode.Collapsed) {
-        currentAggregator = collapseLogAggregator;
-      } else {
-        currentAggregator = smartLogAggregator;
-      }
+  BaseLogAggregator GetCurrentAggregator() {
+    BaseLogAggregator currentAggregator;
+    if (logShowMode == ShowMode.Raw) {
+      currentAggregator = rawLogAggregator;
+    } else if (logShowMode == ShowMode.Collapsed) {
+      currentAggregator = collapseLogAggregator;
+    } else {
+      currentAggregator = smartLogAggregator;
     }
     return currentAggregator;
   }
@@ -480,7 +476,7 @@ sealed class ConsoleUI : MonoBehaviour {
       return;  // Prevent refreshing of the snapshot if the mode hasn't changed.
     }
     if (isPaused) {
-      snapshotLogAggregator.LoadLogs(GetCurrentAggregator(ignorePaused: true));
+      snapshotLogAggregator.LoadLogs(GetCurrentAggregator());
     }
     logUpdateIsPaused = isPaused;
     logsViewChanged = true;
