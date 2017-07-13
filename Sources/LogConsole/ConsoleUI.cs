@@ -12,7 +12,7 @@ using UnityEngine;
 namespace KSPDev.LogConsole {
 
 /// <summary>A console to display Unity's debug logs in-game.</summary>
-[KSPAddon(KSPAddon.Startup.EveryScene, false /*once*/)]
+[KSPAddon(KSPAddon.Startup.Instantly, true /*once*/)]
 [PersistentFieldsFileAttribute("KSPDev/LogConsole/Plugins/PluginData/settings.cfg", "UI")]
 [PersistentFieldsFileAttribute("KSPDev/LogConsole/Plugins/PluginData/session.cfg", "UI",
                                ConsoleUI.SessionGroup)]
@@ -160,6 +160,29 @@ sealed class ConsoleUI : MonoBehaviour {
   #region Session persistence
   /// <summary>Only loads the session settings.</summary>
   void Awake() {
+    UnityEngine.Object.DontDestroyOnLoad(gameObject);
+
+    // Read the configs for all the aggregators.
+    ConfigAccessor.ReadFieldsInType(typeof(LogInterceptor), null /* instance */);
+    ConfigAccessor.ReadFieldsInType(typeof(LogFilter), null /* instance */);
+    ConfigAccessor.ReadFieldsInType(
+        ConsoleUI.diskLogAggregator.GetType(), ConsoleUI.diskLogAggregator);
+    ConfigAccessor.ReadFieldsInType(
+        ConsoleUI.rawLogAggregator.GetType(), ConsoleUI.rawLogAggregator);
+    ConfigAccessor.ReadFieldsInType(
+        ConsoleUI.collapseLogAggregator.GetType(), ConsoleUI.collapseLogAggregator);
+    ConfigAccessor.ReadFieldsInType(
+        ConsoleUI.smartLogAggregator.GetType(), ConsoleUI.smartLogAggregator);
+
+    // Start all aggregators.
+    ConsoleUI.rawLogAggregator.StartCapture();
+    ConsoleUI.collapseLogAggregator.StartCapture();
+    ConsoleUI.smartLogAggregator.StartCapture();
+    ConsoleUI.diskLogAggregator.StartCapture();
+    LogInterceptor.StartIntercepting();
+
+    // Load UI configs.
+    ConfigAccessor.ReadFieldsInType(typeof(ConsoleUI), null /* instance */);
     ConfigAccessor.ReadFieldsInType(typeof(ConsoleUI), this, group: SessionGroup);
   }
   
@@ -515,32 +538,6 @@ sealed class ConsoleUI : MonoBehaviour {
     logsViewChanged = true;
   }
   #endregion
-}
-
-/// <summary>Only used to start logs aggregation and load the configs.</summary>
-[KSPAddon(KSPAddon.Startup.Instantly, true /*once*/)]
-sealed class AggregationStarter : MonoBehaviour {
-  void Awake() {
-    // Read all configs.
-    ConfigAccessor.ReadFieldsInType(typeof(ConsoleUI), null /* instance */);
-    ConfigAccessor.ReadFieldsInType(typeof(LogInterceptor), null /* instance */);
-    ConfigAccessor.ReadFieldsInType(typeof(LogFilter), null /* instance */);
-    ConfigAccessor.ReadFieldsInType(
-        ConsoleUI.diskLogAggregator.GetType(), ConsoleUI.diskLogAggregator);
-    ConfigAccessor.ReadFieldsInType(
-        ConsoleUI.rawLogAggregator.GetType(), ConsoleUI.rawLogAggregator);
-    ConfigAccessor.ReadFieldsInType(
-        ConsoleUI.collapseLogAggregator.GetType(), ConsoleUI.collapseLogAggregator);
-    ConfigAccessor.ReadFieldsInType(
-        ConsoleUI.smartLogAggregator.GetType(), ConsoleUI.smartLogAggregator);
-
-    // Start all aggregators.
-    ConsoleUI.rawLogAggregator.StartCapture();
-    ConsoleUI.collapseLogAggregator.StartCapture();
-    ConsoleUI.smartLogAggregator.StartCapture();
-    ConsoleUI.diskLogAggregator.StartCapture();
-    LogInterceptor.StartIntercepting();
-  }
 }
 
 } // namespace KSPDev
