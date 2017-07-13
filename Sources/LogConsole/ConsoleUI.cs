@@ -74,12 +74,11 @@ sealed class ConsoleUI : MonoBehaviour {
   /// <summary>A title bar location.</summary>
   static Rect titleBarRect = new Rect(0, 0, 10000, 20);
 
+  /// <summary>Style to draw a control of the minimum size.</summary>
+  static readonly GUILayoutOption MinSizeLayout = GUILayout.ExpandWidth(false);
+
   /// <summary>Mode names.</summary>
-  static readonly GUIContent[] logShowingModes = {
-      new GUIContent("Raw"),
-      new GUIContent("Collapsed"),
-      new GUIContent("Smart"),
-  };
+  static readonly string[] logShowingModes = { "Raw", "Collapsed", "Smart" };
 
   /// <summary>Display mode constants. Must match <see cref="logShowingModes"/>.</summary>
   enum ShowMode {
@@ -155,7 +154,7 @@ sealed class ConsoleUI : MonoBehaviour {
   static string oldQuickFilterStr;
 
   /// <summary>The size for the quick filter input field.</summary>
-  const int quickFilterFieldWidth = 100;
+  static readonly GUILayoutOption QuickFilterSizeLayout = GUILayout.Width(100);
   #endregion
 
   #region Session persistence
@@ -203,7 +202,6 @@ sealed class ConsoleUI : MonoBehaviour {
     var logRecordStyle = new GUIStyle(GUI.skin.box) {
         alignment = TextAnchor.MiddleLeft,
     };
-    var minSizeLayout = GUILayout.ExpandWidth(false);
 
     // Report if log interceptor is not handling logs.
     if (!LogInterceptor.isStarted) {
@@ -248,16 +246,16 @@ sealed class ConsoleUI : MonoBehaviour {
       if (selectedLogRecordId == log.srcLog.id && log.srcLog.source.Any()) {
         GUI.contentColor = Color.white;
         GUILayout.BeginHorizontal();
-        GUILayout.Label("Silence: source", minSizeLayout);
-        if (GUILayout.Button(log.srcLog.source, minSizeLayout)) {
+        GUILayout.Label("Silence: source", MinSizeLayout);
+        if (GUILayout.Button(log.srcLog.source, MinSizeLayout)) {
           guiActions.Add(() => GuiActionAddSilence(log.srcLog.source, isPrefix: false));
         }
         var sourceParts = log.srcLog.source.Split('.');
         if (sourceParts.Length > 1) {
-          GUILayout.Label("or by prefix", minSizeLayout);
+          GUILayout.Label("or by prefix", MinSizeLayout);
           for (var i = sourceParts.Length - 1; i > 0; --i) {
             var prefix = String.Join(".", sourceParts.Take(i).ToArray()) + '.';
-            if (GUILayout.Button(prefix, minSizeLayout)) {
+            if (GUILayout.Button(prefix, MinSizeLayout)) {
               guiActions.Add(() => GuiActionAddSilence(prefix, isPrefix: true));
             }
           }
@@ -280,15 +278,15 @@ sealed class ConsoleUI : MonoBehaviour {
     GUI.contentColor = Color.white;
     using (new GUILayout.HorizontalScope()) {
       // Window size/snap.
-      if (GUILayout.Button(new GUIContent("\u21d5"), GUILayout.ExpandWidth(false))) {
+      if (GUILayout.Button("\u21d5", MinSizeLayout)) {
         windowRect = new Rect(Margin, Margin,
                               Screen.width - Margin * 2, Screen.height - Margin * 2);
       }
-      if (GUILayout.Button(new GUIContent("\u21d1"), GUILayout.ExpandWidth(false))) {
+      if (GUILayout.Button("\u21d1", MinSizeLayout)) {
         windowRect = new Rect(Margin, Margin,
                               Screen.width - Margin * 2, (Screen.height - Margin * 2) / 3);
       }
-      if (GUILayout.Button(new GUIContent("\u21d3"), GUILayout.ExpandWidth(false))) {
+      if (GUILayout.Button("\u21d3", MinSizeLayout)) {
         var clientHeight = (Screen.height - 2 * Margin) / 3;
         windowRect = new Rect(Margin, Screen.height - Margin - clientHeight,
                               Screen.width - Margin * 2, clientHeight);
@@ -297,10 +295,10 @@ sealed class ConsoleUI : MonoBehaviour {
       // Quick filter.
       // Due to Unity GUI behavior, any change to the layout resets the text field focus. We do some
       // tricks here to set initial focus to the field but not locking it permanently.
-      GUILayout.Label("Quick filter:", GUILayout.ExpandWidth(false));
+      GUILayout.Label("Quick filter:", MinSizeLayout);
       if (quickFilterInputEnabled) {
         GUI.SetNextControlName("quickFilter");
-        quickFilterStr = GUILayout.TextField(quickFilterStr, GUILayout.Width(quickFilterFieldWidth));
+        quickFilterStr = GUILayout.TextField(quickFilterStr, QuickFilterSizeLayout);
         if (Event.current.type == EventType.KeyUp) {
           if (Event.current.keyCode == KeyCode.Return) {
             guiActions.Add(GuiActionAcceptQuickFilter);
@@ -318,14 +316,14 @@ sealed class ConsoleUI : MonoBehaviour {
         }  
       } else {
         var title = quickFilterStr == "" ? "<i>NONE</i>" : quickFilterStr;
-        if (GUILayout.Button(title, GUILayout.Width(quickFilterFieldWidth))) {
+        if (GUILayout.Button(title, QuickFilterSizeLayout)) {
           guiActions.Add(GuiActionStartQuickFilter);
         }
       }
       oldQuickFilterInputEnabled = quickFilterInputEnabled;
       
       // Clear logs in the current aggregator.
-      if (GUILayout.Button(new GUIContent("Clear"))) {
+      if (GUILayout.Button("Clear")) {
         guiActions.Add(GuiActionClearLogs);
         guiActions.Add(GuiActionCancelQuickFilter);
       }
@@ -333,7 +331,7 @@ sealed class ConsoleUI : MonoBehaviour {
       // Log mode selection. 
       GUI.changed = false;
       var showMode = GUILayout.SelectionGrid(
-          (int) logShowMode, logShowingModes, logShowingModes.Length, GUILayout.ExpandWidth(false));
+          (int) logShowMode, logShowingModes, logShowingModes.Length, MinSizeLayout);
       logsViewChanged |= GUI.changed;
       if (GUI.changed) {
         guiActions.Add(() => GuiActionSetMode((ShowMode) showMode));
@@ -341,14 +339,14 @@ sealed class ConsoleUI : MonoBehaviour {
       }
   
       GUI.changed = false;
-      logUpdateIsPaused = GUILayout.Toggle(logUpdateIsPaused, "PAUSED", GUILayout.ExpandWidth(false));
+      logUpdateIsPaused = GUILayout.Toggle(logUpdateIsPaused, "PAUSED", MinSizeLayout);
       if (GUI.changed) {
         guiActions.Add(() => GuiActionSetPaused(logUpdateIsPaused));
         if (!logUpdateIsPaused) {
           guiActions.Add(GuiActionCancelQuickFilter);
         }
       }
-      
+
       // Draw logs filter by level and refresh logs when filter changes.
       GUI.changed = false;
       showInfo = MakeFormattedToggle(showInfo, infoLogColor, "INFO ({0})", infoLogs);
@@ -404,7 +402,7 @@ sealed class ConsoleUI : MonoBehaviour {
   bool MakeFormattedToggle(bool value, Color color, string fmt, params object[] args) {
     var oldColor = GUI.contentColor;
     GUI.contentColor = color;
-    var res = GUILayout.Toggle(value, string.Format(fmt, args), GUILayout.ExpandWidth(false));
+    var res = GUILayout.Toggle(value, string.Format(fmt, args), MinSizeLayout);
     GUI.contentColor = oldColor;
     return res;
   }
@@ -417,11 +415,15 @@ sealed class ConsoleUI : MonoBehaviour {
     GUI.contentColor = Color.white;
   }
 
-  /// <summary>Populates <see cref="logsToShow"/> and stats numbers.</summary>
-  /// <remarks>Current aggregator is determined from <see cref="logShowMode"/> and
-  /// <see cref="logUpdateIsPaused"/></remarks>
-  /// <param name="forceUpdate">If <c>false</c> then logs view will only be updated if there were
-  /// newly aggregated records in the current aggregator.</param>
+  /// <summary>Populates <see cref="logsToShow"/> and the stats numbers.</summary>
+  /// <remarks>
+  /// The current aggregator is determined from <see cref="logShowMode"/> and
+  /// <see cref="logUpdateIsPaused"/> state.
+  /// </remarks>
+  /// <param name="forceUpdate">
+  /// If <c>false</c> then the logs view will only be updated if there were newly aggregated records
+  /// in the current aggregator.
+  /// </param>
   void UpdateLogsView(bool forceUpdate = false) {
     BaseLogAggregator currentAggregator = GetCurrentAggregator();
     if (currentAggregator.FlushBufferedLogs() || logsViewChanged || forceUpdate) {
@@ -434,8 +436,10 @@ sealed class ConsoleUI : MonoBehaviour {
     logsViewChanged = false;
   }
   
-  /// <summary>Returns an aggregator for teh currentkly selected mode.</summary>
-  /// <param name="ignorePaused">If <c>true</c> then snapshot aggregator is not considered.</param>
+  /// <summary>Returns an aggregator for the currently selected mode.</summary>
+  /// <param name="ignorePaused">
+  /// If <c>true</c> then the snapshot aggregator is not considered.
+  /// </param>
   /// <returns>An aggregator.</returns>
   BaseLogAggregator GetCurrentAggregator(bool ignorePaused = false) {
     BaseLogAggregator currentAggregator = snapshotLogAggregator;
