@@ -80,6 +80,10 @@ sealed class ConsoleUI : MonoBehaviour {
 
   /// <summary>Mode names.</summary>
   static readonly string[] logShowingModes = { "Raw", "Collapsed", "Smart" };
+
+  /// <summary>Box style ot use to present a single record.</summary>
+  /// <remarks>It's re-populated on each GUI update call. See <see cref="OnGUI"/>.</remarks>
+  GUIStyle LogRecordStyle;
   #endregion
 
   /// <summary>Display mode constants. Must match <see cref="logShowingModes"/>.</summary>
@@ -196,6 +200,11 @@ sealed class ConsoleUI : MonoBehaviour {
 
   /// <summary>Actually renders the console window.</summary>
   void OnGUI() {
+    // Init skin styles.
+    LogRecordStyle = new GUIStyle(GUI.skin.box) {
+        alignment = TextAnchor.MiddleLeft,
+    };
+
     if (Event.current.type == EventType.KeyDown && Event.current.keyCode == toggleKey) {
       isConsoleVisible = !isConsoleVisible;
       Event.current.Use();
@@ -220,33 +229,44 @@ sealed class ConsoleUI : MonoBehaviour {
     }
 
     if (!isToolbarAtTheBottom) {
-      CreateGUIToolbar();
+      GUICreateToolbar();
     }
 
-    scrollPosition = GUILayout.BeginScrollView(scrollPosition);
-    var logRecordStyle = new GUIStyle(GUI.skin.box) {
-        alignment = TextAnchor.MiddleLeft,
-    };
+    // Main scrolling view.
+    using (var logsScrollView = new GUILayout.ScrollViewScope(scrollPosition)) {
+      scrollPosition = logsScrollView.scrollPosition;
 
-    // Report if log interceptor is not handling logs.
-    if (!LogInterceptor.isStarted) {
-      using (new GuiColor(contentColor: errorLogColor)) {
-        GUILayout.Box("KSPDev is not handling system logs. Open standard in-game debug console to see"
-                      + " the current logs", logRecordStyle);
+      // Report conditions.
+      if (!LogInterceptor.isStarted) {
+        using (new GuiColor(contentColor: errorLogColor)) {
+          GUILayout.Label("KSPDev is not handling system logs. Open standard in-game debug console"
+                          + " to see the current logs");
+        }
       }
-    }
-
-    // Report a quick filter state.
-    if (quickFilterInputEnabled) {
-      using (new GuiColor(contentColor: Color.gray)) {
-        GUILayout.Label("<i>Logs update is PAUSED due to the quick filter editing is active."
-                        + " Hit ENTER to accept the filter, or ESC to discard.</i>");
+      if (quickFilterInputEnabled) {
+        using (new GuiColor(contentColor: Color.gray)) {
+          GUILayout.Label("<i>Logs update is PAUSED due to the quick filter editing is active."
+                          + " Hit ENTER to accept the filter, or ESC to discard.</i>");
+        }
       }
+
+      GUIShowLogRecords();
     }
 
-    // Show the records. Report if there is none.
+    if (isToolbarAtTheBottom) {
+      GUICreateToolbar();
+    }
+
+    // Allow the window to be dragged by its title bar.
+    GuiWindow.DragWindow(ref windowRect, titleBarRect);
+  }
+
+  /// <summary>Shows the records from the the currently selected aggregator.</summary>
+  void GUIShowLogRecords() {
     var capturedRecords = logsToShow.Where(LogLevelFilter);
     var showRecords = capturedRecords.Where(LogQuickFilter);
+
+    // Warn if there are now records to show.
     if (!quickFilterInputEnabled && !showRecords.Any()) {
       var msg = "No records available for the selected levels";
       if (capturedRecords.Any()) {
@@ -256,11 +276,14 @@ sealed class ConsoleUI : MonoBehaviour {
         GUILayout.Label(msg);
       }
     }
+
+    // Dump the records.
     foreach (var log in showRecords) {
       using (new GuiColor(contentColor: GetLogTypeColor(log.srcLog.type))) {
         var recordMsg = log.MakeTitle()
             + (selectedLogRecordId == log.srcLog.id ? ":\n" + log.srcLog.stackTrace : "");
-        GUILayout.Box(recordMsg, logRecordStyle);
+        GUILayout.Box(recordMsg, LogRecordStyle);
+
         // Check if log record is selected.
         if (Event.current.type == EventType.MouseDown) {
           Rect logBoxRect = GUILayoutUtility.GetLastRect();
@@ -272,38 +295,37 @@ sealed class ConsoleUI : MonoBehaviour {
         }
       }
 
-      // Add source and filter controls when expanded.
+      // Present log record details when it's selected.
       if (selectedLogRecordId == log.srcLog.id && log.srcLog.source.Any()) {
-        GUILayout.BeginHorizontal();
-        GUILayout.Label("Silence: source", MinSizeLayout);
-        if (GUILayout.Button(log.srcLog.source, MinSizeLayout)) {
-          guiActions.Add(() => GuiActionAddSilence(log.srcLog.source, isPrefix: false));
-        }
-        var sourceParts = log.srcLog.source.Split('.');
-        if (sourceParts.Length > 1) {
-          GUILayout.Label("or by prefix", MinSizeLayout);
-          for (var i = sourceParts.Length - 1; i > 0; --i) {
-            var prefix = String.Join(".", sourceParts.Take(i).ToArray()) + '.';
-            if (GUILayout.Button(prefix, MinSizeLayout)) {
-              guiActions.Add(() => GuiActionAddSilence(prefix, isPrefix: true));
-            }
-          }
-        }
-        GUILayout.EndHorizontal();
+        GUIShowLogDetails(log);
       }
     }
-    GUILayout.EndScrollView();
+  }
 
-    if (isToolbarAtTheBottom) {
-      CreateGUIToolbar();
+  /// <summary>Displays log records details and creates the relevant controls.</summary>
+  /// <param name="log">The slected log record.</param>
+  void GUIShowLogDetails(LogRecord log) {
+    using (new GUILayout.HorizontalScope()) {
+      // Add source and filter controls when expanded.
+      GUILayout.Label("Silence: source", MinSizeLayout);
+      if (GUILayout.Button(log.srcLog.source, MinSizeLayout)) {
+        guiActions.Add(() => GuiActionAddSilence(log.srcLog.source, isPrefix: false));
+      }
+      var sourceParts = log.srcLog.source.Split('.');
+      if (sourceParts.Length > 1) {
+        GUILayout.Label("or by prefix", MinSizeLayout);
+        for (var i = sourceParts.Length - 1; i > 0; --i) {
+          var prefix = String.Join(".", sourceParts.Take(i).ToArray()) + '.';
+          if (GUILayout.Button(prefix, MinSizeLayout)) {
+            guiActions.Add(() => GuiActionAddSilence(prefix, isPrefix: true));
+          }
+        }
+      }
     }
-
-    // Allow the window to be dragged by its title bar.
-    GuiWindow.DragWindow(ref windowRect, titleBarRect);
   }
 
   /// <summary>Creates controls for the console.</summary>
-  void CreateGUIToolbar() {
+  void GUICreateToolbar() {
     using (new GUILayout.HorizontalScope()) {
       // Window size/snap.
       if (GUILayout.Button("\u21d5", MinSizeLayout)) {
