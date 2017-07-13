@@ -1463,9 +1463,44 @@
             <returns>A string representing the value.</returns>
             <seealso cref="M:KSPDev.GUIUtils.ForceType.Format(System.Double,System.String)"/>
         </member>
+        <member name="T:KSPDev.GUIUtils.GuiColor">
+            <summary>A utility class to render big disabled bloacks of GUI.</summary>
+            <example><code source="Examples/GUIUtils/GuiColor-Examples.cs" region="GuiColorDemo1"/></example>
+            <example><code source="Examples/GUIUtils/GuiColor-Examples.cs" region="GuiColorDemo2"/></example>
+        </member>
+        <member name="M:KSPDev.GUIUtils.GuiColor.#ctor(System.Nullable{UnityEngine.Color},System.Nullable{UnityEngine.Color},System.Nullable{UnityEngine.Color})">
+            <summary>Stores the old state and sets a new one.</summary>
+            <param name="color">The new color for <c>GUI.color</c>.</param>
+            <param name="contentColor">The new color for <c>GUI.contentColor</c>.</param>
+            <param name="backgroundColor">The new color for <c>GUI.backgroundColor</c>.</param>
+            <example><code source="Examples/GUIUtils/GuiColor-Examples.cs" region="GuiColorDemo1"/></example>
+            <example><code source="Examples/GUIUtils/GuiColor-Examples.cs" region="GuiColorDemo2"/></example>
+            <seealso href="https://docs.unity3d.com/ScriptReference/GUI-color.html">Untiy3D: GUI.color</seealso>
+            <seealso href="https://docs.unity3d.com/ScriptReference/GUI-contentColor.html">Untiy3D: GUI.contentColor</seealso>
+            <seealso href="https://docs.unity3d.com/ScriptReference/GUI-backgroundColor.html">Untiy3D: GUI.backgroundColor</seealso>
+        </member>
+        <member name="M:KSPDev.GUIUtils.GuiColor.Dispose">
+            <inheritdoc/>
+        </member>
+        <member name="T:KSPDev.GUIUtils.GuiEnabledState">
+            <summary>A utility class to render big disabled bloacks of GUI.</summary>
+            <example><code source="Examples/GUIUtils/GuiWindow-Examples.cs" region="GuiEnabledStateDemo1_OnGUI"/></example>
+        </member>
+        <member name="M:KSPDev.GUIUtils.GuiEnabledState.#ctor(System.Boolean)">
+            <summary>Stores the old state and sets a new one.</summary>
+            <param name="newState">The new state to set.</param>
+            <example><code source="Examples/GUIUtils/GuiWindow-Examples.cs" region="GuiEnabledStateDemo1_OnGUI"/></example>
+        </member>
+        <member name="M:KSPDev.GUIUtils.GuiEnabledState.Dispose">
+            <inheritdoc/>
+        </member>
         <member name="T:KSPDev.GUIUtils.GuiWindow">
             <summary>A utility class to deal with the GUI windows.</summary>
             <example><code source="Examples/GUIUtils/GuiWindow-Examples.cs" region="GuiWindowDemo1"/></example>
+        </member>
+        <member name="F:KSPDev.GUIUtils.GuiWindow.dragPosition">
+            <summary>Latest mouse position to which the dragged window position has updated.</summary>
+            <remarks>When this field is <c>null</c>, it means no window is being dragged.</remarks>
         </member>
         <member name="M:KSPDev.GUIUtils.GuiWindow.DragWindow(UnityEngine.Rect@,UnityEngine.Rect)">
             <summary>
@@ -1527,10 +1562,10 @@
             <summary>Attribute for the various game items that support localization.</summary>
             <remarks>
             <para>
-            This attribute alone doesn't make the annotated item localized. There should be a code executed
-            that understands the type of the item. However, it still makes sense to add this attribute to
-            <i>any</i> game item that needs localization, it will help the <c>LocalizationTool</c> to
-            extract the information.
+            Use this attribute to automatically localize the part's events, fields, and actions. The
+            relevant strings will be loaded when the vessel or part is either created or loaded. The
+            strings will also properly update when reloading the language definitiaion via
+            <c>LocalizationTool</c>.
             </para>
             <para>
             See the "seealso" section for the types and methods that are aware of this attribute.
@@ -1623,6 +1658,10 @@
         </member>
         <member name="F:KSPDev.GUIUtils.LocalizableMessage.tag">
             <summary>Tag to use when resolving the string via the Localizer.</summary>
+            <remarks>
+            It can be <c>null</c> to indicate that the localization is not needed. In this case the
+            <see cref="F:KSPDev.GUIUtils.LocalizableMessage.defaultTemplate"/> will be used as text.
+            </remarks>
             <item name="T:KSP.Localization.Localizer">
   <seealso href="https://kerbalspaceprogram.com/api/class_k_s_p_1_1_localization_1_1_localizer.html">KSP: Localization.Localizer</seealso>
 </item>
@@ -1642,7 +1681,10 @@
         </member>
         <member name="M:KSPDev.GUIUtils.LocalizableMessage.#ctor(System.String,System.String,System.String,System.String)">
             <summary>Constructs a localizable message.</summary>
-            <param name="tag">The tag to use when getting the localized version of the template.</param>
+            <param name="tag">
+            The tag to use when getting the localized version of the template. If <c>null</c> then the
+            message will alaways use <paramref name="defaultTemplate"/> as text.
+            </param>
             <param name="defaultTemplate">
             <para>
             The template to use if no localizable content can be found. It can be in any language, but
@@ -3256,11 +3298,18 @@
             libraries/versions in the game.
             </remarks>
         </member>
-        <member name="F:KSPDev.GUIUtils.LibraryLoader.assemblyVersionStr">
-            <summary>Loaded library indentifier.</summary>
-        </member>
         <member name="F:KSPDev.GUIUtils.LibraryLoader.loaded">
             <summary>Tells if the loader has already initialized.</summary>
+        </member>
+        <member name="M:KSPDev.GUIUtils.LibraryLoader.OnEditorPartEvent(ConstructionEventType,Part)">
+            <summary>Reacts on an editor part event and localizes the part when needed.</summary>
+            <remarks>
+            This method also handles the attach event type. In spite of this is not needed most of the
+            time it may be needed
+            FIXME: bLAH! kill it if no method of findin of detached parst found
+            </remarks>
+            <param name="eventType">The type of the event.</param>
+            <param name="part">The part being acted on.</param>
         </member>
         <member name="M:KSPDev.GUIUtils.LibraryLoader.LocalizeVessel(Vessel)">
             <summary>Loads all the localizable strings in a vessel.</summary>
@@ -3273,6 +3322,9 @@
         <member name="M:KSPDev.GUIUtils.LibraryLoader.UpdatePartModulesLocalization(Part)">
             <summary>Updates all the localizable strings in a part.</summary>
             <param name="part">The part to load the data in.</param>
+        </member>
+        <member name="P:KSPDev.GUIUtils.LibraryLoader.assemblyVersionStr">
+            <summary>Loaded library indentifier.</summary>
         </member>
         <member name="T:KSPDev.LogUtils.DbgFormatter">
             <summary>A set of tools to format various game enities for debugging purposes.</summary>
