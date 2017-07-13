@@ -189,7 +189,7 @@ sealed class ConsoleUI : MonoBehaviour {
   void MakeConsoleWindow(int windowId) {
     // Only show the logs snapshot when it's safe to change the GUI layout.
     if (guiActions.ExecutePendingGuiActions()) {
-      UpdateLogsView(forceUpdate: logUpdateIsPaused);
+      UpdateLogsView();
       // Check if the toolbar goes out of the screen.
       isToolbarAtTheBottom = windowRect.yMax < Screen.height;
     }
@@ -420,13 +420,9 @@ sealed class ConsoleUI : MonoBehaviour {
   /// The current aggregator is determined from <see cref="logShowMode"/> and
   /// <see cref="logUpdateIsPaused"/> state.
   /// </remarks>
-  /// <param name="forceUpdate">
-  /// If <c>false</c> then the logs view will only be updated if there were newly aggregated records
-  /// in the current aggregator.
-  /// </param>
-  void UpdateLogsView(bool forceUpdate = false) {
+  void UpdateLogsView() {
     BaseLogAggregator currentAggregator = GetCurrentAggregator();
-    if (currentAggregator.FlushBufferedLogs() || logsViewChanged || forceUpdate) {
+    if (currentAggregator.FlushBufferedLogs() || logsViewChanged) {
       logsToShow = currentAggregator.GetLogRecords();
       infoLogs = currentAggregator.infoLogsCount;
       warningLogs = currentAggregator.warningLogsCount;

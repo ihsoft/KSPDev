@@ -10,14 +10,18 @@ namespace KSPDev.LogConsole {
 /// A simple wrapper to hold static logs copy originated from any other aggreator.
 /// </summary>
 sealed class SnapshotLogAggregator : BaseLogAggregator {
+  /// <summary>Tells if the loaded records were "flushed".</summary>
+  bool dirtyState;
+
   /// <summary>Makes copies of the log records from <paramref name="srcAggregator"/>.</summary>
   /// <remarks>Does a deep copy of every record.</remarks>
-  /// <param name="srcAggregator">An aggregator to get log records from.</param>
+  /// <param name="srcAggregator">An aggregator to get the log records from.</param>
   public void LoadLogs(BaseLogAggregator srcAggregator) {
     ClearAllLogs();
     foreach (var log in srcAggregator.GetLogRecords()) {
       AggregateLogRecord(log);
     }
+    dirtyState = true;
   }
 
   /// <inheritdoc/>
@@ -28,6 +32,13 @@ sealed class SnapshotLogAggregator : BaseLogAggregator {
   /// <inheritdoc/>
   public override void StopCapture() {
     // Nothing to stop.
+  }
+
+  /// <inheritdoc/>
+  public override bool FlushBufferedLogs() {
+    var oldState = dirtyState;
+    dirtyState = false;
+    return oldState;
   }
 
   /// <inheritdoc/>
