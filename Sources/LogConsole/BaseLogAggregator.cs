@@ -59,7 +59,7 @@ public abstract class BaseLogAggregator {
   /// </remarks>
   readonly List<LogInterceptor.Log> rawLogsBuffer = new List<LogInterceptor.Log>();
 
-  /// <summary>Returns aggregated logs.</summary>
+  /// <summary>Returns the aggregated logs.</summary>
   /// <remarks>
   /// Implementation decides how exactly <see cref="logRecords"/> are returned to the consumer. Main
   /// requirement: the collection must *NOT* change once returned. Returning a collection copy is

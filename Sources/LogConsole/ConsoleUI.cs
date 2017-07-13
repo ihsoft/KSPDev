@@ -61,6 +61,7 @@ sealed class ConsoleUI : MonoBehaviour {
   static Color exceptionLogColor = Color.magenta;
   #endregion
 
+  #region UI constants
   /// <summary>Console window margin on the screen.</summary>
   const int Margin = 20;
 
@@ -79,6 +80,7 @@ sealed class ConsoleUI : MonoBehaviour {
 
   /// <summary>Mode names.</summary>
   static readonly string[] logShowingModes = { "Raw", "Collapsed", "Smart" };
+  #endregion
 
   /// <summary>Display mode constants. Must match <see cref="logShowingModes"/>.</summary>
   enum ShowMode {
@@ -415,7 +417,7 @@ sealed class ConsoleUI : MonoBehaviour {
   /// <param name="color">A toggle color foreground.</param>
   /// <param name="fmt">A formatting string for the toggle caption</param>
   /// <param name="args">Arguments for the formatting string.</param>
-  /// <returns></returns>
+  /// <returns><c>true</c> the new state.</returns>
   bool MakeFormattedToggle(bool value, Color color, string fmt, params object[] args) {
     var oldColor = GUI.contentColor;
     GUI.contentColor = color;
