@@ -344,42 +344,36 @@ sealed class ConsoleUI : MonoBehaviour {
         }
       }
       oldQuickFilterInputEnabled = quickFilterInputEnabled;
-      
-      // Clear logs in the current aggregator.
-      if (GUILayout.Button("Clear")) {
-        guiActions.Add(GuiActionClearLogs);
-        guiActions.Add(GuiActionCancelQuickFilter);
-      }
-      
-      // Log mode selection. 
-      GUI.changed = false;
-      var showMode = GUILayout.SelectionGrid(
-          (int) logShowMode, logShowingModes, logShowingModes.Length, MinSizeLayout);
-      logsViewChanged |= GUI.changed;
-      if (GUI.changed) {
-        guiActions.Add(() => GuiActionSetMode((ShowMode) showMode));
-        guiActions.Add(GuiActionCancelQuickFilter);
-      }
-  
-      GUI.changed = false;
-      var isPaused = GUILayout.Toggle(logUpdateIsPaused, "PAUSED", MinSizeLayout);
-      if (GUI.changed) {
-        guiActions.Add(() => GuiActionSetPaused(isPaused));
-        if (!isPaused) {
-          guiActions.Add(GuiActionCancelQuickFilter);
-        }
-      }
 
-      // Draw logs filter by level and refresh logs when filter changes.
-      GUI.changed = false;
-      showInfo = MakeFormattedToggle(showInfo, infoLogColor, "INFO ({0})", infoLogs);
-      showWarning = MakeFormattedToggle(showWarning, warningLogColor, "WARNING ({0})", warningLogs);
-      showError = MakeFormattedToggle(showError, errorLogColor, "ERROR ({0})", errorLogs);
-      showException =
-          MakeFormattedToggle(showException, exceptionLogColor, "EXCEPTION ({0})", exceptionLogs);
-      logsViewChanged |= GUI.changed;
-      if (GUI.changed) {
-        guiActions.Add(GuiActionCancelQuickFilter);
+      using (new GuiEnabledState(!quickFilterInputEnabled)) {
+        // Clear logs in the current aggregator.
+        if (GUILayout.Button("Clear")) {
+          guiActions.Add(GuiActionClearLogs);
+        }
+
+        // Log mode selection. 
+        GUI.changed = false;
+        var showMode = GUILayout.SelectionGrid(
+            (int) logShowMode, logShowingModes, logShowingModes.Length, MinSizeLayout);
+        logsViewChanged |= GUI.changed;
+        if (GUI.changed) {
+          guiActions.Add(() => GuiActionSetMode((ShowMode) showMode));
+        }
+
+        GUI.changed = false;
+        var isPaused = GUILayout.Toggle(logUpdateIsPaused, "PAUSED", MinSizeLayout);
+        if (GUI.changed) {
+          guiActions.Add(() => GuiActionSetPaused(isPaused));
+        }
+
+        // Draw logs filter by level and refresh logs when filter changes.
+        GUI.changed = false;
+        showInfo = MakeFormattedToggle(showInfo, infoLogColor, "INFO ({0})", infoLogs);
+        showWarning = MakeFormattedToggle(showWarning, warningLogColor, "WARNING ({0})", warningLogs);
+        showError = MakeFormattedToggle(showError, errorLogColor, "ERROR ({0})", errorLogs);
+        showException =
+            MakeFormattedToggle(showException, exceptionLogColor, "EXCEPTION ({0})", exceptionLogs);
+        logsViewChanged |= GUI.changed;
       }
     }
   }
