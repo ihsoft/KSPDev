@@ -2,6 +2,7 @@
 // Author: igor.zavoychinskiy@gmail.com
 // This software is distributed under Public domain license.
 
+using KSP.UI.Screens;
 using KSPDev.GUIUtils;
 using KSPDev.FSUtils;
 using System;
@@ -46,8 +47,8 @@ class LibraryLoader : MonoBehaviour {
     GameEvents.onVesselCreate.Add(UpdateLocalizationInVessel);
     GameEvents.onVesselLoaded.Add(UpdateLocalizationInVessel);
     GameEvents.onLanguageSwitched.Add(UpdateLocalizationVersion);
-    //FIXME: Handle editor parts actions.
     GameEvents.onEditorPartEvent.Add(OnEditorPartEvent);
+    GameEvents.onEditorLoad.Add(OnEditorLoad);
   }
 
   /// <summary>Reacts on an editor part event and localizes the part when needed.</summary>
@@ -60,6 +61,15 @@ class LibraryLoader : MonoBehaviour {
                       part.name , part.craftID, assemblyVersionStr);
       UpdateLocalizationInPartModules(part);
     }
+  }
+
+  /// <summary>Localizes a vessel which is laoded in the editor.</summary>
+  /// <param name="shipConstruct">The ship's parts data.</param>
+  /// <param name="loadType">Unused.</param>
+  static void OnEditorLoad(ShipConstruct shipConstruct, CraftBrowserDialog.LoadType loadType) {
+    Debug.LogFormat("EDITOR: Load vessel localizations in \"{0}\" from {1}",
+                    shipConstruct.shipName, assemblyVersionStr);
+    shipConstruct.parts.ForEach(UpdateLocalizationInPartModules);
   }
 
   /// <summary>Loads all the localizable strings in a vessel.</summary>
@@ -78,7 +88,6 @@ class LibraryLoader : MonoBehaviour {
     LocalizableMessage.systemLocVersion++;
     Debug.LogWarningFormat("Localization version is updated to {0} in: {1}",
                            LocalizableMessage.systemLocVersion, assemblyVersionStr);
-    //FIXME: In the editor find the parts in a different way.
 
     // FLIGHT: Update the part modules in all the laoded vessels.
     if (HighLogic.LoadedSceneIsFlight) {
@@ -88,6 +97,25 @@ class LibraryLoader : MonoBehaviour {
           .ToList()
           .ForEach(UpdateLocalizationInPartModules);
     }
+
+    // EDITOR: Update the part modules in all the game object in the scene.
+    if (HighLogic.LoadedSceneIsEditor) {
+      // It can be slow but we don't care - it's not a frequent operation.
+      UnityEngine.SceneManagement.SceneManager.GetActiveScene().GetRootGameObjects()
+          .Select(o => o.GetComponent<Part>())
+          .Where(p => p != null)
+          .ToList()
+          .ForEach(UpdateLocalizationInPartHierarchy);
+    }
+  }
+
+  /// <summary>Localizes the modules in the part and in all of its children parts.</summary>
+  /// <param name="rootPart">The root part to start from.</param>
+  static void UpdateLocalizationInPartHierarchy(Part rootPart) {
+    Debug.LogFormat("EDITOR: Load localizations for the existing part \"{0}\" (id={1}) from {2}",
+                    rootPart.name , rootPart.craftID, assemblyVersionStr);
+    UpdateLocalizationInPartModules(rootPart);
+    rootPart.children.ForEach(UpdateLocalizationInPartHierarchy);
   }
 
   /// <summary>Updates all the localizable strings in a part.</summary>
