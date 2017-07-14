@@ -3,8 +3,6 @@
 // This software is distributed under Public domain license.
 
 using System;
-using KSP.Localization;
-using UnityEngine;
 
 namespace KSPDev.GUIUtils {
 

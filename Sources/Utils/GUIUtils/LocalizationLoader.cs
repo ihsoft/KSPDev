@@ -9,7 +9,7 @@ using UnityEngine;
 
 namespace KSPDev.GUIUtils {
 
-/// <summary>A utility class to localize annotated members</summary>
+/// <summary>A utility class to localize the annotated members</summary>
 /// <seealso cref="LocalizableItemAttribute"/>
 /// <example><code source="Examples/GUIUtils/LocalizationLoader-Examples.cs" region="LocalizationLoaderDemo1"/></example>
 public static class LocalizationLoader {
@@ -22,7 +22,7 @@ public static class LocalizationLoader {
   /// <example><code source="Examples/GUIUtils/LocalizableItemAttribute-Examples.cs" region="ItemField_WithUnits"/></example>
   /// <include file="KSPAPI_HelpIndex.xml" path="//item[@name='T:KSPField']"/>
   public const string KspFieldUnitsSpec = "units";
-  
+
   /// <summary>Localizes the <see cref="PartModule"/> items.</summary>
   /// <remarks>
   /// <para>
@@ -78,6 +78,8 @@ public static class LocalizationLoader {
   }
 
   #region Local utility methods
+  /// <summary>Loads the localized string(s) for a KSP field.</summary>
+  /// <param name="kspField">The field to load localization for.</param>
   static void LocalizeKSPField(BaseField kspField) {
     var locItems = kspField.FieldInfo.GetCustomAttributes(false)
         .OfType<LocalizableItemAttribute>();
@@ -98,21 +100,27 @@ public static class LocalizationLoader {
     }
   }
 
-  static void LocalizeKSPEvent(ICustomAttributeProvider info, BaseEvent item) {
-    var locItem = info.GetCustomAttributes(false)
+  /// <summary>Loads the localized string for a KSP event.</summary>
+  /// <param name="attrs">The attributes on the event.</param>
+  /// <param name="event">The event to localize.</param>
+  static void LocalizeKSPEvent(ICustomAttributeProvider attrs, BaseEvent @event) {
+    var locItem = attrs.GetCustomAttributes(false)
         .OfType<LocalizableItemAttribute>()
         .FirstOrDefault();
     if (locItem != null && !string.IsNullOrEmpty(locItem.tag)) {
-      item.guiName = locItem.GetLocalizedString();
+      @event.guiName = locItem.GetLocalizedString();
     }
   }
 
-  static void LocalizeKSPAction(ICustomAttributeProvider info, BaseAction item) {
-    var locItem = info.GetCustomAttributes(false)
+  /// <summary>Loads the localized string for a KSP action.</summary>
+  /// <param name="attrs">The attributes provider on the action.</param>
+  /// <param name="action">The action to localize.</param>
+  static void LocalizeKSPAction(ICustomAttributeProvider attrs, BaseAction action) {
+    var locItem = attrs.GetCustomAttributes(false)
         .OfType<LocalizableItemAttribute>()
         .FirstOrDefault();
     if (locItem != null && !string.IsNullOrEmpty(locItem.tag)) {
-      item.guiName = locItem.GetLocalizedString();
+      action.guiName = locItem.GetLocalizedString();
     }
   }
   #endregion
