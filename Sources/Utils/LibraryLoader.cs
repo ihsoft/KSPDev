@@ -43,30 +43,32 @@ class LibraryLoader : MonoBehaviour {
 
     // Install the localization callbacks. The object must not be destroyed.
     UnityEngine.Object.DontDestroyOnLoad(gameObject);
-    GameEvents.onVesselCreate.Add(LocalizeVessel);
-    GameEvents.onVesselLoaded.Add(LocalizeVessel);
+    GameEvents.onVesselCreate.Add(UpdateLocalizationInVessel);
+    GameEvents.onVesselLoaded.Add(UpdateLocalizationInVessel);
     GameEvents.onLanguageSwitched.Add(UpdateLocalizationVersion);
     //FIXME: Handle editor parts actions.
     GameEvents.onEditorPartEvent.Add(OnEditorPartEvent);
   }
 
-  /// <summary>Reacts on an editor part event and localizaes the part when needed.</summary>
+  /// <summary>Reacts on an editor part event and localizes the part when needed.</summary>
   /// <param name="eventType">The type of the event.</param>
   /// <param name="part">The part being acted on.</param>
-  void OnEditorPartEvent(ConstructionEventType eventType, Part part) {
+  static void OnEditorPartEvent(ConstructionEventType eventType, Part part) {
     if (eventType == ConstructionEventType.PartCreated
         || eventType == ConstructionEventType.PartCopied) {
-      UpdatePartModulesLocalization(part);
+      Debug.LogFormat("EDITOR: Load localizations for a new part \"{0}\" (id={1}) from {2}",
+                      part.name , part.craftID, assemblyVersionStr);
+      UpdateLocalizationInPartModules(part);
     }
   }
 
   /// <summary>Loads all the localizable strings in a vessel.</summary>
   /// <param name="vessel">The vessel to load strings in.</param>
-  void LocalizeVessel(Vessel vessel) {
+  static void UpdateLocalizationInVessel(Vessel vessel) {
     if (vessel.loaded) {
-      Debug.LogFormat("Load vessel localizations in \"{0}\" from: {1}",
+      Debug.LogFormat("FLIGHT: Load vessel localizations in \"{0}\" from: {1}",
                       vessel, assemblyVersionStr);
-      vessel.parts.ForEach(UpdatePartModulesLocalization);
+      vessel.parts.ForEach(UpdateLocalizationInPartModules);
     }
   }
 
@@ -76,17 +78,21 @@ class LibraryLoader : MonoBehaviour {
     LocalizableMessage.systemLocVersion++;
     Debug.LogWarningFormat("Localization version is updated to {0} in: {1}",
                            LocalizableMessage.systemLocVersion, assemblyVersionStr);
-    // Update all the vessels.
-    FlightGlobals.Vessels
-        .SelectMany(x => x.parts)
-        .ToList()
-        .ForEach(UpdatePartModulesLocalization);
     //FIXME: In the editor find the parts in a different way.
+
+    // FLIGHT: Update the part modules in all the laoded vessels.
+    if (HighLogic.LoadedSceneIsFlight) {
+      FlightGlobals.Vessels
+          .Where(v => v.loaded)
+          .SelectMany(v => v.parts)
+          .ToList()
+          .ForEach(UpdateLocalizationInPartModules);
+    }
   }
 
   /// <summary>Updates all the localizable strings in a part.</summary>
   /// <param name="part">The part to load the data in.</param>
-  static void UpdatePartModulesLocalization(Part part) {
+  static void UpdateLocalizationInPartModules(Part part) {
     part.Modules.Cast<PartModule>().ToList()
         .ForEach(module => {
           LocalizationLoader.LoadItemsInModule(module);
