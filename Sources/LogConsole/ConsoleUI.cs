@@ -306,6 +306,13 @@ sealed class ConsoleUI : MonoBehaviour {
   /// <param name="log">The slected log record.</param>
   void GUICreateLogRecordsControls(LogRecord log) {
     using (new GUILayout.HorizontalScope()) {
+      // Add stack trace utils.
+      using (new GuiEnabledState(!log.srcLog.filenamesResolved)) {
+        if (GUILayout.Button("Resolve file names", MinSizeLayout)) {
+          log.ResolveStackFilenames();
+        }
+      }
+
       // Add source and filter controls when expanded.
       GUILayout.Label("Silence: source", MinSizeLayout);
       if (GUILayout.Button(log.srcLog.source, MinSizeLayout)) {

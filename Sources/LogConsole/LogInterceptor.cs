@@ -4,6 +4,7 @@
 
 using KSPDev.ConfigUtils;
 using StackTrace = System.Diagnostics.StackTrace;
+using StackFrame = System.Diagnostics.StackFrame;
 using System.Collections.Generic;
 using System.Linq;
 using System;
@@ -20,20 +21,26 @@ public static class LogInterceptor {
   /// <summary>A basic container for the incoming logs. Immutable.</summary>
   public class Log {
     public readonly int id;
-    public readonly DateTime timestamp;
-    public readonly string message;
-    public readonly string stackTrace;
-    public readonly string source;
-    public readonly LogType type;
+    public DateTime timestamp;
+    public string message;
+    public string stackTrace;
+    public StackFrame[] stackFrames;
+    public string source;
+    public LogType type;
+    public bool filenamesResolved;
     
-    internal Log(int id, DateTime timestamp, string message,
-                 string stackTrace, string source, LogType type) {
+    internal Log(int id) {
       this.id = id;
-      this.timestamp = timestamp;
-      this.message = message;
-      this.stackTrace = stackTrace;
-      this.source = source;
-      this.type = type;
+    }
+
+    internal Log(Log srcLog) {
+      this.id = srcLog.id;
+      this.timestamp = srcLog.timestamp;
+      this.message = srcLog.message;
+      this.stackTrace = srcLog.stackTrace;
+      this.stackFrames = srcLog.stackFrames;
+      this.source = srcLog.source;
+      this.type = srcLog.type;
     }
   }
 
@@ -129,17 +136,28 @@ public static class LogInterceptor {
   }
 
   /// <summary>Records a log from the log callback.</summary>
-  /// <param name="message">Message.</param>
-  /// <param name="stackTrace">Trace of where the message came from.</param>
-  /// <param name="type">Type of message (error, exception, warning, assert).</param>
-  static void HandleLog(string message, string stackTrace, LogType type) {
+  /// <param name="message">The message to log.</param>
+  /// <param name="exceptionStackTrace">
+  /// The exception stack trace provided by the Unity core.
+  /// </param>
+  /// <param name="type">The type of message (error, exception, warning, assert).</param>
+  static void HandleLog(string message, string exceptionStackTrace, LogType type) {
     // Detect source and stack trace for logs other than exceptions. Exceptions are logged from
     // the Unity engine, and the provided stack trace should be used. 
     string source;
+    string stackTrace = exceptionStackTrace;
+    StackFrame[] frames = null;
     source = type != LogType.Exception
-        ? GetSourceAndStackTrace(ref stackTrace)
+        ? GetSourceAndStackTrace(out stackTrace, out frames)
         : GetSourceAndReshapeStackTrace(ref stackTrace);
-    var log = new Log(lastLogId++, DateTime.Now, message, stackTrace, source, type);
+    var log = new Log(lastLogId++) {
+        timestamp = DateTime.Now,
+        message = message,
+        stackTrace = stackTrace,
+        stackFrames = frames,
+        source = source,
+        type = type,
+    };
 
     // Notify preview handlers. Do an exception check and exclude preview callbacks that cause
     // errors.
@@ -172,9 +190,16 @@ public static class LogInterceptor {
   /// This method assumes it's two levels down in the calling stack from the last Unity's method
   /// (which is <c>UnityEngine.Application.CallLogCallback</c> for now).
   /// </para>
-  /// <param name="stackTrace">[ref] A string representation of the applicable stack strace.</param>
+  /// <param name="stackTrace">
+  /// The string representation of the applicable stack strace. The format is undetermined, so
+  /// parsing it would be a bad idea.
+  /// </param>
+  /// <param name="frames">
+  /// The related stack frames fro the stack trace. It can be <c>null</c> if the method has failed
+  /// to capture the proper stack trace.
+  /// </param>
   /// <returns>A string that identifies a meaningful piece of code that triggered the log.</returns>
-  static string GetSourceAndStackTrace(ref string stackTrace) {
+  static string GetSourceAndStackTrace(out string stackTrace, out StackFrame[] frames) {
     StackTrace st = null;
     string source = "";
 
@@ -183,9 +208,10 @@ public static class LogInterceptor {
       st = new StackTrace(skipFrames, true);
       if (st.FrameCount == 0) {
         // Internal errors (like UnityEngine or core C#) can be logged directly thru the callback.
-        // In which case stack trace doesn't have any useful information. Return empty stack and
-        // "UNKNOWN" source when it happens.
+        // In which case the stack trace doesn't have any useful information. Return an empty stack
+        // and "UNKNOWN" source when it happens.
         stackTrace = "<System call>";
+        frames = null;
         return "UNKNOWN";
       }
       source = MakeSourceFromFrame(st.GetFrame(0));
@@ -220,11 +246,12 @@ public static class LogInterceptor {
     }
     
     stackTrace = st.ToString();  // Unity only gives stacktrace for the exceptions.
+    frames = st.GetFrames();
     return source;
   }
 
   /// <summary>Calculates source from the Unity exception stack trace.</summary>
-  /// <remarks>Also cutifies stack trace to make it looking more C#ish.</remarks>
+  /// <remarks>Also, cutifies stack trace to make it looking more C#ish.</remarks>
   /// <param name="stackTrace">Unity provided stack trace.</param>
   /// <returns>Source extraced from the first line of the trace.</returns>
   static string GetSourceAndReshapeStackTrace(ref string stackTrace) {

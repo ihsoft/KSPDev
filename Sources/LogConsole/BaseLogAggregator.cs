@@ -217,8 +217,7 @@ public abstract class BaseLogAggregator {
     // Override unsupported log types into INFO.
     if (log.type != LogType.Log && log.type != LogType.Warning
         && log.type != LogType.Error && log.type != LogType.Exception) {
-      log = new LogInterceptor.Log(
-          log.id, log.timestamp, log.message, log.stackTrace, log.source, LogType.Log);
+      log.type = LogType.Log;
     }
     rawLogsBuffer.Add(log);
     if (rawLogsBuffer.Count >= rawBufferSize) {
