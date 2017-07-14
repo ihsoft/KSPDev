@@ -1,4 +1,5 @@
 # 0.25 (pre-release):
+* [Enhancement] Support automatic localization for the events, fields, and actions in the modules. See [`GUIUtils.LocalizableItemAttribute`](http://ihsoft.github.io/KSPDev/Utils/html/T_KSPDev_GUIUtils_LocalizableItemAttribute.htm).
 * [Enhancement] Support (de)serialization of types `Vector2` and `Enum`. See [`ConfigUtils.KspTypesProto`](http://ihsoft.github.io/KSPDev/Utils/html/T_KSPDev_ConfigUtils_KspTypesProto.htm).
 * [Enhancement] Add an extension to the `UnityEngine.Rect` type to support basic rectangles operations. See [`Extensions.RectExtensions`](http://ihsoft.github.io/KSPDev/Utils/html/T_KSPDev_Extensions_RectExtensions.htm).
 * [Enhancement] Add a new utility class to deal with the GUI windows. See [`GUIUtils.GuiWindow`](http://ihsoft.github.io/KSPDev/Utils/html/T_KSPDev_GUIUtils_GuiWindow.htm).

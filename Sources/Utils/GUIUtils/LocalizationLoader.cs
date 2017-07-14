@@ -53,6 +53,10 @@ public class LocalizationLoader : MonoBehaviour {
   /// the module is created. The other methods may be called differently depending on the loaded
   /// scene.
   /// </para>
+  /// <para>
+  /// <i>Note</i>, that this method is automatically called on every new part created in the game.
+  /// The explicit call is only needed when the module is constructed in runtime.  
+  /// </para>
   /// </remarks>
   /// <param name="module">The module instance to localize.</param>
   /// <example><code source="Examples/GUIUtils/LocalizationLoader-Examples.cs" region="LocalizationLoaderDemo1"/></example>
