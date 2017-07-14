@@ -214,13 +214,13 @@ sealed class ConsoleUI : MonoBehaviour {
       if (logUpdateIsPaused) {
         title += " <i>(PAUSED)</i>";
       }
-      windowRect = GUILayout.Window(WindowId, windowRect, MakeConsoleWindow, title);
+      windowRect = GUILayout.Window(WindowId, windowRect, ConsoleWindowFunc, title);
     }
   }
 
   /// <summary>Shows a window that displays the recorded logs.</summary>
   /// <param name="windowId">Window ID.</param>
-  void MakeConsoleWindow(int windowId) {
+  void ConsoleWindowFunc(int windowId) {
     // Only show the logs snapshot when it's safe to change the GUI layout.
     if (guiActions.ExecutePendingGuiActions()) {
       UpdateLogsView();
@@ -297,14 +297,14 @@ sealed class ConsoleUI : MonoBehaviour {
 
       // Present log record details when it's selected.
       if (selectedLogRecordId == log.srcLog.id && log.srcLog.source.Any()) {
-        GUICreateLogRecordsControls(log);
+        GUICreateLogRecordControls(log);
       }
     }
   }
 
   /// <summary>Displays log records details and creates the relevant controls.</summary>
   /// <param name="log">The slected log record.</param>
-  void GUICreateLogRecordsControls(LogRecord log) {
+  void GUICreateLogRecordControls(LogRecord log) {
     using (new GUILayout.HorizontalScope()) {
       // Add stack trace utils.
       using (new GuiEnabledState(!log.srcLog.filenamesResolved)) {
