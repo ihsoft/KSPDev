@@ -16,7 +16,7 @@ namespace KSPDev.GUIUtils {
 /// </para>
 /// <para>
 /// This class is performance optimized. Once a string is resolved to the localized content, it's
-/// cached and reused in the subsequent calls. The cache can be reset by inceremnting the
+/// cached and reused in the subsequent calls. The cache can be reset by incrementing the
 /// <see cref="systemLocVersion"/>.
 /// </para>
 /// </remarks>
