@@ -162,65 +162,63 @@ class Controller : MonoBehaviour {
   /// <param name="windowID">The window ID. Unused.</param>
   void MakeConsoleWindow(int windowID) {
     guiActions.ExecutePendingGuiActions();
-    using (new GUILayout.VerticalScope(GUI.skin.box)) {
-      // Search prefix controls.
-      using (new GUILayout.HorizontalScope(GUI.skin.box)) {
-        GUILayout.Label("URL prefix:", GUILayout.ExpandWidth(false));
-        lookupPrefix = GUILayout.TextField(lookupPrefix, GUILayout.ExpandWidth(true)).TrimStart();
-        if (lookupPrefix != lastCachedLookupPrefix) {
-          lastCachedLookupPrefix = lookupPrefix;
-          guiActions.Add(() => GuiActionUpdateTargets(lookupPrefix));
-        }
+    // Search prefix controls.
+    using (new GUILayout.HorizontalScope(GUI.skin.box)) {
+      GUILayout.Label("URL prefix:", GUILayout.ExpandWidth(false));
+      lookupPrefix = GUILayout.TextField(lookupPrefix, GUILayout.ExpandWidth(true)).TrimStart();
+      if (lookupPrefix != lastCachedLookupPrefix) {
+        lastCachedLookupPrefix = lookupPrefix;
+        guiActions.Add(() => GuiActionUpdateTargets(lookupPrefix));
       }
+    }
 
-      // Found items scroll view.
-      using (new GUILayout.HorizontalScope(GUI.skin.box)) {
-        using (var scrollScope =
-               new GUILayout.ScrollViewScope(partsScrollPos, GUILayout.Height(scrollHeight))) {
-          partsScrollPos = scrollScope.scrollPosition;
-          foreach (var target in targets) {
-            target.GUIAddItem();
-          }
+    // Found items scroll view.
+    using (new GUILayout.HorizontalScope(GUI.skin.box)) {
+      using (var scrollScope =
+             new GUILayout.ScrollViewScope(partsScrollPos, GUILayout.Height(scrollHeight))) {
+        partsScrollPos = scrollScope.scrollPosition;
+        foreach (var target in targets) {
+          target.GUIAddItem();
         }
       }
+    }
 
-      // Action buttons.
-      var selectedModulesCount = targets.OfType<AssemblyRecord>()
-          .Where(x => x.selected)
-          .Sum(x => x.types.Count);
-      var selectedPartsCount = targets.OfType<PartsRecord>()
-          .Where(x => x.selected)
-          .Sum(x => x.parts.Count);
-      var selectedLocsCount = targets.OfType<ConfigRecord>()
-          .Count(x => x.selected);
+    // Action buttons.
+    var selectedModulesCount = targets.OfType<AssemblyRecord>()
+        .Where(x => x.selected)
+        .Sum(x => x.types.Count);
+    var selectedPartsCount = targets.OfType<PartsRecord>()
+        .Where(x => x.selected)
+        .Sum(x => x.parts.Count);
+    var selectedLocsCount = targets.OfType<ConfigRecord>()
+        .Count(x => x.selected);
 
-      var selectedModules = targets.OfType<AssemblyRecord>().Where(x => x.selected);
-      var selectedParts = targets.OfType<PartsRecord>().Where(x => x.selected);
-      var selectedConfigs = targets.OfType<ConfigRecord>().Where(x => x.selected);
-      if (selectedPartsCount > 0 || selectedModulesCount > 0) {
-        var title = string.Format(ExportBtnFmt,
-                                  selectedParts.Sum(x => x.parts.Count),
-                                  selectedModules.Sum(x => x.types.Count));
-        if (GUILayout.Button(title)) {
-          GuiActionExportStrings(selectedParts, selectedModules);
-        }
-      } else {
-        GUI.enabled = false;
-        GUILayout.Button(ExportBtnFmtNotSelected);
-        GUI.enabled = true;
+    var selectedModules = targets.OfType<AssemblyRecord>().Where(x => x.selected);
+    var selectedParts = targets.OfType<PartsRecord>().Where(x => x.selected);
+    var selectedConfigs = targets.OfType<ConfigRecord>().Where(x => x.selected);
+    if (selectedPartsCount > 0 || selectedModulesCount > 0) {
+      var title = string.Format(ExportBtnFmt,
+                                selectedParts.Sum(x => x.parts.Count),
+                                selectedModules.Sum(x => x.types.Count));
+      if (GUILayout.Button(title)) {
+        GuiActionExportStrings(selectedParts, selectedModules);
       }
-      if (selectedLocsCount > 0) {
-        var title = string.Format(RefreshBtnFmt,
-                                  selectedConfigs.Count(),
-                                  selectedParts.Sum(x => x.parts.Count));
-        if (GUILayout.Button(title)) {
-          GuiActionRefreshStrings(selectedConfigs, selectedParts);
-        }
-      } else {
-        GUI.enabled = false;
-        GUILayout.Button(RefreshBtnFmtNotSelected);
-        GUI.enabled = true;
+    } else {
+      GUI.enabled = false;
+      GUILayout.Button(ExportBtnFmtNotSelected);
+      GUI.enabled = true;
+    }
+    if (selectedLocsCount > 0) {
+      var title = string.Format(RefreshBtnFmt,
+                                selectedConfigs.Count(),
+                                selectedParts.Sum(x => x.parts.Count));
+      if (GUILayout.Button(title)) {
+        GuiActionRefreshStrings(selectedConfigs, selectedParts);
       }
+    } else {
+      GUI.enabled = false;
+      GUILayout.Button(RefreshBtnFmtNotSelected);
+      GUI.enabled = true;
     }
     GUI.DragWindow(titleBarRect);
   }
