@@ -297,14 +297,14 @@ sealed class ConsoleUI : MonoBehaviour {
 
       // Present log record details when it's selected.
       if (selectedLogRecordId == log.srcLog.id && log.srcLog.source.Any()) {
-        GUIShowLogDetails(log);
+        GUICreateLogRecordsControls(log);
       }
     }
   }
 
   /// <summary>Displays log records details and creates the relevant controls.</summary>
   /// <param name="log">The slected log record.</param>
-  void GUIShowLogDetails(LogRecord log) {
+  void GUICreateLogRecordsControls(LogRecord log) {
     using (new GUILayout.HorizontalScope()) {
       // Add source and filter controls when expanded.
       GUILayout.Label("Silence: source", MinSizeLayout);
