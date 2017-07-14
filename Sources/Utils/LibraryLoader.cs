@@ -22,7 +22,7 @@ namespace KSPDev.GUIUtils {
 [KSPAddon(KSPAddon.Startup.Instantly, true /*once*/)]
 class LibraryLoader : MonoBehaviour {
   /// <summary>Loaded library indentifier.</summary>
-  static string assemblyVersionStr;
+  public static string assemblyVersionStr { get; private set; }
 
   /// <summary>Tells if the loader has already initialized.</summary>
   static bool loaded;
