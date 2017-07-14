@@ -52,7 +52,7 @@ static class LocalizationManager {
   /// <seealso cref="Extractor.localizablePartFields"/>
   public static void LocalizePartInfo(AvailablePart partInfo) {
     if (partInfo.partUrlConfig == null) {
-      Debug.LogWarningFormat("Skip part {0} since it doesn't have a config", partInfo.name);
+      Debug.LogErrorFormat("Skip part {0} since it doesn't have a config", partInfo.name);
       return;
     }
 
@@ -64,7 +64,7 @@ static class LocalizationManager {
       return;
     }
 
-    Debug.LogWarningFormat("Update strings in part {0}", partInfo.name);
+    Debug.LogFormat("Update strings in part {0}", partInfo.name);
     Extractor.localizablePartFields.ToList().ForEach(name => {
       var newValue = partConfig.GetValue(name);
       if (newValue != null) {
@@ -74,4 +74,4 @@ static class LocalizationManager {
   }
 }
 
-}  // namesapce
+}  // namespace
