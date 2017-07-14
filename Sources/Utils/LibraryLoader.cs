@@ -84,7 +84,7 @@ class LibraryLoader : MonoBehaviour {
 
   /// <summary>Invalidates all the localization caches and updates the current vessels.</summary>
   /// <remarks>It updates all the currently loaded vessels.</remarks>
-  void UpdateLocalizationVersion() {
+  static void UpdateLocalizationVersion() {
     LocalizableMessage.systemLocVersion++;
     Debug.LogWarningFormat("Localization version is updated to {0} in: {1}",
                            LocalizableMessage.systemLocVersion, assemblyVersionStr);
