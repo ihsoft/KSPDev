@@ -5,6 +5,7 @@
   "SOURCE" : "Sources/LogConsole",
   "RELEASE_MOD_FOLDER" : "KSPDev/LogConsole",
   "MINIAVC_VERSION_FILE" : "/KSPDev_LogConsole.version",
+  "RELEASE_NAME_FREE_FORMAT" : "{PACKAGE_NAME}_v{0}.{1}",
   "STRUCTURE" : {
     "" : [
       "README.md",

@@ -16,9 +16,11 @@ public static class DbgFormatter {
   /// <param name="p">Part to get ID string for.</param>
   /// <returns>ID string.</returns>
   public static string PartId(Part p) {
-    return p != null
-        ? string.Format("{0} (id={1})", p.name, p.flightID)
-        : "Part#NULL";
+    if (p != null) {
+      var idStr = p.flightID > 0 ? "F" + p.flightID : "C" + p.craftID;
+      return string.Format("{0} (id={1})", p.name, idStr);
+    }
+    return "Part#NULL";
   }
 
   /// <summary>Returns a string represenation of a vector with more precision.</summary>

@@ -3,18 +3,16 @@
 // This software is distributed under Public domain license.
 
 using System;
-using KSP.Localization;
-using UnityEngine;
 
 namespace KSPDev.GUIUtils {
 
 /// <summary>Attribute for the various game items that support localization.</summary>
 /// <remarks>
 /// <para>
-/// This attribute alone doesn't make the annotated item localized. There should be a code executed
-/// that understands the type of the item. However, it still makes sense to add this attribute to
-/// <i>any</i> game item that needs localization, it will help the <c>LocalizationTool</c> to
-/// extract the information.
+/// Use this attribute to automatically localize the part's events, fields, and actions. The
+/// relevant strings will be loaded when the vessel or part is either created or loaded. The
+/// strings will also properly update when reloading the language definitiaion via
+/// <c>LocalizationTool</c>.
 /// </para>
 /// <para>
 /// See the "seealso" section for the types and methods that are aware of this attribute.
@@ -55,6 +53,9 @@ public class LocalizableItemAttribute : Attribute {
   /// <example><code source="Examples/GUIUtils/LocalizableItemAttribute-Examples.cs" region="ItemField_WithUnits"/></example>
   public string spec;
 
+  /// <summary>Cached localized message.</summary>
+  Message localizedString;
+
   /// <summary>Returns the localized string.</summary>
   /// <remarks>
   /// This method is primary designed for the KSPDev localization code. There are no good use cases
@@ -64,18 +65,11 @@ public class LocalizableItemAttribute : Attribute {
   /// The localized string of the <see cref="defaultTemplate"/> if no localization content found.
   /// </returns>
   public string GetLocalizedString() {
-    if (GameSettings.SHOW_TRANSLATION_KEYS_ON_SCREEN) {
-      return tag;
+    if (localizedString == null) {
+      localizedString =
+          new Message(tag, defaultTemplate: defaultTemplate, description: description);
     }
-    string res;
-    if (!Localizer.TryGetStringByTag(tag, out res)) {
-      res = defaultTemplate;
-      if (GameSettings.LOG_MISSING_KEYS_TO_FILE) {
-        Debug.LogWarningFormat("Cannot find localized content for: tag={0}, lang={1}",
-                               tag, Localizer.CurrentLanguage);
-      }
-    }
-    return res;
+    return localizedString;
   }
 }
 

@@ -65,16 +65,21 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Extensions\Dictionary-Examples.cs" />
+    <Compile Include="Extensions\DictExtensions-Examples.cs" />
+    <Compile Include="Extensions\RectExtensions-Examples.cs" />
     <Compile Include="GUIUtils\AngleType-Examples.cs" />
     <Compile Include="GUIUtils\DistanceType-Examples.cs" />
-    <Compile Include="GUIUtils\EnumType-Examples.cs" />
+    <Compile Include="GUIUtils\MessageLookup-Examples.cs" />
     <Compile Include="GUIUtils\ForceType-Examples.cs" />
+    <Compile Include="GUIUtils\GuiColorScope-Examples.cs" />
+    <Compile Include="GUIUtils\GuiEnabledStateScope-Examples.cs" />
+    <Compile Include="GUIUtils\GuiWindow-Examples.cs" />
     <Compile Include="GUIUtils\LocalizableItemAttribute-Examples.cs" />
     <Compile Include="GUIUtils\LocalizationLoader-Examples.cs" />
     <Compile Include="GUIUtils\MassType-Examples.cs" />
     <Compile Include="GUIUtils\Message-Examples.cs" />
     <Compile Include="GUIUtils\PercentType-Examples.cs" />
+    <Compile Include="GUIUtils\UISoundPlayer-Examples.cs" />
     <Compile Include="LogUtils\HostedDebugLog-Examples.cs" />
     <Compile Include="ProcessingUtils\SimpleStateMachine-Examples.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

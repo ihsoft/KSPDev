@@ -10,11 +10,25 @@ namespace KSPDev.GUIUtils {
 
 /// <summary>Base class for the messages that support localization.</summary>
 /// <remarks>
+/// <para>
 /// This class is not intended for the use on its own. See the inheritance hierarchy for the classes
 /// that inherit it.
+/// </para>
+/// <para>
+/// This class is performance optimized. Once a string is resolved to the localized content, it's
+/// cached and reused in the subsequent calls. The cache can be reset by incrementing the
+/// <see cref="systemLocVersion"/>.
+/// </para>
 /// </remarks>
 /// <seealso cref="LocalizableItemAttribute"/>
+/// <seealso cref="systemLocVersion"/>
 public class LocalizableMessage {
+  /// <summary>Current version of the loaded localizations.</summary>
+  /// <remarks>Increase it to have all the caches to invalidate.</remarks>
+  /// <seealso cref="localizedTemplate"/>
+  /// <seealso cref="loadedLocVersion"/>
+  public static int systemLocVersion = 1;
+
   /// <summary>Template to use if no localized template found.</summary>
   public readonly string defaultTemplate;
 
@@ -33,6 +47,10 @@ public class LocalizableMessage {
   public readonly string example;
 
   /// <summary>Tag to use when resolving the string via the Localizer.</summary>
+  /// <remarks>
+  /// It can be <c>null</c> to indicate that the localization is not needed. In this case the
+  /// <see cref="defaultTemplate"/> will be used as text.
+  /// </remarks>
   /// <include file="KSPAPI_HelpIndex.xml" path="//item[@name='T:KSP.Localization.Localizer']"/>
   public readonly string tag;
 
@@ -60,7 +78,7 @@ public class LocalizableMessage {
   /// <include file="KSPAPI_HelpIndex.xml" path="//item[@name='T:KSP.Localization.Localizer']"/>
   public string localizedTemplate {
     get {
-      if (_localizedTemplate == null) {
+      if (loadedLocVersion != systemLocVersion) {
         LoadLocalization();
       }
       return GameSettings.SHOW_TRANSLATION_KEYS_ON_SCREEN ? tag : _localizedTemplate;
@@ -68,20 +86,33 @@ public class LocalizableMessage {
   }
   string _localizedTemplate;
 
+  /// <summary>Currently cached version of the localization content.</summary>
+  /// <remarks>
+  /// If this version is different from the <see cref="systemLocVersion"/>, then the message
+  /// <see cref="localizedTemplate"/> will be reloaded from the config when accessed.
+  /// </remarks>
+  /// <seealso cref="localizedTemplate"/>
+  /// <seealso cref="systemLocVersion"/>
+  protected int loadedLocVersion;
+
   /// <summary>Instructs the implementation to load a localized template.</summary>
   /// <remarks>If there is a value cached, it will be reloaded.</remarks>
   public virtual void LoadLocalization() {
-    if (!Localizer.TryGetStringByTag(tag, out _localizedTemplate)) {
+    if (tag == null || !Localizer.TryGetStringByTag(tag, out _localizedTemplate)) {
       _localizedTemplate = defaultTemplate;
-      if (GameSettings.LOG_MISSING_KEYS_TO_FILE) {
+      if (tag != null && GameSettings.LOG_MISSING_KEYS_TO_FILE) {
         Debug.LogWarningFormat("Cannot find localized content for: tag={0}, lang={1}",
                                tag, Localizer.CurrentLanguage);
       }
     }
+    loadedLocVersion = systemLocVersion;
   }
 
   /// <summary>Constructs a localizable message.</summary>
-  /// <param name="tag">The tag to use when getting the localized version of the template.</param>
+  /// <param name="tag">
+  /// The tag to use when getting the localized version of the template. If <c>null</c> then the
+  /// message will alaways use <paramref name="defaultTemplate"/> as text.
+  /// </param>
   /// <param name="defaultTemplate">
   /// <para>
   /// The template to use if no localizable content can be found. It can be in any language, but
@@ -106,11 +137,8 @@ public class LocalizableMessage {
   protected LocalizableMessage(string tag,
                                string defaultTemplate = null,
                                string description = null, string example = null) {
-    if (tag == null) {
-      throw new ArgumentException("The tag cannot be NULL");
-    }
     this.tag = tag;
-    this.defaultTemplate = defaultTemplate ?? tag;
+    this.defaultTemplate = defaultTemplate ?? tag ?? "";
     this.description = description ?? "";
     this.example = example ?? "";
   }

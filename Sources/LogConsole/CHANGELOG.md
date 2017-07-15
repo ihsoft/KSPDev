@@ -1,3 +1,9 @@
+# 0.15 (July 15th, 2017):
+* [Enhancement #14] Allow three fixed window size modes: top, bottom, or center.
+* [Enhancement #15] Relocate the toolbar when the console goes out of the screen.
+* [Enhancement #16] Add a quick filter ability.
+* [Enhancement #17] Resolve assembly paths in the stack trace info.
+
 # KPSPDev_LogConsole v0.14.0 (May 25th, 2017):
 * KSP 1.3 support.
 

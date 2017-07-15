@@ -17,8 +17,8 @@ public class LocalizableItemAttributeDemo1 : PartModule {
   public string field1 = "";
 
   // This field doesn't have guiName and it would, normally, be treated as a non-GUI field. However,
-  // due to the localization attribute, the guiName value will be assigned when the appropriate
-  // method is called.
+  // due to the localization attribute, the guiName value will be assigned when the module is
+  // loaded.
   [KSPField(guiActive = true)]
   [LocalizableItem(
       tag = "#tag2",

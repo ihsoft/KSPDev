@@ -5,6 +5,8 @@
 using UnityEngine;
 using System;
 using System.Text;
+using System.Collections.Generic;
+using System.IO;
 
 namespace KSPDev.LogConsole {
 
@@ -130,6 +132,32 @@ public class LogRecord {
     }
     titleBuilder.Append(srcLog.message);
     return titleBuilder.ToString();
+  }
+
+  /// <summary>Resolves the file paths on the stack trace records.</summary>
+  /// <remarks>This method is not performance efficient.</remarks>
+  public void ResolveStackFilenames() {
+    if (srcLog.filenamesResolved) {
+      return;  // Nothing to do.
+    }
+    var lines = srcLog.stackTrace.Split('\n');
+    if (srcLog.stackFrames == null || lines.Length != srcLog.stackFrames.Length) {
+      srcLog.filenamesResolved = true;  // Cannot resolve.
+      return;
+    }
+    var gameRoot = Path.GetFullPath(new Uri(KSPUtil.ApplicationRootPath).LocalPath);
+    var matches = new List<string>();
+    for (var i = 0; i < lines.Length; i++) {
+      var assembly = srcLog.stackFrames[i].GetMethod().DeclaringType.Assembly;
+      var relativePath = new Uri(gameRoot)
+          .MakeRelativeUri(new Uri(assembly.Location))
+          .ToString()
+          .Replace(Path.DirectorySeparatorChar, '/');
+      matches.Add(string.Format(
+          "{0} in {1} [v{2}]", lines[i], relativePath, assembly.GetName().Version));
+    }
+    srcLog.stackTrace = string.Join("\n", matches.ToArray());
+    srcLog.filenamesResolved = true;
   }
 }
 

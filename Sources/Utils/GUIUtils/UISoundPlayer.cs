@@ -6,6 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 namespace KSPDev.GUIUtils {
 
@@ -21,44 +22,26 @@ namespace KSPDev.GUIUtils {
 /// pre-cached via the <see cref="CacheSound"/> method. It will increase the loading time, though.
 /// </para>
 /// </remarks>
-/// <example>
-/// <code><![CDATA[
-/// class MyModule : PartModule {
-///   public override OnAwake() {
-///     // We don't want to loose latency on "ooo.ogg" playing.
-///     UISoundPlayer.instance.CacheSound("ooo.ogg");
-///   }
-///
-///   public override OnUpdate() {
-///     if (Input.GetKeyDown("O")) {
-///       UISoundPlayer.instance.Play("ooo.ogg");  // Played from cache. No delay.
-///     }
-///     if (Input.GetKeyDown("P")) {
-///       UISoundPlayer.instance.Play("ppp.ogg");  // May delay the game while loading the resource.
-///     }
-///   }
-/// }
-/// ]]></code>
-/// </example>
-[KSPAddon(KSPAddon.Startup.EveryScene, false /*once*/)]
+/// <seealso cref="LibraryLoader"/>
+/// <example><code source="Examples/GUIUtils/UISoundPlayer-Examples.cs" region="UISoundPlayerDemo1"/></example>
 public sealed class UISoundPlayer : MonoBehaviour {
-  /// <summary>Returns the instance for the player in the current scene.</summary>
+  /// <summary>Returns the instance of the player in the current scene.</summary>
   /// <value>Instance of the player.</value>
   public static UISoundPlayer instance { get; private set; }
 
   /// <summary>Global scene cache for all the sounds.</summary>
-  static readonly Dictionary<string, AudioSource> audioCache =
-      new Dictionary<string, AudioSource>();
+  readonly Dictionary<string, AudioSource> audioCache = new Dictionary<string, AudioSource>();
 
   /// <summary>Plays the specified sound.</summary>
   /// <remarks>
-  /// Every request is cached so that the subsequent calls to play the same sound won't require the
+  /// Every request is cached, so that the subsequent calls to play the same sound won't require the
   /// audio clip to load. However, the same cached sound cannot be played simultaneously from the
   /// different calls - each call will abort the previous play action of the sound.
   /// </remarks>
   /// <param name="audioPath">
   /// The file path relative to <c>GameData</c>. It can be empty, in which case nothing is played.
   /// </param>
+  /// <example><code source="Examples/GUIUtils/UISoundPlayer-Examples.cs" region="UISoundPlayerDemo1"/></example>
   public void Play(string audioPath) {
     if (audioPath == "") {
       return;
@@ -76,15 +59,17 @@ public sealed class UISoundPlayer : MonoBehaviour {
   /// critical. The latency difference is not hight enough to be significant for the GUI actions.
   /// </remarks>
   /// <param name="audioPath">File path relative to <c>GameData</c>.</param>
+  /// <example><code source="Examples/GUIUtils/UISoundPlayer-Examples.cs" region="UISoundPlayerDemo1"/></example>
   public void CacheSound(string audioPath) {
     GetOrLoadAudio(audioPath);
   }
 
-  /// <summary>Initializes <see cref="instance"/>.</summary>
+  /// <summary>Initializes the <see cref="instance"/>.</summary>
+  /// <remarks>It's expected to be called only once.</remarks>
+  /// <seealso cref="LibraryLoader"/>
   void Awake() {
+    SceneManager.sceneLoaded += (scene, mode) => audioCache.Clear();
     instance = this;
-    // The objects in the cache are already destroyed, so just clean it up.
-    audioCache.Clear();
   }
 
   /// <summary>Loads the audio sample and plays it.</summary>

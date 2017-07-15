@@ -3,6 +3,7 @@
 // This software is distributed under Public Domain license.
 
 using KSPDev.ConfigUtils;
+using KSPDev.GUIUtils;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,7 +12,7 @@ using UnityEngine;
 namespace KSPDev.LogConsole {
 
 /// <summary>A console to display Unity's debug logs in-game.</summary>
-[KSPAddon(KSPAddon.Startup.EveryScene, false /*once*/)]
+[KSPAddon(KSPAddon.Startup.Instantly, true /*once*/)]
 [PersistentFieldsFileAttribute("KSPDev/LogConsole/Plugins/PluginData/settings.cfg", "UI")]
 [PersistentFieldsFileAttribute("KSPDev/LogConsole/Plugins/PluginData/session.cfg", "UI",
                                ConsoleUI.SessionGroup)]
@@ -23,7 +24,7 @@ sealed class ConsoleUI : MonoBehaviour {
   /// </remarks>
   const string SessionGroup = "session";
 
-  // ===== Session settings start.  
+  #region Session settings
   [PersistentField("showInfo", group = SessionGroup)]
   static bool showInfo = false;
 
@@ -38,9 +39,12 @@ sealed class ConsoleUI : MonoBehaviour {
 
   [PersistentField("logMode", group = SessionGroup)]
   static ShowMode logShowMode = ShowMode.Smart;
-  // ===== Session settings end.  
 
-  // ===== Console UI settings start.
+  [PersistentField("quickFilter", group = SessionGroup)]
+  static string quickFilterStr = "";
+  #endregion  
+
+  #region Mod's settings
   [PersistentField("consoleToggleKey")]
   static KeyCode toggleKey = KeyCode.BackQuote;
 
@@ -55,8 +59,9 @@ sealed class ConsoleUI : MonoBehaviour {
 
   [PersistentField("ColorSchema/exceptionLog")]
   static Color exceptionLogColor = Color.magenta;
-  // ===== Console UI settings end.
+  #endregion
 
+  #region UI constants
   /// <summary>Console window margin on the screen.</summary>
   const int Margin = 20;
 
@@ -70,12 +75,16 @@ sealed class ConsoleUI : MonoBehaviour {
   /// <summary>A title bar location.</summary>
   static Rect titleBarRect = new Rect(0, 0, 10000, 20);
 
+  /// <summary>Style to draw a control of the minimum size.</summary>
+  static readonly GUILayoutOption MinSizeLayout = GUILayout.ExpandWidth(false);
+
   /// <summary>Mode names.</summary>
-  static readonly GUIContent[] logShowingModes = {
-      new GUIContent("Raw"),
-      new GUIContent("Collapsed"),
-      new GUIContent("Smart"),
-  };
+  static readonly string[] logShowingModes = { "Raw", "Collapsed", "Smart" };
+
+  /// <summary>Box style ot use to present a single record.</summary>
+  /// <remarks>It's re-populated on each GUI update call. See <see cref="OnGUI"/>.</remarks>
+  GUIStyle LogRecordStyle;
+  #endregion
 
   /// <summary>Display mode constants. Must match <see cref="logShowingModes"/>.</summary>
   enum ShowMode {
@@ -90,23 +99,24 @@ sealed class ConsoleUI : MonoBehaviour {
     Smart = 2
   }
   
-  /// <summary>Log scrool box position.</summary>
+  /// <summary>Log scroll box position.</summary>
   static Vector2 scrollPosition;
 
-  /// <summary>Specifies if debug console is visible.</summary>
-  static bool isConsoleVisible = false;
+  /// <summary>Specifies if the debug console is visible.</summary>
+  static bool isConsoleVisible;
 
   /// <summary>ID of the curently selected log record.</summary>
   /// <remarks>It shows expanded.</remarks>
   static int selectedLogRecordId = -1;
 
-  /// <summary>Indicates that visible log records should be queried from
+  /// <summary>Indicates that the visible log records should be queried from a
   /// <see cref="snapshotLogAggregator"/>.</summary>
-  static bool logUpdateIsPaused = false;
-  
-  /// <summary>Idicates that logs from the current aggergator need to be requeryied.</summary>
-  static bool logsViewChanged = false;
-  
+  static bool logUpdateIsPaused;
+
+  /// <summary>Idicates that the logs from the current aggergator need to be re-queried.</summary>
+  static bool logsViewChanged;
+
+  #region Log aggregators
   /// <summary>A logger that keeps records on th disk.</summary>
   internal static PersistentLogAggregator diskLogAggregator = new PersistentLogAggregator();
   /// <summary>A logger to show when <see cref="ShowMode.Raw"/> is selected.</summary>
@@ -117,148 +127,303 @@ sealed class ConsoleUI : MonoBehaviour {
   internal static SmartLogAggregator smartLogAggregator = new SmartLogAggregator();
   /// <summary>A logger to show a static snapshot.</summary>
   static SnapshotLogAggregator snapshotLogAggregator = new SnapshotLogAggregator();
+  #endregion
 
-  /// <summary>A snapshot of logs for the current view.</summary>
+  /// <summary>A snapshot of the logs for the current view.</summary>
   static IEnumerable<LogRecord> logsToShow = new LogRecord[0];
   
-  /// <summary>Number of INFO records in <see cref="logsToShow"/>.</summary>
+  /// <summary>Number of the INFO records in the <see cref="logsToShow"/> collection.</summary>
   static int infoLogs = 0;
-  /// <summary>Number of WARNING records in <see cref="logsToShow"/>.</summary>
+  /// <summary>Number of the WARNING records in the <see cref="logsToShow"/> collection.</summary>
   static int warningLogs = 0;
-  /// <summary>Number of ERROR records in <see cref="logsToShow"/>.</summary>
+  /// <summary>Number of the ERROR records in the <see cref="logsToShow"/> collection.</summary>
   static int errorLogs = 0;
-  /// <summary>Number of EXCEPTION records in <see cref="logsToShow"/>.</summary>
+  /// <summary>Number of the EXCEPTION records in the <see cref="logsToShow"/> collection.</summary>
   static int exceptionLogs = 0;
 
   /// <summary>A list of actions to apply at the end of the GUI frame.</summary>
-  static readonly GUIUtils.GuiActionsList guiActions = new GUIUtils.GuiActionsList();
+  static readonly GuiActionsList guiActions = new GuiActionsList();
 
-  /// <summary>Only loads session settings.</summary>
+  /// <summary>Tells if the controls should be shown at the bottom of the dialog.</summary>
+  bool isToolbarAtTheBottom = true;
+
+  #region Quick filter fields
+  /// <summary>Tells if the quick filter editing is active.</summary>
+  /// <remarks>Log console update is freezed until the mode is ended.</remarks>
+  static bool quickFilterInputEnabled;
+
+  /// <summary>Tells the last known qick filter status.</summary>
+  /// <remarks>It's updated in every <c>OnGUI</c> call. Used to detect the mode change.</remarks>
+  static bool oldQuickFilterInputEnabled;
+
+  /// <summary>The old value of the quick feilter before the edit mode has started.</summary>
+  static string oldQuickFilterStr;
+
+  /// <summary>The size for the quick filter input field.</summary>
+  static readonly GUILayoutOption QuickFilterSizeLayout = GUILayout.Width(100);
+  #endregion
+
+  #region Session persistence
+  /// <summary>Only loads the session settings.</summary>
   void Awake() {
+    UnityEngine.Object.DontDestroyOnLoad(gameObject);
+
+    // Read the configs for all the aggregators.
+    ConfigAccessor.ReadFieldsInType(typeof(LogInterceptor), null /* instance */);
+    ConfigAccessor.ReadFieldsInType(typeof(LogFilter), null /* instance */);
+    ConfigAccessor.ReadFieldsInType(
+        ConsoleUI.diskLogAggregator.GetType(), ConsoleUI.diskLogAggregator);
+    ConfigAccessor.ReadFieldsInType(
+        ConsoleUI.rawLogAggregator.GetType(), ConsoleUI.rawLogAggregator);
+    ConfigAccessor.ReadFieldsInType(
+        ConsoleUI.collapseLogAggregator.GetType(), ConsoleUI.collapseLogAggregator);
+    ConfigAccessor.ReadFieldsInType(
+        ConsoleUI.smartLogAggregator.GetType(), ConsoleUI.smartLogAggregator);
+
+    // Start all aggregators.
+    ConsoleUI.rawLogAggregator.StartCapture();
+    ConsoleUI.collapseLogAggregator.StartCapture();
+    ConsoleUI.smartLogAggregator.StartCapture();
+    ConsoleUI.diskLogAggregator.StartCapture();
+    LogInterceptor.StartIntercepting();
+
+    // Load UI configs.
+    ConfigAccessor.ReadFieldsInType(typeof(ConsoleUI), null /* instance */);
     ConfigAccessor.ReadFieldsInType(typeof(ConsoleUI), this, group: SessionGroup);
   }
-
-  /// <summary>Only stores session settings.</summary>
+  
+  /// <summary>Only stores the session settings.</summary>
   void OnDestroy() {
     ConfigAccessor.WriteFieldsFromType(typeof(ConsoleUI), this, group: SessionGroup);
   }
-
-  /// <summary>Only used to capture console toggle key.</summary>
-  void Update() {
-    if (Input.GetKeyDown(toggleKey)) {
-      isConsoleVisible = !isConsoleVisible;
-    }
-  }
+  #endregion
 
   /// <summary>Actually renders the console window.</summary>
   void OnGUI() {
+    // Init skin styles.
+    LogRecordStyle = new GUIStyle(GUI.skin.box) {
+        alignment = TextAnchor.MiddleLeft,
+    };
+
+    if (Event.current.type == EventType.KeyDown && Event.current.keyCode == toggleKey) {
+      isConsoleVisible = !isConsoleVisible;
+      Event.current.Use();
+    }
     if (isConsoleVisible) {
-      windowRect = GUILayout.Window(
-          WindowId, windowRect, MakeConsoleWindow, "KSPDev Logs Console");
+      var title = "KSPDev Logs Console";
+      if (logUpdateIsPaused) {
+        title += " <i>(PAUSED)</i>";
+      }
+      windowRect = GUILayout.Window(WindowId, windowRect, ConsoleWindowFunc, title);
     }
   }
 
   /// <summary>Shows a window that displays the recorded logs.</summary>
-  /// <param name="windowID">Window ID.</param>
-  void MakeConsoleWindow(int windowID) {
-    // Only logs snapshot when it's safe to change GUI leayout.
+  /// <param name="windowId">Window ID.</param>
+  void ConsoleWindowFunc(int windowId) {
+    // Only show the logs snapshot when it's safe to change the GUI layout.
     if (guiActions.ExecutePendingGuiActions()) {
-      UpdateLogsView(forceUpdate: logUpdateIsPaused);
+      UpdateLogsView();
+      // Check if the toolbar goes out of the screen.
+      isToolbarAtTheBottom = windowRect.yMax < Screen.height;
     }
 
-    scrollPosition = GUILayout.BeginScrollView(scrollPosition);
-    var logRecordStyle = new GUIStyle(GUI.skin.box) {
-        alignment = TextAnchor.MiddleLeft,
-    };
-    var minSizeLayout = GUILayout.ExpandWidth(false);
-
-    // Report if log interceptor is not handling logs.
-    if (!LogInterceptor.isStarted) {
-      GUI.contentColor = GetLogTypeColor(LogType.Error);
-      GUILayout.Box("KSPDev is not handling system logs. Open standard in-game debug console to see"
-                    + " the current logs", logRecordStyle);
+    if (!isToolbarAtTheBottom) {
+      GUICreateToolbar();
     }
 
-    foreach (var log in logsToShow.Where(LogLevelFilter)) {
-      var recordMsg = log.MakeTitle()
-          + (selectedLogRecordId == log.srcLog.id ? ":\n" + log.srcLog.stackTrace : "");
-      GUI.contentColor = GetLogTypeColor(log.srcLog.type);
-      GUILayout.Box(recordMsg, logRecordStyle);
+    // Main scrolling view.
+    using (var logsScrollView = new GUILayout.ScrollViewScope(scrollPosition)) {
+      scrollPosition = logsScrollView.scrollPosition;
 
-      // Check if log record is selected.
-      if (Event.current.type == EventType.MouseDown) {
-        Rect logBoxRect = GUILayoutUtility.GetLastRect();
-        if (GUILayoutUtility.GetLastRect().Contains(Event.current.mousePosition)) {
-          // Toggle selection.
-          var newSelectedId = selectedLogRecordId == log.srcLog.id ? -1 : log.srcLog.id;
-          guiActions.Add(() => GuiActionSelectLog(newSelectedId));
+      // Report conditions.
+      if (!LogInterceptor.isStarted) {
+        using (new GuiColorScope(contentColor: errorLogColor)) {
+          GUILayout.Label("KSPDev is not handling system logs. Open standard in-game debug console"
+                          + " to see the current logs");
         }
       }
-      
-      // Add source and filter controls when expanded.
-      if (selectedLogRecordId == log.srcLog.id && log.srcLog.source.Any()) {
-        GUI.contentColor = Color.white;
-        GUILayout.BeginHorizontal();
-        GUILayout.Label("Silence: source", minSizeLayout);
-        if (GUILayout.Button(log.srcLog.source, minSizeLayout)) {
-          guiActions.Add(() => GuiActionAddSilence(log.srcLog.source, isPrefix: false));
+      if (quickFilterInputEnabled) {
+        using (new GuiColorScope(contentColor: Color.gray)) {
+          GUILayout.Label("<i>Logs update is PAUSED due to the quick filter editing is active."
+                          + " Hit ENTER to accept the filter, or ESC to discard.</i>");
         }
-        var sourceParts = log.srcLog.source.Split('.');
-        if (sourceParts.Length > 1) {
-          GUILayout.Label("or by prefix", minSizeLayout);
-          for (var i = sourceParts.Length - 1; i > 0; --i) {
-            var prefix = String.Join(".", sourceParts.Take(i).ToArray()) + '.';
-            if (GUILayout.Button(prefix, minSizeLayout)) {
-              guiActions.Add(() => GuiActionAddSilence(prefix, isPrefix: true));
-            }
-          }
-        }
-        GUILayout.EndHorizontal();
       }
-    }
-    GUILayout.EndScrollView();
 
-    GUI.contentColor = Color.white;
-
-    // Bottom menu.
-    GUILayout.BeginHorizontal();
-    
-    // Clear logs in the current aggregator. 
-    if (GUILayout.Button(new GUIContent("Clear"))) {
-      guiActions.Add(GuiActionClearLogs);
-    }
-    
-    // Log mode selection. 
-    GUI.changed = false;
-    var showMode = GUILayout.SelectionGrid(
-        (int) logShowMode, logShowingModes, logShowingModes.Length, GUILayout.ExpandWidth(false));
-    logsViewChanged |= GUI.changed;
-    if (GUI.changed) {
-      guiActions.Add(() => GuiActionSetMode(mode: (ShowMode) showMode));
+      GUIShowLogRecords();
     }
 
-    GUI.changed = false;
-    logUpdateIsPaused = GUILayout.Toggle(logUpdateIsPaused, "PAUSED", GUILayout.ExpandWidth(false));
-    if (GUI.changed) {
-      guiActions.Add(() => GuiActionSetPaused(isPaused: logUpdateIsPaused));
+    if (isToolbarAtTheBottom) {
+      GUICreateToolbar();
     }
-    
-    // Draw logs filter by level and refresh logs when filter changes.
-    GUI.changed = false;
-    showInfo = MakeFormattedToggle(showInfo, infoLogColor, "INFO ({0})", infoLogs);
-    showWarning = MakeFormattedToggle(showWarning, warningLogColor, "WARNING ({0})", warningLogs);
-    showError = MakeFormattedToggle(showError, errorLogColor, "ERROR ({0})", errorLogs);
-    showException =
-        MakeFormattedToggle(showException, exceptionLogColor, "EXCEPTION ({0})", exceptionLogs);
-    logsViewChanged |= GUI.changed;
-    GUILayout.EndHorizontal();
 
     // Allow the window to be dragged by its title bar.
-    GUI.DragWindow(titleBarRect);
+    GuiWindow.DragWindow(ref windowRect, titleBarRect);
+  }
+
+  /// <summary>Shows the records from the the currently selected aggregator.</summary>
+  void GUIShowLogRecords() {
+    var capturedRecords = logsToShow.Where(LogLevelFilter);
+    var showRecords = capturedRecords.Where(LogQuickFilter);
+
+    // Warn if there are now records to show.
+    if (!quickFilterInputEnabled && !showRecords.Any()) {
+      var msg = "No records available for the selected levels";
+      if (capturedRecords.Any()) {
+        msg += " and quick filter \"" + quickFilterStr + "\"";
+      }
+      using (new GuiColorScope(contentColor: Color.gray)) {
+        GUILayout.Label(msg);
+      }
+    }
+
+    // Dump the records.
+    foreach (var log in showRecords) {
+      using (new GuiColorScope(contentColor: GetLogTypeColor(log.srcLog.type))) {
+        var recordMsg = log.MakeTitle()
+            + (selectedLogRecordId == log.srcLog.id ? ":\n" + log.srcLog.stackTrace : "");
+        GUILayout.Box(recordMsg, LogRecordStyle);
+
+        // Check if log record is selected.
+        if (Event.current.type == EventType.MouseDown) {
+          Rect logBoxRect = GUILayoutUtility.GetLastRect();
+          if (GUILayoutUtility.GetLastRect().Contains(Event.current.mousePosition)) {
+            // Toggle selection.
+            var newSelectedId = selectedLogRecordId == log.srcLog.id ? -1 : log.srcLog.id;
+            guiActions.Add(() => GuiActionSelectLog(newSelectedId));
+          }
+        }
+      }
+
+      // Present log record details when it's selected.
+      if (selectedLogRecordId == log.srcLog.id && log.srcLog.source.Any()) {
+        GUICreateLogRecordControls(log);
+      }
+    }
+  }
+
+  /// <summary>Displays log records details and creates the relevant controls.</summary>
+  /// <param name="log">The slected log record.</param>
+  void GUICreateLogRecordControls(LogRecord log) {
+    using (new GUILayout.HorizontalScope()) {
+      // Add stack trace utils.
+      using (new GuiEnabledStateScope(!log.srcLog.filenamesResolved)) {
+        if (GUILayout.Button("Resolve file names", MinSizeLayout)) {
+          log.ResolveStackFilenames();
+        }
+      }
+
+      // Add source and filter controls when expanded.
+      GUILayout.Label("Silence: source", MinSizeLayout);
+      if (GUILayout.Button(log.srcLog.source, MinSizeLayout)) {
+        guiActions.Add(() => GuiActionAddSilence(log.srcLog.source, isPrefix: false));
+      }
+      var sourceParts = log.srcLog.source.Split('.');
+      if (sourceParts.Length > 1) {
+        GUILayout.Label("or by prefix", MinSizeLayout);
+        for (var i = sourceParts.Length - 1; i > 0; --i) {
+          var prefix = String.Join(".", sourceParts.Take(i).ToArray()) + '.';
+          if (GUILayout.Button(prefix, MinSizeLayout)) {
+            guiActions.Add(() => GuiActionAddSilence(prefix, isPrefix: true));
+          }
+        }
+      }
+    }
+  }
+
+  /// <summary>Creates controls for the console.</summary>
+  void GUICreateToolbar() {
+    using (new GUILayout.HorizontalScope()) {
+      // Window size/snap.
+      if (GUILayout.Button("\u21d5", MinSizeLayout)) {
+        windowRect = new Rect(Margin, Margin,
+                              Screen.width - Margin * 2, Screen.height - Margin * 2);
+      }
+      if (GUILayout.Button("\u21d1", MinSizeLayout)) {
+        windowRect = new Rect(Margin, Margin,
+                              Screen.width - Margin * 2, (Screen.height - Margin * 2) / 3);
+      }
+      if (GUILayout.Button("\u21d3", MinSizeLayout)) {
+        var clientHeight = (Screen.height - 2 * Margin) / 3;
+        windowRect = new Rect(Margin, Screen.height - Margin - clientHeight,
+                              Screen.width - Margin * 2, clientHeight);
+      }
+
+      // Quick filter.
+      // Due to Unity GUI behavior, any change to the layout resets the text field focus. We do some
+      // tricks here to set initial focus to the field but not locking it permanently.
+      GUILayout.Label("Quick filter:", MinSizeLayout);
+      if (quickFilterInputEnabled) {
+        GUI.SetNextControlName("quickFilter");
+        quickFilterStr = GUILayout.TextField(quickFilterStr, QuickFilterSizeLayout);
+        if (Event.current.type == EventType.KeyUp) {
+          if (Event.current.keyCode == KeyCode.Return) {
+            guiActions.Add(GuiActionAcceptQuickFilter);
+          } else if (Event.current.keyCode == KeyCode.Escape) {
+            guiActions.Add(GuiActionCancelQuickFilter);
+          }
+        } else if (Event.current.type == EventType.Layout
+                   && GUI.GetNameOfFocusedControl() != "quickFilter") {
+          if (oldQuickFilterInputEnabled != quickFilterInputEnabled
+              && !oldQuickFilterInputEnabled) {
+            GUI.FocusControl("quickFilter");  // Initial set of the focus.
+          } else {
+            guiActions.Add(GuiActionCancelQuickFilter);  // The field has lost the focus.
+          }
+        }  
+      } else {
+        var title = quickFilterStr == "" ? "<i>NONE</i>" : quickFilterStr;
+        if (GUILayout.Button(title, QuickFilterSizeLayout)) {
+          guiActions.Add(GuiActionStartQuickFilter);
+        }
+      }
+      oldQuickFilterInputEnabled = quickFilterInputEnabled;
+
+      using (new GuiEnabledStateScope(!quickFilterInputEnabled)) {
+        // Clear logs in the current aggregator.
+        if (GUILayout.Button("Clear")) {
+          guiActions.Add(GuiActionClearLogs);
+        }
+
+        // Log mode selection. 
+        GUI.changed = false;
+        var showMode = GUILayout.SelectionGrid(
+            (int) logShowMode, logShowingModes, logShowingModes.Length, MinSizeLayout);
+        logsViewChanged |= GUI.changed;
+        if (GUI.changed) {
+          guiActions.Add(() => GuiActionSetMode((ShowMode) showMode));
+        }
+
+        // Paused state selection.
+        GUI.changed = false;
+        var isPaused = GUILayout.Toggle(logUpdateIsPaused, "PAUSED", MinSizeLayout);
+        if (GUI.changed) {
+          guiActions.Add(() => GuiActionSetPaused(isPaused));
+        }
+        
+        // Draw logs filter by level and refresh logs when filter changes.
+        GUI.changed = false;
+        using (new GuiColorScope()) {
+          GUI.contentColor = infoLogColor;
+          showInfo = GUILayout.Toggle(
+              showInfo, string.Format("INFO ({0})", infoLogs), MinSizeLayout);
+          GUI.contentColor = warningLogColor;
+          showWarning = GUILayout.Toggle(
+              showWarning, string.Format("WARNING ({0})", warningLogs), MinSizeLayout);
+          GUI.contentColor = errorLogColor;
+          showError = GUILayout.Toggle(
+              showError, string.Format("ERROR ({0})", errorLogs), MinSizeLayout);
+          GUI.contentColor = exceptionLogColor;
+          showException = GUILayout.Toggle(
+              showException, string.Format("EXCEPTION ({0})", exceptionLogs), MinSizeLayout);
+        }
+        logsViewChanged |= GUI.changed;
+      }
+    }
   }
 
   /// <summary>Verifies if level of the log record is needed by the UI.</summary>
-  /// <param name="log">A log record to verify.</param>
+  /// <param name="log">The log record to verify.</param>
   /// <returns><c>true</c> if this level is visible.</returns>
   static bool LogLevelFilter(LogRecord log) {
     return log.srcLog.type == LogType.Exception && showException
@@ -280,25 +445,24 @@ sealed class ConsoleUI : MonoBehaviour {
     return Color.gray;
   }
 
-  /// <summary>Makes a standard toggle GUI element.</summary>
-  /// <param name="value">A toggle initial state.</param>
-  /// <param name="color">A toggle color foreground.</param>
-  /// <param name="fmt">A formatting string for the toggle caption</param>
-  /// <param name="args">Arguments for the formatting string.</param>
-  /// <returns></returns>
-  bool MakeFormattedToggle(bool value, Color color, string fmt, params object[] args) {
-    GUI.contentColor = color;
-    return GUILayout.Toggle(value, string.Format(fmt, args), GUILayout.ExpandWidth(false));
+  /// <summary>Verifies if the log record matches the quick filter criteria.</summary>
+  /// <remarks>The quick filter string is a case-insensitive prefix of the log's source.</remarks>
+  /// <param name="log">The log record to verify.</param>
+  /// <returns><c>true</c> if this log passes the quick filter check.</returns>
+  bool LogQuickFilter(LogRecord log) {
+    var filter = quickFilterInputEnabled ? oldQuickFilterStr : quickFilterStr;
+    return log.srcLog.source.StartsWith(filter, StringComparison.OrdinalIgnoreCase);
   }
 
-  /// <summary>Populates <see cref="logsToShow"/> and stats numbers.</summary>
-  /// <remarks>Current aggregator is determined from <see cref="logShowMode"/> and
-  /// <see cref="logUpdateIsPaused"/></remarks>
-  /// <param name="forceUpdate">If <c>false</c> then logs view will only be updated if there were
-  /// newly aggregated records in teh current aggregator.</param>
-  void UpdateLogsView(bool forceUpdate = false) {
-    BaseLogAggregator currentAggregator = GetCurrentAggregator();
-    if (currentAggregator.FlushBufferedLogs() || logsViewChanged || forceUpdate) {
+  /// <summary>Populates <see cref="logsToShow"/> and the stats numbers.</summary>
+  /// <remarks>
+  /// The current aggregator is determined from <see cref="logShowMode"/> and
+  /// <see cref="logUpdateIsPaused"/> state.
+  /// </remarks>
+  void UpdateLogsView() {
+    var currentAggregator =
+        logUpdateIsPaused ? snapshotLogAggregator : GetCurrentAggregator();
+    if (currentAggregator.FlushBufferedLogs() || logsViewChanged) {
       logsToShow = currentAggregator.GetLogRecords();
       infoLogs = currentAggregator.infoLogsCount;
       warningLogs = currentAggregator.warningLogsCount;
@@ -308,34 +472,55 @@ sealed class ConsoleUI : MonoBehaviour {
     logsViewChanged = false;
   }
   
-  /// <summary>Returns an aggregator for teh currentkly selected mode.</summary>
-  /// <param name="ignorePaused">If <c>true</c> then snapshot aggregator is not considered.</param>
+  /// <summary>Returns an aggregator for the currently selected mode.</summary>
   /// <returns>An aggregator.</returns>
-  BaseLogAggregator GetCurrentAggregator(bool ignorePaused = false) {
-    BaseLogAggregator currentAggregator = snapshotLogAggregator;
-    if (ignorePaused || !logUpdateIsPaused) {
-      if (logShowMode == ShowMode.Raw) {
-        currentAggregator = rawLogAggregator;
-      } else if (logShowMode == ShowMode.Collapsed) {
-        currentAggregator = collapseLogAggregator;
-      } else {
-        currentAggregator = smartLogAggregator;
-      }
+  BaseLogAggregator GetCurrentAggregator() {
+    BaseLogAggregator currentAggregator;
+    if (logShowMode == ShowMode.Raw) {
+      currentAggregator = rawLogAggregator;
+    } else if (logShowMode == ShowMode.Collapsed) {
+      currentAggregator = collapseLogAggregator;
+    } else {
+      currentAggregator = smartLogAggregator;
     }
     return currentAggregator;
   }
 
   #region GUI action handlers
   void GuiActionSetPaused(bool isPaused) {
+    if (isPaused == logUpdateIsPaused) {
+      return;  // Prevent refreshing of the snapshot if the mode hasn't changed.
+    }
     if (isPaused) {
-      snapshotLogAggregator.LoadLogs(GetCurrentAggregator(ignorePaused: true));
+      snapshotLogAggregator.LoadLogs(GetCurrentAggregator());
     }
     logUpdateIsPaused = isPaused;
     logsViewChanged = true;
   }
 
+  void GuiActionCancelQuickFilter() {
+    if (quickFilterInputEnabled) {
+      quickFilterInputEnabled = false;
+      quickFilterStr = oldQuickFilterStr;
+      oldQuickFilterStr = null;
+      GuiActionSetPaused(false);
+    }
+  }
+
+  void GuiActionAcceptQuickFilter() {
+    quickFilterInputEnabled = false;
+    oldQuickFilterStr = null;
+    GuiActionSetPaused(false);
+  }
+
+  void GuiActionStartQuickFilter() {
+    quickFilterInputEnabled = true;
+    oldQuickFilterStr = quickFilterStr;
+    GuiActionSetPaused(true);
+  }
+
   void GuiActionClearLogs() {
-    GuiActionSetPaused(isPaused: false);
+    GuiActionSetPaused(false);
     GetCurrentAggregator().ClearAllLogs();
     logsViewChanged = true;
   }
@@ -361,36 +546,10 @@ sealed class ConsoleUI : MonoBehaviour {
   
   void GuiActionSetMode(ShowMode mode) {
     logShowMode = mode;
-    GuiActionSetPaused(isPaused: false);  // New mode invalidates snapshot.
+    GuiActionSetPaused(false);  // New mode invalidates the snapshot.
     logsViewChanged = true;
   }
   #endregion
-}
-
-/// <summary>Only used to start logs aggregation and load configs.</summary>
-[KSPAddon(KSPAddon.Startup.Instantly, true /*once*/)]
-sealed class AggregationStarter : MonoBehaviour {
-  void Awake() {
-    // Read all configs.
-    ConfigAccessor.ReadFieldsInType(typeof(ConsoleUI), null /* instance */);
-    ConfigAccessor.ReadFieldsInType(typeof(LogInterceptor), null /* instance */);
-    ConfigAccessor.ReadFieldsInType(typeof(LogFilter), null /* instance */);
-    ConfigAccessor.ReadFieldsInType(
-        ConsoleUI.diskLogAggregator.GetType(), ConsoleUI.diskLogAggregator);
-    ConfigAccessor.ReadFieldsInType(
-        ConsoleUI.rawLogAggregator.GetType(), ConsoleUI.rawLogAggregator);
-    ConfigAccessor.ReadFieldsInType(
-        ConsoleUI.collapseLogAggregator.GetType(), ConsoleUI.collapseLogAggregator);
-    ConfigAccessor.ReadFieldsInType(
-        ConsoleUI.smartLogAggregator.GetType(), ConsoleUI.smartLogAggregator);
-
-    // Start all aggregators.
-    ConsoleUI.rawLogAggregator.StartCapture();
-    ConsoleUI.collapseLogAggregator.StartCapture();
-    ConsoleUI.smartLogAggregator.StartCapture();
-    ConsoleUI.diskLogAggregator.StartCapture();
-    LogInterceptor.StartIntercepting();
-  }
 }
 
 } // namespace KSPDev

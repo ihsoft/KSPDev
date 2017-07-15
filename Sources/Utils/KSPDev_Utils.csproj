@@ -6,7 +6,7 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <OutputType>Library</OutputType>
     <RootNamespace>KSPDev</RootNamespace>
-    <AssemblyName>KSPDev_Utils.0.24</AssemblyName>
+    <AssemblyName>KSPDev_Utils.0.25</AssemblyName>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <TargetFrameworkProfile />
@@ -86,12 +86,16 @@
     <Compile Include="ConfigUtils\PersistentField.cs" />
     <Compile Include="ConfigUtils\PersistentFieldAttribute.cs" />
     <Compile Include="ConfigUtils\KspTypesProto.cs" />
-    <Compile Include="Extensions\Dictionaries.cs" />
+    <Compile Include="Extensions\DictExtensions.cs" />
+    <Compile Include="Extensions\RectExtensions.cs" />
     <Compile Include="FSUtils\KspPaths.cs" />
     <Compile Include="GUIUtils\AngleType.cs" />
     <Compile Include="GUIUtils\DistanceType.cs" />
-    <Compile Include="GUIUtils\EnumType.cs" />
+    <Compile Include="GUIUtils\MessageLookup.cs" />
     <Compile Include="GUIUtils\ForceType.cs" />
+    <Compile Include="GUIUtils\GuiColorScope.cs" />
+    <Compile Include="GUIUtils\GuiEnabledStateScope.cs" />
+    <Compile Include="GUIUtils\GuiWindow.cs" />
     <Compile Include="GUIUtils\IHasContextMenu.cs" />
     <Compile Include="GUIUtils\LocalizableItemAttribute.cs" />
     <Compile Include="GUIUtils\LocalizableMessage.cs" />
@@ -114,6 +118,7 @@
     <Compile Include="KSPInterfaces\IsPackable.cs" />
     <Compile Include="KSPInterfaces\IsPartDeathListener.cs" />
     <Compile Include="KSPInterfaces\IsPhysicalObject.cs" />
+    <Compile Include="LibraryLoader.cs" />
     <Compile Include="LogUtils\DbgFormatter.cs" />
     <Compile Include="LogUtils\HostedDebugLog.cs" />
     <Compile Include="ModelUtils\AlignTransforms.cs" />
@@ -127,7 +132,6 @@
     <Compile Include="ResourceUtils\StockResourceNames.cs" />
     <Compile Include="SoundUtils\SpatialSounds.cs" />
     <Compile Include="Types\PosAndRot.cs" />
-    <Compile Include="VersionLogger.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Extensions" />

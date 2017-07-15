@@ -8,12 +8,12 @@
   <seealso cref="Message&lt;T1,T2,T3&gt;"/>
   <seealso cref="Message&lt;T1,T2,T3,T4&gt;"/>
   <seealso cref="Message&lt;T1,T2,T3,T4,T5&gt;"/>
+  <seealso cref="MessageLookup&lt;T&gt;"/>
 </MessageTypeWithArg>
 
 <MessageArgumentType>
   <seealso cref="AngleType"/>
   <seealso cref="DistanceType"/>
-  <seealso cref="EnumType&lt;T&gt;"/>
   <seealso cref="ForceType"/>
   <seealso cref="PercentType"/>
   <seealso cref="MassType"/>

@@ -8,17 +8,15 @@ namespace Examples {
 
 #region LocalizationLoaderDemo1
 public class LocalizationLoaderDemo1 : PartModule {
-  [KSPField(guiName = "just-in-case text", guiActive = true)]
-  [LocalizableItem(
-      tag = "#tag1",
-      defaultTemplate = "English text 1",
-      description = "A field which demonstrates a localizable GUI string")]
-  public string field1 = "";
+  public class OtherModule : PartModule {
+    [KSPField(guiName = "just-in-case text", guiActive = true)]
+    [LocalizableItem(tag = "#tag1")]
+    public string field1 = "";
+  }
 
-  public override void OnAwake() {
-    base.OnAwake();
-    // The loader will overwrite guiName in field1.
-    LocalizationLoader.LoadItemsInModule(this);
+  public void AddCustomModule() {
+    var newModule = gameObject.AddComponent<OtherModule>();
+    LocalizationLoader.LoadItemsInModule(newModule);
   }
 }
 #endregion
