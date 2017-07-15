@@ -45,6 +45,7 @@ class LibraryLoader : MonoBehaviour {
     // Install the localization callbacks. The object must not be destroyed.
     UnityEngine.Object.DontDestroyOnLoad(gameObject);
     gameObject.AddComponent<LocalizationLoader>();
+    gameObject.AddComponent<UISoundPlayer>();
   }
 }
 

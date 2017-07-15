@@ -6,6 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 namespace KSPDev.GUIUtils {
 
@@ -40,14 +41,13 @@ namespace KSPDev.GUIUtils {
 /// }
 /// ]]></code>
 /// </example>
-[KSPAddon(KSPAddon.Startup.EveryScene, false /*once*/)]
 public sealed class UISoundPlayer : MonoBehaviour {
   /// <summary>Returns the instance for the player in the current scene.</summary>
   /// <value>Instance of the player.</value>
   public static UISoundPlayer instance { get; private set; }
 
   /// <summary>Global scene cache for all the sounds.</summary>
-  static readonly Dictionary<string, AudioSource> audioCache =
+  readonly Dictionary<string, AudioSource> audioCache =
       new Dictionary<string, AudioSource>();
 
   /// <summary>Plays the specified sound.</summary>
@@ -81,10 +81,11 @@ public sealed class UISoundPlayer : MonoBehaviour {
   }
 
   /// <summary>Initializes <see cref="instance"/>.</summary>
+  /// <remarks>It's expected to be called only once.</remarks>
+  /// <seealso cref="LibraryLoader"/>
   void Awake() {
+    SceneManager.sceneLoaded += (scene, mode) => audioCache.Clear();
     instance = this;
-    // The objects in the cache are already destroyed, so just clean it up.
-    audioCache.Clear();
   }
 
   /// <summary>Loads the audio sample and plays it.</summary>
