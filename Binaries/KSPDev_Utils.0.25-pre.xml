@@ -1215,8 +1215,8 @@
             <remarks>
             Use it as a generic parameter when creating a <see cref="T:KSPDev.GUIUtils.LocalizableMessage"/> descendants.
             </remarks>
-            <seealso cref="T:KSPDev.GUIUtils.Message`1"/><seealso cref="T:KSPDev.GUIUtils.Message`2"/><seealso cref="T:KSPDev.GUIUtils.Message`3"/><seealso cref="T:KSPDev.GUIUtils.Message`4"/><seealso cref="T:KSPDev.GUIUtils.Message`5"/>
-            <seealso cref="T:KSPDev.GUIUtils.AngleType"/><seealso cref="T:KSPDev.GUIUtils.DistanceType"/><seealso cref="T:KSPDev.GUIUtils.EnumType`1"/><seealso cref="T:KSPDev.GUIUtils.ForceType"/><seealso cref="T:KSPDev.GUIUtils.PercentType"/><seealso cref="T:KSPDev.GUIUtils.MassType"/>
+            <seealso cref="T:KSPDev.GUIUtils.Message`1"/><seealso cref="T:KSPDev.GUIUtils.Message`2"/><seealso cref="T:KSPDev.GUIUtils.Message`3"/><seealso cref="T:KSPDev.GUIUtils.Message`4"/><seealso cref="T:KSPDev.GUIUtils.Message`5"/><seealso cref="T:KSPDev.GUIUtils.MessageLookup`1"/>
+            <seealso cref="T:KSPDev.GUIUtils.AngleType"/><seealso cref="T:KSPDev.GUIUtils.DistanceType"/><seealso cref="T:KSPDev.GUIUtils.ForceType"/><seealso cref="T:KSPDev.GUIUtils.PercentType"/><seealso cref="T:KSPDev.GUIUtils.MassType"/>
             <example><code source="Examples/GUIUtils/AngleType-Examples.cs" region="AngleTypeDemo1"/></example>
             <example><code source="Examples/GUIUtils/AngleType-Examples.cs" region="AngleTypeDemo2_FormatDefault"/></example>
             <example><code source="Examples/GUIUtils/AngleType-Examples.cs" region="AngleTypeDemo2_FormatFixed"/></example>
@@ -1281,8 +1281,8 @@
             used for the unit names.
             </para>
             </remarks>
-            <seealso cref="T:KSPDev.GUIUtils.Message`1"/><seealso cref="T:KSPDev.GUIUtils.Message`2"/><seealso cref="T:KSPDev.GUIUtils.Message`3"/><seealso cref="T:KSPDev.GUIUtils.Message`4"/><seealso cref="T:KSPDev.GUIUtils.Message`5"/>
-            <seealso cref="T:KSPDev.GUIUtils.AngleType"/><seealso cref="T:KSPDev.GUIUtils.DistanceType"/><seealso cref="T:KSPDev.GUIUtils.EnumType`1"/><seealso cref="T:KSPDev.GUIUtils.ForceType"/><seealso cref="T:KSPDev.GUIUtils.PercentType"/><seealso cref="T:KSPDev.GUIUtils.MassType"/>
+            <seealso cref="T:KSPDev.GUIUtils.Message`1"/><seealso cref="T:KSPDev.GUIUtils.Message`2"/><seealso cref="T:KSPDev.GUIUtils.Message`3"/><seealso cref="T:KSPDev.GUIUtils.Message`4"/><seealso cref="T:KSPDev.GUIUtils.Message`5"/><seealso cref="T:KSPDev.GUIUtils.MessageLookup`1"/>
+            <seealso cref="T:KSPDev.GUIUtils.AngleType"/><seealso cref="T:KSPDev.GUIUtils.DistanceType"/><seealso cref="T:KSPDev.GUIUtils.ForceType"/><seealso cref="T:KSPDev.GUIUtils.PercentType"/><seealso cref="T:KSPDev.GUIUtils.MassType"/>
             <example><code source="Examples/GUIUtils/DistanceType-Examples.cs" region="DistanceTypeDemo1"/></example>
             <example><code source="Examples/GUIUtils/DistanceType-Examples.cs" region="DistanceTypeDemo2_FormatDefault"/></example>
             <example><code source="Examples/GUIUtils/DistanceType-Examples.cs" region="DistanceTypeDemo2_FormatWithScale"/></example>
@@ -1352,7 +1352,7 @@
             <returns>A string representing the value.</returns>
             <seealso cref="M:KSPDev.GUIUtils.DistanceType.Format(System.Double,System.Nullable{System.Double},System.String)"/>
         </member>
-        <member name="T:KSPDev.GUIUtils.EnumType`1">
+        <member name="T:KSPDev.GUIUtils.MessageLookup`1">
             <summary>Localized message formatting class for a enum value.</summary>
             <typeparam name="T">Type of the enum to wrap.</typeparam>
             <remarks>
@@ -1367,29 +1367,53 @@
             used in the places where the enum value would normally be used, and vise versa.
             </para>
             </remarks>
-            <seealso cref="T:KSPDev.GUIUtils.Message`1"/><seealso cref="T:KSPDev.GUIUtils.Message`2"/><seealso cref="T:KSPDev.GUIUtils.Message`3"/><seealso cref="T:KSPDev.GUIUtils.Message`4"/><seealso cref="T:KSPDev.GUIUtils.Message`5"/>
-            <seealso cref="T:KSPDev.GUIUtils.AngleType"/><seealso cref="T:KSPDev.GUIUtils.DistanceType"/><seealso cref="T:KSPDev.GUIUtils.EnumType`1"/><seealso cref="T:KSPDev.GUIUtils.ForceType"/><seealso cref="T:KSPDev.GUIUtils.PercentType"/><seealso cref="T:KSPDev.GUIUtils.MassType"/>
-            <seealso href="http://lingoona.com/cgi-bin/grammar#l=en&amp;oh=1">Lingoona Grammar help</seealso>
-            <example><code source="Examples/GUIUtils/EnumType-Examples.cs" region="EnumTypeDemo1"/></example>
+            <seealso cref="T:KSPDev.GUIUtils.Message`1"/><seealso cref="T:KSPDev.GUIUtils.Message`2"/><seealso cref="T:KSPDev.GUIUtils.Message`3"/><seealso cref="T:KSPDev.GUIUtils.Message`4"/><seealso cref="T:KSPDev.GUIUtils.Message`5"/><seealso cref="T:KSPDev.GUIUtils.MessageLookup`1"/>
+            <example><code source="Examples/GUIUtils/MessageLookup-Examples.cs" region="MessageLookupDemo_Simple"/></example>
+            <example><code source="Examples/GUIUtils/MessageLookup-Examples.cs" region="MessageLookupDemo_WithDefault"/></example>
+            <example><code source="Examples/GUIUtils/MessageLookup-Examples.cs" region="MessageLookupDemo_WithStockDefault"/></example>
         </member>
-        <member name="M:KSPDev.GUIUtils.EnumType`1.#ctor(`0)">
-            <summary>Constructs a wrapper from the enum value.</summary>
-            <param name="value">The enum value to wrap.</param>
-            <example><code source="Examples/GUIUtils/EnumType-Examples.cs" region="EnumTypeDemo1"/></example>
+        <member name="F:KSPDev.GUIUtils.MessageLookup`1.messages">
+            <summary>Mapping of the key to the messages.</summary>
         </member>
-        <member name="M:KSPDev.GUIUtils.EnumType`1.op_Implicit(`0)~KSPDev.GUIUtils.EnumType{`0}">
-            <summary>Converts the enum value into a wrapper.</summary>
-            <param name="value">The enum value to wrap.</param>
-            <returns>A wrapped value.</returns>
+        <member name="F:KSPDev.GUIUtils.MessageLookup`1.defaultMessage">
+            <summary>Message to return when the requested key is not found.</summary>
+            <seealso cref="F:KSPDev.GUIUtils.MessageLookup`1.stockDefaultMessage"/>
         </member>
-        <member name="M:KSPDev.GUIUtils.EnumType`1.op_Implicit(KSPDev.GUIUtils.EnumType{`0})~`0">
-            <summary>Converts the wrapper into a enum value.</summary>
-            <param name="enumObj">The wrapper to convert.</param>
-            <returns>A enum value.</returns>
+        <member name="F:KSPDev.GUIUtils.MessageLookup`1.stockDefaultMessage">
+            <summary>Default message to return when the requested key is not found.</summary>
+            <seealso cref="F:KSPDev.GUIUtils.MessageLookup`1.defaultMessage"/>
         </member>
-        <member name="M:KSPDev.GUIUtils.EnumType`1.ToString">
-            <summary>Returns the int value converted into a string.</summary>
-            <returns>A string representing the value.</returns>
+        <member name="M:KSPDev.GUIUtils.MessageLookup`1.#ctor(System.Collections.Generic.Dictionary{`0,KSPDev.GUIUtils.Message},KSPDev.GUIUtils.Message)">
+            <summary>Constructs a lookup from the provided dictionary.</summary>
+            <remarks>
+            It's encouraged to construct the dictionary from a statically defined messages instead of
+            creating them in place. The <c>LocalizationTool</c> cann only find the static messages.
+            </remarks>
+            <param name="initDict">
+            The dictionary to use as the lookup. If <c>null</c> when a new empty dictionary will be
+            created for <see cref="F:KSPDev.GUIUtils.MessageLookup`1.messages"/>.
+            </param>
+            <param name="defaultMessage">
+            The message to return from the <see cref="M:KSPDev.GUIUtils.MessageLookup`1.Lookup(`0,System.Boolean)"/> method when no key found. If omitted then
+            the non-localizable  <see cref="F:KSPDev.GUIUtils.MessageLookup`1.stockDefaultMessage"/> will be returned.
+            </param>
+            <seealso cref="M:KSPDev.GUIUtils.MessageLookup`1.Lookup(`0,System.Boolean)"/>
+            <example><code source="Examples/GUIUtils/MessageLookup-Examples.cs" region="MessageLookupDemo_Simple"/></example>
+        </member>
+        <member name="M:KSPDev.GUIUtils.MessageLookup`1.Lookup(`0,System.Boolean)">
+            <summary>Find and return a message for the provided key.</summary>
+            <param name="key">The key to find a message for.</param>
+            <param name="noDefault">
+            If <c>true</c> and no key was found, then <c>null</c> is returned instead of the
+            <see cref="F:KSPDev.GUIUtils.MessageLookup`1.defaultMessage"/>.
+            </param>
+            <returns>
+            The relevant message if the <paramref name="key"/> is found. Otherwise, the
+            <see cref="F:KSPDev.GUIUtils.MessageLookup`1.defaultMessage"/> or <c>null</c>.
+            </returns>
+            <example><code source="Examples/GUIUtils/MessageLookup-Examples.cs" region="MessageLookupDemo_WithDefault"/></example>
+            <example><code source="Examples/GUIUtils/MessageLookup-Examples.cs" region="MessageLookupDemo_WithStockDefault"/></example>
+            <seealso cref="F:KSPDev.GUIUtils.MessageLookup`1.defaultMessage"/>
         </member>
         <member name="T:KSPDev.GUIUtils.ForceType">
             <summary>
@@ -1406,8 +1430,8 @@
             used for the unit names.
             </para>
             </remarks>
-            <seealso cref="T:KSPDev.GUIUtils.Message`1"/><seealso cref="T:KSPDev.GUIUtils.Message`2"/><seealso cref="T:KSPDev.GUIUtils.Message`3"/><seealso cref="T:KSPDev.GUIUtils.Message`4"/><seealso cref="T:KSPDev.GUIUtils.Message`5"/>
-            <seealso cref="T:KSPDev.GUIUtils.AngleType"/><seealso cref="T:KSPDev.GUIUtils.DistanceType"/><seealso cref="T:KSPDev.GUIUtils.EnumType`1"/><seealso cref="T:KSPDev.GUIUtils.ForceType"/><seealso cref="T:KSPDev.GUIUtils.PercentType"/><seealso cref="T:KSPDev.GUIUtils.MassType"/>
+            <seealso cref="T:KSPDev.GUIUtils.Message`1"/><seealso cref="T:KSPDev.GUIUtils.Message`2"/><seealso cref="T:KSPDev.GUIUtils.Message`3"/><seealso cref="T:KSPDev.GUIUtils.Message`4"/><seealso cref="T:KSPDev.GUIUtils.Message`5"/><seealso cref="T:KSPDev.GUIUtils.MessageLookup`1"/>
+            <seealso cref="T:KSPDev.GUIUtils.AngleType"/><seealso cref="T:KSPDev.GUIUtils.DistanceType"/><seealso cref="T:KSPDev.GUIUtils.ForceType"/><seealso cref="T:KSPDev.GUIUtils.PercentType"/><seealso cref="T:KSPDev.GUIUtils.MassType"/>
             <example><code source="Examples/GUIUtils/ForceType-Examples.cs" region="ForceTypeDemo1"/></example>
             <example><code source="Examples/GUIUtils/ForceType-Examples.cs" region="ForceTypeDemo2_FormatDefault"/></example>
             <example><code source="Examples/GUIUtils/ForceType-Examples.cs" region="ForceTypeDemo2_FormatFixed"/></example>
@@ -1463,35 +1487,35 @@
             <returns>A string representing the value.</returns>
             <seealso cref="M:KSPDev.GUIUtils.ForceType.Format(System.Double,System.String)"/>
         </member>
-        <member name="T:KSPDev.GUIUtils.GuiColor">
+        <member name="T:KSPDev.GUIUtils.GuiColorScope">
             <summary>A utility class to render big disabled bloacks of GUI.</summary>
-            <example><code source="Examples/GUIUtils/GuiColor-Examples.cs" region="GuiColorDemo1"/></example>
-            <example><code source="Examples/GUIUtils/GuiColor-Examples.cs" region="GuiColorDemo2"/></example>
+            <example><code source="Examples/GUIUtils/GuiColorScope-Examples.cs" region="GuiColorScopeDemo1"/></example>
+            <example><code source="Examples/GUIUtils/GuiColorScope-Examples.cs" region="GuiColorScopeDemo2"/></example>
         </member>
-        <member name="M:KSPDev.GUIUtils.GuiColor.#ctor(System.Nullable{UnityEngine.Color},System.Nullable{UnityEngine.Color},System.Nullable{UnityEngine.Color})">
+        <member name="M:KSPDev.GUIUtils.GuiColorScope.#ctor(System.Nullable{UnityEngine.Color},System.Nullable{UnityEngine.Color},System.Nullable{UnityEngine.Color})">
             <summary>Stores the old state and sets a new one.</summary>
             <param name="color">The new color for <c>GUI.color</c>.</param>
             <param name="contentColor">The new color for <c>GUI.contentColor</c>.</param>
             <param name="backgroundColor">The new color for <c>GUI.backgroundColor</c>.</param>
-            <example><code source="Examples/GUIUtils/GuiColor-Examples.cs" region="GuiColorDemo1"/></example>
-            <example><code source="Examples/GUIUtils/GuiColor-Examples.cs" region="GuiColorDemo2"/></example>
+            <example><code source="Examples/GUIUtils/GuiColorScope-Examples.cs" region="GuiColorScopeDemo1"/></example>
+            <example><code source="Examples/GUIUtils/GuiColorScope-Examples.cs" region="GuiColorScopeDemo2"/></example>
             <seealso href="https://docs.unity3d.com/ScriptReference/GUI-color.html">Untiy3D: GUI.color</seealso>
             <seealso href="https://docs.unity3d.com/ScriptReference/GUI-contentColor.html">Untiy3D: GUI.contentColor</seealso>
             <seealso href="https://docs.unity3d.com/ScriptReference/GUI-backgroundColor.html">Untiy3D: GUI.backgroundColor</seealso>
         </member>
-        <member name="M:KSPDev.GUIUtils.GuiColor.Dispose">
+        <member name="M:KSPDev.GUIUtils.GuiColorScope.Dispose">
             <inheritdoc/>
         </member>
-        <member name="T:KSPDev.GUIUtils.GuiEnabledState">
+        <member name="T:KSPDev.GUIUtils.GuiEnabledStateScope">
             <summary>A utility class to render big disabled bloacks of GUI.</summary>
-            <example><code source="Examples/GUIUtils/GuiWindow-Examples.cs" region="GuiEnabledStateDemo1_OnGUI"/></example>
+            <example><code source="Examples/GUIUtils/GuiEnabledStateScope-Examples.cs" region="GuiEnabledStateScopeDemo1_OnGUI"/></example>
         </member>
-        <member name="M:KSPDev.GUIUtils.GuiEnabledState.#ctor(System.Boolean)">
+        <member name="M:KSPDev.GUIUtils.GuiEnabledStateScope.#ctor(System.Boolean)">
             <summary>Stores the old state and sets a new one.</summary>
             <param name="newState">The new state to set.</param>
-            <example><code source="Examples/GUIUtils/GuiWindow-Examples.cs" region="GuiEnabledStateDemo1_OnGUI"/></example>
+            <example><code source="Examples/GUIUtils/GuiEnabledStateScope-Examples.cs" region="GuiEnabledStateScopeDemo1_OnGUI"/></example>
         </member>
-        <member name="M:KSPDev.GUIUtils.GuiEnabledState.Dispose">
+        <member name="M:KSPDev.GUIUtils.GuiEnabledStateScope.Dispose">
             <inheritdoc/>
         </member>
         <member name="T:KSPDev.GUIUtils.GuiWindow">
@@ -1626,7 +1650,7 @@
             </para>
             <para>
             This class is performance optimized. Once a string is resolved to the localized content, it's
-            cached and reused in the subsequent calls. The cache can be reset by inceremnting the
+            cached and reused in the subsequent calls. The cache can be reset by incrementing the
             <see cref="F:KSPDev.GUIUtils.LocalizableMessage.systemLocVersion"/>.
             </para>
             </remarks>
@@ -1734,7 +1758,12 @@
 </item>
         </member>
         <member name="T:KSPDev.GUIUtils.LocalizationLoader">
-            <summary>A utility class to localize annotated members</summary>
+            <summary>A utility class to localize the annotated members</summary>
+            <remarks>
+            It also monitors if a new localizable module is created or loaded, or if the
+            <see cref="F:KSPDev.GUIUtils.LocalizableMessage.systemLocVersion">localization version</see> has changed. If this
+            is the case, then all the modules will be automatically updated.
+            </remarks>
             <seealso cref="T:KSPDev.GUIUtils.LocalizableItemAttribute"/>
             <example><code source="Examples/GUIUtils/LocalizationLoader-Examples.cs" region="LocalizationLoaderDemo1"/></example>
         </member>
@@ -1775,6 +1804,10 @@
             the module is created. The other methods may be called differently depending on the loaded
             scene.
             </para>
+            <para>
+            <i>Note</i>, that this method is automatically called on every new part created in the game.
+            The explicit call is only needed when the module is constructed in runtime.  
+            </para>
             </remarks>
             <param name="module">The module instance to localize.</param>
             <example><code source="Examples/GUIUtils/LocalizationLoader-Examples.cs" region="LocalizationLoaderDemo1"/></example>
@@ -1788,6 +1821,49 @@
             <item name="T:KSPAction">
   <seealso href="https://kerbalspaceprogram.com/api/class_k_s_p_action.html">KSP: KSPAction</seealso>
 </item>
+        </member>
+        <member name="M:KSPDev.GUIUtils.LocalizationLoader.Awake">
+            <summary>Installs the event listeners to do the automatic modules localization.</summary>
+        </member>
+        <member name="M:KSPDev.GUIUtils.LocalizationLoader.OnEditorPartEvent(ConstructionEventType,Part)">
+            <summary>Reacts on an editor part event and localizes the part when needed.</summary>
+            <param name="eventType">The type of the event.</param>
+            <param name="part">The part being acted on.</param>
+        </member>
+        <member name="M:KSPDev.GUIUtils.LocalizationLoader.OnEditorLoad(ShipConstruct,KSP.UI.Screens.CraftBrowserDialog.LoadType)">
+            <summary>Localizes a vessel which is laoded in the editor.</summary>
+            <param name="shipConstruct">The ship's parts data.</param>
+            <param name="loadType">Unused.</param>
+        </member>
+        <member name="M:KSPDev.GUIUtils.LocalizationLoader.OnNewVessel(Vessel)">
+            <summary>Loads all the localizable strings in a vessel.</summary>
+            <param name="vessel">The vessel to load strings in.</param>
+        </member>
+        <member name="M:KSPDev.GUIUtils.LocalizationLoader.OnUpdateLocalizationVersion">
+            <summary>Invalidates all the localization caches and updates the current vessels.</summary>
+            <remarks>It updates all the currently loaded vessels.</remarks>
+        </member>
+        <member name="M:KSPDev.GUIUtils.LocalizationLoader.LocalizeKSPField(BaseField)">
+            <summary>Loads the localized string(s) for a KSP field.</summary>
+            <param name="kspField">The field to load localization for.</param>
+        </member>
+        <member name="M:KSPDev.GUIUtils.LocalizationLoader.LocalizeKSPEvent(System.Reflection.ICustomAttributeProvider,BaseEvent)">
+            <summary>Loads the localized string for a KSP event.</summary>
+            <param name="attrs">The attributes on the event.</param>
+            <param name="event">The event to localize.</param>
+        </member>
+        <member name="M:KSPDev.GUIUtils.LocalizationLoader.LocalizeKSPAction(System.Reflection.ICustomAttributeProvider,BaseAction)">
+            <summary>Loads the localized string for a KSP action.</summary>
+            <param name="attrs">The attributes provider on the action.</param>
+            <param name="action">The action to localize.</param>
+        </member>
+        <member name="M:KSPDev.GUIUtils.LocalizationLoader.UpdateLocalizationInPartHierarchy(Part)">
+            <summary>Localizes the modules in the part and in all of its children parts.</summary>
+            <param name="rootPart">The root part to start from.</param>
+        </member>
+        <member name="M:KSPDev.GUIUtils.LocalizationLoader.UpdateLocalizationInPartModules(Part)">
+            <summary>Updates all the localizable strings in a part.</summary>
+            <param name="part">The part to load the data in.</param>
         </member>
         <member name="T:KSPDev.GUIUtils.MassType">
             <summary>
@@ -1804,8 +1880,8 @@
             used for the unit names.
             </para>
             </remarks>
-            <seealso cref="T:KSPDev.GUIUtils.Message`1"/><seealso cref="T:KSPDev.GUIUtils.Message`2"/><seealso cref="T:KSPDev.GUIUtils.Message`3"/><seealso cref="T:KSPDev.GUIUtils.Message`4"/><seealso cref="T:KSPDev.GUIUtils.Message`5"/>
-            <seealso cref="T:KSPDev.GUIUtils.AngleType"/><seealso cref="T:KSPDev.GUIUtils.DistanceType"/><seealso cref="T:KSPDev.GUIUtils.EnumType`1"/><seealso cref="T:KSPDev.GUIUtils.ForceType"/><seealso cref="T:KSPDev.GUIUtils.PercentType"/><seealso cref="T:KSPDev.GUIUtils.MassType"/>
+            <seealso cref="T:KSPDev.GUIUtils.Message`1"/><seealso cref="T:KSPDev.GUIUtils.Message`2"/><seealso cref="T:KSPDev.GUIUtils.Message`3"/><seealso cref="T:KSPDev.GUIUtils.Message`4"/><seealso cref="T:KSPDev.GUIUtils.Message`5"/><seealso cref="T:KSPDev.GUIUtils.MessageLookup`1"/>
+            <seealso cref="T:KSPDev.GUIUtils.AngleType"/><seealso cref="T:KSPDev.GUIUtils.DistanceType"/><seealso cref="T:KSPDev.GUIUtils.ForceType"/><seealso cref="T:KSPDev.GUIUtils.PercentType"/><seealso cref="T:KSPDev.GUIUtils.MassType"/>
             <example><code source="Examples/GUIUtils/MassType-Examples.cs" region="MassTypeDemo1"/></example>
             <example><code source="Examples/GUIUtils/MassType-Examples.cs" region="MassTypeDemo2_FormatDefault"/></example>
             <example><code source="Examples/GUIUtils/MassType-Examples.cs" region="MassTypeDemo2_FormatWithScale"/></example>
@@ -1887,8 +1963,8 @@
             <remarks>
             Use it as a generic parameter when creating a <see cref="T:KSPDev.GUIUtils.LocalizableMessage"/> descendants.
             </remarks>
-            <seealso cref="T:KSPDev.GUIUtils.Message`1"/><seealso cref="T:KSPDev.GUIUtils.Message`2"/><seealso cref="T:KSPDev.GUIUtils.Message`3"/><seealso cref="T:KSPDev.GUIUtils.Message`4"/><seealso cref="T:KSPDev.GUIUtils.Message`5"/>
-            <seealso cref="T:KSPDev.GUIUtils.AngleType"/><seealso cref="T:KSPDev.GUIUtils.DistanceType"/><seealso cref="T:KSPDev.GUIUtils.EnumType`1"/><seealso cref="T:KSPDev.GUIUtils.ForceType"/><seealso cref="T:KSPDev.GUIUtils.PercentType"/><seealso cref="T:KSPDev.GUIUtils.MassType"/>
+            <seealso cref="T:KSPDev.GUIUtils.Message`1"/><seealso cref="T:KSPDev.GUIUtils.Message`2"/><seealso cref="T:KSPDev.GUIUtils.Message`3"/><seealso cref="T:KSPDev.GUIUtils.Message`4"/><seealso cref="T:KSPDev.GUIUtils.Message`5"/><seealso cref="T:KSPDev.GUIUtils.MessageLookup`1"/>
+            <seealso cref="T:KSPDev.GUIUtils.AngleType"/><seealso cref="T:KSPDev.GUIUtils.DistanceType"/><seealso cref="T:KSPDev.GUIUtils.ForceType"/><seealso cref="T:KSPDev.GUIUtils.PercentType"/><seealso cref="T:KSPDev.GUIUtils.MassType"/>
             <example><code source="Examples/GUIUtils/PercentType-Examples.cs" region="PercentTypeDemo1"/></example>
             <example><code source="Examples/GUIUtils/PercentType-Examples.cs" region="PercentTypeDemo2_FormatDefault"/></example>
             <example><code source="Examples/GUIUtils/PercentType-Examples.cs" region="PercentTypeDemo2_FormatFixed"/></example>
@@ -2147,7 +2223,7 @@
             Messages of this type don't have placeholders and can be just casted to a string. 
             </remarks>
             <example><code source="Examples/GUIUtils/Message-Examples.cs" region="MessageDemo"/></example>
-            <seealso cref="T:KSPDev.GUIUtils.Message`1"/><seealso cref="T:KSPDev.GUIUtils.Message`2"/><seealso cref="T:KSPDev.GUIUtils.Message`3"/><seealso cref="T:KSPDev.GUIUtils.Message`4"/><seealso cref="T:KSPDev.GUIUtils.Message`5"/>
+            <seealso cref="T:KSPDev.GUIUtils.Message`1"/><seealso cref="T:KSPDev.GUIUtils.Message`2"/><seealso cref="T:KSPDev.GUIUtils.Message`3"/><seealso cref="T:KSPDev.GUIUtils.Message`4"/><seealso cref="T:KSPDev.GUIUtils.Message`5"/><seealso cref="T:KSPDev.GUIUtils.MessageLookup`1"/>
         </member>
         <member name="M:KSPDev.GUIUtils.Message.#ctor(System.String,System.String,System.String,System.String)">
             <inheritdoc cref="M:KSPDev.GUIUtils.LocalizableMessage.#ctor(System.String,System.String,System.String,System.String)"/>
@@ -2191,8 +2267,8 @@
             </remarks>
             <example><code source="Examples/GUIUtils/Message-Examples.cs" region="Message1Demo"/></example>
             <seealso cref="T:KSPDev.GUIUtils.Message"/>
-            <seealso cref="T:KSPDev.GUIUtils.Message`1"/><seealso cref="T:KSPDev.GUIUtils.Message`2"/><seealso cref="T:KSPDev.GUIUtils.Message`3"/><seealso cref="T:KSPDev.GUIUtils.Message`4"/><seealso cref="T:KSPDev.GUIUtils.Message`5"/>
-            <seealso cref="T:KSPDev.GUIUtils.AngleType"/><seealso cref="T:KSPDev.GUIUtils.DistanceType"/><seealso cref="T:KSPDev.GUIUtils.EnumType`1"/><seealso cref="T:KSPDev.GUIUtils.ForceType"/><seealso cref="T:KSPDev.GUIUtils.PercentType"/><seealso cref="T:KSPDev.GUIUtils.MassType"/>
+            <seealso cref="T:KSPDev.GUIUtils.Message`1"/><seealso cref="T:KSPDev.GUIUtils.Message`2"/><seealso cref="T:KSPDev.GUIUtils.Message`3"/><seealso cref="T:KSPDev.GUIUtils.Message`4"/><seealso cref="T:KSPDev.GUIUtils.Message`5"/><seealso cref="T:KSPDev.GUIUtils.MessageLookup`1"/>
+            <seealso cref="T:KSPDev.GUIUtils.AngleType"/><seealso cref="T:KSPDev.GUIUtils.DistanceType"/><seealso cref="T:KSPDev.GUIUtils.ForceType"/><seealso cref="T:KSPDev.GUIUtils.PercentType"/><seealso cref="T:KSPDev.GUIUtils.MassType"/>
             <seealso href="http://lingoona.com/cgi-bin/grammar#l=en&amp;oh=1">Lingoona Grammar help</seealso>
         </member>
         <member name="M:KSPDev.GUIUtils.Message`1.#ctor(System.String,System.String,System.String,System.String)">
@@ -2238,8 +2314,8 @@
             </remarks>
             <example><code source="Examples/GUIUtils/Message-Examples.cs" region="Message2Demo"/></example>
             <seealso cref="T:KSPDev.GUIUtils.Message"/>
-            <seealso cref="T:KSPDev.GUIUtils.Message`1"/><seealso cref="T:KSPDev.GUIUtils.Message`2"/><seealso cref="T:KSPDev.GUIUtils.Message`3"/><seealso cref="T:KSPDev.GUIUtils.Message`4"/><seealso cref="T:KSPDev.GUIUtils.Message`5"/>
-            <seealso cref="T:KSPDev.GUIUtils.AngleType"/><seealso cref="T:KSPDev.GUIUtils.DistanceType"/><seealso cref="T:KSPDev.GUIUtils.EnumType`1"/><seealso cref="T:KSPDev.GUIUtils.ForceType"/><seealso cref="T:KSPDev.GUIUtils.PercentType"/><seealso cref="T:KSPDev.GUIUtils.MassType"/>
+            <seealso cref="T:KSPDev.GUIUtils.Message`1"/><seealso cref="T:KSPDev.GUIUtils.Message`2"/><seealso cref="T:KSPDev.GUIUtils.Message`3"/><seealso cref="T:KSPDev.GUIUtils.Message`4"/><seealso cref="T:KSPDev.GUIUtils.Message`5"/><seealso cref="T:KSPDev.GUIUtils.MessageLookup`1"/>
+            <seealso cref="T:KSPDev.GUIUtils.AngleType"/><seealso cref="T:KSPDev.GUIUtils.DistanceType"/><seealso cref="T:KSPDev.GUIUtils.ForceType"/><seealso cref="T:KSPDev.GUIUtils.PercentType"/><seealso cref="T:KSPDev.GUIUtils.MassType"/>
             <seealso href="http://lingoona.com/cgi-bin/grammar#l=en&amp;oh=1">Lingoona Grammar help</seealso>
         </member>
         <member name="M:KSPDev.GUIUtils.Message`2.#ctor(System.String,System.String,System.String,System.String)">
@@ -2287,8 +2363,8 @@
             </remarks>
             <example><code source="Examples/GUIUtils/Message-Examples.cs" region="Message3Demo"/></example>
             <seealso cref="T:KSPDev.GUIUtils.Message"/>
-            <seealso cref="T:KSPDev.GUIUtils.Message`1"/><seealso cref="T:KSPDev.GUIUtils.Message`2"/><seealso cref="T:KSPDev.GUIUtils.Message`3"/><seealso cref="T:KSPDev.GUIUtils.Message`4"/><seealso cref="T:KSPDev.GUIUtils.Message`5"/>
-            <seealso cref="T:KSPDev.GUIUtils.AngleType"/><seealso cref="T:KSPDev.GUIUtils.DistanceType"/><seealso cref="T:KSPDev.GUIUtils.EnumType`1"/><seealso cref="T:KSPDev.GUIUtils.ForceType"/><seealso cref="T:KSPDev.GUIUtils.PercentType"/><seealso cref="T:KSPDev.GUIUtils.MassType"/>
+            <seealso cref="T:KSPDev.GUIUtils.Message`1"/><seealso cref="T:KSPDev.GUIUtils.Message`2"/><seealso cref="T:KSPDev.GUIUtils.Message`3"/><seealso cref="T:KSPDev.GUIUtils.Message`4"/><seealso cref="T:KSPDev.GUIUtils.Message`5"/><seealso cref="T:KSPDev.GUIUtils.MessageLookup`1"/>
+            <seealso cref="T:KSPDev.GUIUtils.AngleType"/><seealso cref="T:KSPDev.GUIUtils.DistanceType"/><seealso cref="T:KSPDev.GUIUtils.ForceType"/><seealso cref="T:KSPDev.GUIUtils.PercentType"/><seealso cref="T:KSPDev.GUIUtils.MassType"/>
             <seealso href="http://lingoona.com/cgi-bin/grammar#l=en&amp;oh=1">Lingoona Grammar help</seealso>
         </member>
         <member name="M:KSPDev.GUIUtils.Message`3.#ctor(System.String,System.String,System.String,System.String)">
@@ -2338,8 +2414,8 @@
             </remarks>
             <example><code source="Examples/GUIUtils/Message-Examples.cs" region="Message4Demo"/></example>
             <seealso cref="T:KSPDev.GUIUtils.Message"/>
-            <seealso cref="T:KSPDev.GUIUtils.Message`1"/><seealso cref="T:KSPDev.GUIUtils.Message`2"/><seealso cref="T:KSPDev.GUIUtils.Message`3"/><seealso cref="T:KSPDev.GUIUtils.Message`4"/><seealso cref="T:KSPDev.GUIUtils.Message`5"/>
-            <seealso cref="T:KSPDev.GUIUtils.AngleType"/><seealso cref="T:KSPDev.GUIUtils.DistanceType"/><seealso cref="T:KSPDev.GUIUtils.EnumType`1"/><seealso cref="T:KSPDev.GUIUtils.ForceType"/><seealso cref="T:KSPDev.GUIUtils.PercentType"/><seealso cref="T:KSPDev.GUIUtils.MassType"/>
+            <seealso cref="T:KSPDev.GUIUtils.Message`1"/><seealso cref="T:KSPDev.GUIUtils.Message`2"/><seealso cref="T:KSPDev.GUIUtils.Message`3"/><seealso cref="T:KSPDev.GUIUtils.Message`4"/><seealso cref="T:KSPDev.GUIUtils.Message`5"/><seealso cref="T:KSPDev.GUIUtils.MessageLookup`1"/>
+            <seealso cref="T:KSPDev.GUIUtils.AngleType"/><seealso cref="T:KSPDev.GUIUtils.DistanceType"/><seealso cref="T:KSPDev.GUIUtils.ForceType"/><seealso cref="T:KSPDev.GUIUtils.PercentType"/><seealso cref="T:KSPDev.GUIUtils.MassType"/>
             <seealso href="http://lingoona.com/cgi-bin/grammar#l=en&amp;oh=1">Lingoona Grammar help</seealso>
         </member>
         <member name="M:KSPDev.GUIUtils.Message`4.#ctor(System.String,System.String,System.String,System.String)">
@@ -2391,8 +2467,8 @@
             </remarks>
             <example><code source="Examples/GUIUtils/Message-Examples.cs" region="Message5Demo"/></example>
             <seealso cref="T:KSPDev.GUIUtils.Message"/>
-            <seealso cref="T:KSPDev.GUIUtils.Message`1"/><seealso cref="T:KSPDev.GUIUtils.Message`2"/><seealso cref="T:KSPDev.GUIUtils.Message`3"/><seealso cref="T:KSPDev.GUIUtils.Message`4"/><seealso cref="T:KSPDev.GUIUtils.Message`5"/>
-            <seealso cref="T:KSPDev.GUIUtils.AngleType"/><seealso cref="T:KSPDev.GUIUtils.DistanceType"/><seealso cref="T:KSPDev.GUIUtils.EnumType`1"/><seealso cref="T:KSPDev.GUIUtils.ForceType"/><seealso cref="T:KSPDev.GUIUtils.PercentType"/><seealso cref="T:KSPDev.GUIUtils.MassType"/>
+            <seealso cref="T:KSPDev.GUIUtils.Message`1"/><seealso cref="T:KSPDev.GUIUtils.Message`2"/><seealso cref="T:KSPDev.GUIUtils.Message`3"/><seealso cref="T:KSPDev.GUIUtils.Message`4"/><seealso cref="T:KSPDev.GUIUtils.Message`5"/><seealso cref="T:KSPDev.GUIUtils.MessageLookup`1"/>
+            <seealso cref="T:KSPDev.GUIUtils.AngleType"/><seealso cref="T:KSPDev.GUIUtils.DistanceType"/><seealso cref="T:KSPDev.GUIUtils.ForceType"/><seealso cref="T:KSPDev.GUIUtils.PercentType"/><seealso cref="T:KSPDev.GUIUtils.MassType"/>
             <seealso href="http://lingoona.com/cgi-bin/grammar#l=en&amp;oh=1">Lingoona Grammar help</seealso>
         </member>
         <member name="M:KSPDev.GUIUtils.Message`5.#ctor(System.String,System.String,System.String,System.String)">
@@ -3300,28 +3376,6 @@
         </member>
         <member name="F:KSPDev.GUIUtils.LibraryLoader.loaded">
             <summary>Tells if the loader has already initialized.</summary>
-        </member>
-        <member name="M:KSPDev.GUIUtils.LibraryLoader.OnEditorPartEvent(ConstructionEventType,Part)">
-            <summary>Reacts on an editor part event and localizes the part when needed.</summary>
-            <remarks>
-            This method also handles the attach event type. In spite of this is not needed most of the
-            time it may be needed
-            FIXME: bLAH! kill it if no method of findin of detached parst found
-            </remarks>
-            <param name="eventType">The type of the event.</param>
-            <param name="part">The part being acted on.</param>
-        </member>
-        <member name="M:KSPDev.GUIUtils.LibraryLoader.LocalizeVessel(Vessel)">
-            <summary>Loads all the localizable strings in a vessel.</summary>
-            <param name="vessel">The vessel to load strings in.</param>
-        </member>
-        <member name="M:KSPDev.GUIUtils.LibraryLoader.UpdateLocalizationVersion">
-            <summary>Invalidates all the localization caches and updates the current vessels.</summary>
-            <remarks>It updates all the currently loaded vessels.</remarks>
-        </member>
-        <member name="M:KSPDev.GUIUtils.LibraryLoader.UpdatePartModulesLocalization(Part)">
-            <summary>Updates all the localizable strings in a part.</summary>
-            <param name="part">The part to load the data in.</param>
         </member>
         <member name="P:KSPDev.GUIUtils.LibraryLoader.assemblyVersionStr">
             <summary>Loaded library indentifier.</summary>
