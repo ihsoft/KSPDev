@@ -94,9 +94,20 @@ public class LocalizationLoader : MonoBehaviour {
     GameEvents.onVesselLoaded.Add(OnNewVessel);
     GameEvents.onEditorPartEvent.Add(OnEditorPartEvent);
     GameEvents.onEditorLoad.Add(OnEditorLoad);
+    GameEvents.onEditorStarted.Add(OnEditorStarted);
   }
 
   #region Game event listeners. Must not be static.
+  /// <summary>Reacts on the editor scene load, and updates the loaded vessel if needed.</summary>
+  /// <remarks>
+  /// When going back from the launch the normal create/load events are not fired.
+  /// </remarks>
+  void OnEditorStarted() {
+    if (EditorLogic.fetch.ship != null) {
+      OnEditorLoad(EditorLogic.fetch.ship, CraftBrowserDialog.LoadType.Normal);
+    }
+  }
+
   /// <summary>Reacts on an editor part event and localizes the part when needed.</summary>
   /// <param name="eventType">The type of the event.</param>
   /// <param name="part">The part being acted on.</param>
