@@ -238,13 +238,13 @@ sealed class ConsoleUI : MonoBehaviour {
 
       // Report conditions.
       if (!LogInterceptor.isStarted) {
-        using (new GuiColor(contentColor: errorLogColor)) {
+        using (new GuiColorScope(contentColor: errorLogColor)) {
           GUILayout.Label("KSPDev is not handling system logs. Open standard in-game debug console"
                           + " to see the current logs");
         }
       }
       if (quickFilterInputEnabled) {
-        using (new GuiColor(contentColor: Color.gray)) {
+        using (new GuiColorScope(contentColor: Color.gray)) {
           GUILayout.Label("<i>Logs update is PAUSED due to the quick filter editing is active."
                           + " Hit ENTER to accept the filter, or ESC to discard.</i>");
         }
@@ -272,14 +272,14 @@ sealed class ConsoleUI : MonoBehaviour {
       if (capturedRecords.Any()) {
         msg += " and quick filter \"" + quickFilterStr + "\"";
       }
-      using (new GuiColor(contentColor: Color.gray)) {
+      using (new GuiColorScope(contentColor: Color.gray)) {
         GUILayout.Label(msg);
       }
     }
 
     // Dump the records.
     foreach (var log in showRecords) {
-      using (new GuiColor(contentColor: GetLogTypeColor(log.srcLog.type))) {
+      using (new GuiColorScope(contentColor: GetLogTypeColor(log.srcLog.type))) {
         var recordMsg = log.MakeTitle()
             + (selectedLogRecordId == log.srcLog.id ? ":\n" + log.srcLog.stackTrace : "");
         GUILayout.Box(recordMsg, LogRecordStyle);
@@ -307,7 +307,7 @@ sealed class ConsoleUI : MonoBehaviour {
   void GUICreateLogRecordControls(LogRecord log) {
     using (new GUILayout.HorizontalScope()) {
       // Add stack trace utils.
-      using (new GuiEnabledState(!log.srcLog.filenamesResolved)) {
+      using (new GuiEnabledStateScope(!log.srcLog.filenamesResolved)) {
         if (GUILayout.Button("Resolve file names", MinSizeLayout)) {
           log.ResolveStackFilenames();
         }
@@ -379,7 +379,7 @@ sealed class ConsoleUI : MonoBehaviour {
       }
       oldQuickFilterInputEnabled = quickFilterInputEnabled;
 
-      using (new GuiEnabledState(!quickFilterInputEnabled)) {
+      using (new GuiEnabledStateScope(!quickFilterInputEnabled)) {
         // Clear logs in the current aggregator.
         if (GUILayout.Button("Clear")) {
           guiActions.Add(GuiActionClearLogs);
@@ -403,7 +403,7 @@ sealed class ConsoleUI : MonoBehaviour {
         
         // Draw logs filter by level and refresh logs when filter changes.
         GUI.changed = false;
-        using (new GuiColor()) {
+        using (new GuiColorScope()) {
           GUI.contentColor = infoLogColor;
           showInfo = GUILayout.Toggle(
               showInfo, string.Format("INFO ({0})", infoLogs), MinSizeLayout);

@@ -93,8 +93,8 @@
     <Compile Include="GUIUtils\DistanceType.cs" />
     <Compile Include="GUIUtils\MessageLookup.cs" />
     <Compile Include="GUIUtils\ForceType.cs" />
-    <Compile Include="GUIUtils\GuiColor.cs" />
-    <Compile Include="GUIUtils\GuiEnabledState.cs" />
+    <Compile Include="GUIUtils\GuiColorScope.cs" />
+    <Compile Include="GUIUtils\GuiEnabledStateScope.cs" />
     <Compile Include="GUIUtils\GuiWindow.cs" />
     <Compile Include="GUIUtils\IHasContextMenu.cs" />
     <Compile Include="GUIUtils\LocalizableItemAttribute.cs" />

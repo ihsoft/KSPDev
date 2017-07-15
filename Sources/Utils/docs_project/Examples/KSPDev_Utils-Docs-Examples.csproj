@@ -71,8 +71,8 @@
     <Compile Include="GUIUtils\DistanceType-Examples.cs" />
     <Compile Include="GUIUtils\MessageLookup-Examples.cs" />
     <Compile Include="GUIUtils\ForceType-Examples.cs" />
-    <Compile Include="GUIUtils\GuiColor-Examples.cs" />
-    <Compile Include="GUIUtils\GuiEnabledState-Examples.cs" />
+    <Compile Include="GUIUtils\GuiColorScope-Examples.cs" />
+    <Compile Include="GUIUtils\GuiEnabledStateScope-Examples.cs" />
     <Compile Include="GUIUtils\GuiWindow-Examples.cs" />
     <Compile Include="GUIUtils\LocalizableItemAttribute-Examples.cs" />
     <Compile Include="GUIUtils\LocalizationLoader-Examples.cs" />

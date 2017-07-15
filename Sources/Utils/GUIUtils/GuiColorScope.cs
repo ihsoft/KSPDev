@@ -10,7 +10,7 @@ namespace KSPDev.GUIUtils {
 /// <summary>A utility class to render big disabled bloacks of GUI.</summary>
 /// <example><code source="Examples/GUIUtils/GuiColor-Examples.cs" region="GuiColorDemo1"/></example>
 /// <example><code source="Examples/GUIUtils/GuiColor-Examples.cs" region="GuiColorDemo2"/></example>
-public class GuiColor : IDisposable {
+public class GuiColorScope : IDisposable {
   readonly Color oldColor;
   readonly Color oldContentColor;
   readonly Color oldBackgroundColor;
@@ -24,7 +24,7 @@ public class GuiColor : IDisposable {
   /// <include file="Unity3D_HelpIndex.xml" path="//item[@name='T:UnityEngine.GUI.color']/*"/>
   /// <include file="Unity3D_HelpIndex.xml" path="//item[@name='T:UnityEngine.GUI.contentColor']/*"/>
   /// <include file="Unity3D_HelpIndex.xml" path="//item[@name='T:UnityEngine.GUI.backgroundColor']/*"/>
-  public GuiColor(Color? color = null, Color? contentColor = null, Color? backgroundColor = null) {
+  public GuiColorScope(Color? color = null, Color? contentColor = null, Color? backgroundColor = null) {
     oldColor = GUI.color;
     if (color.HasValue) {
       GUI.color = color.Value;

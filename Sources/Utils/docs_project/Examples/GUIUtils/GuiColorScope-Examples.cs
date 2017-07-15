@@ -16,7 +16,7 @@ public class GuiColorDemo1 : MonoBehaviour {
     GUILayout.Button("B&W button");
 
     // Make any changes to the colors in this block.
-    using (new GuiColor()) {
+    using (new GuiColorScope()) {
       GUI.color = Color.red;
       GUILayout.Button("Red button");
       GUI.contentColor = Color.green;
@@ -38,13 +38,13 @@ public class GuiColorDemo2 : MonoBehaviour {
     GUI.backgroundColor = Color.black;
     GUILayout.Button("B&W button");
 
-    using (new GuiColor(color: Color.red)) {
+    using (new GuiColorScope(color: Color.red)) {
       GUILayout.Button("Red button");
     }
-    using (new GuiColor(backgroundColor: Color.red)) {
+    using (new GuiColorScope(backgroundColor: Color.red)) {
       GUILayout.Button("White on Red button");
     }
-    using (new GuiColor(contentColor: Color.red)) {
+    using (new GuiColorScope(contentColor: Color.red)) {
       GUILayout.Button("red on balck button");
     }
 

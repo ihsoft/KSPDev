@@ -11,7 +11,7 @@ public class GuiEnabledStateDemo1 {
   #region GuiEnabledStateDemo1_OnGUI
   void OnGUI() {
     GUI.enabled = true;
-    using (new GuiEnabledState(false)) {
+    using (new GuiEnabledStateScope(false)) {
       // All the controls in this block will become disabled.
       GUILayout.Button("Disabled button 1");
       GUILayout.Button("Disabled button 2");
