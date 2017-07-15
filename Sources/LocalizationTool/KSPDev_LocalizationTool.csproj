@@ -61,6 +61,9 @@
     <Reference Include="UnityEngine">
       <HintPath>Q:\KSP_Data\Managed\UnityEngine.dll</HintPath>
     </Reference>
+    <Reference Include="UnityEngine.UI">
+      <HintPath>Q:\KSP_Data\Managed\UnityEngine.UI.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Properties" />
