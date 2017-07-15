@@ -1765,6 +1765,7 @@
             is the case, then all the modules will be automatically updated.
             </remarks>
             <seealso cref="T:KSPDev.GUIUtils.LocalizableItemAttribute"/>
+            <seealso cref="T:KSPDev.GUIUtils.LibraryLoader"/>
             <example><code source="Examples/GUIUtils/LocalizationLoader-Examples.cs" region="LocalizationLoaderDemo1"/></example>
         </member>
         <member name="F:KSPDev.GUIUtils.LocalizationLoader.KspFieldUnitsSpec">
@@ -1824,6 +1825,12 @@
         </member>
         <member name="M:KSPDev.GUIUtils.LocalizationLoader.Awake">
             <summary>Installs the event listeners to do the automatic modules localization.</summary>
+        </member>
+        <member name="M:KSPDev.GUIUtils.LocalizationLoader.OnEditorStarted">
+            <summary>Reacts on the editor scene load, and updates the loaded vessel if needed.</summary>
+            <remarks>
+            When going back from the launch the normal create/load events are not fired.
+            </remarks>
         </member>
         <member name="M:KSPDev.GUIUtils.LocalizationLoader.OnEditorPartEvent(ConstructionEventType,Part)">
             <summary>Reacts on an editor part event and localizes the part when needed.</summary>
@@ -2560,37 +2567,20 @@
             <summary>GUI action type.</summary>
         </member>
         <member name="T:KSPDev.GUIUtils.UISoundPlayer">
-             <summary>Helper class to play sounds in the game GUI. Such sounds are not 3D aligned.</summary>
-             <remarks>
-             <para>
-             Use this player when the source of the sound is a GUI object (e.g. a GUI control). This class
-             implements all the boilerplate to load and play the sound resources. All the sounds are cached
-             wihtin the scene, so repeating requests to the same sound won't add extra latency.
-             </para>
-             <para>
-             In case of the very first usage of the sound is latency restricted, the sound resource can be
-             pre-cached via the <see cref="M:KSPDev.GUIUtils.UISoundPlayer.CacheSound(System.String)"/> method. It will increase the loading time, though.
-             </para>
-             </remarks>
-             <example>
-             <code><![CDATA[
-             class MyModule : PartModule {
-               public override OnAwake() {
-                 // We don't want to loose latency on "ooo.ogg" playing.
-                 UISoundPlayer.instance.CacheSound("ooo.ogg");
-               }
-            
-               public override OnUpdate() {
-                 if (Input.GetKeyDown("O")) {
-                   UISoundPlayer.instance.Play("ooo.ogg");  // Played from cache. No delay.
-                 }
-                 if (Input.GetKeyDown("P")) {
-                   UISoundPlayer.instance.Play("ppp.ogg");  // May delay the game while loading the resource.
-                 }
-               }
-             }
-             ]]></code>
-             </example>
+            <summary>Helper class to play sounds in the game GUI. Such sounds are not 3D aligned.</summary>
+            <remarks>
+            <para>
+            Use this player when the source of the sound is a GUI object (e.g. a GUI control). This class
+            implements all the boilerplate to load and play the sound resources. All the sounds are cached
+            wihtin the scene, so repeating requests to the same sound won't add extra latency.
+            </para>
+            <para>
+            In case of the very first usage of the sound is latency restricted, the sound resource can be
+            pre-cached via the <see cref="M:KSPDev.GUIUtils.UISoundPlayer.CacheSound(System.String)"/> method. It will increase the loading time, though.
+            </para>
+            </remarks>
+            <seealso cref="T:KSPDev.GUIUtils.LibraryLoader"/>
+            <example><code source="Examples/GUIUtils/UISoundPlayer-Examples.cs" region="UISoundPlayerDemo1"/></example>
         </member>
         <member name="F:KSPDev.GUIUtils.UISoundPlayer.audioCache">
             <summary>Global scene cache for all the sounds.</summary>
@@ -2598,13 +2588,14 @@
         <member name="M:KSPDev.GUIUtils.UISoundPlayer.Play(System.String)">
             <summary>Plays the specified sound.</summary>
             <remarks>
-            Every request is cached so that the subsequent calls to play the same sound won't require the
+            Every request is cached, so that the subsequent calls to play the same sound won't require the
             audio clip to load. However, the same cached sound cannot be played simultaneously from the
             different calls - each call will abort the previous play action of the sound.
             </remarks>
             <param name="audioPath">
             The file path relative to <c>GameData</c>. It can be empty, in which case nothing is played.
             </param>
+            <example><code source="Examples/GUIUtils/UISoundPlayer-Examples.cs" region="UISoundPlayerDemo1"/></example>
         </member>
         <member name="M:KSPDev.GUIUtils.UISoundPlayer.CacheSound(System.String)">
             <summary>Loads the sound into cache but doesn't play it.</summary>
@@ -2614,9 +2605,12 @@
             critical. The latency difference is not hight enough to be significant for the GUI actions.
             </remarks>
             <param name="audioPath">File path relative to <c>GameData</c>.</param>
+            <example><code source="Examples/GUIUtils/UISoundPlayer-Examples.cs" region="UISoundPlayerDemo1"/></example>
         </member>
         <member name="M:KSPDev.GUIUtils.UISoundPlayer.Awake">
-            <summary>Initializes <see cref="P:KSPDev.GUIUtils.UISoundPlayer.instance"/>.</summary>
+            <summary>Initializes the <see cref="P:KSPDev.GUIUtils.UISoundPlayer.instance"/>.</summary>
+            <remarks>It's expected to be called only once.</remarks>
+            <seealso cref="T:KSPDev.GUIUtils.LibraryLoader"/>
         </member>
         <member name="M:KSPDev.GUIUtils.UISoundPlayer.GetOrLoadAudio(System.String)">
             <summary>Loads the audio sample and plays it.</summary>
@@ -2624,7 +2618,7 @@
             <returns>An audio resource if loaded or found in the cache, otherwise <c>null</c>.</returns>
         </member>
         <member name="P:KSPDev.GUIUtils.UISoundPlayer.instance">
-            <summary>Returns the instance for the player in the current scene.</summary>
+            <summary>Returns the instance of the player in the current scene.</summary>
             <value>Instance of the player.</value>
         </member>
         <member name="T:KSPDev.InputUtils.KeyModifiers">
