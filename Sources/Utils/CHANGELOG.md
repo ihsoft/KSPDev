@@ -1,4 +1,5 @@
 # 0.25 (pre-release):
+* [Change] Drop `GUIUtils.EnumType` class in favor of `GUIUtils.MessageLookup`.
 * [Enhancement] Support automatic localization for the events, fields, and actions in the modules. See [`GUIUtils.LocalizableItemAttribute`](http://ihsoft.github.io/KSPDev/Utils/html/T_KSPDev_GUIUtils_LocalizableItemAttribute.htm).
 * [Enhancement] Support (de)serialization of types `Vector2` and `Enum`. See [`ConfigUtils.KspTypesProto`](http://ihsoft.github.io/KSPDev/Utils/html/T_KSPDev_ConfigUtils_KspTypesProto.htm).
 * [Enhancement] Add an extension to the `UnityEngine.Rect` type to support basic rectangles operations. See [`Extensions.RectExtensions`](http://ihsoft.github.io/KSPDev/Utils/html/T_KSPDev_Extensions_RectExtensions.htm).
@@ -6,6 +7,7 @@
 * [Enhancement] Allow defining a message which won't try to localize. See [`GUIUtils.LocalizableMessage`](http://ihsoft.github.io/KSPDev/Utils/html/T_KSPDev_GUIUtils_LocalizableMessage.htm).
 * [Enhancement] Add a new utility class to deal with the GUI elements enabled state. See [`GUIUtils.GuiEnabledState`](http://ihsoft.github.io/KSPDev/Utils/html/T_KSPDev_GUIUtils_GuiEnabledState.htm).
 * [Enhancement] Add a new utility class to deal with the GUI elements colors. See [`GUIUtils.GuiColor`](http://ihsoft.github.io/KSPDev/Utils/html/T_KSPDev_GUIUtils_GuiColor.htm).
+* [Enhancement] Add a localization class to deal with enums and other ordinal types. See [`GUIUtils.MessageLookup`](http://ihsoft.github.io/KSPDev/Utils/html/T_KSPDev_GUIUtils_MessageLookup.htm).
 
 # 0.24 (June 22nd, 2017):
 * [Change] Allow any state transition in `SimpleStateMachine` when the strict mode is OFF: [`ProcessingUtils.SimpleStateMachine`](http://ihsoft.github.io/KSPDev/Utils/html/T_KSPDev_ProcessingUtils_SimpleStateMachine_1.htm).
