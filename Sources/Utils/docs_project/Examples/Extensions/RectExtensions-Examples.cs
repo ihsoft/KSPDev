@@ -8,7 +8,7 @@ using UnityEngine;
 namespace Examples {
 
 public static class RectExtensions {
-  #region SimpleUsage
+  #region Intersect
   public static void Intersect() {
     var r1 = new Rect(10, 10, 200, 200);
     Debug.Log(r1.Intersect(new Rect(20, 20, 200, 200)));
