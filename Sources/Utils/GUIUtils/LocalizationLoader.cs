@@ -18,6 +18,7 @@ namespace KSPDev.GUIUtils {
 /// is the case, then all the modules will be automatically updated.
 /// </remarks>
 /// <seealso cref="LocalizableItemAttribute"/>
+/// <seealso cref="LibraryLoader"/>
 /// <example><code source="Examples/GUIUtils/LocalizationLoader-Examples.cs" region="LocalizationLoaderDemo1"/></example>
 public class LocalizationLoader : MonoBehaviour {
   /// <summary>

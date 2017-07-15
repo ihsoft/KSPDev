@@ -2,7 +2,6 @@
 // Author: igor.zavoychinskiy@gmail.com
 // This software is distributed under Public domain license.
 
-using KSP.UI.Screens;
 using KSPDev.GUIUtils;
 using KSPDev.FSUtils;
 using System;

@@ -41,8 +41,9 @@ namespace KSPDev.GUIUtils {
 /// }
 /// ]]></code>
 /// </example>
+/// <seealso cref="LibraryLoader"/>
 public sealed class UISoundPlayer : MonoBehaviour {
-  /// <summary>Returns the instance for the player in the current scene.</summary>
+  /// <summary>Returns the instance of the player in the current scene.</summary>
   /// <value>Instance of the player.</value>
   public static UISoundPlayer instance { get; private set; }
 
@@ -52,7 +53,7 @@ public sealed class UISoundPlayer : MonoBehaviour {
 
   /// <summary>Plays the specified sound.</summary>
   /// <remarks>
-  /// Every request is cached so that the subsequent calls to play the same sound won't require the
+  /// Every request is cached, so that the subsequent calls to play the same sound won't require the
   /// audio clip to load. However, the same cached sound cannot be played simultaneously from the
   /// different calls - each call will abort the previous play action of the sound.
   /// </remarks>
@@ -80,7 +81,7 @@ public sealed class UISoundPlayer : MonoBehaviour {
     GetOrLoadAudio(audioPath);
   }
 
-  /// <summary>Initializes <see cref="instance"/>.</summary>
+  /// <summary>Initializes the <see cref="instance"/>.</summary>
   /// <remarks>It's expected to be called only once.</remarks>
   /// <seealso cref="LibraryLoader"/>
   void Awake() {
