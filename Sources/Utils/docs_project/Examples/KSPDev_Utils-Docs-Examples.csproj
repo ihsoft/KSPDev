@@ -79,6 +79,7 @@
     <Compile Include="GUIUtils\MassType-Examples.cs" />
     <Compile Include="GUIUtils\Message-Examples.cs" />
     <Compile Include="GUIUtils\PercentType-Examples.cs" />
+    <Compile Include="GUIUtils\UISoundPlayer-Examples.cs" />
     <Compile Include="LogUtils\HostedDebugLog-Examples.cs" />
     <Compile Include="ProcessingUtils\SimpleStateMachine-Examples.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
