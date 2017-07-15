@@ -7,25 +7,19 @@ using System.Collections.Generic;
 
 namespace KSPDev.GUIUtils {
 
-/// <summary>Localized message formatting class for a enum value.</summary>
-/// <typeparam name="T">Type of the enum to wrap.</typeparam>
+/// <summary>Holds a mapping of a value to a localized message.</summary>
+/// <typeparam name="T">Type of the key. It must be non-nullable.</typeparam>
 /// <remarks>
 /// <para>
-/// Use it as a generic parameter when creating a <see cref="LocalizableMessage"/> descendants. In
-/// spite of the regular enum type, this wrapper returns an integer representation of the value when
-/// casted to a string. This is vital for the Lingoona templates since they don't recognize the enum
-/// values.
-/// </para>
-/// <para>
-/// The conversion between the enum value and the wrapper can be done implicitly. The wrapper can be
-/// used in the places where the enum value would normally be used, and vise versa.
+/// Use it when a definite set of values of the same kind needs to be mapped to the localized
+/// strings. A good example of such mapping is a localization of the enum type values. However, for
+/// this class the key type doesn't need to be enum. It can be any number, or even a struct.
 /// </para>
 /// </remarks>
 /// <include file="SpecialDocTags.xml" path="Tags/MessageTypeWithArg/*"/>
 /// <example><code source="Examples/GUIUtils/MessageLookup-Examples.cs" region="MessageLookupDemo_Simple"/></example>
 /// <example><code source="Examples/GUIUtils/MessageLookup-Examples.cs" region="MessageLookupDemo_WithDefault"/></example>
 /// <example><code source="Examples/GUIUtils/MessageLookup-Examples.cs" region="MessageLookupDemo_WithStockDefault"/></example>
-//FIXME: examples and docs
 public sealed class MessageLookup<T> where T : struct {
   /// <summary>Mapping of the key to the messages.</summary>
   public readonly Dictionary<T, Message> messages;
