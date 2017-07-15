@@ -810,11 +810,11 @@
   <HelpKINode Title="MonoPropellant field" Url="html/F_KSPDev_ResourceUtils_StockResourceNames_MonoPropellant.htm" />
   <HelpKINode Title="MoveToParent method" Url="html/M_KSPDev_ModelUtils_Hierarchy_MoveToParent.htm" />
   <HelpKINode Title="nodePath field" Url="html/F_KSPDev_ConfigUtils_AbstractPersistentFieldsFileAttribute_nodePath.htm" />
+  <HelpKINode Title="NONE enumeration member" Url="html/T_KSPDev_ModelUtils_KspLayerMask.htm" />
   <HelpKINode Title="None enumeration member">
     <HelpKINode Title="Colliders.PrimitiveCollider Enumeration" Url="html/T_KSPDev_ModelUtils_Colliders_PrimitiveCollider.htm" />
     <HelpKINode Title="KeyModifiers Enumeration" Url="html/T_KSPDev_InputUtils_KeyModifiers.htm" />
   </HelpKINode>
-  <HelpKINode Title="NONE enumeration member" Url="html/T_KSPDev_ModelUtils_KspLayerMask.htm" />
   <HelpKINode Title="NormalizePath method" Url="html/M_KSPDev_FSUtils_KspPaths_NormalizePath.htm" />
   <HelpKINode Title="Nullable(Of T) method" Url="html/M_KSPDev_LogUtils_DbgFormatter_Nullable__1.htm" />
   <HelpKINode Title="Nullable&lt;T&gt; method" Url="html/M_KSPDev_LogUtils_DbgFormatter_Nullable__1.htm" />
