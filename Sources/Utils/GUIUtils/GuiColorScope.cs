@@ -8,8 +8,8 @@ using UnityEngine;
 namespace KSPDev.GUIUtils {
 
 /// <summary>A utility class to render big disabled bloacks of GUI.</summary>
-/// <example><code source="Examples/GUIUtils/GuiColor-Examples.cs" region="GuiColorDemo1"/></example>
-/// <example><code source="Examples/GUIUtils/GuiColor-Examples.cs" region="GuiColorDemo2"/></example>
+/// <example><code source="Examples/GUIUtils/GuiColorScope-Examples.cs" region="GuiColorScopeDemo1"/></example>
+/// <example><code source="Examples/GUIUtils/GuiColorScope-Examples.cs" region="GuiColorScopeDemo2"/></example>
 public class GuiColorScope : IDisposable {
   readonly Color oldColor;
   readonly Color oldContentColor;
@@ -19,8 +19,8 @@ public class GuiColorScope : IDisposable {
   /// <param name="color">The new color for <c>GUI.color</c>.</param>
   /// <param name="contentColor">The new color for <c>GUI.contentColor</c>.</param>
   /// <param name="backgroundColor">The new color for <c>GUI.backgroundColor</c>.</param>
-  /// <example><code source="Examples/GUIUtils/GuiColor-Examples.cs" region="GuiColorDemo1"/></example>
-  /// <example><code source="Examples/GUIUtils/GuiColor-Examples.cs" region="GuiColorDemo2"/></example>
+  /// <example><code source="Examples/GUIUtils/GuiColorScope-Examples.cs" region="GuiColorScopeDemo1"/></example>
+  /// <example><code source="Examples/GUIUtils/GuiColorScope-Examples.cs" region="GuiColorScopeDemo2"/></example>
   /// <include file="Unity3D_HelpIndex.xml" path="//item[@name='T:UnityEngine.GUI.color']/*"/>
   /// <include file="Unity3D_HelpIndex.xml" path="//item[@name='T:UnityEngine.GUI.contentColor']/*"/>
   /// <include file="Unity3D_HelpIndex.xml" path="//item[@name='T:UnityEngine.GUI.backgroundColor']/*"/>

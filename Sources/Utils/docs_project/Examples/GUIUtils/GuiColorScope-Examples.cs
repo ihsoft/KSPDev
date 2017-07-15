@@ -7,8 +7,8 @@ using UnityEngine;
 
 namespace Examples {
 
-#region GuiColorDemo1
-public class GuiColorDemo1 : MonoBehaviour {
+#region GuiColorScopeDemo1
+public class GuiColorScopeDemo1 : MonoBehaviour {
   void OnGUI() {
     // Set any color settings.
     GUI.contentColor = Color.white;
@@ -30,8 +30,8 @@ public class GuiColorDemo1 : MonoBehaviour {
 }
 #endregion
 
-#region GuiColorDemo2
-public class GuiColorDemo2 : MonoBehaviour {
+#region GuiColorScopeDemo2
+public class GuiColorScopeDemo2 : MonoBehaviour {
   void OnGUI() {
     // Set any color settings.
     GUI.contentColor = Color.white;

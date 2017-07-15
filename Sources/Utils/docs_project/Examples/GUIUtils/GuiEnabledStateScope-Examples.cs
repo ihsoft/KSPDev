@@ -7,8 +7,8 @@ using UnityEngine;
 
 namespace Examples {
 
-public class GuiEnabledStateDemo1 {
-  #region GuiEnabledStateDemo1_OnGUI
+public class GuiEnabledStateScopeDemo1 {
+  #region GuiEnabledStateScopeDemo1_OnGUI
   void OnGUI() {
     GUI.enabled = true;
     using (new GuiEnabledStateScope(false)) {
