@@ -265,6 +265,9 @@ class Controller : MonoBehaviour {
         .Where(x => selectedParts.Contains(x.name))
         .ToList()
         .ForEach(LocalizationManager.LocalizePartInfo);
+
+    // Update open part menus.
+    LocalizationManager.LocalizePartMenus();
   }
 
   /// <summary>Finds all the entities for the prefix, and populates the list.</summary>

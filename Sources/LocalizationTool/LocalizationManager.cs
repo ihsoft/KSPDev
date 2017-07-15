@@ -4,6 +4,7 @@
 
 using KSP.Localization;
 using KSPDev.ConfigUtils;
+using KSPDev.LogUtils;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -71,6 +72,17 @@ static class LocalizationManager {
         ReflectionHelper.SetReflectedString(partInfo, name, newValue);
       }
     });
+  }
+
+  /// <summary>Updates data in all the open part menus.</summary>
+  public static void LocalizePartMenus() {
+    UnityEngine.Object.FindObjectsOfType(typeof(UIPartActionWindow))
+        .OfType<UIPartActionWindow>()
+        .ToList()
+        .ForEach(m => {
+          Debug.LogFormat("Localize menu for part {0}", DbgFormatter.PartId(m.part));
+          m.titleText.text = m.part.partInfo.title;
+        });
   }
 }
 
