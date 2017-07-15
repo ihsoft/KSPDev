@@ -13,8 +13,7 @@ public class GuiWindowDemo1 : MonoBehaviour {
   Rect titleBarRect = new Rect(0, 0, 10000, 20);
 
   void OnGUI() {
-    windowRect = GUILayout.Window(
-        12345, windowRect, WindowFunc, "Test title");
+    windowRect = GUILayout.Window(12345, windowRect, WindowFunc, "Test title");
   }
 
   void WindowFunc(int windowId) {
