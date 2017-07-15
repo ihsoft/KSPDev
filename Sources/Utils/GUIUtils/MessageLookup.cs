@@ -13,7 +13,8 @@ namespace KSPDev.GUIUtils {
 /// <para>
 /// Use it when a definite set of values of the same kind needs to be mapped to the localized
 /// strings. A good example of such mapping is a localization of the enum type values. However, for
-/// this class the key type doesn't need to be enum. It can be any number, or even a struct.
+/// this class the key type doesn't need to be enum. It can be any number, or even a struct. It
+/// cannot be a string, though.
 /// </para>
 /// </remarks>
 /// <include file="SpecialDocTags.xml" path="Tags/MessageTypeWithArg/*"/>
