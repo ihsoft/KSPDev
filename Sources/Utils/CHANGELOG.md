@@ -1,4 +1,5 @@
 # 0.26 (pre-release):
+* [Fix] Drop cached UI sounds on scene change.
 
 # 0.25 (July 15th, 2017):
 * [Change] Drop `GUIUtils.EnumType` class in favor of `GUIUtils.MessageLookup`.

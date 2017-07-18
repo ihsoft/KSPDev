@@ -68,7 +68,10 @@ public sealed class UISoundPlayer : MonoBehaviour {
   /// <remarks>It's expected to be called only once.</remarks>
   /// <seealso cref="LibraryLoader"/>
   void Awake() {
-    SceneManager.sceneLoaded += (scene, mode) => audioCache.Clear();
+    SceneManager.sceneLoaded += (scene, mode) => {
+      audioCache.Values.ToList().ForEach(UnityEngine.Object.Destroy);
+      audioCache.Clear();
+    };
     instance = this;
   }
 
