@@ -1,3 +1,5 @@
+# 0.26 (pre-release):
+
 # 0.25 (July 15th, 2017):
 * [Change] Drop `GUIUtils.EnumType` class in favor of `GUIUtils.MessageLookup`.
 * [Enhancement] Support automatic localization for the events, fields, and actions in the modules. See [`GUIUtils.LocalizableItemAttribute`](http://ihsoft.github.io/KSPDev/Utils/html/T_KSPDev_GUIUtils_LocalizableItemAttribute.htm).
