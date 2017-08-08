@@ -126,6 +126,7 @@
     <Compile Include="ModelUtils\Colliders.cs" />
     <Compile Include="ModelUtils\Hierarchy.cs" />
     <Compile Include="ModelUtils\KspLayer.cs" />
+    <Compile Include="ModelUtils\KspLayerMask.cs" />
     <Compile Include="ModelUtils\Meshes.cs" />
     <Compile Include="ProcessingUtils\AsyncCall.cs" />
     <Compile Include="ProcessingUtils\SimpleStateMachine.cs" />
