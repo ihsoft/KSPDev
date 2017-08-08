@@ -91,6 +91,7 @@
     <Compile Include="FSUtils\KspPaths.cs" />
     <Compile Include="GUIUtils\AngleType.cs" />
     <Compile Include="GUIUtils\DistanceType.cs" />
+    <Compile Include="GUIUtils\IHasGUI.cs" />
     <Compile Include="GUIUtils\MessageLookup.cs" />
     <Compile Include="GUIUtils\ForceType.cs" />
     <Compile Include="GUIUtils\GuiColorScope.cs" />
