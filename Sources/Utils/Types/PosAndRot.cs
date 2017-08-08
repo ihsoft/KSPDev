@@ -23,7 +23,7 @@ namespace KSPDev.Types {
 public sealed class PosAndRot : IPersistentField {
   /// <summary>Position of the transform.</summary>
   public Vector3 pos;
-  
+
   /// <summary>Euler rotation.</summary>
   /// <remarks>
   /// The rotation angles are automatically adjusted to stay within the [0; 360) range.
