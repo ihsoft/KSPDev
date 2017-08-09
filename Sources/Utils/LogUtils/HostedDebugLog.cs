@@ -2,6 +2,7 @@
 // Author: igor.zavoychinskiy@gmail.com
 // This software is distributed under Public domain license.
 
+using System;
 using System.Linq;
 using UnityEngine;
 
@@ -93,8 +94,13 @@ public static class HostedDebugLog {
   /// <param name="args">The arguments for the format string.</param>
   /// <seealso cref="ObjectToString"/>
   public static void Log(LogType type, object host, string format, params object[] args) {
-    Debug.logger.LogFormat(type, ObjectToString(host) + " " + format,
-                           args.Select(x => ObjectToString(x)).ToArray());
+    try {
+      Debug.logger.LogFormat(type, ObjectToString(host) + " " + format,
+                             args.Select(x => ObjectToString(x)).ToArray());
+    } catch (Exception e) {
+      Debug.LogErrorFormat(
+          "Failed to format logging string: {0}.\n{1}", format, e.StackTrace.ToString());
+    }
   }
 
   /// <summary>Helper method to make a user friendly object name for the logs.</summary>
