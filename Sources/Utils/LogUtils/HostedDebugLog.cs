@@ -37,40 +37,35 @@ public static class HostedDebugLog {
   /// <param name="args">The arguments for the format string.</param>
   /// <example><code source="Examples/LogUtils/HostedDebugLog-Examples.cs" region="HostedDebugLog1"/></example>
   /// <seealso cref="ObjectToString"/>
+  /// <seealso cref="Log"/>
   public static void Info(Part host, string format, params object[] args) {
-    Debug.logger.LogFormat(LogType.Log, ObjectToString(host) + " "  + format,
-                           args.Select(x => ObjectToString(x)).ToArray());
+    Log(LogType.Log, host, format, args);
   }
 
   /// <inheritdoc cref="Info(Part,string,object[])"/>
   public static void Info(PartModule host, string format, params object[] args) {
-    Debug.logger.LogFormat(LogType.Log, ObjectToString(host) + " "  + format,
-                           args.Select(x => ObjectToString(x)).ToArray());
+    Log(LogType.Log, host, format, args);
   }
 
   /// <inheritdoc cref="Info(Part,string,object[])"/>
   public static void Info(Transform host, string format, params object[] args) {
-    Debug.logger.LogFormat(LogType.Log, ObjectToString(host) + " "  + format,
-                           args.Select(x => ObjectToString(x)).ToArray());
+    Log(LogType.Log, host, format, args);
   }
 
   /// <summary>Logs a formatted WARNING message with a host identifier.</summary>
   /// <inheritdoc cref="Info(Part,string,object[])"/>
   public static void Warning(Part host, string format, params object[] args) {
-    Debug.logger.LogFormat(LogType.Warning, ObjectToString(host) + " " + format,
-                           args.Select(x => ObjectToString(x)).ToArray());
+    Log(LogType.Warning, host, format, args);
   }
 
   /// <inheritdoc cref="Warning(Part,string,object[])"/>
   public static void Warning(PartModule host, string format, params object[] args) {
-    Debug.logger.LogFormat(LogType.Warning, ObjectToString(host) + " " + format,
-                           args.Select(x => ObjectToString(x)).ToArray());
+    Log(LogType.Warning, host, format, args);
   }
 
   /// <inheritdoc cref="Warning(Part,string,object[])"/>
   public static void Warning(Transform host, string format, params object[] args) {
-    Debug.logger.LogFormat(LogType.Warning, ObjectToString(host) + " " + format,
-                           args.Select(x => ObjectToString(x)).ToArray());
+    Log(LogType.Warning, host, format, args);
   }
 
   /// <summary>Logs a formatted ERROR message with a host identifier.</summary>
