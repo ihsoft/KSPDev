@@ -109,6 +109,7 @@ public static class HostedDebugLog {
   /// common types and give a more context on them while keeping the output short. The currently
   /// supported object types are:
   /// <list type="bullet">
+  /// <item>The primitive types and strings are returned as is.</item>
   /// <item><see cref="Part"/>. The string will have a part ID.</item>
   /// <item><see cref="PartModule"/>. The string will have a part ID and a module index.</item>
   /// <item>
@@ -118,14 +119,17 @@ public static class HostedDebugLog {
   /// <para>The other types are stringified via a regular <c>ToString()</c> call.</para>
   /// </remarks>
   /// <param name="obj">The object to stringify. It can be <c>null</c>.</param>
-  /// <returns>A human friendly string which identifies the host.</returns>
+  /// <returns>A human friendly string or the original object.</returns>
   /// <include file="KSPAPI_HelpIndex.xml" path="//item[@name='T:Part']"/>
   /// <include file="KSPAPI_HelpIndex.xml" path="//item[@name='T:PartModule']"/>
   /// <include file="Unity3D_HelpIndex.xml" path="//item[@name='T:UnityEngine.Transform']"/>
   /// <include file="Unity3D_HelpIndex.xml" path="//item[@name='T:UnityEngine.GameObject']"/>
-  public static string ObjectToString(object obj) {
+  public static object ObjectToString(object obj) {
     if (obj == null) {
       return "[NULL]";
+    }
+    if (obj is string || obj.GetType().IsPrimitive) {
+      return obj;  // Skip types don't override ToString() and don't have special representaion.
     }
     var partHost = obj as Part;
     if (partHost != null) {
