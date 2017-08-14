@@ -4,6 +4,7 @@
 * [Fix] Support auto-localization in the parts that were created by a third-party mod (e.g. `KIS`).
 * [Enhancement] Add a sugar interface [`GUIUtils.IHasGUI`](http://ihsoft.github.io/KSPDev/Utils/html/T_KSPDev_GUIUtils_IHasGUI.htm).
 * [Enhancement] Add a type for the common KSP object layers: See [`ModelUtils.KspLayer`](http://ihsoft.github.io/KSPDev/Utils/html/T_KSPDev_ModelUtils_KspLayer.htm).
+* [Enhancement] Extend a sugar interface [`KSPInterfaces.IPartModule`](http://ihsoft.github.io/KSPDev/Utils/html/T_KSPDev_KSPInterfaces_IPartModule.htm).
 
 # 0.25 (July 15th, 2017):
 * [Change] Drop `GUIUtils.EnumType` class in favor of `GUIUtils.MessageLookup`.

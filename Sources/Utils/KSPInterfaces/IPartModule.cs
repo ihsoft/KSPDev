@@ -151,13 +151,22 @@ public interface IPartModule {
   /// <summary>Initializes module's state after all other modules have been created.</summary>
   /// <remarks>
   /// Note, that this is not the right place to start physics on the part. This callback is good to
-  /// establish connections between the other modules on the part.
+  /// acquire references to the the other modules on the part, and for establishing the internal
+  /// state of the module.
   /// </remarks>
   /// <para>See more details on the calling sequence in <see cref="IPartModule"/>.</para>
   /// <param name="state">State that specifies the situation of the vessel.</param>
   /// <seealso href="https://kerbalspaceprogram.com/api/class_part_module.html#ac6597127392e002b92f7427cf50244d3">
   /// KSP: PartModule.StartState</seealso>
   void OnStart(PartModule.StartState state);
+
+  /// <summary>Notifies that all the modules on the part have been started.</summary>
+  /// <remarks>
+  /// This is the right place to <i>interact</i> with the other modules on the part. At this moment
+  /// they all are assumed to be properly setup.
+  /// </remarks>
+  /// <param name="state">State that specifies the situation of the vessel.</param>
+  void OnStartFinished(PartModule.StartState state);
 
   /// <summary>
   /// Called on a vessel when it's time to start the physics on it.
