@@ -20,6 +20,10 @@ namespace KSPDev.Types {
 /// </item>
 /// </list>
 /// </remarks>
+/// <example>
+/// <code source="Examples/Extensions/PosAndRotExtensions-Examples.cs" region="ToLocal"/>
+/// <code source="Examples/Extensions/PosAndRotExtensions-Examples.cs" region="ToWorld"/>
+/// </example>
 public sealed class PosAndRot : IPersistentField {
   /// <summary>Position of the transform.</summary>
   public Vector3 pos;
