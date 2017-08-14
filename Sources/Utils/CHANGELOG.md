@@ -1,6 +1,7 @@
 # 0.26 (pre-release):
 * [Fix] Drop cached UI sounds on scene change.
 * [Fix] Support [`IPersistentField`](http://ihsoft.github.io/KSPDev/Utils/html/T_KSPDev_ConfigUtils_IPersistentField.htm) in the KSP types proto.
+* [Fix] Support auto-localization in the parts that were created by a third-party mod (e.g. `KIS`).
 * [Enhancement] Add a sugar interface [`GUIUtils.IHasGUI`](http://ihsoft.github.io/KSPDev/Utils/html/T_KSPDev_GUIUtils_IHasGUI.htm).
 * [Enhancement] Add a type for the common KSP object layers: See [`ModelUtils.KspLayer`](http://ihsoft.github.io/KSPDev/Utils/html/T_KSPDev_ModelUtils_KspLayer.htm).
 

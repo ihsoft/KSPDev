@@ -4,6 +4,7 @@
 
 using KSP.UI.Screens;
 using KSPDev.LogUtils;
+using KSPDev.ProcessingUtils;
 using System;
 using System.Linq;
 using System.Reflection;
@@ -92,11 +93,11 @@ public class LocalizationLoader : MonoBehaviour {
   /// <summary>Installs the event listeners to do the automatic modules localization.</summary>
   void Awake() {
     GameEvents.onLanguageSwitched.Add(OnUpdateLocalizationVersion);
-    GameEvents.onVesselCreate.Add(OnNewVessel);
-    GameEvents.onVesselLoaded.Add(OnNewVessel);
     GameEvents.onEditorPartEvent.Add(OnEditorPartEvent);
     GameEvents.onEditorLoad.Add(OnEditorLoad);
     GameEvents.onEditorStarted.Add(OnEditorStarted);
+    GameEvents.onProtoPartSnapshotLoad.Add(OnProtoPartSnapshotLoad);
+    GameEvents.onCrewOnEva.Add(OnCrewEva);
   }
 
   #region Game event listeners. Must not be static.
@@ -131,14 +132,29 @@ public class LocalizationLoader : MonoBehaviour {
     shipConstruct.parts.ForEach(UpdateLocalizationInPartModules);
   }
 
-  /// <summary>Loads all the localizable strings in a vessel.</summary>
-  /// <param name="vessel">The vessel to load strings in.</param>
-  void OnNewVessel(Vessel vessel) {
-    if (vessel.loaded) {
-      Debug.LogFormat("FLIGHT: Load vessel localizations in \"{0}\" from: {1}",
-                      vessel, LibraryLoader.assemblyVersionStr);
-      vessel.parts.ForEach(UpdateLocalizationInPartModules);
-    }
+  /// <summary>Reacts on creating a part from a proto.</summary>
+  /// <param name="action">The snapshot and node data.</param>
+  void OnProtoPartSnapshotLoad(GameEvents.FromToAction<ProtoPartSnapshot, ConfigNode> action) {
+    // The part instance is populeated after the event. Sometimes it may absent.
+    AsyncCall.CallOnEndOfFrame(this, () => {
+      if (action.from.partRef != null) {
+        HostedDebugLog.Info(action.from.partRef,
+            "FLIGHT: Localizing part modules from {0}", LibraryLoader.assemblyVersionStr);
+        UpdateLocalizationInPartModules(action.from.partRef);
+      }
+    });
+  }
+
+  /// <summary>Reacts on creating an EVA kerbal.</summary>
+  /// <remarks>
+  /// Kerbals are created in a different way from a regular vessel. So the regular update events are
+  /// not fired.
+  /// </remarks>
+  /// <param name="action">The source and target parts data.</param>
+  void OnCrewEva(GameEvents.FromToAction<Part, Part> action) {
+    HostedDebugLog.Info(action.to, "FLIGHT: Load kerbal localizations from: {0}",
+                        LibraryLoader.assemblyVersionStr);
+    UpdateLocalizationInPartModules(action.to);
   }
 
   /// <summary>Invalidates all the localization caches and updates the current vessels.</summary>
