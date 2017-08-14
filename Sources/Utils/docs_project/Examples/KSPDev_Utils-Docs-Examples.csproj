@@ -66,6 +66,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Extensions\DictExtensions-Examples.cs" />
+    <Compile Include="Extensions\PosAndRotExtensions-Examples.cs" />
     <Compile Include="Extensions\RectExtensions-Examples.cs" />
     <Compile Include="GUIUtils\AngleType-Examples.cs" />
     <Compile Include="GUIUtils\DistanceType-Examples.cs" />

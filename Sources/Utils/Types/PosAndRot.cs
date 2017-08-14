@@ -125,6 +125,32 @@ public sealed class PosAndRot : IPersistentField {
     }
     return res;
   }
+
+  /// <summary>
+  /// Transforms the object from the world space to the local space of a reference transform.
+  /// </summary>
+  /// <param name="parent">The transfrom to assume as a parent.</param>
+  /// <returns>A new object in the world space of <paramref name="parent"/>.</returns>
+  /// <example>
+  /// <code source="Examples/Extensions/PosAndRotExtensions-Examples.cs" region="ToWorld"/>
+  /// </example>
+  public PosAndRot Transform(Transform parent) {
+    return new PosAndRot(
+        parent.position + parent.rotation * pos, (parent.rotation * rot).eulerAngles);
+  }
+
+  /// <summary>
+  /// Transforms the object from world space to local space of a reference transform.
+  /// </summary>
+  /// <param name="parent">The transfrom to assume as a parent.</param>
+  /// <returns>A new object in the local space of <paramref name="parent"/>.</returns>
+  /// <example>
+  /// <code source="Examples/Extensions/PosAndRotExtensions-Examples.cs" region="ToLocal"/>
+  /// </example>
+  public PosAndRot InverseTransform(Transform parent) {
+    var inverseRot = parent.rotation.Inverse();
+    return new PosAndRot(inverseRot * (pos - parent.position), (inverseRot * rot).eulerAngles);
+  }
   
   /// <summary>
   /// Ensures that all the angles are in the range of <c>[0; 360)</c>. 
