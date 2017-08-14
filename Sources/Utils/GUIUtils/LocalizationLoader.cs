@@ -117,8 +117,9 @@ public class LocalizationLoader : MonoBehaviour {
   void OnEditorPartEvent(ConstructionEventType eventType, Part part) {
     if (eventType == ConstructionEventType.PartCreated
         || eventType == ConstructionEventType.PartCopied) {
-      Debug.LogFormat("EDITOR: Load localizations for a new part {0} from {1}",
-                      DbgFormatter.PartId(part), LibraryLoader.assemblyVersionStr);
+      HostedDebugLog.Info(part,
+          "EDITOR: Load localizations for a new part from {0}",
+          LibraryLoader.assemblyVersionStr);
       UpdateLocalizationInPartModules(part);
     }
   }
@@ -235,8 +236,8 @@ public class LocalizationLoader : MonoBehaviour {
   /// <summary>Localizes the modules in the part and in all of its children parts.</summary>
   /// <param name="rootPart">The root part to start from.</param>
   static void UpdateLocalizationInPartHierarchy(Part rootPart) {
-    Debug.LogFormat("EDITOR: Load localizations for the existing part {0} from {1}",
-                    DbgFormatter.PartId(rootPart), LibraryLoader.assemblyVersionStr);
+    HostedDebugLog.Info(rootPart, "EDITOR: Load localizations for the existing part from {0}",
+                        LibraryLoader.assemblyVersionStr);
     UpdateLocalizationInPartModules(rootPart);
     rootPart.children.ForEach(UpdateLocalizationInPartHierarchy);
   }
