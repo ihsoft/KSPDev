@@ -130,6 +130,7 @@
     <Compile Include="ModelUtils\KspLayer.cs" />
     <Compile Include="ModelUtils\KspLayerMask.cs" />
     <Compile Include="ModelUtils\Meshes.cs" />
+    <Compile Include="PartUtils\PartModuleUtils.cs" />
     <Compile Include="ProcessingUtils\AsyncCall.cs" />
     <Compile Include="ProcessingUtils\SimpleStateMachine.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -146,6 +147,7 @@
     <Folder Include="FSUtils" />
     <Folder Include="ModelUtils" />
     <Folder Include="InputUtils" />
+    <Folder Include="PartUtils" />
     <Folder Include="SoundUtils" />
     <Folder Include="ResourceUtils" />
     <Folder Include="Types" />
