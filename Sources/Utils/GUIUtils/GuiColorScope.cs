@@ -21,9 +21,9 @@ public class GuiColorScope : IDisposable {
   /// <param name="backgroundColor">The new color for <c>GUI.backgroundColor</c>.</param>
   /// <example><code source="Examples/GUIUtils/GuiColorScope-Examples.cs" region="GuiColorScopeDemo1"/></example>
   /// <example><code source="Examples/GUIUtils/GuiColorScope-Examples.cs" region="GuiColorScopeDemo2"/></example>
-  /// <include file="Unity3D_HelpIndex.xml" path="//item[@name='T:UnityEngine.GUI.color']/*"/>
-  /// <include file="Unity3D_HelpIndex.xml" path="//item[@name='T:UnityEngine.GUI.contentColor']/*"/>
-  /// <include file="Unity3D_HelpIndex.xml" path="//item[@name='T:UnityEngine.GUI.backgroundColor']/*"/>
+  /// <include file="Unity3D_HelpIndex.xml" path="//item[@name='F:UnityEngine.GUI.color']/*"/>
+  /// <include file="Unity3D_HelpIndex.xml" path="//item[@name='F:UnityEngine.GUI.contentColor']/*"/>
+  /// <include file="Unity3D_HelpIndex.xml" path="//item[@name='F:UnityEngine.GUI.backgroundColor']/*"/>
   public GuiColorScope(Color? color = null, Color? contentColor = null, Color? backgroundColor = null) {
     oldColor = GUI.color;
     if (color.HasValue) {
