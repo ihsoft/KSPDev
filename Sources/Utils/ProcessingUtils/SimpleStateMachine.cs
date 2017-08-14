@@ -84,7 +84,7 @@ public sealed class SimpleStateMachine<T> where T : struct, IConvertible {
   readonly Dictionary<T, T[]> transitionContstraints = new Dictionary<T, T[]>();
 
   /// <summary>Constructs a new uninitialized state machine.</summary>
-  /// <param name="strict">The strict mode.</param>
+  /// <param name="strict">Tells if all the transitions must be excplicitly declared.</param>
   /// <seealso cref="isStrict"/>
   /// <seealso cref="currentState"/>
   /// <seealso cref="SetTransitionConstraint"/>
