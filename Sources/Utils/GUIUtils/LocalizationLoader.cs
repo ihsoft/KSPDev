@@ -14,12 +14,14 @@ namespace KSPDev.GUIUtils {
 
 /// <summary>A utility class to localize the annotated members</summary>
 /// <remarks>
+/// <para>
 /// It also monitors if a new localizable module is created or loaded, or if the
 /// <see cref="LocalizableMessage.systemLocVersion">localization version</see> has changed. If this
 /// is the case, then all the modules will be automatically updated.
+/// </para>
+/// <para>This module is initialized from the KSPDev Utils loader.</para>
 /// </remarks>
 /// <seealso cref="LocalizableItemAttribute"/>
-/// <seealso cref="LibraryLoader"/>
 /// <example><code source="Examples/GUIUtils/LocalizationLoader-Examples.cs" region="LocalizationLoaderDemo1"/></example>
 public class LocalizationLoader : MonoBehaviour {
   /// <summary>

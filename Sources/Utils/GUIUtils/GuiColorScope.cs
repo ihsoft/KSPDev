@@ -39,7 +39,7 @@ public class GuiColorScope : IDisposable {
     }
   }
 
-  /// <inheritdoc/>
+  /// <summary>Restores the colors that were set before the scope started.</summary>
   public void Dispose() {
     GUI.color = oldColor;
     GUI.contentColor = oldContentColor;

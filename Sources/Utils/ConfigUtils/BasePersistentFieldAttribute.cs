@@ -47,6 +47,7 @@ public abstract class BasePersistentFieldAttribute : Attribute {
   /// <remarks>
   /// This type must be a descendant of <see cref="AbstractOrdinaryValueTypeProto"/>.
   /// </remarks>
+  /// <value>The prototype's class type.</value>
   public Type ordinaryTypeProto { get; protected set; }
 
   /// <summary>A proto that handles field's value as a collection of persistent values.</summary>
@@ -54,6 +55,7 @@ public abstract class BasePersistentFieldAttribute : Attribute {
   /// <para>
   /// This type must be a descendant of <see cref="AbstractCollectionTypeProto"/>.
   /// </para>
+  /// <value>The prototype's class type.</value>
   public Type collectionTypeProto { get; protected set; }
 
   /// <param name="cfgPath">

@@ -20,7 +20,7 @@ public class GuiEnabledStateScope : IDisposable {
     GUI.enabled = newState;
   }
 
-  /// <inheritdoc/>
+  /// <summary>Restores the enabled state that was set before the scope started.</summary>
   public void Dispose() {
     GUI.enabled = oldState;
   }

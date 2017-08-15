@@ -167,6 +167,7 @@
             <remarks>
             This type must be a descendant of <see cref="T:KSPDev.ConfigUtils.AbstractOrdinaryValueTypeProto"/>.
             </remarks>
+            <value>The prototype's class type.</value>
         </member>
         <member name="P:KSPDev.ConfigUtils.BasePersistentFieldAttribute.collectionTypeProto">
             <summary>A proto that handles field's value as a collection of persistent values.</summary>
@@ -174,6 +175,7 @@
             <para>
             This type must be a descendant of <see cref="T:KSPDev.ConfigUtils.AbstractCollectionTypeProto"/>.
             </para>
+            <value>The prototype's class type.</value>
         </member>
         <member name="T:KSPDev.ConfigUtils.AbstractPersistentFieldsFileAttribute">
             <summary>A base for any persistent fields file annotation.</summary>
@@ -1589,7 +1591,7 @@
             <seealso href="https://docs.unity3d.com/ScriptReference/GUI-backgroundColor.html">Untiy3D: GUI.backgroundColor</seealso>
         </member>
         <member name="M:KSPDev.GUIUtils.GuiColorScope.Dispose">
-            <inheritdoc/>
+            <summary>Restores the colors that were set before the scope started.</summary>
         </member>
         <member name="T:KSPDev.GUIUtils.GuiEnabledStateScope">
             <summary>A utility class to render big disabled bloacks of GUI.</summary>
@@ -1601,7 +1603,7 @@
             <example><code source="Examples/GUIUtils/GuiEnabledStateScope-Examples.cs" region="GuiEnabledStateScopeDemo1_OnGUI"/></example>
         </member>
         <member name="M:KSPDev.GUIUtils.GuiEnabledStateScope.Dispose">
-            <inheritdoc/>
+            <summary>Restores the enabled state that was set before the scope started.</summary>
         </member>
         <member name="T:KSPDev.GUIUtils.GuiWindow">
             <summary>A utility class to deal with the GUI windows.</summary>
@@ -1845,12 +1847,14 @@
         <member name="T:KSPDev.GUIUtils.LocalizationLoader">
             <summary>A utility class to localize the annotated members</summary>
             <remarks>
+            <para>
             It also monitors if a new localizable module is created or loaded, or if the
             <see cref="F:KSPDev.GUIUtils.LocalizableMessage.systemLocVersion">localization version</see> has changed. If this
             is the case, then all the modules will be automatically updated.
+            </para>
+            <para>This module is initialized from the KSPDev Utils loader.</para>
             </remarks>
             <seealso cref="T:KSPDev.GUIUtils.LocalizableItemAttribute"/>
-            <seealso cref="T:KSPDev.GUIUtils.LibraryLoader"/>
             <example><code source="Examples/GUIUtils/LocalizationLoader-Examples.cs" region="LocalizationLoaderDemo1"/></example>
         </member>
         <member name="F:KSPDev.GUIUtils.LocalizationLoader.KspFieldUnitsSpec">
@@ -2671,8 +2675,8 @@
             In case of the very first usage of the sound is latency restricted, the sound resource can be
             pre-cached via the <see cref="M:KSPDev.GUIUtils.UISoundPlayer.CacheSound(System.String)"/> method. It will increase the loading time, though.
             </para>
+            <para>This module is initialized from the KSPDev Utils loader.</para>
             </remarks>
-            <seealso cref="T:KSPDev.GUIUtils.LibraryLoader"/>
             <example><code source="Examples/GUIUtils/UISoundPlayer-Examples.cs" region="UISoundPlayerDemo1"/></example>
         </member>
         <member name="F:KSPDev.GUIUtils.UISoundPlayer.audioCache">
@@ -2703,7 +2707,7 @@
         <member name="M:KSPDev.GUIUtils.UISoundPlayer.Awake">
             <summary>Initializes the <see cref="P:KSPDev.GUIUtils.UISoundPlayer.instance"/>.</summary>
             <remarks>It's expected to be called only once.</remarks>
-            <seealso cref="T:KSPDev.GUIUtils.LibraryLoader"/>
+            <seealso cref="T:KSPDev.LibraryLoader"/>
         </member>
         <member name="M:KSPDev.GUIUtils.UISoundPlayer.GetOrLoadAudio(System.String)">
             <summary>Loads the audio sample and plays it.</summary>
@@ -3459,7 +3463,7 @@
             objects and modules that need the physics updates. It makes the code more readable.
             </remarks>
         </member>
-        <member name="T:KSPDev.GUIUtils.LibraryLoader">
+        <member name="T:KSPDev.LibraryLoader">
             <summary>
             Initialization class that installs the game event listeners needed by the library.
             </summary>
@@ -3470,10 +3474,10 @@
             libraries/versions in the game.
             </remarks>
         </member>
-        <member name="F:KSPDev.GUIUtils.LibraryLoader.loaded">
+        <member name="F:KSPDev.LibraryLoader.loaded">
             <summary>Tells if the loader has already initialized.</summary>
         </member>
-        <member name="P:KSPDev.GUIUtils.LibraryLoader.assemblyVersionStr">
+        <member name="P:KSPDev.LibraryLoader.assemblyVersionStr">
             <summary>Loaded library indentifier.</summary>
         </member>
         <member name="T:KSPDev.LogUtils.DbgFormatter">
@@ -4176,8 +4180,8 @@
             <summary>
             Utility class to deals with the attributed fields and methods of the KPS part modules.
             </summary>
-            <example><code source="Examples/GUIUtils/PartModuleUtils-Examples.cs" region="PartModuleUtils_SetupEvent"/></example>
-            <example><code source="Examples/GUIUtils/PartModuleUtils-Examples.cs" region="PartModuleUtils_GetEvent"/></example>
+            <example><code source="Examples/PartUtils/PartModuleUtils-Examples.cs" region="PartModuleUtils_SetupEvent"/></example>
+            <example><code source="Examples/PartUtils/PartModuleUtils-Examples.cs" region="PartModuleUtils_GetEvent"/></example>
         </member>
         <member name="M:KSPDev.PartUtils.PartModuleUtils.GetEvent(PartModule,System.Action)">
             <summary>Returns an event for the requested method.</summary>
@@ -4193,7 +4197,7 @@
             <param name="eventFn">The signature of the event in scope of the module.</param>
             <returns>An event, or <c>null</c> if nothing found for the method provided.</returns>
             <seealso cref="M:KSPDev.PartUtils.PartModuleUtils.SetupEvent(PartModule,System.Action,System.Action{BaseEvent})"/>
-            <example><code source="Examples/GUIUtils/PartModuleUtils-Examples.cs" region="PartModuleUtils_GetEvent"/></example>
+            <example><code source="Examples/PartUtils/PartModuleUtils-Examples.cs" region="PartModuleUtils_GetEvent"/></example>
         </member>
         <member name="M:KSPDev.PartUtils.PartModuleUtils.SetupEvent(PartModule,System.Action,System.Action{BaseEvent})">
             <summary>Applies a setup function on a KSP part module event.</summary>
@@ -4204,7 +4208,7 @@
             <c>true</c> if the event was found and the function was applied, <c>false</c> otherwise.
             </returns>
             <seealso cref="M:KSPDev.PartUtils.PartModuleUtils.GetEvent(PartModule,System.Action)"/>
-            <example><code source="Examples/GUIUtils/PartModuleUtils-Examples.cs" region="PartModuleUtils_SetupEvent"/></example>
+            <example><code source="Examples/PartUtils/PartModuleUtils-Examples.cs" region="PartModuleUtils_SetupEvent"/></example>
         </member>
         <member name="T:KSPDev.ProcessingUtils.AsyncCall">
             <summary>Set of tools to execute a delayed code.</summary>
