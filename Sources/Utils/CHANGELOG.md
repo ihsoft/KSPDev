@@ -8,6 +8,7 @@
 * [Enhancement] Add the transformation methods to deal with the [`Types.PosAndRot` type](http://ihsoft.github.io/KSPDev/Utils/html/T_KSPDev_Types_PosAndRot.htm). Also see [`PosAndRotExtensions`](http://ihsoft.github.io/KSPDev/Utils/html/T_KSPDev_Extensions_PosAndRotExtensions.htm).
 * [Enhancement] Add a localization class to format a Unity keyboard event: [`GUIUtils.KeyboardEventType`](http://ihsoft.github.io/KSPDev/Utils/html/T_KSPDev_GUIUtils_KeyboardEventType.htm).
 * [Enhancement] Add a utlilty class to deal with the modules's events: [`PartUtils.PartModuleUtils`](http://ihsoft.github.io/KSPDev/Utils/html/T_KSPDev_PartUtils_PartModuleUtils.htm).
+* [Enhancement] Add a utlilty class to deal with the part's model: [`PartUtils.PartModel`](http://ihsoft.github.io/KSPDev/Utils/html/T_KSPDev_PartUtils_PartModel.htm).
 
 # 0.25 (July 15th, 2017):
 * [Change] Drop `GUIUtils.EnumType` class in favor of `GUIUtils.MessageLookup`.

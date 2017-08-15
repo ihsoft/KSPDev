@@ -130,6 +130,7 @@
     <Compile Include="ModelUtils\KspLayer.cs" />
     <Compile Include="ModelUtils\KspLayerMask.cs" />
     <Compile Include="ModelUtils\Meshes.cs" />
+    <Compile Include="PartUtils\PartModel.cs" />
     <Compile Include="PartUtils\PartModuleUtils.cs" />
     <Compile Include="ProcessingUtils\AsyncCall.cs" />
     <Compile Include="ProcessingUtils\SimpleStateMachine.cs" />
