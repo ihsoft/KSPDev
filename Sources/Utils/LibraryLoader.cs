@@ -8,7 +8,7 @@ using System;
 using System.Linq;
 using UnityEngine;
 
-namespace KSPDev.GUIUtils {
+namespace KSPDev {
 
 /// <summary>
 /// Initialization class that installs the game event listeners needed by the library.
