@@ -1,4 +1,4 @@
-# 0.26 (pre-release):
+# 0.26 (August 8th, 2017):
 * [Fix] Drop cached UI sounds on scene change.
 * [Fix] Support [`IPersistentField`](http://ihsoft.github.io/KSPDev/Utils/html/T_KSPDev_ConfigUtils_IPersistentField.htm) in the KSP types proto.
 * [Fix] Support auto-localization in the parts that were created by a third-party mod (e.g. `KIS`).

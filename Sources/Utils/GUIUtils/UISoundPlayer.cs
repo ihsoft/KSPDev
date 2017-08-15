@@ -21,8 +21,8 @@ namespace KSPDev.GUIUtils {
 /// In case of the very first usage of the sound is latency restricted, the sound resource can be
 /// pre-cached via the <see cref="CacheSound"/> method. It will increase the loading time, though.
 /// </para>
+/// <para>This module is initialized from the KSPDev Utils loader.</para>
 /// </remarks>
-/// <seealso cref="LibraryLoader"/>
 /// <example><code source="Examples/GUIUtils/UISoundPlayer-Examples.cs" region="UISoundPlayerDemo1"/></example>
 public sealed class UISoundPlayer : MonoBehaviour {
   /// <summary>Returns the instance of the player in the current scene.</summary>

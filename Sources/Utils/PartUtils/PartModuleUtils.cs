@@ -10,8 +10,8 @@ namespace KSPDev.PartUtils {
 /// <summary>
 /// Utility class to deals with the attributed fields and methods of the KPS part modules.
 /// </summary>
-/// <example><code source="Examples/GUIUtils/PartModuleUtils-Examples.cs" region="PartModuleUtils_SetupEvent"/></example>
-/// <example><code source="Examples/GUIUtils/PartModuleUtils-Examples.cs" region="PartModuleUtils_GetEvent"/></example>
+/// <example><code source="Examples/PartUtils/PartModuleUtils-Examples.cs" region="PartModuleUtils_SetupEvent"/></example>
+/// <example><code source="Examples/PartUtils/PartModuleUtils-Examples.cs" region="PartModuleUtils_GetEvent"/></example>
 public static class PartModuleUtils {
   /// <summary>Returns an event for the requested method.</summary>
   /// <remarks>
@@ -26,7 +26,7 @@ public static class PartModuleUtils {
   /// <param name="eventFn">The signature of the event in scope of the module.</param>
   /// <returns>An event, or <c>null</c> if nothing found for the method provided.</returns>
   /// <seealso cref="SetupEvent"/>
-  /// <example><code source="Examples/GUIUtils/PartModuleUtils-Examples.cs" region="PartModuleUtils_GetEvent"/></example>
+  /// <example><code source="Examples/PartUtils/PartModuleUtils-Examples.cs" region="PartModuleUtils_GetEvent"/></example>
   public static BaseEvent GetEvent(PartModule partModule, Action eventFn) {
     return partModule.Events[eventFn.Method.Name];
   }
@@ -39,7 +39,7 @@ public static class PartModuleUtils {
   /// <c>true</c> if the event was found and the function was applied, <c>false</c> otherwise.
   /// </returns>
   /// <seealso cref="GetEvent"/>
-  /// <example><code source="Examples/GUIUtils/PartModuleUtils-Examples.cs" region="PartModuleUtils_SetupEvent"/></example>
+  /// <example><code source="Examples/PartUtils/PartModuleUtils-Examples.cs" region="PartModuleUtils_SetupEvent"/></example>
   public static bool SetupEvent(
       PartModule partModule, Action eventFn, Action<BaseEvent> setupFn) {
     var moduleEvent = partModule.Events[eventFn.Method.Name];

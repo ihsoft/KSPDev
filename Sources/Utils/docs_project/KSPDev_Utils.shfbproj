@@ -56,7 +56,8 @@ sources-->
 <NamespaceSummaryItem name="KSPDev.InputUtils" isDocumented="True">A set of helper classes to deal with the game keyboard and mouse input.</NamespaceSummaryItem>
 <NamespaceSummaryItem name="KSPDev.Types" isDocumented="True">Various custom types for the KSP mods.</NamespaceSummaryItem>
 <NamespaceSummaryItem name="KSPDev.ResourceUtils" isDocumented="True">A set of methods and constants to deal with the stock game resources.</NamespaceSummaryItem>
-<NamespaceSummaryItem name="KSPDev.SoundsUtils" isDocumented="True">A set of methods to deal with the sounds playing.</NamespaceSummaryItem></NamespaceSummaries>
+<NamespaceSummaryItem name="KSPDev.SoundsUtils" isDocumented="True">A set of methods to deal with the sounds playing.</NamespaceSummaryItem>
+<NamespaceSummaryItem name="KSPDev.PartUtils" isDocumented="True">Offers a variety of methods to deal with the model on the part.</NamespaceSummaryItem></NamespaceSummaries>
     <WebsiteSdkLinkType>Msdn</WebsiteSdkLinkType>
     <HtmlSdkLinkType>Msdn</HtmlSdkLinkType>
     <IncludeFavorites>True</IncludeFavorites>

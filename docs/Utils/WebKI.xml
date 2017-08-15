@@ -210,6 +210,7 @@
   <HelpKINode Title="EscapeName method" Url="html/M_KSPDev_ModelUtils_Hierarchy_EscapeName.htm" />
   <HelpKINode Title="euler property" Url="html/P_KSPDev_Types_PosAndRot_euler.htm" />
   <HelpKINode Title="EvaPropellant field" Url="html/F_KSPDev_ResourceUtils_StockResourceNames_EvaPropellant.htm" />
+  <HelpKINode Title="Event to KeyboardEventType conversion" Url="html/M_KSPDev_GUIUtils_KeyboardEventType_op_Implicit_1.htm" />
   <HelpKINode Title="EventChecker class">
     <HelpKINode Title="EventChecker Class" Url="html/T_KSPDev_InputUtils_EventChecker.htm" />
     <HelpKINode Title="about EventChecker class" Url="html/T_KSPDev_InputUtils_EventChecker.htm" />
@@ -240,6 +241,7 @@
     <HelpKINode Title="AngleType.Format Method " Url="html/M_KSPDev_GUIUtils_AngleType_Format.htm" />
     <HelpKINode Title="DistanceType.Format Method " Url="html/M_KSPDev_GUIUtils_DistanceType_Format.htm" />
     <HelpKINode Title="ForceType.Format Method " Url="html/M_KSPDev_GUIUtils_ForceType_Format.htm" />
+    <HelpKINode Title="KeyboardEventType.Format Method " Url="html/M_KSPDev_GUIUtils_KeyboardEventType_Format.htm" />
     <HelpKINode Title="MassType.Format Method " Url="html/M_KSPDev_GUIUtils_MassType_Format.htm" />
     <HelpKINode Title="Message(T1).Format Method " Url="html/M_KSPDev_GUIUtils_Message_1_Format.htm" />
     <HelpKINode Title="Message(T1, T2).Format Method " Url="html/M_KSPDev_GUIUtils_Message_2_Format.htm" />
@@ -250,7 +252,10 @@
     <HelpKINode Title="PercentType.Format Method " Url="html/M_KSPDev_GUIUtils_PercentType_Format.htm" />
   </HelpKINode>
   <HelpKINode Title="FromString method" Url="html/M_KSPDev_Types_PosAndRot_FromString.htm" />
-  <HelpKINode Title="FX enumeration member" Url="html/T_KSPDev_ModelUtils_KspLayerMask.htm" />
+  <HelpKINode Title="Fx enumeration member">
+    <HelpKINode Title="KspLayer Enumeration" Url="html/T_KSPDev_ModelUtils_KspLayer.htm" />
+    <HelpKINode Title="KspLayerMask Enumeration" Url="html/T_KSPDev_ModelUtils_KspLayerMask.htm" />
+  </HelpKINode>
   <HelpKINode Title="GenericCollectionTypeProto class">
     <HelpKINode Title="GenericCollectionTypeProto Class" Url="html/T_KSPDev_ConfigUtils_GenericCollectionTypeProto.htm" />
     <HelpKINode Title="about GenericCollectionTypeProto class" Url="html/T_KSPDev_ConfigUtils_GenericCollectionTypeProto.htm" />
@@ -267,6 +272,7 @@
     <HelpKINode Title="AbstractCollectionTypeProto.GetEnumerator Method " Url="html/M_KSPDev_ConfigUtils_AbstractCollectionTypeProto_GetEnumerator.htm" />
     <HelpKINode Title="GenericCollectionTypeProto.GetEnumerator Method " Url="html/M_KSPDev_ConfigUtils_GenericCollectionTypeProto_GetEnumerator.htm" />
   </HelpKINode>
+  <HelpKINode Title="GetEvent method" Url="html/M_KSPDev_PartUtils_PartModuleUtils_GetEvent.htm" />
   <HelpKINode Title="GetFullPath method" Url="html/M_KSPDev_ModelUtils_Hierarchy_GetFullPath.htm" />
   <HelpKINode Title="GetId method" Url="html/M_KSPDev_ResourceUtils_StockResourceNames_GetId.htm" />
   <HelpKINode Title="GetInfo method" Url="html/M_KSPDev_KSPInterfaces_IKSPDevModuleInfo_GetInfo.htm" />
@@ -370,6 +376,12 @@
     <HelpKINode Title="methods" Url="html/Methods_T_KSPDev_GUIUtils_IHasContextMenu.htm" />
   </HelpKINode>
   <HelpKINode Title="IHasContextMenu.UpdateContextMenu method" Url="html/M_KSPDev_GUIUtils_IHasContextMenu_UpdateContextMenu.htm" />
+  <HelpKINode Title="IHasGUI interface">
+    <HelpKINode Title="IHasGUI Interface" Url="html/T_KSPDev_GUIUtils_IHasGUI.htm" />
+    <HelpKINode Title="about IHasGUI interface" Url="html/T_KSPDev_GUIUtils_IHasGUI.htm" />
+    <HelpKINode Title="methods" Url="html/Methods_T_KSPDev_GUIUtils_IHasGUI.htm" />
+  </HelpKINode>
+  <HelpKINode Title="IHasGUI.OnGUI method" Url="html/M_KSPDev_GUIUtils_IHasGUI_OnGUI.htm" />
   <HelpKINode Title="IJointEventsListener interface">
     <HelpKINode Title="IJointEventsListener Interface" Url="html/T_KSPDev_KSPInterfaces_IJointEventsListener.htm" />
     <HelpKINode Title="about IJointEventsListener interface" Url="html/T_KSPDev_KSPInterfaces_IJointEventsListener.htm" />
@@ -401,6 +413,8 @@
   <HelpKINode Title="instance property" Url="html/P_KSPDev_GUIUtils_UISoundPlayer_instance.htm" />
   <HelpKINode Title="IntakeAir field" Url="html/F_KSPDev_ResourceUtils_StockResourceNames_IntakeAir.htm" />
   <HelpKINode Title="Intersect method" Url="html/M_KSPDev_Extensions_RectExtensions_Intersect.htm" />
+  <HelpKINode Title="InverseTransform method" Url="html/M_KSPDev_Types_PosAndRot_InverseTransform.htm" />
+  <HelpKINode Title="InverseTransformPosAndRot method" Url="html/M_KSPDev_Extensions_PosAndRotExtensions_InverseTransformPosAndRot.htm" />
   <HelpKINode Title="IPartModule interface">
     <HelpKINode Title="IPartModule Interface" Url="html/T_KSPDev_KSPInterfaces_IPartModule.htm" />
     <HelpKINode Title="about IPartModule interface" Url="html/T_KSPDev_KSPInterfaces_IPartModule.htm" />
@@ -412,6 +426,7 @@
   <HelpKINode Title="IPartModule.OnLoad method" Url="html/M_KSPDev_KSPInterfaces_IPartModule_OnLoad.htm" />
   <HelpKINode Title="IPartModule.OnSave method" Url="html/M_KSPDev_KSPInterfaces_IPartModule_OnSave.htm" />
   <HelpKINode Title="IPartModule.OnStart method" Url="html/M_KSPDev_KSPInterfaces_IPartModule_OnStart.htm" />
+  <HelpKINode Title="IPartModule.OnStartFinished method" Url="html/M_KSPDev_KSPInterfaces_IPartModule_OnStartFinished.htm" />
   <HelpKINode Title="IPartModule.OnUpdate method" Url="html/M_KSPDev_KSPInterfaces_IPartModule_OnUpdate.htm" />
   <HelpKINode Title="IPersistentField interface">
     <HelpKINode Title="IPersistentField Interface" Url="html/T_KSPDev_ConfigUtils_IPersistentField.htm" />
@@ -451,8 +466,24 @@
   </HelpKINode>
   <HelpKINode Title="IsPhysicalObject.FixedUpdate method" Url="html/M_KSPDev_KSPInterfaces_IsPhysicalObject_FixedUpdate.htm" />
   <HelpKINode Title="isStrict property" Url="html/P_KSPDev_ProcessingUtils_SimpleStateMachine_1_isStrict.htm" />
-  <HelpKINode Title="KERBALS enumeration member" Url="html/T_KSPDev_ModelUtils_KspLayerMask.htm" />
+  <HelpKINode Title="Kerbal enumeration member">
+    <HelpKINode Title="KspLayer Enumeration" Url="html/T_KSPDev_ModelUtils_KspLayer.htm" />
+    <HelpKINode Title="KspLayerMask Enumeration" Url="html/T_KSPDev_ModelUtils_KspLayerMask.htm" />
+  </HelpKINode>
   <HelpKINode Title="keyboardEnabled field" Url="html/F_KSPDev_InputUtils_KeyboardInputSwitch_keyboardEnabled.htm" />
+  <HelpKINode Title="KeyboardEventType class">
+    <HelpKINode Title="KeyboardEventType Class" Url="html/T_KSPDev_GUIUtils_KeyboardEventType.htm" />
+    <HelpKINode Title="about KeyboardEventType class" Url="html/T_KSPDev_GUIUtils_KeyboardEventType.htm" />
+    <HelpKINode Title="constructor" Url="html/M_KSPDev_GUIUtils_KeyboardEventType__ctor.htm" />
+    <HelpKINode Title="fields" Url="html/Fields_T_KSPDev_GUIUtils_KeyboardEventType.htm" />
+    <HelpKINode Title="methods" Url="html/Methods_T_KSPDev_GUIUtils_KeyboardEventType.htm" />
+    <HelpKINode Title="type conversions" Url="html/Operators_T_KSPDev_GUIUtils_KeyboardEventType.htm" />
+  </HelpKINode>
+  <HelpKINode Title="KeyboardEventType to Event conversion" Url="html/M_KSPDev_GUIUtils_KeyboardEventType_op_Implicit.htm" />
+  <HelpKINode Title="KeyboardEventType.Format method" Url="html/M_KSPDev_GUIUtils_KeyboardEventType_Format.htm" />
+  <HelpKINode Title="KeyboardEventType.KeyboardEventType constructor" Url="html/M_KSPDev_GUIUtils_KeyboardEventType__ctor.htm" />
+  <HelpKINode Title="KeyboardEventType.ToString method" Url="html/M_KSPDev_GUIUtils_KeyboardEventType_ToString.htm" />
+  <HelpKINode Title="KeyboardEventType.value field" Url="html/F_KSPDev_GUIUtils_KeyboardEventType_value.htm" />
   <HelpKINode Title="KeyboardInputSwitch class">
     <HelpKINode Title="KeyboardInputSwitch Class" Url="html/T_KSPDev_InputUtils_KeyboardInputSwitch.htm" />
     <HelpKINode Title="about KeyboardInputSwitch class" Url="html/T_KSPDev_InputUtils_KeyboardInputSwitch.htm" />
@@ -499,6 +530,7 @@
   <HelpKINode Title="KSPDev.ConfigUtils.StdPersistentGroups class" Url="html/T_KSPDev_ConfigUtils_StdPersistentGroups.htm" />
   <HelpKINode Title="KSPDev.Extensions namespace" Url="html/N_KSPDev_Extensions.htm" />
   <HelpKINode Title="KSPDev.Extensions.DictExtensions class" Url="html/T_KSPDev_Extensions_DictExtensions.htm" />
+  <HelpKINode Title="KSPDev.Extensions.PosAndRotExtensions class" Url="html/T_KSPDev_Extensions_PosAndRotExtensions.htm" />
   <HelpKINode Title="KSPDev.Extensions.RectExtensions class" Url="html/T_KSPDev_Extensions_RectExtensions.htm" />
   <HelpKINode Title="KSPDev.FSUtils namespace" Url="html/N_KSPDev_FSUtils.htm" />
   <HelpKINode Title="KSPDev.FSUtils.KspPaths class" Url="html/T_KSPDev_FSUtils_KspPaths.htm" />
@@ -513,6 +545,8 @@
   <HelpKINode Title="KSPDev.GUIUtils.GuiWindow class" Url="html/T_KSPDev_GUIUtils_GuiWindow.htm" />
   <HelpKINode Title="KSPDev.GUIUtils.HintOverlay class" Url="html/T_KSPDev_GUIUtils_HintOverlay.htm" />
   <HelpKINode Title="KSPDev.GUIUtils.IHasContextMenu interface" Url="html/T_KSPDev_GUIUtils_IHasContextMenu.htm" />
+  <HelpKINode Title="KSPDev.GUIUtils.IHasGUI interface" Url="html/T_KSPDev_GUIUtils_IHasGUI.htm" />
+  <HelpKINode Title="KSPDev.GUIUtils.KeyboardEventType class" Url="html/T_KSPDev_GUIUtils_KeyboardEventType.htm" />
   <HelpKINode Title="KSPDev.GUIUtils.LocalizableItemAttribute class" Url="html/T_KSPDev_GUIUtils_LocalizableItemAttribute.htm" />
   <HelpKINode Title="KSPDev.GUIUtils.LocalizableMessage class" Url="html/T_KSPDev_GUIUtils_LocalizableMessage.htm" />
   <HelpKINode Title="KSPDev.GUIUtils.LocalizationLoader class" Url="html/T_KSPDev_GUIUtils_LocalizationLoader.htm" />
@@ -555,8 +589,12 @@
   <HelpKINode Title="KSPDev.ModelUtils.Colliders class" Url="html/T_KSPDev_ModelUtils_Colliders.htm" />
   <HelpKINode Title="KSPDev.ModelUtils.Colliders.PrimitiveCollider enumeration" Url="html/T_KSPDev_ModelUtils_Colliders_PrimitiveCollider.htm" />
   <HelpKINode Title="KSPDev.ModelUtils.Hierarchy class" Url="html/T_KSPDev_ModelUtils_Hierarchy.htm" />
+  <HelpKINode Title="KSPDev.ModelUtils.KspLayer enumeration" Url="html/T_KSPDev_ModelUtils_KspLayer.htm" />
   <HelpKINode Title="KSPDev.ModelUtils.KspLayerMask enumeration" Url="html/T_KSPDev_ModelUtils_KspLayerMask.htm" />
   <HelpKINode Title="KSPDev.ModelUtils.Meshes class" Url="html/T_KSPDev_ModelUtils_Meshes.htm" />
+  <HelpKINode Title="KSPDev.PartUtils namespace" Url="html/N_KSPDev_PartUtils.htm" />
+  <HelpKINode Title="KSPDev.PartUtils.PartModel class" Url="html/T_KSPDev_PartUtils_PartModel.htm" />
+  <HelpKINode Title="KSPDev.PartUtils.PartModuleUtils class" Url="html/T_KSPDev_PartUtils_PartModuleUtils.htm" />
   <HelpKINode Title="KSPDev.ProcessingUtils namespace" Url="html/N_KSPDev_ProcessingUtils.htm" />
   <HelpKINode Title="KSPDev.ProcessingUtils.AsyncCall class" Url="html/T_KSPDev_ProcessingUtils_AsyncCall.htm" />
   <HelpKINode Title="KSPDev.ProcessingUtils.SimpleStateMachine(Of T) class" Url="html/T_KSPDev_ProcessingUtils_SimpleStateMachine_1.htm" />
@@ -572,6 +610,7 @@
   <HelpKINode Title="KSPDev.Types namespace" Url="html/N_KSPDev_Types.htm" />
   <HelpKINode Title="KSPDev.Types.PosAndRot class" Url="html/T_KSPDev_Types_PosAndRot.htm" />
   <HelpKINode Title="KspFieldUnitsSpec field" Url="html/F_KSPDev_GUIUtils_LocalizationLoader_KspFieldUnitsSpec.htm" />
+  <HelpKINode Title="KspLayer enumeration" Url="html/T_KSPDev_ModelUtils_KspLayer.htm" />
   <HelpKINode Title="KspLayerMask enumeration" Url="html/T_KSPDev_ModelUtils_KspLayerMask.htm" />
   <HelpKINode Title="KspPaths class">
     <HelpKINode Title="KspPaths Class" Url="html/T_KSPDev_FSUtils_KspPaths.htm" />
@@ -810,10 +849,10 @@
   <HelpKINode Title="MonoPropellant field" Url="html/F_KSPDev_ResourceUtils_StockResourceNames_MonoPropellant.htm" />
   <HelpKINode Title="MoveToParent method" Url="html/M_KSPDev_ModelUtils_Hierarchy_MoveToParent.htm" />
   <HelpKINode Title="nodePath field" Url="html/F_KSPDev_ConfigUtils_AbstractPersistentFieldsFileAttribute_nodePath.htm" />
-  <HelpKINode Title="NONE enumeration member" Url="html/T_KSPDev_ModelUtils_KspLayerMask.htm" />
   <HelpKINode Title="None enumeration member">
     <HelpKINode Title="Colliders.PrimitiveCollider Enumeration" Url="html/T_KSPDev_ModelUtils_Colliders_PrimitiveCollider.htm" />
     <HelpKINode Title="KeyModifiers Enumeration" Url="html/T_KSPDev_InputUtils_KeyModifiers.htm" />
+    <HelpKINode Title="KspLayerMask Enumeration" Url="html/T_KSPDev_ModelUtils_KspLayerMask.htm" />
   </HelpKINode>
   <HelpKINode Title="NormalizePath method" Url="html/M_KSPDev_FSUtils_KspPaths_NormalizePath.htm" />
   <HelpKINode Title="Nullable(Of T) method" Url="html/M_KSPDev_LogUtils_DbgFormatter_Nullable__1.htm" />
@@ -824,6 +863,7 @@
   <HelpKINode Title="OnClick event" Url="html/E_KSPDev_InputUtils_KeyboardInputSwitch_OnClick.htm" />
   <HelpKINode Title="OnDestroy method" Url="html/M_KSPDev_KSPInterfaces_IsDestroyable_OnDestroy.htm" />
   <HelpKINode Title="OnFixedUpdate method" Url="html/M_KSPDev_KSPInterfaces_IPartModule_OnFixedUpdate.htm" />
+  <HelpKINode Title="OnGUI method" Url="html/M_KSPDev_GUIUtils_IHasGUI_OnGUI.htm" />
   <HelpKINode Title="OnInitialize method" Url="html/M_KSPDev_KSPInterfaces_IPartModule_OnInitialize.htm" />
   <HelpKINode Title="OnJointBreak method" Url="html/M_KSPDev_KSPInterfaces_IJointEventsListener_OnJointBreak.htm" />
   <HelpKINode Title="OnLoad method" Url="html/M_KSPDev_KSPInterfaces_IPartModule_OnLoad.htm" />
@@ -834,6 +874,7 @@
   <HelpKINode Title="OnRelease event" Url="html/E_KSPDev_InputUtils_KeyboardInputSwitch_OnRelease.htm" />
   <HelpKINode Title="OnSave method" Url="html/M_KSPDev_KSPInterfaces_IPartModule_OnSave.htm" />
   <HelpKINode Title="OnStart method" Url="html/M_KSPDev_KSPInterfaces_IPartModule_OnStart.htm" />
+  <HelpKINode Title="OnStartFinished method" Url="html/M_KSPDev_KSPInterfaces_IPartModule_OnStartFinished.htm" />
   <HelpKINode Title="OnStateChanged event" Url="html/E_KSPDev_InputUtils_KeyboardInputSwitch_OnStateChanged.htm" />
   <HelpKINode Title="OnUpdate method" Url="html/M_KSPDev_KSPInterfaces_IPartModule_OnUpdate.htm" />
   <HelpKINode Title="ordinaryTypeProto property" Url="html/P_KSPDev_ConfigUtils_BasePersistentFieldAttribute_ordinaryTypeProto.htm" />
@@ -847,6 +888,10 @@
     <HelpKINode Title="PrimitiveTypesProto.ParseFromString Method " Url="html/M_KSPDev_ConfigUtils_PrimitiveTypesProto_ParseFromString.htm" />
     <HelpKINode Title="StandardOrdinaryTypesProto.ParseFromString Method " Url="html/M_KSPDev_ConfigUtils_StandardOrdinaryTypesProto_ParseFromString.htm" />
   </HelpKINode>
+  <HelpKINode Title="Part enumeration member">
+    <HelpKINode Title="KspLayer Enumeration" Url="html/T_KSPDev_ModelUtils_KspLayer.htm" />
+    <HelpKINode Title="KspLayerMask Enumeration" Url="html/T_KSPDev_ModelUtils_KspLayerMask.htm" />
+  </HelpKINode>
   <HelpKINode Title="PartConfig class">
     <HelpKINode Title="PartConfig Class" Url="html/T_KSPDev_ConfigUtils_PartConfig.htm" />
     <HelpKINode Title="about PartConfig class" Url="html/T_KSPDev_ConfigUtils_PartConfig.htm" />
@@ -854,7 +899,19 @@
   </HelpKINode>
   <HelpKINode Title="PartConfig.GetModuleConfig method" Url="html/M_KSPDev_ConfigUtils_PartConfig_GetModuleConfig.htm" />
   <HelpKINode Title="PartId method" Url="html/M_KSPDev_LogUtils_DbgFormatter_PartId.htm" />
-  <HelpKINode Title="PARTS enumeration member" Url="html/T_KSPDev_ModelUtils_KspLayerMask.htm" />
+  <HelpKINode Title="PartModel class">
+    <HelpKINode Title="PartModel Class" Url="html/T_KSPDev_PartUtils_PartModel.htm" />
+    <HelpKINode Title="about PartModel class" Url="html/T_KSPDev_PartUtils_PartModel.htm" />
+    <HelpKINode Title="methods" Url="html/Methods_T_KSPDev_PartUtils_PartModel.htm" />
+  </HelpKINode>
+  <HelpKINode Title="PartModel.UpdateHighlighters method" Url="html/Overload_KSPDev_PartUtils_PartModel_UpdateHighlighters.htm" />
+  <HelpKINode Title="PartModuleUtils class">
+    <HelpKINode Title="PartModuleUtils Class" Url="html/T_KSPDev_PartUtils_PartModuleUtils.htm" />
+    <HelpKINode Title="about PartModuleUtils class" Url="html/T_KSPDev_PartUtils_PartModuleUtils.htm" />
+    <HelpKINode Title="methods" Url="html/Methods_T_KSPDev_PartUtils_PartModuleUtils.htm" />
+  </HelpKINode>
+  <HelpKINode Title="PartModuleUtils.GetEvent method" Url="html/M_KSPDev_PartUtils_PartModuleUtils_GetEvent.htm" />
+  <HelpKINode Title="PartModuleUtils.SetupEvent method" Url="html/M_KSPDev_PartUtils_PartModuleUtils_SetupEvent.htm" />
   <HelpKINode Title="path field" Url="html/F_KSPDev_ConfigUtils_BasePersistentFieldAttribute_path.htm" />
   <HelpKINode Title="PatternMatch method" Url="html/M_KSPDev_ModelUtils_Hierarchy_PatternMatch.htm" />
   <HelpKINode Title="PercentType class">
@@ -908,12 +965,21 @@
   <HelpKINode Title="PosAndRot.Clone method" Url="html/M_KSPDev_Types_PosAndRot_Clone.htm" />
   <HelpKINode Title="PosAndRot.euler property" Url="html/P_KSPDev_Types_PosAndRot_euler.htm" />
   <HelpKINode Title="PosAndRot.FromString method" Url="html/M_KSPDev_Types_PosAndRot_FromString.htm" />
+  <HelpKINode Title="PosAndRot.InverseTransform method" Url="html/M_KSPDev_Types_PosAndRot_InverseTransform.htm" />
   <HelpKINode Title="PosAndRot.ParseFromString method" Url="html/M_KSPDev_Types_PosAndRot_ParseFromString.htm" />
   <HelpKINode Title="PosAndRot.pos field" Url="html/F_KSPDev_Types_PosAndRot_pos.htm" />
   <HelpKINode Title="PosAndRot.PosAndRot constructor" Url="html/Overload_KSPDev_Types_PosAndRot__ctor.htm" />
   <HelpKINode Title="PosAndRot.rot property" Url="html/P_KSPDev_Types_PosAndRot_rot.htm" />
   <HelpKINode Title="PosAndRot.SerializeToString method" Url="html/M_KSPDev_Types_PosAndRot_SerializeToString.htm" />
   <HelpKINode Title="PosAndRot.ToString method" Url="html/M_KSPDev_Types_PosAndRot_ToString.htm" />
+  <HelpKINode Title="PosAndRot.Transform method" Url="html/M_KSPDev_Types_PosAndRot_Transform.htm" />
+  <HelpKINode Title="PosAndRotExtensions class">
+    <HelpKINode Title="PosAndRotExtensions Class" Url="html/T_KSPDev_Extensions_PosAndRotExtensions.htm" />
+    <HelpKINode Title="about PosAndRotExtensions class" Url="html/T_KSPDev_Extensions_PosAndRotExtensions.htm" />
+    <HelpKINode Title="methods" Url="html/Methods_T_KSPDev_Extensions_PosAndRotExtensions.htm" />
+  </HelpKINode>
+  <HelpKINode Title="PosAndRotExtensions.InverseTransformPosAndRot method" Url="html/M_KSPDev_Extensions_PosAndRotExtensions_InverseTransformPosAndRot.htm" />
+  <HelpKINode Title="PosAndRotExtensions.TransformPosAndRot method" Url="html/M_KSPDev_Extensions_PosAndRotExtensions_TransformPosAndRot.htm" />
   <HelpKINode Title="PrimitiveTypesProto class">
     <HelpKINode Title="PrimitiveTypesProto Class" Url="html/T_KSPDev_ConfigUtils_PrimitiveTypesProto.htm" />
     <HelpKINode Title="about PrimitiveTypesProto class" Url="html/T_KSPDev_ConfigUtils_PrimitiveTypesProto.htm" />
@@ -968,7 +1034,10 @@
     <HelpKINode Title="PrimitiveTypesProto.SerializeToString Method " Url="html/M_KSPDev_ConfigUtils_PrimitiveTypesProto_SerializeToString.htm" />
     <HelpKINode Title="StandardOrdinaryTypesProto.SerializeToString Method " Url="html/M_KSPDev_ConfigUtils_StandardOrdinaryTypesProto_SerializeToString.htm" />
   </HelpKINode>
-  <HelpKINode Title="SERVICE_LAYER enumeration member" Url="html/T_KSPDev_ModelUtils_KspLayerMask.htm" />
+  <HelpKINode Title="Service enumeration member">
+    <HelpKINode Title="KspLayer Enumeration" Url="html/T_KSPDev_ModelUtils_KspLayer.htm" />
+    <HelpKINode Title="KspLayerMask Enumeration" Url="html/T_KSPDev_ModelUtils_KspLayerMask.htm" />
+  </HelpKINode>
   <HelpKINode Title="SetCollisionIgnores method" Url="html/Overload_KSPDev_ModelUtils_Colliders_SetCollisionIgnores.htm" />
   <HelpKINode Title="SetColorToRichText method" Url="html/M_KSPDev_GUIUtils_ScreenMessaging_SetColorToRichText.htm" />
   <HelpKINode Title="SetDefault(Of K, V) method" Url="html/M_KSPDev_Extensions_DictExtensions_SetDefault__2.htm" />
@@ -977,6 +1046,7 @@
   <HelpKINode Title="SetNodeByPath method" Url="html/Overload_KSPDev_ConfigUtils_ConfigAccessor_SetNodeByPath.htm" />
   <HelpKINode Title="SetSimpleCollider method" Url="html/M_KSPDev_ModelUtils_Colliders_SetSimpleCollider.htm" />
   <HelpKINode Title="SetTransitionConstraint method" Url="html/M_KSPDev_ProcessingUtils_SimpleStateMachine_1_SetTransitionConstraint.htm" />
+  <HelpKINode Title="SetupEvent method" Url="html/M_KSPDev_PartUtils_PartModuleUtils_SetupEvent.htm" />
   <HelpKINode Title="SetValueByPath method" Url="html/Overload_KSPDev_ConfigUtils_ConfigAccessor_SetValueByPath.htm" />
   <HelpKINode Title="Shape enumeration member" Url="html/T_KSPDev_ModelUtils_Colliders_PrimitiveCollider.htm" />
   <HelpKINode Title="ShowAtCursor method" Url="html/M_KSPDev_GUIUtils_HintOverlay_ShowAtCursor.htm" />
@@ -1082,7 +1152,10 @@
   <HelpKINode Title="String to Message&lt;T1, T2, T3&gt; conversion" Url="html/M_KSPDev_GUIUtils_Message_3_op_Implicit.htm" />
   <HelpKINode Title="String to Message&lt;T1, T2&gt; conversion" Url="html/M_KSPDev_GUIUtils_Message_2_op_Implicit.htm" />
   <HelpKINode Title="String to Message&lt;T1&gt; conversion" Url="html/M_KSPDev_GUIUtils_Message_1_op_Implicit.htm" />
-  <HelpKINode Title="SURFACE enumeration member" Url="html/T_KSPDev_ModelUtils_KspLayerMask.htm" />
+  <HelpKINode Title="SurfaceCollider enumeration member">
+    <HelpKINode Title="KspLayer Enumeration" Url="html/T_KSPDev_ModelUtils_KspLayer.htm" />
+    <HelpKINode Title="KspLayerMask Enumeration" Url="html/T_KSPDev_ModelUtils_KspLayerMask.htm" />
+  </HelpKINode>
   <HelpKINode Title="systemLocVersion field" Url="html/F_KSPDev_GUIUtils_LocalizableMessage_systemLocVersion.htm" />
   <HelpKINode Title="tag field">
     <HelpKINode Title="LocalizableItemAttribute.tag Field" Url="html/F_KSPDev_GUIUtils_LocalizableItemAttribute_tag.htm" />
@@ -1094,12 +1167,19 @@
     <HelpKINode Title="AngleType.ToString Method " Url="html/M_KSPDev_GUIUtils_AngleType_ToString.htm" />
     <HelpKINode Title="DistanceType.ToString Method " Url="html/M_KSPDev_GUIUtils_DistanceType_ToString.htm" />
     <HelpKINode Title="ForceType.ToString Method " Url="html/M_KSPDev_GUIUtils_ForceType_ToString.htm" />
+    <HelpKINode Title="KeyboardEventType.ToString Method " Url="html/M_KSPDev_GUIUtils_KeyboardEventType_ToString.htm" />
     <HelpKINode Title="MassType.ToString Method " Url="html/M_KSPDev_GUIUtils_MassType_ToString.htm" />
     <HelpKINode Title="PercentType.ToString Method " Url="html/M_KSPDev_GUIUtils_PercentType_ToString.htm" />
     <HelpKINode Title="PosAndRot.ToString Method " Url="html/M_KSPDev_Types_PosAndRot_ToString.htm" />
   </HelpKINode>
   <HelpKINode Title="TranformPath method" Url="html/Overload_KSPDev_LogUtils_DbgFormatter_TranformPath.htm" />
+  <HelpKINode Title="Transform method" Url="html/M_KSPDev_Types_PosAndRot_Transform.htm" />
+  <HelpKINode Title="TransformPosAndRot method" Url="html/M_KSPDev_Extensions_PosAndRotExtensions_TransformPosAndRot.htm" />
   <HelpKINode Title="TranslateMesh method" Url="html/M_KSPDev_ModelUtils_Meshes_TranslateMesh.htm" />
+  <HelpKINode Title="TriggerCollider enumeration member">
+    <HelpKINode Title="KspLayer Enumeration" Url="html/T_KSPDev_ModelUtils_KspLayer.htm" />
+    <HelpKINode Title="KspLayerMask Enumeration" Url="html/T_KSPDev_ModelUtils_KspLayerMask.htm" />
+  </HelpKINode>
   <HelpKINode Title="UISoundPlayer class">
     <HelpKINode Title="UISoundPlayer Class" Url="html/T_KSPDev_GUIUtils_UISoundPlayer.htm" />
     <HelpKINode Title="about UISoundPlayer class" Url="html/T_KSPDev_GUIUtils_UISoundPlayer.htm" />
@@ -1119,11 +1199,13 @@
   <HelpKINode Title="Update method" Url="html/M_KSPDev_InputUtils_KeyboardInputSwitch_Update.htm" />
   <HelpKINode Title="UpdateColliders method" Url="html/M_KSPDev_ModelUtils_Colliders_UpdateColliders.htm" />
   <HelpKINode Title="UpdateContextMenu method" Url="html/M_KSPDev_GUIUtils_IHasContextMenu_UpdateContextMenu.htm" />
+  <HelpKINode Title="UpdateHighlighters method" Url="html/Overload_KSPDev_PartUtils_PartModel_UpdateHighlighters.htm" />
   <HelpKINode Title="UpdateMaterials method" Url="html/M_KSPDev_ModelUtils_Meshes_UpdateMaterials.htm" />
   <HelpKINode Title="value field">
     <HelpKINode Title="AngleType.value Field" Url="html/F_KSPDev_GUIUtils_AngleType_value.htm" />
     <HelpKINode Title="DistanceType.value Field" Url="html/F_KSPDev_GUIUtils_DistanceType_value.htm" />
     <HelpKINode Title="ForceType.value Field" Url="html/F_KSPDev_GUIUtils_ForceType_value.htm" />
+    <HelpKINode Title="KeyboardEventType.value Field" Url="html/F_KSPDev_GUIUtils_KeyboardEventType_value.htm" />
     <HelpKINode Title="MassType.value Field" Url="html/F_KSPDev_GUIUtils_MassType_value.htm" />
     <HelpKINode Title="PercentType.value Field" Url="html/F_KSPDev_GUIUtils_PercentType_value.htm" />
   </HelpKINode>
