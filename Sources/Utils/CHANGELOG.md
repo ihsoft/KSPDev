@@ -1,3 +1,15 @@
+# 0.26 (pre-release):
+* [Fix] Drop cached UI sounds on scene change.
+* [Fix] Support [`IPersistentField`](http://ihsoft.github.io/KSPDev/Utils/html/T_KSPDev_ConfigUtils_IPersistentField.htm) in the KSP types proto.
+* [Fix] Support auto-localization in the parts that were created by a third-party mod (e.g. `KIS`).
+* [Enhancement] Add a sugar interface [`GUIUtils.IHasGUI`](http://ihsoft.github.io/KSPDev/Utils/html/T_KSPDev_GUIUtils_IHasGUI.htm).
+* [Enhancement] Add a type for the common KSP object layers: See [`ModelUtils.KspLayer`](http://ihsoft.github.io/KSPDev/Utils/html/T_KSPDev_ModelUtils_KspLayer.htm).
+* [Enhancement] Extend a sugar interface [`KSPInterfaces.IPartModule`](http://ihsoft.github.io/KSPDev/Utils/html/T_KSPDev_KSPInterfaces_IPartModule.htm).
+* [Enhancement] Add the transformation methods to deal with the [`Types.PosAndRot` type](http://ihsoft.github.io/KSPDev/Utils/html/T_KSPDev_Types_PosAndRot.htm). Also see [`PosAndRotExtensions`](http://ihsoft.github.io/KSPDev/Utils/html/T_KSPDev_Extensions_PosAndRotExtensions.htm).
+* [Enhancement] Add a localization class to format a Unity keyboard event: [`GUIUtils.KeyboardEventType`](http://ihsoft.github.io/KSPDev/Utils/html/T_KSPDev_GUIUtils_KeyboardEventType.htm).
+* [Enhancement] Add a utlilty class to deal with the modules's events: [`PartUtils.PartModuleUtils`](http://ihsoft.github.io/KSPDev/Utils/html/T_KSPDev_PartUtils_PartModuleUtils.htm).
+* [Enhancement] Add a utlilty class to deal with the part's model: [`PartUtils.PartModel`](http://ihsoft.github.io/KSPDev/Utils/html/T_KSPDev_PartUtils_PartModel.htm).
+
 # 0.25 (July 15th, 2017):
 * [Change] Drop `GUIUtils.EnumType` class in favor of `GUIUtils.MessageLookup`.
 * [Enhancement] Support automatic localization for the events, fields, and actions in the modules. See [`GUIUtils.LocalizableItemAttribute`](http://ihsoft.github.io/KSPDev/Utils/html/T_KSPDev_GUIUtils_LocalizableItemAttribute.htm).

@@ -26,7 +26,7 @@ public interface IKSPActivateOnDecouple {
   /// <summary>Called when two parts decouple.</summary>
   /// <remarks>
   /// The callback is only called on the part if it has an attach node that connects it to the other
-  /// part. For this event to fire a decoupling logic must be executed. A s imple removal from the
+  /// part. For this event to fire a decoupling logic must be executed. A simple removal from the
   /// vessel hierarchy won't trigger the event.
   /// </remarks>
   /// <param name="nodeName">The attach node name that has been detached.</param>

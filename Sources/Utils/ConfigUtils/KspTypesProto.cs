@@ -17,11 +17,16 @@ public class KspTypesProto : AbstractOrdinaryValueTypeProto {
         || type == typeof(Vector4)
         || type == typeof(Quaternion) || type == typeof(QuaternionD)
         || type == typeof(Matrix4x4)
+        || typeof(IPersistentField).IsAssignableFrom(type)
         || type.IsEnum;
   }
   
   /// <inheritdoc/>
   public override string SerializeToString(object value) {
+    var persistent = value as IPersistentField;
+    if (persistent != null) {
+      return persistent.SerializeToString();
+    }
     if (value is Color) {
       return ConfigNode.WriteColor((Color) value);
     }
@@ -58,6 +63,11 @@ public class KspTypesProto : AbstractOrdinaryValueTypeProto {
   /// <inheritdoc/>
   public override object ParseFromString(string value, Type type) {
     try {
+      if (typeof(IPersistentField).IsAssignableFrom(type)) {
+        var itemValue = Activator.CreateInstance(type);
+        ((IPersistentField)itemValue).ParseFromString(value);
+        return itemValue;
+      }
       if (type == typeof(Color)) {
         return ConfigNode.ParseColor(value);
       }

@@ -2,6 +2,7 @@
 // Author: igor.zavoychinskiy@gmail.com
 // This software is distributed under Public domain license.
 
+using System;
 using System.Linq;
 using UnityEngine;
 
@@ -37,40 +38,35 @@ public static class HostedDebugLog {
   /// <param name="args">The arguments for the format string.</param>
   /// <example><code source="Examples/LogUtils/HostedDebugLog-Examples.cs" region="HostedDebugLog1"/></example>
   /// <seealso cref="ObjectToString"/>
+  /// <seealso cref="Log"/>
   public static void Info(Part host, string format, params object[] args) {
-    Debug.logger.LogFormat(LogType.Log, ObjectToString(host) + " "  + format,
-                           args.Select(x => ObjectToString(x)).ToArray());
+    Log(LogType.Log, host, format, args);
   }
 
   /// <inheritdoc cref="Info(Part,string,object[])"/>
   public static void Info(PartModule host, string format, params object[] args) {
-    Debug.logger.LogFormat(LogType.Log, ObjectToString(host) + " "  + format,
-                           args.Select(x => ObjectToString(x)).ToArray());
+    Log(LogType.Log, host, format, args);
   }
 
   /// <inheritdoc cref="Info(Part,string,object[])"/>
   public static void Info(Transform host, string format, params object[] args) {
-    Debug.logger.LogFormat(LogType.Log, ObjectToString(host) + " "  + format,
-                           args.Select(x => ObjectToString(x)).ToArray());
+    Log(LogType.Log, host, format, args);
   }
 
   /// <summary>Logs a formatted WARNING message with a host identifier.</summary>
   /// <inheritdoc cref="Info(Part,string,object[])"/>
   public static void Warning(Part host, string format, params object[] args) {
-    Debug.logger.LogFormat(LogType.Warning, ObjectToString(host) + " " + format,
-                           args.Select(x => ObjectToString(x)).ToArray());
+    Log(LogType.Warning, host, format, args);
   }
 
   /// <inheritdoc cref="Warning(Part,string,object[])"/>
   public static void Warning(PartModule host, string format, params object[] args) {
-    Debug.logger.LogFormat(LogType.Warning, ObjectToString(host) + " " + format,
-                           args.Select(x => ObjectToString(x)).ToArray());
+    Log(LogType.Warning, host, format, args);
   }
 
   /// <inheritdoc cref="Warning(Part,string,object[])"/>
   public static void Warning(Transform host, string format, params object[] args) {
-    Debug.logger.LogFormat(LogType.Warning, ObjectToString(host) + " " + format,
-                           args.Select(x => ObjectToString(x)).ToArray());
+    Log(LogType.Warning, host, format, args);
   }
 
   /// <summary>Logs a formatted ERROR message with a host identifier.</summary>
@@ -98,8 +94,13 @@ public static class HostedDebugLog {
   /// <param name="args">The arguments for the format string.</param>
   /// <seealso cref="ObjectToString"/>
   public static void Log(LogType type, object host, string format, params object[] args) {
-    Debug.logger.LogFormat(type, ObjectToString(host) + " " + format,
-                           args.Select(x => ObjectToString(x)).ToArray());
+    try {
+      Debug.logger.LogFormat(type, ObjectToString(host) + " " + format,
+                             args.Select(x => ObjectToString(x)).ToArray());
+    } catch (Exception e) {
+      Debug.LogErrorFormat(
+          "Failed to format logging string: {0}.\n{1}", format, e.StackTrace.ToString());
+    }
   }
 
   /// <summary>Helper method to make a user friendly object name for the logs.</summary>
@@ -108,6 +109,7 @@ public static class HostedDebugLog {
   /// common types and give a more context on them while keeping the output short. The currently
   /// supported object types are:
   /// <list type="bullet">
+  /// <item>The primitive types and strings are returned as is.</item>
   /// <item><see cref="Part"/>. The string will have a part ID.</item>
   /// <item><see cref="PartModule"/>. The string will have a part ID and a module index.</item>
   /// <item>
@@ -117,14 +119,17 @@ public static class HostedDebugLog {
   /// <para>The other types are stringified via a regular <c>ToString()</c> call.</para>
   /// </remarks>
   /// <param name="obj">The object to stringify. It can be <c>null</c>.</param>
-  /// <returns>A human friendly string which identifies the host.</returns>
+  /// <returns>A human friendly string or the original object.</returns>
   /// <include file="KSPAPI_HelpIndex.xml" path="//item[@name='T:Part']"/>
   /// <include file="KSPAPI_HelpIndex.xml" path="//item[@name='T:PartModule']"/>
   /// <include file="Unity3D_HelpIndex.xml" path="//item[@name='T:UnityEngine.Transform']"/>
   /// <include file="Unity3D_HelpIndex.xml" path="//item[@name='T:UnityEngine.GameObject']"/>
-  public static string ObjectToString(object obj) {
+  public static object ObjectToString(object obj) {
     if (obj == null) {
       return "[NULL]";
+    }
+    if (obj is string || obj.GetType().IsPrimitive) {
+      return obj;  // Skip types don't override ToString() and don't have special representaion.
     }
     var partHost = obj as Part;
     if (partHost != null) {

@@ -34,7 +34,7 @@ public static class GuiWindow {
   /// </param>
   /// <returns><c>true</c> if the window is being dragged.</returns>
   /// <example><code source="Examples/GUIUtils/GuiWindow-Examples.cs" region="GuiWindowDemo1"/></example>
-  /// <include file="Unity3D_HelpIndex.xml" path="//item[@name='T:UnityEngine.GUI.DragWindow']/*"/>
+  /// <include file="Unity3D_HelpIndex.xml" path="//item[@name='M:UnityEngine.GUI.DragWindow']/*"/>
   public static bool DragWindow(ref Rect windowRect, Rect dragArea) {
     var mousePosition = new Vector2(Input.mousePosition.x, Screen.height - Input.mousePosition.y);
     if (dragPosition.HasValue) {

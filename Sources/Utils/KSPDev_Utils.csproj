@@ -6,7 +6,7 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <OutputType>Library</OutputType>
     <RootNamespace>KSPDev</RootNamespace>
-    <AssemblyName>KSPDev_Utils.0.25</AssemblyName>
+    <AssemblyName>KSPDev_Utils.0.26</AssemblyName>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <TargetFrameworkProfile />
@@ -87,10 +87,13 @@
     <Compile Include="ConfigUtils\PersistentFieldAttribute.cs" />
     <Compile Include="ConfigUtils\KspTypesProto.cs" />
     <Compile Include="Extensions\DictExtensions.cs" />
+    <Compile Include="Extensions\PosAndRotExtensions.cs" />
     <Compile Include="Extensions\RectExtensions.cs" />
     <Compile Include="FSUtils\KspPaths.cs" />
     <Compile Include="GUIUtils\AngleType.cs" />
     <Compile Include="GUIUtils\DistanceType.cs" />
+    <Compile Include="GUIUtils\IHasGUI.cs" />
+    <Compile Include="GUIUtils\KeyboardEventType.cs" />
     <Compile Include="GUIUtils\MessageLookup.cs" />
     <Compile Include="GUIUtils\ForceType.cs" />
     <Compile Include="GUIUtils\GuiColorScope.cs" />
@@ -125,7 +128,10 @@
     <Compile Include="ModelUtils\Colliders.cs" />
     <Compile Include="ModelUtils\Hierarchy.cs" />
     <Compile Include="ModelUtils\KspLayer.cs" />
+    <Compile Include="ModelUtils\KspLayerMask.cs" />
     <Compile Include="ModelUtils\Meshes.cs" />
+    <Compile Include="PartUtils\PartModel.cs" />
+    <Compile Include="PartUtils\PartModuleUtils.cs" />
     <Compile Include="ProcessingUtils\AsyncCall.cs" />
     <Compile Include="ProcessingUtils\SimpleStateMachine.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -142,6 +148,7 @@
     <Folder Include="FSUtils" />
     <Folder Include="ModelUtils" />
     <Folder Include="InputUtils" />
+    <Folder Include="PartUtils" />
     <Folder Include="SoundUtils" />
     <Folder Include="ResourceUtils" />
     <Folder Include="Types" />

@@ -20,10 +20,14 @@ namespace KSPDev.Types {
 /// </item>
 /// </list>
 /// </remarks>
+/// <example>
+/// <code source="Examples/Extensions/PosAndRotExtensions-Examples.cs" region="ToLocal"/>
+/// <code source="Examples/Extensions/PosAndRotExtensions-Examples.cs" region="ToWorld"/>
+/// </example>
 public sealed class PosAndRot : IPersistentField {
   /// <summary>Position of the transform.</summary>
   public Vector3 pos;
-  
+
   /// <summary>Euler rotation.</summary>
   /// <remarks>
   /// The rotation angles are automatically adjusted to stay within the [0; 360) range.
@@ -124,6 +128,32 @@ public sealed class PosAndRot : IPersistentField {
       Debug.LogWarningFormat("Cannot parse PosAndRot, using default: {0}", ex.Message);
     }
     return res;
+  }
+
+  /// <summary>
+  /// Transforms the object from the world space to the local space of a reference transform.
+  /// </summary>
+  /// <param name="parent">The transfrom to assume as a parent.</param>
+  /// <returns>A new object in the world space of <paramref name="parent"/>.</returns>
+  /// <example>
+  /// <code source="Examples/Extensions/PosAndRotExtensions-Examples.cs" region="ToWorld"/>
+  /// </example>
+  public PosAndRot Transform(Transform parent) {
+    return new PosAndRot(
+        parent.position + parent.rotation * pos, (parent.rotation * rot).eulerAngles);
+  }
+
+  /// <summary>
+  /// Transforms the object from world space to local space of a reference transform.
+  /// </summary>
+  /// <param name="parent">The transfrom to assume as a parent.</param>
+  /// <returns>A new object in the local space of <paramref name="parent"/>.</returns>
+  /// <example>
+  /// <code source="Examples/Extensions/PosAndRotExtensions-Examples.cs" region="ToLocal"/>
+  /// </example>
+  public PosAndRot InverseTransform(Transform parent) {
+    var inverseRot = parent.rotation.Inverse();
+    return new PosAndRot(inverseRot * (pos - parent.position), (inverseRot * rot).eulerAngles);
   }
   
   /// <summary>

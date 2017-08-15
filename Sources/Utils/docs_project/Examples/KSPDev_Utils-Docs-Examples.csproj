@@ -66,9 +66,11 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Extensions\DictExtensions-Examples.cs" />
+    <Compile Include="Extensions\PosAndRotExtensions-Examples.cs" />
     <Compile Include="Extensions\RectExtensions-Examples.cs" />
     <Compile Include="GUIUtils\AngleType-Examples.cs" />
     <Compile Include="GUIUtils\DistanceType-Examples.cs" />
+    <Compile Include="GUIUtils\KeyboardEventType-Examples.cs" />
     <Compile Include="GUIUtils\MessageLookup-Examples.cs" />
     <Compile Include="GUIUtils\ForceType-Examples.cs" />
     <Compile Include="GUIUtils\GuiColorScope-Examples.cs" />
@@ -81,6 +83,7 @@
     <Compile Include="GUIUtils\PercentType-Examples.cs" />
     <Compile Include="GUIUtils\UISoundPlayer-Examples.cs" />
     <Compile Include="LogUtils\HostedDebugLog-Examples.cs" />
+    <Compile Include="PartUtils\PartModuleUtils-Examples.cs" />
     <Compile Include="ProcessingUtils\SimpleStateMachine-Examples.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -88,6 +91,7 @@
     <Folder Include="Extensions" />
     <Folder Include="LogUtils" />
     <Folder Include="GUIUtils" />
+    <Folder Include="PartUtils" />
     <Folder Include="ProcessingUtils" />
     <Folder Include="Properties" />
   </ItemGroup>

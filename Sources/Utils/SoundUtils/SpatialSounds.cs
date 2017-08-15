@@ -12,8 +12,8 @@ public static class SpatialSounds {
   /// <summary>Sets up a sound FX group with an audio clip .</summary>
   /// <param name="obj">The game object to attach sound to.</param>
   /// <param name="sndPath">The URL to the audio clip.</param>
-  /// <param name="loop">Specifies if the clip playbac kshoold be looped.</param>
-  /// <param name="maxDistance">The mximum distance at which the sound is hearable.</param>
+  /// <param name="loop">Specifies if the clip playback shold be looped.</param>
+  /// <param name="maxDistance">The maximum distance at which the sound is hearable.</param>
   /// <returns>An audio source object attached to the <paramref name="obj"/>.</returns>
   public static AudioSource Create3dSound(GameObject obj, string sndPath,
                                           bool loop = false, float maxDistance = 30f) {

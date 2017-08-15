@@ -55,7 +55,7 @@ public sealed class MassType {
     this.value = value;
   }
 
-  /// <summary>Coverts a numeric value into a type object.</summary>
+  /// <summary>Converts a numeric value into a type object.</summary>
   /// <param name="value">The numeric value to convert.</param>
   /// <returns>An object.</returns>
   public static implicit operator MassType(double value) {
@@ -149,4 +149,3 @@ public sealed class MassType {
 }
 
 }  // namespace
-
