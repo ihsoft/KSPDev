@@ -1,4 +1,4 @@
-# KPSPDev: ReleaseBuilder v2.1.0 (pre-release):
+# KPSPDev: ReleaseBuilder v2.1 (August 15th, 2017):
 * [Enhancement] Add new configuration parameter [RELEASE_NAME_FREE_FORMAT](https://github.com/ihsoft/KSPDev/wiki/ReleaseBuilder-Schema-1.1).
 * [Enhancement] Support [auto-generated version components](https://msdn.microsoft.com/en-us/library/system.reflection.assemblyversionattribute%28v=vs.110%29.aspx#Anchor_6) for BUILD and REVISION.
 
