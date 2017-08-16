@@ -19,7 +19,11 @@
   "MINIAVC_VERSION_FILE" : "",
 
   // Drop this line to have the legacy schema 1.0 behavior to work.
-  // Or make your own format using place holders {0}, {1}, {2}, and {3}.
+  // Or make your own format using the version components placeholders:
+  // {0} - major
+  // {1} - minor
+  // {2} - patch
+  // {3} - build
   "RELEASE_NAME_FREE_FORMAT" : "{PACKAGE_NAME}_v{0}.{1}",
 
   // This default structure will handle most of the standard mod source
