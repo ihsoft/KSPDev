@@ -1,3 +1,7 @@
+# KPSPDev: ReleaseBuilder v2.1 (August 15th, 2017):
+* [Enhancement] Add new configuration parameter [RELEASE_NAME_FREE_FORMAT](https://github.com/ihsoft/KSPDev/wiki/ReleaseBuilder-Schema-1.1).
+* [Enhancement] Support [auto-generated version components](https://msdn.microsoft.com/en-us/library/system.reflection.assemblyversionattribute%28v=vs.110%29.aspx#Anchor_6) for BUILD and REVISION.
+
 # KPSPDev: ReleaseBuilder v2.0.0 (January 21st, 2017):
 * [Change] All settings are simplified and renamed to give better context. JSON settings created
   for builder older than 1.2 won't work!
