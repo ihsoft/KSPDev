@@ -249,17 +249,18 @@ static class Extractor {
                            field.DeclaringType.FullName, field.Name);
       return res;
     }
-    var msgTag = ReflectionHelper.GetReflectedString(value, "tag");
+    var msgTag = ReflectionHelper.GetReflectedString(value, "tag") ?? "";
     var defaultTemplate = ReflectionHelper.GetReflectedString(value, "defaultTemplate");
-    var description = ReflectionHelper.GetReflectedString(value, "description");
-    var locExample = ReflectionHelper.GetReflectedString(value, "example");
-    if (string.IsNullOrEmpty(msgTag)) {
-      Debug.LogErrorFormat("Failed to read a message from {0} in {1}.{2}",
+    if (defaultTemplate == null) {
+      // The template is never null.
+      Debug.LogWarningFormat("Failed to read a message from {0} in {1}.{2}",
                            field.FieldType.FullName,
                            field.DeclaringType.FullName, field.Name);
       return res;
     }
-    if (msgTag[0] != '#') {
+    var description = ReflectionHelper.GetReflectedString(value, "description");
+    var locExample = ReflectionHelper.GetReflectedString(value, "example");
+    if (!msgTag.StartsWith("#", StringComparison.Ordinal)) {
       msgTag = MakeTypeMemberLocalizationTag(info);
       Debug.LogWarningFormat("Auto generate a tag {0}", msgTag);
     }
