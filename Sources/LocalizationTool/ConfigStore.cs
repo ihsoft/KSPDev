@@ -53,7 +53,7 @@ static class ConfigStore {
             file.WriteLine(MakeMultilineComment(2, "Example usage:"));
             file.WriteLine(MakeMultilineComment(2, item.locExample));
           }
-          file.WriteLine(MakeConfigNodeLine(2, item.locTag, item.locDefaultValue ?? item.locTag));
+          file.WriteLine(MakeConfigNodeLine(2, item.locTag, item.locDefaultValue));
         }
       }
       file.Write("\t}\n}\n");
@@ -240,11 +240,22 @@ static class ConfigStore {
   /// </param>
   /// <returns>A properly formatted line.</returns>
   static string MakeConfigNodeLine(int indentation, string key, string value) {
+    return new string('\t', indentation) + key + " = " + EscapeValue(value);
+  }
+
+  /// <summary>Escapes special symbols so what they don't break the formatting.</summary>
+  /// <param name="value">The value to escape.</param>
+  /// <returns>The escaped value.</returns>
+  static string EscapeValue(string value) {
     if (value.StartsWith(" ", StringComparison.Ordinal)) {
       // The leading space will be lost on the config file load.
       value = "\\u0020" + value.Substring(1);
     }
-    return new string('\t', indentation) + key + " = " + value.Replace("\n", "\\n");
+    if (value.EndsWith(" ", StringComparison.Ordinal)) {
+      // The leading space will be lost on the config file load.
+      value = value.Substring(0, value.Length - 1) + "\\u0020";
+    }
+    return value.Replace("\n", "\\n");
   }
 }
 
