@@ -238,7 +238,7 @@ static class Extractor {
                                                   "KSPDev.GUIUtils.LocalizableMessage")) {
       return res;
     }
-    if ((field.Attributes | FieldAttributes.Static) == 0) {
+    if ((field.Attributes & FieldAttributes.Static) == 0) {
       Debug.LogWarningFormat("Skipping a non-static message field: {0}.{1}",
                              field.DeclaringType.FullName, field.Name);
       return res;
