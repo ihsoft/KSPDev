@@ -36,6 +36,16 @@ static class ConfigStore {
       file.WriteLine("// Total strings: " + items.Count());
       file.WriteLine(
           "// Total words: " + items.Sum(x => Regex.Matches(x.locDefaultValue, @"\w+").Count));
+      
+      // Report duplicated tags if any.
+      var duplicates = items
+          .GroupBy(x => x.locTag)
+          .Select(x => new { tag = x.Key, count = x.Count() })
+          .Where(x => x.count > 1);
+      foreach (var duplicate in duplicates) {
+        file.WriteLine("// DUPLICATED TAG: " + duplicate.tag);
+        Debug.LogWarningFormat("Found duplicated tag: {0}", duplicate.tag);
+      }
 
       file.Write("Localization\n{\n\t" + lang + "\n\t{\n");
       var byGroupKey = items
