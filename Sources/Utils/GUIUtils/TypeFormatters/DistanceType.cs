@@ -93,36 +93,31 @@ public sealed class DistanceType {
   /// <example><code source="Examples/GUIUtils/DistanceType-Examples.cs" region="DistanceTypeDemo2_FormatWithScale"/></example>
   /// <example><code source="Examples/GUIUtils/DistanceType-Examples.cs" region="DistanceTypeDemo2_FormatFixed"/></example>
   public static string Format(double value, double? scale = null, string format = null) {
-    // For the fixed format only deal with the scale. 
+    // Detect the scale, and scale the value.
+    string units;
+    double scaledValue;
+    if (format != null && !scale.HasValue) {
+      scale = 1.0;  // No scale detection.
+    }
+    if (!scale.HasValue) {
+      // Auto detect the best scale.
+      if (value > 1000) {
+        scale = 1000;
+      } else {
+        scale = 1.0;
+      }
+    }
+    if (scale <= 1.0) {
+      scaledValue = value;
+      units = meter;
+    } else {
+      scaledValue = value / 1000;
+      units = kilometer;
+    }
     if (format != null) {
-      if (scale.HasValue && scale.Value >= 1000.0) {
-        return (value / 1000.0).ToString(format) + kilometer.Format();
-      }
-      return value.ToString(format) + meter.Format();
+      return scaledValue.ToString(format) + units;
     }
-    // For the unspecified format try detecting the scale.
-    if (!scale.HasValue || scale < 1000.0) {
-      if (value < 0.1) {
-        return value.ToString("0.00#") + meter.Format();
-      }
-      if (value < 1.0) {
-        return value.ToString("0.00") + meter.Format();
-      }
-      if (value < 10.0) {
-        return value.ToString("0.0#") + meter.Format();
-      }
-      if (value < 100.0) {
-        return value.ToString("0.#") + meter.Format();
-      }
-      if (scale < 1000.0 || value < 10000.0) {
-        return value.ToString("0") + meter.Format();
-      }
-    }
-    var scaled = value / 1000.0;
-    if (scaled < 100.0) {
-      return scaled.ToString("0.#") + kilometer.Format();
-    }
-    return scaled.ToString("0") + kilometer.Format();
+    return CompactNumberType.Format(scaledValue) + units;
   }
 
   /// <summary>Returns a string formatted as a human friendly distance specification.</summary>
