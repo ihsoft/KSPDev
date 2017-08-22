@@ -69,6 +69,9 @@ public sealed class PercentType {
     if (format != null) {
       return scaledValue.ToString(format) + unitName;
     }
+    if (scaledValue < double.Epsilon) {
+      return "0" + unitName;  // Zero is zero.
+    }
     if (scaledValue < 1.0) {
       return scaledValue.ToString("0.00") + unitName;
     }
