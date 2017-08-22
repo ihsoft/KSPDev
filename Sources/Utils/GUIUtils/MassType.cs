@@ -27,7 +27,7 @@ namespace KSPDev.GUIUtils {
 public sealed class MassType {
   /// <summary>Localized suffix for the "gram" units. Scale <c>0.000001</c>.</summary>
   public static readonly Message gram = new Message(
-      "#autoLOC_7001412", defaultTemplate: " g",
+      "#autoLOC_7001412", defaultTemplate: " grams",
       description: "Gram unit for a mass value");
 
   /// <summary>Localized suffix for the "kilogram" untis. Scale <c>0.001</c></summary>
