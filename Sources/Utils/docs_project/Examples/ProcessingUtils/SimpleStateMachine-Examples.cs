@@ -12,7 +12,7 @@ namespace Examples {
 #region SimpleStateMachine1
 /// <summary>A class that demonstrates a simple state module with three states.</summary>
 /// <remarks>
-/// There are the follwoing rules for the state changes:
+/// There are the following rules for the state changes:
 /// <list type="bullet">
 /// <item>The state <c>One</c> can be transitioned into both <c>Two</c> and <c>Three</c>.</item>
 /// <item>The states <c>Two</c> and <c>Three</c> can only return back to <c>One</c>.</item>
