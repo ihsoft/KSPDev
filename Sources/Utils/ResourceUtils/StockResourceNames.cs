@@ -72,14 +72,16 @@ public static class StockResourceNames {
   /// <param name="resourceName">The resource common name.</param>
   /// <returns>A user friendly string that identifies the resource.</returns>
   public static string GetResourceTitle(string resourceName) {
-    return PartResourceLibrary.Instance.GetDefinition(resourceName).displayName;
+    return GetResourceTitle(GetId(resourceName));
   }
 
   /// <summary>Returns a user friendly name of the resource.</summary>
   /// <param name="resourceId">The resource ID.</param>
   /// <returns>A user friendly string that identifies the resource.</returns>
   public static string GetResourceTitle(int resourceId) {
-    return PartResourceLibrary.Instance.GetDefinition(resourceId).displayName;
+    var res = PartResourceLibrary.Instance.GetDefinition(resourceId);
+    return res == null ? "Res#" + resourceId : res.displayName;
+  }
   }
 }
 
