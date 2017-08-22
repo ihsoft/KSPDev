@@ -91,6 +91,7 @@
     <Compile Include="Extensions\RectExtensions.cs" />
     <Compile Include="FSUtils\KspPaths.cs" />
     <Compile Include="GUIUtils\AngleType.cs" />
+    <Compile Include="GUIUtils\CompactNumberType.cs" />
     <Compile Include="GUIUtils\DistanceType.cs" />
     <Compile Include="GUIUtils\IHasGUI.cs" />
     <Compile Include="GUIUtils\KeyboardEventType.cs" />
