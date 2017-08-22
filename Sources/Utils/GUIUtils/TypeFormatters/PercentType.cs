@@ -18,7 +18,7 @@ namespace KSPDev.GUIUtils {
 /// <example><code source="Examples/GUIUtils/PercentType-Examples.cs" region="PercentTypeDemo2_FormatFixed"/></example>
 public sealed class PercentType {
   /// <summary>Suffix for the "percent" units (%).</summary>
-  public const string unitName = "%";
+  public const string unitName = " %";
 
   /// <summary>A wrapped numeric value.</summary>
   /// <remarks>This is the original non-rounded and unscaled value.</remarks>
