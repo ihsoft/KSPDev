@@ -86,11 +86,13 @@
     <Compile Include="PartUtils\PartModuleUtils-Examples.cs" />
     <Compile Include="ProcessingUtils\SimpleStateMachine-Examples.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ResourceUtils\StockResourceNames-Examples.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Extensions" />
     <Folder Include="LogUtils" />
     <Folder Include="GUIUtils" />
+    <Folder Include="ResourceUtils" />
     <Folder Include="PartUtils" />
     <Folder Include="ProcessingUtils" />
     <Folder Include="Properties" />

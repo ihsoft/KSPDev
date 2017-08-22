@@ -1,4 +1,5 @@
 # 0.27 (pre-release):
+* [Enhancement] Add methods to resolve the resources abbreviations: [`ResourceUtils.StockResourceNames`](http://ihsoft.github.io/KSPDev/Utils/html/T_KSPDev_ResourceUtils_StockResourceNames.htm).
 
 # 0.26 (August 8th, 2017):
 * [Fix] Drop cached UI sounds on scene change.
