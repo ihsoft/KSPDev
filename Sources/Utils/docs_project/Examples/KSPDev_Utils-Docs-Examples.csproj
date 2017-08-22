@@ -70,6 +70,7 @@
     <Compile Include="Extensions\RectExtensions-Examples.cs" />
     <Compile Include="GUIUtils\AngleType-Examples.cs" />
     <Compile Include="GUIUtils\CompactNumberType-Examples.cs" />
+    <Compile Include="GUIUtils\CostType-Examples.cs" />
     <Compile Include="GUIUtils\DistanceType-Examples.cs" />
     <Compile Include="GUIUtils\KeyboardEventType-Examples.cs" />
     <Compile Include="GUIUtils\MessageLookup-Examples.cs" />
