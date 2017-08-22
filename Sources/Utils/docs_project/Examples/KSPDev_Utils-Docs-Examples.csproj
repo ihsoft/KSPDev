@@ -84,6 +84,7 @@
     <Compile Include="GUIUtils\Message-Examples.cs" />
     <Compile Include="GUIUtils\PercentType-Examples.cs" />
     <Compile Include="GUIUtils\PressureType-Examples.cs" />
+    <Compile Include="GUIUtils\ResourceShortType-Examples.cs" />
     <Compile Include="GUIUtils\ResourceType-Examples.cs" />
     <Compile Include="GUIUtils\UISoundPlayer-Examples.cs" />
     <Compile Include="LogUtils\HostedDebugLog-Examples.cs" />

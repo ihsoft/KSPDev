@@ -108,6 +108,7 @@
     <Compile Include="GUIUtils\MassType.cs" />
     <Compile Include="GUIUtils\PercentType.cs" />
     <Compile Include="GUIUtils\PressureType.cs" />
+    <Compile Include="GUIUtils\ResourceShortType.cs" />
     <Compile Include="GUIUtils\ResourceType.cs" />
     <Compile Include="GUIUtils\ScreenMessaging.cs" />
     <Compile Include="GUIUtils\HintOverlay.cs" />

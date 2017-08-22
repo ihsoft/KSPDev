@@ -4,6 +4,7 @@
 * [Enhancement] Add a localization class to format a cost (credits) value in a human friendly format: [`GUIUtils.CostType`](http://ihsoft.github.io/KSPDev/Utils/html/T_KSPDev_GUIUtils_CostType.htm).
 * [Enhancement] Add a localization class to format a pressure value in a human friendly format: [`GUIUtils.PressureType`](http://ihsoft.github.io/KSPDev/Utils/html/T_KSPDev_GUIUtils_PressureType.htm).
 * [Enhancement] Add a localization class to format a resource name value: [`GUIUtils.ResourceType`](http://ihsoft.github.io/KSPDev/Utils/html/T_KSPDev_GUIUtils_ResourceType.htm).
+* [Enhancement] Add a localization class to format a resource abbreviated name: [`GUIUtils.ResourceShortType`](http://ihsoft.github.io/KSPDev/Utils/html/T_KSPDev_GUIUtils_ResourceShortType.htm).
 
 # 0.26 (August 8th, 2017):
 * [Fix] Drop cached UI sounds on scene change.
