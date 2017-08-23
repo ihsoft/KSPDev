@@ -69,7 +69,7 @@ public sealed class CostType {
   /// <example><code source="Examples/GUIUtils/CostType-Examples.cs" region="CostTypeDemo2_FormatDefault"/></example>
   /// <example><code source="Examples/GUIUtils/CostType-Examples.cs" region="CostTypeDemo2_FormatFixed"/></example>
   public static string Format(double value, string format = null) {
-    return "√ " + value.ToString("#,###.00");  // Simulate the editor's behavior.
+    return "√ " + value.ToString("#,##0.00");  // Simulate the editor's behavior.
   }
 
   /// <summary>Returns a string formatted as a human friendly volume specification.</summary>
