@@ -80,7 +80,7 @@ public sealed class ForceType {
     if (format != null) {
       return value.ToString(format) + kiloNewton.Format();
     }
-    return CompactNumberType.Format(value);
+    return CompactNumberType.Format(value) + kiloNewton.Format();
   }
 
   /// <summary>Returns a string formatted as a human friendly force specification.</summary>
