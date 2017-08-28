@@ -8,6 +8,7 @@ using KSPDev.LogUtils;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text.RegularExpressions;
 using UnityEngine;
 
 namespace KSPDev.LocalizationTool {
@@ -32,7 +33,7 @@ static class LocalizationManager {
         configFilename);
     // Update the existing and new tags. 
     newNode.values.Cast<ConfigNode.Value>().ToList()
-        .ForEach(value => Localizer.Tags[value.name] = value.value);
+        .ForEach(value => Localizer.Tags[value.name] = Regex.Unescape(value.value));
     // Drop the deleted tags.
     oldTags.Except(newTags).ToList()
         .ForEach(tag => Localizer.Tags.Remove(tag));
