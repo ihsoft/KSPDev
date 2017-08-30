@@ -5,6 +5,7 @@
 * [Enhancement] Add a localization class to format a pressure value in a human friendly format: [`GUIUtils.PressureType`](http://ihsoft.github.io/KSPDev/Utils/html/T_KSPDev_GUIUtils_PressureType.htm).
 * [Enhancement] Add a localization class to format a resource name value: [`GUIUtils.ResourceType`](http://ihsoft.github.io/KSPDev/Utils/html/T_KSPDev_GUIUtils_ResourceType.htm).
 * [Enhancement] Add a localization class to format a resource abbreviated name: [`GUIUtils.ResourceShortType`](http://ihsoft.github.io/KSPDev/Utils/html/T_KSPDev_GUIUtils_ResourceShortType.htm).
+* [Enhancement] Add the methods to deal with the module actions: [`PartUtils.PartModuleUtils`](http://ihsoft.github.io/KSPDev/Utils/html/T_KSPDev_PartUtils_PartModuleUtils.htm).
 
 # 0.26 (August 8th, 2017):
 * [Fix] Drop cached UI sounds on scene change.
