@@ -257,19 +257,28 @@ static class ConfigStore {
     return new string('\t', indentation) + key + " = " + EscapeValue(value);
   }
 
-  /// <summary>Escapes special symbols so what they don't break the formatting.</summary>
+  /// <summary>Escapes special symbols so that they don't break the formatting.</summary>
   /// <param name="value">The value to escape.</param>
   /// <returns>The escaped value.</returns>
   static string EscapeValue(string value) {
-    if (value.StartsWith(" ", StringComparison.Ordinal)) {
-      // The leading space will be lost on the config file load.
-      value = "\\u0020" + value.Substring(1);
+    // Turn the leading and the trailing spaces into the unicode codes. Othwerwise, they won't load.
+    if (value.Length > 0) {
+      value = EscapeChar(value[0]) + value.Substring(1);
     }
-    if (value.EndsWith(" ", StringComparison.Ordinal)) {
-      // The leading space will be lost on the config file load.
-      value = value.Substring(0, value.Length - 1) + "\\u0020";
+    if (value.Length > 1) {
+      value = value.Substring(0, value.Length - 1) + EscapeChar(value[value.Length - 1]);
     }
+    // Also, escape the linefeed character since it breaks the formatting.
     return value.Replace("\n", "\\n");
+  }
+
+  /// <summary>Escapes a whitespace character.</summary>
+  /// <param name="c">The character to escape.</param>
+  /// <returns>The unicode encode (\uXXXX) character string, or the character itself.</returns>
+  static string EscapeChar(char c) {
+    return c == ' ' || c == '\u00a0' || c == '\t'
+        ? "\\u" + ((int)c).ToString("x4")
+        : "" + c;
   }
 }
 
