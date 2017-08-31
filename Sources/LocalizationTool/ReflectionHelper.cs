@@ -19,10 +19,11 @@ static class ReflectionHelper {
   /// <returns><c>true</c> if the type is a descendant of the parent.</returns>
   public static bool CheckReflectionParent(Type type, string fullClassName) {
     // Search the class by a prefix since it may have an assembly version part.
-    while (type != null && !type.FullName.StartsWith(fullClassName, StringComparison.Ordinal)) {
+    while (type != null && type.FullName != null
+           && !type.FullName.StartsWith(fullClassName, StringComparison.Ordinal)) {
       type = type.BaseType;
     }
-    return type != null;
+    return type != null && type.FullName != null;
   }
 
   /// <summary>Returns a string value of a field or property via reflections.</summary>

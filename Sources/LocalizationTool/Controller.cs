@@ -234,7 +234,7 @@ class Controller : MonoBehaviour {
         .SelectMany(x => x)
         .ToList();
     var modulesLocs = assemblies
-        .SelectMany(x => x.types)
+        .SelectMany(x => x.assembly.GetTypes())
         .Select(Extractor.EmitItemsForType)
         .SelectMany(x => x)
         .ToList();
