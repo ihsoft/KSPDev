@@ -74,6 +74,36 @@ static class LocalizationManager {
         ReflectionHelper.SetReflectedString(partInfo, name, newValue);
       }
     });
+
+    // Update the prefab.
+    // This is a simplified algorythm of the part localization. It may not work for all the cases.
+    var partModules = partInfo.partPrefab.Modules.GetModules<PartModule>()
+        .Where(x =>
+             x is IModuleInfo
+             && (!string.IsNullOrEmpty(((IModuleInfo)x).GetInfo().Trim())
+                 || ((IModuleInfo)x).GetDrawModulePanelCallback() != null)
+             || !string.IsNullOrEmpty(x.GetInfo().Trim()))
+        .ToList();
+    if (partModules.Count == partInfo.moduleInfos.Count) {
+      for (var i = 0; i < partInfo.moduleInfos.Count; i++) {
+        var moduleInfo = partInfo.moduleInfos[i];
+        var partModule = partModules[i];
+        var partModuleInfo = partModule as IModuleInfo;
+        if (partModuleInfo != null) {
+          moduleInfo.moduleName = partModuleInfo.GetModuleTitle();
+          moduleInfo.primaryInfo = partModuleInfo.GetPrimaryField();
+        }
+        moduleInfo.info = partModule.GetInfo().Trim();
+        moduleInfo.moduleDisplayName = partModule.GetModuleDisplayName();
+        if (moduleInfo.moduleDisplayName == "") {
+          moduleInfo.moduleDisplayName = moduleInfo.moduleName;
+        }
+      }
+    } else {
+      Debug.LogWarningFormat(
+          "Modules count mismatch. Cannot update prefab for part: {0}, infos={1}, modules={2}",
+          partInfo.name, partInfo.moduleInfos.Count, partModules.Count);
+    }
   }
 
   /// <summary>Updates data in all the open part menus.</summary>
