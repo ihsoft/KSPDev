@@ -8,9 +8,10 @@ using KSPDev.ConfigUtils;
 using KSPDev.GUIUtils;
 using KSPDev.InputUtils;
 using System;
-using System.Reflection;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using UnityEngine;
 
 namespace KSPDev.LocalizationTool {
@@ -133,6 +134,9 @@ class Controller : MonoBehaviour {
     ConfigAccessor.ReadFieldsInType(typeof(Controller), null /* instance */);
     ConfigAccessor.ReadFieldsInType(typeof(Controller), this, group: SessionGroup);
     windowRect = new Rect(windowPos, windowSize);
+    if (isUIVisible) {
+      StartCoroutine(CheckForSettingsChange());
+    }
   }
 
   /// <summary>Only stores session settings.</summary>
@@ -145,6 +149,9 @@ class Controller : MonoBehaviour {
   void Update() {
     if (switchKey.Update() && Input.GetKeyDown(toggleKey)) {
       isUIVisible = !isUIVisible;
+      if (isUIVisible) {
+        StartCoroutine(CheckForSettingsChange());
+      }
     }
   }
 
@@ -321,6 +328,24 @@ class Controller : MonoBehaviour {
           stubText = "<i>...nothing found for the prefix...</i>",
       });
     }
+  }
+
+  /// <summary>Monitors for the game settings change and triggers part prefabs update.</summary>
+  /// <returns>A enumerator for the co-routine.</returns>
+  IEnumerator CheckForSettingsChange() {
+    Debug.LogFormat("Start monitoring the game settings change...");
+    var currentTagsMode = GameSettings.SHOW_TRANSLATION_KEYS_ON_SCREEN;
+    while (isUIVisible) {
+      yield return new WaitForSeconds(0.1f);
+      if (currentTagsMode != GameSettings.SHOW_TRANSLATION_KEYS_ON_SCREEN) {
+        Debug.LogWarningFormat("Update all the part prefabs due to the settings change");
+        PartLoader.LoadedPartsList
+            .ForEach(LocalizationManager.LocalizePartInfo);
+        LocalizationManager.LocalizePartMenus();
+        currentTagsMode = GameSettings.SHOW_TRANSLATION_KEYS_ON_SCREEN;
+      }
+    }
+    Debug.LogFormat("End monitoring the game settings change");
   }
 }
 
