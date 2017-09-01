@@ -78,31 +78,33 @@ static class LocalizationManager {
     // Update the prefab.
     // This is a simplified algorythm of the part localization. It may not work for all the cases.
     var partModules = partInfo.partPrefab.Modules.GetModules<PartModule>()
-        .Where(x =>
-             x is IModuleInfo
-             && (!string.IsNullOrEmpty(((IModuleInfo)x).GetInfo().Trim())
-                 || ((IModuleInfo)x).GetDrawModulePanelCallback() != null)
-             || !string.IsNullOrEmpty(x.GetInfo().Trim()))
+        .Where(x => !string.IsNullOrEmpty(x.GetInfo().Trim()))
         .ToList();
-    if (partModules.Count == partInfo.moduleInfos.Count) {
-      for (var i = 0; i < partInfo.moduleInfos.Count; i++) {
-        var moduleInfo = partInfo.moduleInfos[i];
-        var partModule = partModules[i];
-        var partModuleInfo = partModule as IModuleInfo;
-        if (partModuleInfo != null) {
-          moduleInfo.moduleName = partModuleInfo.GetModuleTitle();
-          moduleInfo.primaryInfo = partModuleInfo.GetPrimaryField();
-        }
-        moduleInfo.info = partModule.GetInfo().Trim();
-        moduleInfo.moduleDisplayName = partModule.GetModuleDisplayName();
-        if (moduleInfo.moduleDisplayName == "") {
-          moduleInfo.moduleDisplayName = moduleInfo.moduleName;
-        }
-      }
-    } else {
+    if (partModules.Count > partInfo.moduleInfos.Count) {
+      // When modules are added to prefab after the database load, the count can mismatch.
+      // Those extra modules will be skipped during the refresh since they are not visible anywyas.
       Debug.LogWarningFormat(
-          "Modules count mismatch. Cannot update prefab for part: {0}, infos={1}, modules={2}",
+          "Part {0} has {1} UI visible modules, but there only {2} module infos",
+          partInfo.name, partModules.Count, partInfo.moduleInfos.Count);
+    } else if (partInfo.moduleInfos.Count > partModules.Count) {
+      // Can happen when a module is deleted in runtime. Such modules will get lost in refresh.
+      Debug.LogWarningFormat(
+          "Part {0} has {1} module infos, but there are only {2} UI visible modules",
           partInfo.name, partInfo.moduleInfos.Count, partModules.Count);
+    }
+    for (var i = 0; i < partInfo.moduleInfos.Count && i < partModules.Count; i++) {
+      var moduleInfo = partInfo.moduleInfos[i];
+      var partModule = partModules[i];
+      var partModuleInfo = partModule as IModuleInfo;
+      if (partModuleInfo != null) {
+        moduleInfo.moduleName = partModuleInfo.GetModuleTitle();
+        moduleInfo.primaryInfo = partModuleInfo.GetPrimaryField();
+      }
+      moduleInfo.info = partModule.GetInfo().Trim();
+      moduleInfo.moduleDisplayName = partModule.GetModuleDisplayName();
+      if (moduleInfo.moduleDisplayName == "") {
+        moduleInfo.moduleDisplayName = moduleInfo.moduleName;
+      }
     }
   }
 
