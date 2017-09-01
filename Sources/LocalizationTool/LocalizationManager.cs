@@ -3,6 +3,7 @@
 // This software is distributed under Public domain license.
 
 using KSP.Localization;
+using KSP.UI;
 using KSPDev.ConfigUtils;
 using KSPDev.LogUtils;
 using System;
@@ -77,6 +78,10 @@ static class LocalizationManager {
 
   /// <summary>Updates data in all the open part menus.</summary>
   public static void LocalizePartMenus() {
+    // The editor's tooltip caches the data, and we cannot update it. So just reset it.
+    if (HighLogic.LoadedSceneIsEditor) {
+      UIMasterController.Instance.DestroyCurrentTooltip();
+    }
     UnityEngine.Object.FindObjectsOfType(typeof(UIPartActionWindow))
         .OfType<UIPartActionWindow>()
         .ToList()
