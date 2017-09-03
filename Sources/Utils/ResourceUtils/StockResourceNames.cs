@@ -8,6 +8,7 @@ namespace KSPDev.ResourceUtils {
 /// A helper class that holds string and ID defintions for all the game stock resources. 
 /// </summary>
 /// <seealso href="http://wiki.kerbalspaceprogram.com/wiki/Resource">KSP Wiki: Resource</seealso>
+/// <code source="Examples/Extensions/SimpleStateMachine-Examples.cs" region="StockResourceNames1"/>
 public static class StockResourceNames {
   /// <summary>Electric charge resource name.</summary>
   /// <seealso href="http://wiki.kerbalspaceprogram.com/wiki/Electric_charge">
@@ -64,6 +65,7 @@ public static class StockResourceNames {
   /// <remarks>This ID can be used in the methods that can only work with IDs.</remarks>
   /// <param name="resourceName">The name of the stock resource.</param>
   /// <returns>An ID of the resource.</returns>
+  /// <code source="Examples/Extensions/SimpleStateMachine-Examples.cs" region="StockResourceNames1"/>
   public static int GetId(string resourceName) {
     return resourceName.GetHashCode();
   }
@@ -71,15 +73,45 @@ public static class StockResourceNames {
   /// <summary>Returns a user friendly name of the resource.</summary>
   /// <param name="resourceName">The resource common name.</param>
   /// <returns>A user friendly string that identifies the resource.</returns>
+  /// <code source="Examples/Extensions/SimpleStateMachine-Examples.cs" region="StockResourceNames1"/>
   public static string GetResourceTitle(string resourceName) {
-    return PartResourceLibrary.Instance.GetDefinition(resourceName).displayName;
+    return GetResourceTitle(GetId(resourceName));
   }
 
   /// <summary>Returns a user friendly name of the resource.</summary>
   /// <param name="resourceId">The resource ID.</param>
   /// <returns>A user friendly string that identifies the resource.</returns>
+  /// <code source="Examples/Extensions/SimpleStateMachine-Examples.cs" region="StockResourceNames1"/>
   public static string GetResourceTitle(int resourceId) {
-    return PartResourceLibrary.Instance.GetDefinition(resourceId).displayName;
+    var res = PartResourceLibrary.Instance.GetDefinition(resourceId);
+    return res == null ? "Res#" + resourceId : res.displayName;
+  }
+
+  /// <summary>Returns a user friendly name of the resource bsort name (abbreviation).</summary>
+  /// <remarks>
+  /// If the abbreviation is not set for the resource, then the first 3 letters of its display name
+  /// are returned.
+  /// </remarks>
+  /// <param name="resourceName">The resource common name.</param>
+  /// <returns>A user friendly string that identifies the resource.</returns>
+  /// <code source="Examples/Extensions/SimpleStateMachine-Examples.cs" region="StockResourceNames1"/>
+  public static string GetResourceAbbreviation(string resourceName) {
+    return GetResourceAbbreviation(GetId(resourceName));
+  }
+
+  /// <summary>Returns a user friendly name of the resource bsort name (abbreviation).</summary>
+  /// <remarks>
+  /// If the abbreviation is not set for the resource, then the first 3 letters of its display name
+  /// are returned.
+  /// </remarks>
+  /// <param name="resourceId">The resource ID.</param>
+  /// <returns>A user friendly string that identifies the resource.</returns>
+  /// <code source="Examples/Extensions/SimpleStateMachine-Examples.cs" region="StockResourceNames1"/>
+  public static string GetResourceAbbreviation(int resourceId) {
+    var res = PartResourceLibrary.Instance.GetDefinition(resourceId);
+    return res == null
+        ? "Res#" + resourceId
+        : res.abbreviation.Length > 0 ? res.abbreviation : res.displayName.Substring(0, 3);
   }
 }
 

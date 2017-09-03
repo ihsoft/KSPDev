@@ -1,3 +1,12 @@
+# 0.27 (September 2nd, 2017):
+* [Enhancement] Add methods to resolve the resources abbreviations: [`ResourceUtils.StockResourceNames`](http://ihsoft.github.io/KSPDev/Utils/html/T_KSPDev_ResourceUtils_StockResourceNames.htm).
+* [Enhancement] Add a localization class to format a double value in a human friendly format: [`GUIUtils.CompactNumberType`](http://ihsoft.github.io/KSPDev/Utils/html/T_KSPDev_GUIUtils_CompactNumberType.htm).
+* [Enhancement] Add a localization class to format a cost (credits) value in a human friendly format: [`GUIUtils.CostType`](http://ihsoft.github.io/KSPDev/Utils/html/T_KSPDev_GUIUtils_CostType.htm).
+* [Enhancement] Add a localization class to format a pressure value in a human friendly format: [`GUIUtils.PressureType`](http://ihsoft.github.io/KSPDev/Utils/html/T_KSPDev_GUIUtils_PressureType.htm).
+* [Enhancement] Add a localization class to format a resource name value: [`GUIUtils.ResourceType`](http://ihsoft.github.io/KSPDev/Utils/html/T_KSPDev_GUIUtils_ResourceType.htm).
+* [Enhancement] Add a localization class to format a resource abbreviated name: [`GUIUtils.ResourceShortType`](http://ihsoft.github.io/KSPDev/Utils/html/T_KSPDev_GUIUtils_ResourceShortType.htm).
+* [Enhancement] Add the methods to deal with the module actions: [`PartUtils.PartModuleUtils`](http://ihsoft.github.io/KSPDev/Utils/html/T_KSPDev_PartUtils_PartModuleUtils.htm).
+
 # 0.26 (August 8th, 2017):
 * [Fix] Drop cached UI sounds on scene change.
 * [Fix] Support [`IPersistentField`](http://ihsoft.github.io/KSPDev/Utils/html/T_KSPDev_ConfigUtils_IPersistentField.htm) in the KSP types proto.

@@ -3,11 +3,13 @@
 // This software is distributed under Public domain license.
 
 using KSP.Localization;
+using KSP.UI;
 using KSPDev.ConfigUtils;
 using KSPDev.LogUtils;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text.RegularExpressions;
 using UnityEngine;
 
 namespace KSPDev.LocalizationTool {
@@ -32,7 +34,7 @@ static class LocalizationManager {
         configFilename);
     // Update the existing and new tags. 
     newNode.values.Cast<ConfigNode.Value>().ToList()
-        .ForEach(value => Localizer.Tags[value.name] = value.value);
+        .ForEach(value => Localizer.Tags[value.name] = Regex.Unescape(value.value));
     // Drop the deleted tags.
     oldTags.Except(newTags).ToList()
         .ForEach(tag => Localizer.Tags.Remove(tag));
@@ -72,10 +74,46 @@ static class LocalizationManager {
         ReflectionHelper.SetReflectedString(partInfo, name, newValue);
       }
     });
+
+    // Update the prefab.
+    // This is a simplified algorythm of the part localization. It may not work for all the cases.
+    var partModules = partInfo.partPrefab.Modules.GetModules<PartModule>()
+        .Where(x => !string.IsNullOrEmpty(x.GetInfo().Trim()))
+        .ToList();
+    if (partModules.Count > partInfo.moduleInfos.Count) {
+      // When modules are added to prefab after the database load, the count can mismatch.
+      // Those extra modules will be skipped during the refresh since they are not visible anywyas.
+      Debug.LogWarningFormat(
+          "Part {0} has {1} UI visible modules, but there only {2} module infos",
+          partInfo.name, partModules.Count, partInfo.moduleInfos.Count);
+    } else if (partInfo.moduleInfos.Count > partModules.Count) {
+      // Can happen when a module is deleted in runtime. Such modules will get lost in refresh.
+      Debug.LogWarningFormat(
+          "Part {0} has {1} module infos, but there are only {2} UI visible modules",
+          partInfo.name, partInfo.moduleInfos.Count, partModules.Count);
+    }
+    for (var i = 0; i < partInfo.moduleInfos.Count && i < partModules.Count; i++) {
+      var moduleInfo = partInfo.moduleInfos[i];
+      var partModule = partModules[i];
+      var partModuleInfo = partModule as IModuleInfo;
+      if (partModuleInfo != null) {
+        moduleInfo.moduleName = partModuleInfo.GetModuleTitle();
+        moduleInfo.primaryInfo = partModuleInfo.GetPrimaryField();
+      }
+      moduleInfo.info = partModule.GetInfo().Trim();
+      moduleInfo.moduleDisplayName = partModule.GetModuleDisplayName();
+      if (moduleInfo.moduleDisplayName == "") {
+        moduleInfo.moduleDisplayName = moduleInfo.moduleName;
+      }
+    }
   }
 
   /// <summary>Updates data in all the open part menus.</summary>
   public static void LocalizePartMenus() {
+    // The editor's tooltip caches the data, and we cannot update it. So just reset it.
+    if (HighLogic.LoadedSceneIsEditor) {
+      UIMasterController.Instance.DestroyCurrentTooltip();
+    }
     UnityEngine.Object.FindObjectsOfType(typeof(UIPartActionWindow))
         .OfType<UIPartActionWindow>()
         .ToList()

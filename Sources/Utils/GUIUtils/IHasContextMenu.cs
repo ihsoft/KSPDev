@@ -29,7 +29,8 @@ public interface IHasContextMenu {
   /// <para>
   /// The method implemenation must expect to be called at any arbitrary moment of the module's
   /// life. If there are members that can be null, then they must be checked in this method to not
-  /// throw an NPE.
+  /// throw an NPE. A special attention should be paid in the implementations that depend on the
+  /// other modules since this method can get called when they are not initialized or created yet.
   /// </para>
   /// <para>
   /// Unless the implementing class is <i>sealed</i>, the method must be declared as <i>virtual</i>.

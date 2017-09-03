@@ -65,6 +65,9 @@ public sealed class AngleType {
     if (format != null) {
       return value.ToString(format) + unitName;
     }
+    if (value < double.Epsilon) {
+      return "0" + unitName;  // Zero is zero.
+    }
     if (value < 1.0) {
       return value.ToString("0.0#") + unitName;
     }

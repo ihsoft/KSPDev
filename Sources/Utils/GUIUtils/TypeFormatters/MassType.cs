@@ -27,7 +27,7 @@ namespace KSPDev.GUIUtils {
 public sealed class MassType {
   /// <summary>Localized suffix for the "gram" units. Scale <c>0.000001</c>.</summary>
   public static readonly Message gram = new Message(
-      "#autoLOC_7001412", defaultTemplate: " g",
+      "#autoLOC_7001412", defaultTemplate: " grams",
       description: "Gram unit for a mass value");
 
   /// <summary>Localized suffix for the "kilogram" untis. Scale <c>0.001</c></summary>
@@ -125,19 +125,10 @@ public sealed class MassType {
       scaledValue = value;
       units = ton;
     }
-    if (format == null) {
-      // Auto detect the best format.
-      if (scaledValue < 1.0) {
-        format = "0.00#";
-      } else if (scaledValue < 10.0) {
-        format = "0.0#";
-      } else if (scaledValue < 100.0) {
-        format = "0.#";
-      } else {
-        format = "0";
-      }
+    if (format != null) {
+      return scaledValue.ToString(format) + units;
     }
-    return scaledValue.ToString(format) + units;
+    return CompactNumberType.Format(scaledValue) + units;
   }
 
   /// <summary>Returns a string formatted as a human friendly distance specification.</summary>

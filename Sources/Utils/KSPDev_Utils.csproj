@@ -6,7 +6,7 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <OutputType>Library</OutputType>
     <RootNamespace>KSPDev</RootNamespace>
-    <AssemblyName>KSPDev_Utils.0.26</AssemblyName>
+    <AssemblyName>KSPDev_Utils.0.27</AssemblyName>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <TargetFrameworkProfile />
@@ -90,12 +90,8 @@
     <Compile Include="Extensions\PosAndRotExtensions.cs" />
     <Compile Include="Extensions\RectExtensions.cs" />
     <Compile Include="FSUtils\KspPaths.cs" />
-    <Compile Include="GUIUtils\AngleType.cs" />
-    <Compile Include="GUIUtils\DistanceType.cs" />
     <Compile Include="GUIUtils\IHasGUI.cs" />
-    <Compile Include="GUIUtils\KeyboardEventType.cs" />
     <Compile Include="GUIUtils\MessageLookup.cs" />
-    <Compile Include="GUIUtils\ForceType.cs" />
     <Compile Include="GUIUtils\GuiColorScope.cs" />
     <Compile Include="GUIUtils\GuiEnabledStateScope.cs" />
     <Compile Include="GUIUtils\GuiWindow.cs" />
@@ -103,12 +99,21 @@
     <Compile Include="GUIUtils\LocalizableItemAttribute.cs" />
     <Compile Include="GUIUtils\LocalizableMessage.cs" />
     <Compile Include="GUIUtils\LocalizationLoader.cs" />
-    <Compile Include="GUIUtils\MassType.cs" />
-    <Compile Include="GUIUtils\PercentType.cs" />
     <Compile Include="GUIUtils\ScreenMessaging.cs" />
     <Compile Include="GUIUtils\HintOverlay.cs" />
     <Compile Include="GUIUtils\Message.cs" />
     <Compile Include="GUIUtils\GuiActionsList.cs" />
+    <Compile Include="GUIUtils\TypeFormatters\AngleType.cs" />
+    <Compile Include="GUIUtils\TypeFormatters\CompactNumberType.cs" />
+    <Compile Include="GUIUtils\TypeFormatters\CostType.cs" />
+    <Compile Include="GUIUtils\TypeFormatters\DistanceType.cs" />
+    <Compile Include="GUIUtils\TypeFormatters\ForceType.cs" />
+    <Compile Include="GUIUtils\TypeFormatters\KeyboardEventType.cs" />
+    <Compile Include="GUIUtils\TypeFormatters\MassType.cs" />
+    <Compile Include="GUIUtils\TypeFormatters\PercentType.cs" />
+    <Compile Include="GUIUtils\TypeFormatters\PressureType.cs" />
+    <Compile Include="GUIUtils\TypeFormatters\ResourceShortType.cs" />
+    <Compile Include="GUIUtils\TypeFormatters\ResourceType.cs" />
     <Compile Include="GUIUtils\UISoundPlayer.cs" />
     <Compile Include="InputUtils\EventChecker.cs" />
     <Compile Include="InputUtils\KeyboardInputSwitch.cs" />
@@ -142,6 +147,7 @@
   <ItemGroup>
     <Folder Include="Extensions" />
     <Folder Include="GUIUtils" />
+    <Folder Include="GUIUtils\TypeFormatters" />
     <Folder Include="KSPInterfaces" />
     <Folder Include="LogUtils" />
     <Folder Include="ConfigUtils" />

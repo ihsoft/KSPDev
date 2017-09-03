@@ -13,10 +13,17 @@
 
 <MessageArgumentType>
   <seealso cref="AngleType"/>
+  <seealso cref="CompactNumberType"/>
+  <seealso cref="CostType"/>
   <seealso cref="DistanceType"/>
   <seealso cref="ForceType"/>
-  <seealso cref="PercentType"/>
+  <seealso cref="KeyboardEventType"/>
   <seealso cref="MassType"/>
+  <seealso cref="PercentType"/>
+  <seealso cref="PressureType"/>
+  <seealso cref="ResourceShortType"/>
+  <seealso cref="MassType"/>
+  <seealso cref="ResourceType"/>
 </MessageArgumentType>
 
 <Lingoona>

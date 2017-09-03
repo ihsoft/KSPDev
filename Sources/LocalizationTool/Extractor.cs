@@ -32,6 +32,8 @@ static class Extractor {
                            part.name, part.configFileFullName);
       return res;
     }
+
+    // Go thru the fields we know must be localized.
     foreach (var fieldName in localizablePartFields) {
       var field = config.values.Cast<ConfigNode.Value>()
           .FirstOrDefault(x => x.name == fieldName);
@@ -65,6 +67,9 @@ static class Extractor {
       };
       res.Add(item);
     }
+
+    res.AddRange(EmitItemsForNode(part, config));
+
     return res;
   }
 
@@ -238,7 +243,7 @@ static class Extractor {
                                                   "KSPDev.GUIUtils.LocalizableMessage")) {
       return res;
     }
-    if ((field.Attributes | FieldAttributes.Static) == 0) {
+    if ((field.Attributes & FieldAttributes.Static) == 0) {
       Debug.LogWarningFormat("Skipping a non-static message field: {0}.{1}",
                              field.DeclaringType.FullName, field.Name);
       return res;
@@ -249,17 +254,18 @@ static class Extractor {
                            field.DeclaringType.FullName, field.Name);
       return res;
     }
-    var msgTag = ReflectionHelper.GetReflectedString(value, "tag");
+    var msgTag = ReflectionHelper.GetReflectedString(value, "tag") ?? "";
     var defaultTemplate = ReflectionHelper.GetReflectedString(value, "defaultTemplate");
-    var description = ReflectionHelper.GetReflectedString(value, "description");
-    var locExample = ReflectionHelper.GetReflectedString(value, "example");
-    if (string.IsNullOrEmpty(msgTag)) {
-      Debug.LogErrorFormat("Failed to read a message from {0} in {1}.{2}",
+    if (defaultTemplate == null) {
+      // The template is never null.
+      Debug.LogWarningFormat("Failed to read a message from {0} in {1}.{2}",
                            field.FieldType.FullName,
                            field.DeclaringType.FullName, field.Name);
       return res;
     }
-    if (msgTag[0] != '#') {
+    var description = ReflectionHelper.GetReflectedString(value, "description");
+    var locExample = ReflectionHelper.GetReflectedString(value, "example");
+    if (!msgTag.StartsWith("#", StringComparison.Ordinal)) {
       msgTag = MakeTypeMemberLocalizationTag(info);
       Debug.LogWarningFormat("Auto generate a tag {0}", msgTag);
     }
@@ -310,6 +316,52 @@ static class Extractor {
         locDefaultValue = ReflectionHelper.GetReflectedString(attrObj, "defaultTemplate"),
         locDescription = ReflectionHelper.GetReflectedString(attrObj, "description"),
     };
+  }
+
+  /// <summary>Extracts the strings that look like the localized tags.</summary>
+  /// <remarks>
+  /// This methods looks for the values that are localized in way it's done in the stock parts.
+  /// </remarks>
+  /// <param name="part">The part to extract the items for.</param>
+  /// <param name="config">
+  /// The config node of the part. It's an extend version with the comments.
+  /// </param>
+  /// <returns>The list of extracted items.</returns>
+  static List<LocItem> EmitItemsForNode(AvailablePart part, ConfigNode config) {
+    var res = new List<LocItem>();
+
+    // Go thru all the fields to detect if there are localized optional fields.
+    foreach (var field in config.values.Cast<ConfigNode.Value>()) {
+      if (localizablePartFields.Contains(field.name) || string.IsNullOrEmpty(field.comment)) {
+        continue;
+      }
+      var match = Regex.Match(field.comment, @"^\s*(#[a-zA-Z0-9_-]+)\s*=\s*(.+?)$");
+      if (!match.Success) {
+        continue;  // Not localized.
+      }
+      string locTag = match.Groups[1].Value;
+      string locDefaultValue = match.Groups[2].Value;
+      if (field.value != locTag) {
+        Debug.LogWarningFormat(
+            "A possible localized field has wrong syntax:"
+            + " part={0}, field={1}, value={2}, comment={3}",
+            part.name, field.name, field.value, field.comment);
+      }
+      var item = new LocItem() {
+          groupKey = "Part: " + part.name,
+          fullFilePath = part.configFileFullName,
+          locTag = MakePartFieldLocalizationTag(part.name, field.name),
+          locDefaultValue = locDefaultValue,
+      };
+      res.Add(item);
+    }
+
+    // Scan the nested nodes.
+    foreach (var nestedNode in config.GetNodes()) {
+      res.AddRange(EmitItemsForNode(part, nestedNode));
+    }
+    
+    return res;
   }
   #endregion
 }

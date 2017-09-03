@@ -54,3 +54,5 @@ Sources/LogConsole/obj
 Help
 Release
 *.zip
+*.wrk.*
+Work\*
