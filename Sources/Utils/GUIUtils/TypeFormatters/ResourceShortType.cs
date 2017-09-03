@@ -21,8 +21,8 @@ namespace KSPDev.GUIUtils {
 /// </remarks>
 /// <include file="SpecialDocTags.xml" path="Tags/MessageTypeWithArg/*"/>
 /// <include file="SpecialDocTags.xml" path="Tags/MessageArgumentType/*"/>
-/// <example><code source="Examples/GUIUtils/ResourceShortType-Examples.cs" region="ResourceShortTypeDemo1"/></example>
-/// <example><code source="Examples/GUIUtils/ResourceShortType-Examples.cs" region="ResourceShortTypeDemo2_FormatDefault"/></example>
+/// <example><code source="Examples/GUIUtils/TypeFormatters/ResourceShortType-Examples.cs" region="ResourceShortTypeDemo1"/></example>
+/// <example><code source="Examples/GUIUtils/TypeFormatters/ResourceShortType-Examples.cs" region="ResourceShortTypeDemo2_FormatDefault"/></example>
 public sealed class ResourceShortType {
   /// <summary>A wrapped resource ID value.</summary>
   public readonly int resourceId;
@@ -31,8 +31,8 @@ public sealed class ResourceShortType {
   /// <param name="resourceName">The resource type name.</param>
   /// <seealso cref="Format(string)"/>
   /// <seealso cref="Format(int)"/>
-  /// <example><code source="Examples/GUIUtils/ResourceShortType-Examples.cs" region="ResourceShortTypeDemo1"/></example>
-  /// <example><code source="Examples/GUIUtils/ResourceShortType-Examples.cs" region="ResourceShortTypeDemo2_FormatDefault"/></example>
+  /// <example><code source="Examples/GUIUtils/TypeFormatters/ResourceShortType-Examples.cs" region="ResourceShortTypeDemo1"/></example>
+  /// <example><code source="Examples/GUIUtils/TypeFormatters/ResourceShortType-Examples.cs" region="ResourceShortTypeDemo2_FormatDefault"/></example>
   public ResourceShortType(string resourceName) {
     resourceId = StockResourceNames.GetId(resourceName);
   }
@@ -41,8 +41,8 @@ public sealed class ResourceShortType {
   /// <param name="resourceId">The resource ID.</param>
   /// <seealso cref="Format(string)"/>
   /// <seealso cref="Format(int)"/>
-  /// <example><code source="Examples/GUIUtils/ResourceShortType-Examples.cs" region="ResourceShortTypeDemo1"/></example>
-  /// <example><code source="Examples/GUIUtils/ResourceShortType-Examples.cs" region="ResourceShortTypeDemo2_FormatDefault"/></example>
+  /// <example><code source="Examples/GUIUtils/TypeFormatters/ResourceShortType-Examples.cs" region="ResourceShortTypeDemo1"/></example>
+  /// <example><code source="Examples/GUIUtils/TypeFormatters/ResourceShortType-Examples.cs" region="ResourceShortTypeDemo2_FormatDefault"/></example>
   public ResourceShortType(int resourceId) {
     this.resourceId = resourceId;
   }
@@ -78,7 +78,7 @@ public sealed class ResourceShortType {
   /// <summary>Formats the value into a human friendly localized string.</summary>
   /// <param name="resourceName">The name of the resource to format.</param>
   /// <returns>A formatted and localized string.</returns>
-  /// <example><code source="Examples/GUIUtils/ResourceShortType-Examples.cs" region="ResourceShortTypeDemo2_FormatDefault"/></example>
+  /// <example><code source="Examples/GUIUtils/TypeFormatters/ResourceShortType-Examples.cs" region="ResourceShortTypeDemo2_FormatDefault"/></example>
   public static string Format(string resourceName) {
     return StockResourceNames.GetResourceAbbreviation(resourceName);
   }
@@ -86,7 +86,7 @@ public sealed class ResourceShortType {
   /// <summary>Formats the value into a human friendly localized string.</summary>
   /// <param name="resourceId">The ID of the resource to format.</param>
   /// <returns>A formatted and localized string.</returns>
-  /// <example><code source="Examples/GUIUtils/ResourceShortType-Examples.cs" region="ResourceShortTypeDemo2_FormatDefault"/></example>
+  /// <example><code source="Examples/GUIUtils/TypeFormatters/ResourceShortType-Examples.cs" region="ResourceShortTypeDemo2_FormatDefault"/></example>
   public static string Format(int resourceId) {
     return StockResourceNames.GetResourceAbbreviation(resourceId);
   }

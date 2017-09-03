@@ -18,8 +18,8 @@ namespace KSPDev.GUIUtils {
 /// <include file="SpecialDocTags.xml" path="Tags/MessageTypeWithArg/*"/>
 /// <include file="SpecialDocTags.xml" path="Tags/MessageArgumentType/*"/>
 /// <seealso cref="StockResourceNames"/>
-/// <example><code source="Examples/GUIUtils/ResourceType-Examples.cs" region="ResourceTypeDemo1"/></example>
-/// <example><code source="Examples/GUIUtils/ResourceType-Examples.cs" region="ResourceTypeDemo2_FormatDefault"/></example>
+/// <example><code source="Examples/GUIUtils/TypeFormatters/ResourceType-Examples.cs" region="ResourceTypeDemo1"/></example>
+/// <example><code source="Examples/GUIUtils/TypeFormatters/ResourceType-Examples.cs" region="ResourceTypeDemo2_FormatDefault"/></example>
 public sealed class ResourceType {
   /// <summary>A wrapped resource ID value.</summary>
   public readonly int resourceId;
@@ -29,8 +29,8 @@ public sealed class ResourceType {
   /// <seealso cref="Format(int)"/>
   /// <seealso cref="Format(string)"/>
   /// <seealso cref="StockResourceNames"/>
-  /// <example><code source="Examples/GUIUtils/ResourceType-Examples.cs" region="ResourceTypeDemo1"/></example>
-  /// <example><code source="Examples/GUIUtils/ResourceType-Examples.cs" region="ResourceTypeDemo2_FormatDefault"/></example>
+  /// <example><code source="Examples/GUIUtils/TypeFormatters/ResourceType-Examples.cs" region="ResourceTypeDemo1"/></example>
+  /// <example><code source="Examples/GUIUtils/TypeFormatters/ResourceType-Examples.cs" region="ResourceTypeDemo2_FormatDefault"/></example>
   public ResourceType(string resourceName) {
     resourceId = StockResourceNames.GetId(resourceName);
   }
@@ -40,8 +40,8 @@ public sealed class ResourceType {
   /// <seealso cref="Format(int)"/>
   /// <seealso cref="Format(string)"/>
   /// <seealso cref="StockResourceNames"/>
-  /// <example><code source="Examples/GUIUtils/ResourceType-Examples.cs" region="ResourceTypeDemo1"/></example>
-  /// <example><code source="Examples/GUIUtils/ResourceType-Examples.cs" region="ResourceTypeDemo2_FormatDefault"/></example>
+  /// <example><code source="Examples/GUIUtils/TypeFormatters/ResourceType-Examples.cs" region="ResourceTypeDemo1"/></example>
+  /// <example><code source="Examples/GUIUtils/TypeFormatters/ResourceType-Examples.cs" region="ResourceTypeDemo2_FormatDefault"/></example>
   public ResourceType(int resourceId) {
     this.resourceId = resourceId;
   }
@@ -80,7 +80,7 @@ public sealed class ResourceType {
   /// <param name="resourceName">The name of the resource to format.</param>
   /// <returns>A formatted and localized string.</returns>
   /// <seealso cref="StockResourceNames"/>
-  /// <example><code source="Examples/GUIUtils/ResourceType-Examples.cs" region="ResourceTypeDemo2_FormatDefault"/></example>
+  /// <example><code source="Examples/GUIUtils/TypeFormatters/ResourceType-Examples.cs" region="ResourceTypeDemo2_FormatDefault"/></example>
   public static string Format(string resourceName) {
     return StockResourceNames.GetResourceTitle(resourceName);
   }
@@ -89,7 +89,7 @@ public sealed class ResourceType {
   /// <param name="resourceId">The ID of the resource to format.</param>
   /// <returns>A formatted and localized string.</returns>
   /// <seealso cref="StockResourceNames"/>
-  /// <example><code source="Examples/GUIUtils/ResourceType-Examples.cs" region="ResourceTypeDemo2_FormatDefault"/></example>
+  /// <example><code source="Examples/GUIUtils/TypeFormatters/ResourceType-Examples.cs" region="ResourceTypeDemo2_FormatDefault"/></example>
   public static string Format(int resourceId) {
     return StockResourceNames.GetResourceTitle(resourceId);
   }

@@ -15,9 +15,9 @@ namespace KSPDev.GUIUtils {
 /// </remarks>
 /// <include file="SpecialDocTags.xml" path="Tags/MessageTypeWithArg/*"/>
 /// <include file="SpecialDocTags.xml" path="Tags/MessageArgumentType/*"/>
-/// <example><code source="Examples/GUIUtils/CompactNumberType-Examples.cs" region="CompactNumberType1"/></example>
-/// <example><code source="Examples/GUIUtils/CompactNumberType-Examples.cs" region="CompactNumberType2_FormatDefault"/></example>
-/// <example><code source="Examples/GUIUtils/CompactNumberType-Examples.cs" region="CompactNumberType2_FormatFixed"/></example>
+/// <example><code source="Examples/GUIUtils/TypeFormatters/CompactNumberType-Examples.cs" region="CompactNumberType1"/></example>
+/// <example><code source="Examples/GUIUtils/TypeFormatters/CompactNumberType-Examples.cs" region="CompactNumberType2_FormatDefault"/></example>
+/// <example><code source="Examples/GUIUtils/TypeFormatters/CompactNumberType-Examples.cs" region="CompactNumberType2_FormatFixed"/></example>
 public sealed class CompactNumberType {
   /// <summary>A wrapped numeric value.</summary>
   /// <remarks>This is the original non-rounded and unscaled value.</remarks>
@@ -26,9 +26,9 @@ public sealed class CompactNumberType {
   /// <summary>Constructs an object from a numeric value.</summary>
   /// <param name="value">The numeric value in the base units.</param>
   /// <seealso cref="Format"/>
-  /// <example><code source="Examples/GUIUtils/CompactNumberType-Examples.cs" region="CompactNumberType1"/></example>
-  /// <example><code source="Examples/GUIUtils/CompactNumberType-Examples.cs" region="CompactNumberType2_FormatDefault"/></example>
-  /// <example><code source="Examples/GUIUtils/CompactNumberType-Examples.cs" region="CompactNumberType2_FormatFixed"/></example>
+  /// <example><code source="Examples/GUIUtils/TypeFormatters/CompactNumberType-Examples.cs" region="CompactNumberType1"/></example>
+  /// <example><code source="Examples/GUIUtils/TypeFormatters/CompactNumberType-Examples.cs" region="CompactNumberType2_FormatDefault"/></example>
+  /// <example><code source="Examples/GUIUtils/TypeFormatters/CompactNumberType-Examples.cs" region="CompactNumberType2_FormatFixed"/></example>
   public CompactNumberType(double value) {
     this.value = value;
   }
@@ -59,8 +59,8 @@ public sealed class CompactNumberType {
   /// basing on the value.
   /// </param>
   /// <returns>A formatted and localized string</returns>
-  /// <example><code source="Examples/GUIUtils/CompactNumberType-Examples.cs" region="CompactNumberType2_FormatDefault"/></example>
-  /// <example><code source="Examples/GUIUtils/CompactNumberType-Examples.cs" region="CompactNumberType2_FormatFixed"/></example>
+  /// <example><code source="Examples/GUIUtils/TypeFormatters/CompactNumberType-Examples.cs" region="CompactNumberType2_FormatDefault"/></example>
+  /// <example><code source="Examples/GUIUtils/TypeFormatters/CompactNumberType-Examples.cs" region="CompactNumberType2_FormatFixed"/></example>
   public static string Format(double value, string format = null) {
     if (format != null) {
       return value.ToString(format);

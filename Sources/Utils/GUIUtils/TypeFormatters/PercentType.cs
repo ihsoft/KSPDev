@@ -13,9 +13,9 @@ namespace KSPDev.GUIUtils {
 /// </remarks>
 /// <include file="SpecialDocTags.xml" path="Tags/MessageTypeWithArg/*"/>
 /// <include file="SpecialDocTags.xml" path="Tags/MessageArgumentType/*"/>
-/// <example><code source="Examples/GUIUtils/PercentType-Examples.cs" region="PercentTypeDemo1"/></example>
-/// <example><code source="Examples/GUIUtils/PercentType-Examples.cs" region="PercentTypeDemo2_FormatDefault"/></example>
-/// <example><code source="Examples/GUIUtils/PercentType-Examples.cs" region="PercentTypeDemo2_FormatFixed"/></example>
+/// <example><code source="Examples/GUIUtils/TypeFormatters/PercentType-Examples.cs" region="PercentTypeDemo1"/></example>
+/// <example><code source="Examples/GUIUtils/TypeFormatters/PercentType-Examples.cs" region="PercentTypeDemo2_FormatDefault"/></example>
+/// <example><code source="Examples/GUIUtils/TypeFormatters/PercentType-Examples.cs" region="PercentTypeDemo2_FormatFixed"/></example>
 public sealed class PercentType {
   /// <summary>Suffix for the "percent" units (%).</summary>
   public const string unitName = " %";
@@ -29,9 +29,9 @@ public sealed class PercentType {
   /// The numeric value which defines the ratio. Value <c>0.0</c> is <c>100%</c>.
   /// </param>
   /// <seealso cref="Format"/>
-  /// <example><code source="Examples/GUIUtils/PercentType-Examples.cs" region="PercentTypeDemo1"/></example>
-  /// <example><code source="Examples/GUIUtils/PercentType-Examples.cs" region="PercentTypeDemo2_FormatDefault"/></example>
-  /// <example><code source="Examples/GUIUtils/PercentType-Examples.cs" region="PercentTypeDemo2_FormatFixed"/></example>
+  /// <example><code source="Examples/GUIUtils/TypeFormatters/PercentType-Examples.cs" region="PercentTypeDemo1"/></example>
+  /// <example><code source="Examples/GUIUtils/TypeFormatters/PercentType-Examples.cs" region="PercentTypeDemo2_FormatDefault"/></example>
+  /// <example><code source="Examples/GUIUtils/TypeFormatters/PercentType-Examples.cs" region="PercentTypeDemo2_FormatFixed"/></example>
   public PercentType(double value) {
     this.value = value;
   }
@@ -62,8 +62,8 @@ public sealed class PercentType {
   /// before formatting. 
   /// </param>
   /// <returns>A formatted and localized string</returns>
-  /// <example><code source="Examples/GUIUtils/PercentType-Examples.cs" region="PercentTypeDemo2_FormatDefault"/></example>
-  /// <example><code source="Examples/GUIUtils/PercentType-Examples.cs" region="PercentTypeDemo2_FormatFixed"/></example>
+  /// <example><code source="Examples/GUIUtils/TypeFormatters/PercentType-Examples.cs" region="PercentTypeDemo2_FormatDefault"/></example>
+  /// <example><code source="Examples/GUIUtils/TypeFormatters/PercentType-Examples.cs" region="PercentTypeDemo2_FormatFixed"/></example>
   public static string Format(double value, string format = null) {
     var scaledValue = value * 100.0;
     if (format != null) {
