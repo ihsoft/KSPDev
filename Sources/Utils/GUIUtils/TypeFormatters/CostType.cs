@@ -15,9 +15,9 @@ namespace KSPDev.GUIUtils {
 /// </remarks>
 /// <include file="SpecialDocTags.xml" path="Tags/MessageTypeWithArg/*"/>
 /// <include file="SpecialDocTags.xml" path="Tags/MessageArgumentType/*"/>
-/// <example><code source="Examples/GUIUtils/CostType-Examples.cs" region="CostTypeDemo1"/></example>
-/// <example><code source="Examples/GUIUtils/CostType-Examples.cs" region="CostTypeDemo2_FormatDefault"/></example>
-/// <example><code source="Examples/GUIUtils/CostType-Examples.cs" region="CostTypeDemo2_FormatFixed"/></example>
+/// <example><code source="Examples/GUIUtils/TypeFormatters/CostType-Examples.cs" region="CostTypeDemo1"/></example>
+/// <example><code source="Examples/GUIUtils/TypeFormatters/CostType-Examples.cs" region="CostTypeDemo2_FormatDefault"/></example>
+/// <example><code source="Examples/GUIUtils/TypeFormatters/CostType-Examples.cs" region="CostTypeDemo2_FormatFixed"/></example>
 public sealed class CostType {
   /// <summary>A wrapped numeric value.</summary>
   /// <remarks>This is the original non-rounded and unscaled value.</remarks>
@@ -26,9 +26,9 @@ public sealed class CostType {
   /// <summary>Constructs an object from a numeric value.</summary>
   /// <param name="value">The numeric value in the base units.</param>
   /// <seealso cref="Format"/>
-  /// <example><code source="Examples/GUIUtils/CostType-Examples.cs" region="CostTypeDemo1"/></example>
-  /// <example><code source="Examples/GUIUtils/CostType-Examples.cs" region="CostTypeDemo2_FormatDefault"/></example>
-  /// <example><code source="Examples/GUIUtils/CostType-Examples.cs" region="CostTypeDemo2_FormatFixed"/></example>
+  /// <example><code source="Examples/GUIUtils/TypeFormatters/CostType-Examples.cs" region="CostTypeDemo1"/></example>
+  /// <example><code source="Examples/GUIUtils/TypeFormatters/CostType-Examples.cs" region="CostTypeDemo2_FormatDefault"/></example>
+  /// <example><code source="Examples/GUIUtils/TypeFormatters/CostType-Examples.cs" region="CostTypeDemo2_FormatFixed"/></example>
   public CostType(double value) {
     this.value = value;
   }
@@ -66,8 +66,8 @@ public sealed class CostType {
   /// basing on the value.
   /// </param>
   /// <returns>A formatted and localized string</returns>
-  /// <example><code source="Examples/GUIUtils/CostType-Examples.cs" region="CostTypeDemo2_FormatDefault"/></example>
-  /// <example><code source="Examples/GUIUtils/CostType-Examples.cs" region="CostTypeDemo2_FormatFixed"/></example>
+  /// <example><code source="Examples/GUIUtils/TypeFormatters/CostType-Examples.cs" region="CostTypeDemo2_FormatDefault"/></example>
+  /// <example><code source="Examples/GUIUtils/TypeFormatters/CostType-Examples.cs" region="CostTypeDemo2_FormatFixed"/></example>
   public static string Format(double value, string format = null) {
     return "√ " + value.ToString("#,##0.00");  // Simulate the editor's behavior.
   }

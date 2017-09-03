@@ -13,9 +13,9 @@ namespace KSPDev.GUIUtils {
 /// </remarks>
 /// <include file="SpecialDocTags.xml" path="Tags/MessageTypeWithArg/*"/>
 /// <include file="SpecialDocTags.xml" path="Tags/MessageArgumentType/*"/>
-/// <example><code source="Examples/GUIUtils/AngleType-Examples.cs" region="AngleTypeDemo1"/></example>
-/// <example><code source="Examples/GUIUtils/AngleType-Examples.cs" region="AngleTypeDemo2_FormatDefault"/></example>
-/// <example><code source="Examples/GUIUtils/AngleType-Examples.cs" region="AngleTypeDemo2_FormatFixed"/></example>
+/// <example><code source="Examples/GUIUtils/TypeFormatters/AngleType-Examples.cs" region="AngleTypeDemo1"/></example>
+/// <example><code source="Examples/GUIUtils/TypeFormatters/AngleType-Examples.cs" region="AngleTypeDemo2_FormatDefault"/></example>
+/// <example><code source="Examples/GUIUtils/TypeFormatters/AngleType-Examples.cs" region="AngleTypeDemo2_FormatFixed"/></example>
 public sealed class AngleType {
   /// <summary>Suffix for the "angle" units (degrees).</summary>
   public const string unitName = "°";
@@ -27,9 +27,9 @@ public sealed class AngleType {
   /// <summary>Constructs an angle type object.</summary>
   /// <param name="value">The numeric value in degrees.</param>
   /// <seealso cref="Format"/>
-  /// <example><code source="Examples/GUIUtils/AngleType-Examples.cs" region="AngleTypeDemo1"/></example>
-  /// <example><code source="Examples/GUIUtils/AngleType-Examples.cs" region="AngleTypeDemo2_FormatDefault"/></example>
-  /// <example><code source="Examples/GUIUtils/AngleType-Examples.cs" region="AngleTypeDemo2_FormatFixed"/></example>
+  /// <example><code source="Examples/GUIUtils/TypeFormatters/AngleType-Examples.cs" region="AngleTypeDemo1"/></example>
+  /// <example><code source="Examples/GUIUtils/TypeFormatters/AngleType-Examples.cs" region="AngleTypeDemo2_FormatDefault"/></example>
+  /// <example><code source="Examples/GUIUtils/TypeFormatters/AngleType-Examples.cs" region="AngleTypeDemo2_FormatFixed"/></example>
   public AngleType(double value) {
     this.value = value;
   }
@@ -59,8 +59,8 @@ public sealed class AngleType {
   /// basing on the value.
   /// </param>
   /// <returns>A formatted and localized string</returns>
-  /// <example><code source="Examples/GUIUtils/AngleType-Examples.cs" region="AngleTypeDemo2_FormatDefault"/></example>
-  /// <example><code source="Examples/GUIUtils/AngleType-Examples.cs" region="AngleTypeDemo2_FormatFixed"/></example>
+  /// <example><code source="Examples/GUIUtils/TypeFormatters/AngleType-Examples.cs" region="AngleTypeDemo2_FormatDefault"/></example>
+  /// <example><code source="Examples/GUIUtils/TypeFormatters/AngleType-Examples.cs" region="AngleTypeDemo2_FormatFixed"/></example>
   public static string Format(double value, string format = null) {
     if (format != null) {
       return value.ToString(format) + unitName;

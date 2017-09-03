@@ -20,9 +20,9 @@ namespace KSPDev.GUIUtils {
 /// </remarks>
 /// <include file="SpecialDocTags.xml" path="Tags/MessageTypeWithArg/*"/>
 /// <include file="SpecialDocTags.xml" path="Tags/MessageArgumentType/*"/>
-/// <example><code source="Examples/GUIUtils/PressureType-Examples.cs" region="PressureTypeDemo1"/></example>
-/// <example><code source="Examples/GUIUtils/PressureType-Examples.cs" region="PressureTypeDemo2_FormatDefault"/></example>
-/// <example><code source="Examples/GUIUtils/PressureType-Examples.cs" region="PressureTypeDemo2_FormatFixed"/></example>
+/// <example><code source="Examples/GUIUtils/TypeFormatters/PressureType-Examples.cs" region="PressureTypeDemo1"/></example>
+/// <example><code source="Examples/GUIUtils/TypeFormatters/PressureType-Examples.cs" region="PressureTypeDemo2_FormatDefault"/></example>
+/// <example><code source="Examples/GUIUtils/TypeFormatters/PressureType-Examples.cs" region="PressureTypeDemo2_FormatFixed"/></example>
 public sealed class PressureType {
   /// <summary>Localized suffix for the "kilopascal" units. Scale x1.</summary>
   public static readonly Message kiloPascal = new Message(
@@ -37,9 +37,9 @@ public sealed class PressureType {
   /// <summary>Constructs an object from a numeric value.</summary>
   /// <param name="value">The numeric value in the base units.</param>
   /// <seealso cref="Format"/>
-  /// <example><code source="Examples/GUIUtils/PressureType-Examples.cs" region="PressureTypeDemo1"/></example>
-  /// <example><code source="Examples/GUIUtils/PressureType-Examples.cs" region="PressureTypeDemo2_FormatDefault"/></example>
-  /// <example><code source="Examples/GUIUtils/PressureType-Examples.cs" region="PressureTypeDemo2_FormatFixed"/></example>
+  /// <example><code source="Examples/GUIUtils/TypeFormatters/PressureType-Examples.cs" region="PressureTypeDemo1"/></example>
+  /// <example><code source="Examples/GUIUtils/TypeFormatters/PressureType-Examples.cs" region="PressureTypeDemo2_FormatDefault"/></example>
+  /// <example><code source="Examples/GUIUtils/TypeFormatters/PressureType-Examples.cs" region="PressureTypeDemo2_FormatFixed"/></example>
   public PressureType(double value) {
     this.value = value;
   }
@@ -75,8 +75,8 @@ public sealed class PressureType {
   /// basing on the value.
   /// </param>
   /// <returns>A formatted and localized string</returns>
-  /// <example><code source="Examples/GUIUtils/PressureType-Examples.cs" region="PressureTypeDemo2_FormatDefault"/></example>
-  /// <example><code source="Examples/GUIUtils/PressureType-Examples.cs" region="PressureTypeDemo2_FormatFixed"/></example>
+  /// <example><code source="Examples/GUIUtils/TypeFormatters/PressureType-Examples.cs" region="PressureTypeDemo2_FormatDefault"/></example>
+  /// <example><code source="Examples/GUIUtils/TypeFormatters/PressureType-Examples.cs" region="PressureTypeDemo2_FormatFixed"/></example>
   public static string Format(double value, string format = null) {
     if (format != null) {
       return value.ToString(format) + kiloPascal;

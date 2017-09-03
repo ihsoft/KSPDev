@@ -14,7 +14,7 @@ namespace KSPDev.GUIUtils {
 /// </remarks>
 /// <include file="SpecialDocTags.xml" path="Tags/MessageTypeWithArg/*"/>
 /// <include file="SpecialDocTags.xml" path="Tags/MessageArgumentType/*"/>
-/// <example><code source="Examples/GUIUtils/KeyboardEventType-Examples.cs" region="KeyboardEventTypeDemo1"/></example>
+/// <example><code source="Examples/GUIUtils/TypeFormatters/KeyboardEventType-Examples.cs" region="KeyboardEventTypeDemo1"/></example>
 public sealed class KeyboardEventType {
   /// <summary>A wrapped event value.</summary>
   public readonly Event value;
@@ -22,7 +22,7 @@ public sealed class KeyboardEventType {
   /// <summary>Constructs an object from an event.</summary>
   /// <param name="value">The keyboard event.</param>
   /// <seealso cref="Format"/>
-  /// <example><code source="Examples/GUIUtils/KeyboardEventType-Examples.cs" region="KeyboardEventTypeDemo1"/></example>
+  /// <example><code source="Examples/GUIUtils/TypeFormatters/KeyboardEventType-Examples.cs" region="KeyboardEventTypeDemo1"/></example>
   public KeyboardEventType(Event value) {
     this.value = value;
   }
@@ -44,7 +44,7 @@ public sealed class KeyboardEventType {
   /// <summary>Formats the value into a human friendly string.</summary>
   /// <param name="value">The keyboard event value to format.</param>
   /// <returns>A formatted and localized string</returns>
-  /// <example><code source="Examples/GUIUtils/KeyboardEventType-Examples.cs" region="KeyboardEventTypeDemo1"/></example>
+  /// <example><code source="Examples/GUIUtils/TypeFormatters/KeyboardEventType-Examples.cs" region="KeyboardEventTypeDemo1"/></example>
   public static string Format(Event value) {
     if (value.type != EventType.KeyDown) {
       return "<non-keyboard event>";
