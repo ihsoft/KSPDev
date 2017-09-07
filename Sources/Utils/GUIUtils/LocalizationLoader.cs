@@ -167,7 +167,7 @@ public class LocalizationLoader : MonoBehaviour {
     Debug.LogWarningFormat("Localization version is updated to {0} in: {1}",
                            LocalizableMessage.systemLocVersion, LibraryLoader.assemblyVersionStr);
 
-    // FLIGHT: Update the part modules in all the laoded vessels.
+    // FLIGHT: Update the part modules in all the loaded vessels.
     if (HighLogic.LoadedSceneIsFlight) {
       FlightGlobals.Vessels
           .Where(v => v.loaded)
@@ -176,7 +176,7 @@ public class LocalizationLoader : MonoBehaviour {
           .ForEach(UpdateLocalizationInPartModules);
     }
 
-    // EDITOR: Update the part modules in all the game object in the scene.
+    // EDITOR: Update the part modules in all the game objects in the scene.
     if (HighLogic.LoadedSceneIsEditor) {
       // It can be slow but we don't care - it's not a frequent operation.
       UnityEngine.SceneManagement.SceneManager.GetActiveScene().GetRootGameObjects()
