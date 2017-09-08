@@ -1,3 +1,6 @@
+# 0.28 (pre-release):
+
+
 # 0.27 (September 2nd, 2017):
 * [Enhancement] Add methods to resolve the resources abbreviations: [`ResourceUtils.StockResourceNames`](http://ihsoft.github.io/KSPDev/Utils/html/T_KSPDev_ResourceUtils_StockResourceNames.htm).
 * [Enhancement] Add a localization class to format a double value in a human friendly format: [`GUIUtils.CompactNumberType`](http://ihsoft.github.io/KSPDev/Utils/html/T_KSPDev_GUIUtils_CompactNumberType.htm).
