@@ -338,6 +338,8 @@ class Controller : MonoBehaviour {
     while (isUIVisible) {
       yield return new WaitForSeconds(0.1f);
       if (currentTagsMode != GameSettings.SHOW_TRANSLATION_KEYS_ON_SCREEN) {
+        // Force all strings to recalculate in case of they were cached.
+        GameEvents.onLanguageSwitched.Fire();
         Debug.LogWarningFormat("Update all the part prefabs due to the settings change");
         PartLoader.LoadedPartsList
             .ForEach(LocalizationManager.LocalizePartInfo);
