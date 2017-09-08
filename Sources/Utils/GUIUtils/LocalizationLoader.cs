@@ -20,7 +20,9 @@ namespace KSPDev.GUIUtils {
 /// <para>This module is initialized from the KSPDev Utils loader.</para>
 /// </remarks>
 /// <seealso cref="LocalizableItemAttribute"/>
+/// <seealso cref="IsLocalizableModule"/> 
 /// <example><code source="Examples/GUIUtils/LocalizationLoader-Examples.cs" region="LocalizationLoaderDemo1"/></example>
+/// <example><code source="Examples/GUIUtils/LocalizationLoader-Examples.cs" region="LocalizationLoaderDemo2"/></example>
 public class LocalizationLoader : MonoBehaviour {
   /// <summary>
   /// Specification for the <see cref="KSPField"/> <c>guiUnits</c> localization. 
@@ -52,14 +54,14 @@ public class LocalizationLoader : MonoBehaviour {
   /// </para>
   /// <para>
   /// This method can be called at any time during the module's life. However, the
-  /// <see cref="PartModule.OnAwake"/> method looks the most appropriate since it's called each time
-  /// the module is created. The other methods may be called differently depending on the loaded
-  /// scene.
+  /// <see cref="IsLocalizableModule.LocalizeModule"/> method looks the most appropriate.
   /// </para>
   /// </remarks>
   /// <param name="module">The module instance to localize.</param>
   /// <example><code source="Examples/GUIUtils/LocalizationLoader-Examples.cs" region="LocalizationLoaderDemo1"/></example>
+  /// <example><code source="Examples/GUIUtils/LocalizationLoader-Examples.cs" region="LocalizationLoaderDemo2"/></example>
   /// <seealso cref="LocalizableItemAttribute"/>
+  /// <seealso cref="IsLocalizableModule"/>
   /// <include file="KSPAPI_HelpIndex.xml" path="//item[@name='T:KSPField']"/>
   /// <include file="KSPAPI_HelpIndex.xml" path="//item[@name='T:KSPEvent']"/>
   /// <include file="KSPAPI_HelpIndex.xml" path="//item[@name='T:KSPAction']"/>
@@ -161,14 +163,9 @@ public class LocalizationLoader : MonoBehaviour {
   /// <summary>Updates all the localizable strings in a part.</summary>
   /// <param name="part">The part to load the data in.</param>
   static void UpdateLocalizationInPartModules(Part part) {
-    part.Modules.Cast<PartModule>().ToList()
-        .ForEach(module => {
-          LocalizationLoader.LoadItemsInModule(module);
-          var hasContextMenu = module as IHasContextMenu;
-          if (hasContextMenu != null) {
-            hasContextMenu.UpdateContextMenu();
-          }
-        });
+    foreach (var module in part.Modules.OfType<IsLocalizableModule>()) {
+      module.LocalizeModule();
+    }
   }
   #endregion
 }
