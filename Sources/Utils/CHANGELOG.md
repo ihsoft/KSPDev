@@ -1,4 +1,4 @@
-# 0.28 (pre-release):
+# 0.28 (September 14th, 2017):
 * [Change] Drop the auto-localization feature. It's too error prone. The modules must explicitly call [`LocalizationLoader.LoadItemsInModule`](http://ihsoft.github.io/KSPDev/Utils/html/M_KSPDev_GUIUtils_LocalizationLoader_LoadItemsInModule.htm).
 * [Enhancement] Add an interface for the modules that need localization. [`GUIUtils.IsLocalizableModule`](http://ihsoft.github.io/KSPDev/Utils/html/T_KSPDev_GUIUtils_IsLocalizableModule.htm).
 
