@@ -6,7 +6,7 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <OutputType>Library</OutputType>
     <RootNamespace>KSPDev</RootNamespace>
-    <AssemblyName>KSPDev_Utils.0.27</AssemblyName>
+    <AssemblyName>KSPDev_Utils.0.28</AssemblyName>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <TargetFrameworkProfile />
@@ -91,6 +91,7 @@
     <Compile Include="Extensions\RectExtensions.cs" />
     <Compile Include="FSUtils\KspPaths.cs" />
     <Compile Include="GUIUtils\IHasGUI.cs" />
+    <Compile Include="GUIUtils\IsLocalizableModule.cs" />
     <Compile Include="GUIUtils\MessageLookup.cs" />
     <Compile Include="GUIUtils\GuiColorScope.cs" />
     <Compile Include="GUIUtils\GuiEnabledStateScope.cs" />

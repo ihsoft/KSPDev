@@ -21,4 +21,25 @@ public class LocalizationLoaderDemo1 : PartModule {
 }
 #endregion
 
+#region LocalizationLoaderDemo2
+public class LocalizationLoaderDemo2 : PartModule, IsLocalizableModule {
+  [KSPField(guiActive = true)]
+  [LocalizableItem(tag = "#tag1", defaultTemplate = "Field1")]
+  [LocalizableItem(tag = "#tag2", defaultTemplate = "units",
+                   spec = LocalizationLoader.KspFieldUnitsSpec)]
+  public string field1 = "";
+
+  #region IsLocalizableModule implementation
+  public void LocalizeModule() {
+    LocalizationLoader.LoadItemsInModule(this);
+  }
+  #endregion
+
+  public override void OnAwake() {
+    base.OnAwake();
+    LocalizeModule();
+  }
+}
+#endregion
+
 }  // namespace

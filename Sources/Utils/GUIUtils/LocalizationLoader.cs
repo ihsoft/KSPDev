@@ -2,9 +2,7 @@
 // Author: igor.zavoychinskiy@gmail.com
 // This software is distributed under Public domain license.
 
-using KSP.UI.Screens;
 using KSPDev.LogUtils;
-using KSPDev.ProcessingUtils;
 using System;
 using System.Linq;
 using System.Reflection;
@@ -15,14 +13,16 @@ namespace KSPDev.GUIUtils {
 /// <summary>A utility class to localize the annotated members</summary>
 /// <remarks>
 /// <para>
-/// It also monitors if a new localizable module is created or loaded, or if the
+/// It also monitors if the
 /// <see cref="LocalizableMessage.systemLocVersion">localization version</see> has changed. If this
-/// is the case, then all the modules will be automatically updated.
+/// is the case, then all the localizable modules will be notified.
 /// </para>
 /// <para>This module is initialized from the KSPDev Utils loader.</para>
 /// </remarks>
 /// <seealso cref="LocalizableItemAttribute"/>
+/// <seealso cref="IsLocalizableModule"/> 
 /// <example><code source="Examples/GUIUtils/LocalizationLoader-Examples.cs" region="LocalizationLoaderDemo1"/></example>
+/// <example><code source="Examples/GUIUtils/LocalizationLoader-Examples.cs" region="LocalizationLoaderDemo2"/></example>
 public class LocalizationLoader : MonoBehaviour {
   /// <summary>
   /// Specification for the <see cref="KSPField"/> <c>guiUnits</c> localization. 
@@ -54,112 +54,74 @@ public class LocalizationLoader : MonoBehaviour {
   /// </para>
   /// <para>
   /// This method can be called at any time during the module's life. However, the
-  /// <see cref="PartModule.OnAwake"/> method looks the most appropriate since it's called each time
-  /// the module is created. The other methods may be called differently depending on the loaded
-  /// scene.
-  /// </para>
-  /// <para>
-  /// <i>Note</i>, that this method is automatically called on every new part created in the game.
-  /// The explicit call is only needed when the module is constructed in runtime.  
+  /// <see cref="IsLocalizableModule.LocalizeModule"/> method looks the most appropriate.
   /// </para>
   /// </remarks>
   /// <param name="module">The module instance to localize.</param>
   /// <example><code source="Examples/GUIUtils/LocalizationLoader-Examples.cs" region="LocalizationLoaderDemo1"/></example>
+  /// <example><code source="Examples/GUIUtils/LocalizationLoader-Examples.cs" region="LocalizationLoaderDemo2"/></example>
   /// <seealso cref="LocalizableItemAttribute"/>
+  /// <seealso cref="IsLocalizableModule"/>
   /// <include file="KSPAPI_HelpIndex.xml" path="//item[@name='T:KSPField']"/>
   /// <include file="KSPAPI_HelpIndex.xml" path="//item[@name='T:KSPEvent']"/>
   /// <include file="KSPAPI_HelpIndex.xml" path="//item[@name='T:KSPAction']"/>
   public static void LoadItemsInModule(PartModule module) {
-    module.Fields.Cast<BaseField>().ToList()
-        .ForEach(LocalizeKSPField);
+    // This method may look ugly and over complicated, but it's because if it's performance
+    // optimized. On a vessel with 100 parts this method can be called 1000 times. So every
+    // millisecond matters.
 
-    // Hash the KSP annotated methods by the name. We only take the methods with zero arguments. 
-    var methodItemTypes = new[] { typeof(KSPEvent), typeof(KSPAction) };
-    var methodsByName = module.GetType()
-        .GetMethods(BindingFlags.Instance | BindingFlags.Public)
-        .Where(m =>
-             m.GetParameters().Length == 0
-             && m.GetCustomAttributes(true).Any(o => methodItemTypes.Contains(o.GetType())))
-        .ToDictionary(k => k.Name);
+    // Go thru all the KSP fields that may have the localizable content. 
+    foreach (var field in module.Fields) {
+      var locItems = (LocalizableItemAttribute[])field.FieldInfo.GetCustomAttributes(
+          typeof(LocalizableItemAttribute), false);
+      foreach (var locItem in locItems) {
+        if (string.IsNullOrEmpty(locItem.tag)) {
+          continue;  // Localization is disabled for the item.
+        }
+        if (string.IsNullOrEmpty(locItem.spec)) {
+          field.guiName = locItem.GetLocalizedString();
+        } else if (locItem.spec == KspFieldUnitsSpec) {
+          field.guiUnits = locItem.GetLocalizedString();
+        } else {
+          Debug.LogWarningFormat("Bad specialization tag for field {0}.{1}: {2}",
+                                 field.FieldInfo.FieldType.FullName,
+                                 field.FieldInfo.Name,
+                                 locItem.spec);
+        }
+      }
+    }
 
-    module.Events
-        .Where(e => methodsByName.ContainsKey(e.name))
-        .ToList()
-        .ForEach(x => LocalizeKSPEvent(methodsByName[x.name], x));
-    module.Actions
-        .Where(e => methodsByName.ContainsKey(e.name))
-        .ToList()
-        .ForEach(x => LocalizeKSPAction(methodsByName[x.name], x));
+    // Go thru all the KSP events that may have the localizable content. 
+    foreach (var @event in module.Events) {
+      var info = module.GetType().GetMethod(@event.name);
+      if (info != null) {
+        var locItems = (LocalizableItemAttribute[])info.GetCustomAttributes(
+            typeof(LocalizableItemAttribute), false);
+        if (locItems.Length > 0 && !string.IsNullOrEmpty(locItems[0].tag)) {
+          @event.guiName = locItems[0].GetLocalizedString();
+        }
+      }
+    }
+
+    // Go thru all the KSP actions that may have the localizable content. 
+    foreach (var action in module.Actions) {
+      var info = module.GetType().GetMethod(action.name);
+      if (info != null) {
+        var locItems = (LocalizableItemAttribute[])info.GetCustomAttributes(
+            typeof(LocalizableItemAttribute), false);
+        if (locItems.Length > 0 && !string.IsNullOrEmpty(locItems[0].tag)) {
+          action.guiName = locItems[0].GetLocalizedString();
+        }
+      }
+    }
   }
 
   /// <summary>Installs the event listeners to do the automatic modules localization.</summary>
   void Awake() {
     GameEvents.onLanguageSwitched.Add(OnUpdateLocalizationVersion);
-    GameEvents.onEditorPartEvent.Add(OnEditorPartEvent);
-    GameEvents.onEditorLoad.Add(OnEditorLoad);
-    GameEvents.onEditorStarted.Add(OnEditorStarted);
-    GameEvents.onProtoPartSnapshotLoad.Add(OnProtoPartSnapshotLoad);
-    GameEvents.onCrewOnEva.Add(OnCrewEva);
   }
 
   #region Game event listeners. Must not be static.
-  /// <summary>Reacts on the editor scene load, and updates the loaded vessel if needed.</summary>
-  /// <remarks>
-  /// When going back from the launch the normal create/load events are not fired.
-  /// </remarks>
-  void OnEditorStarted() {
-    if (EditorLogic.fetch.ship != null) {
-      OnEditorLoad(EditorLogic.fetch.ship, CraftBrowserDialog.LoadType.Normal);
-    }
-  }
-
-  /// <summary>Reacts on an editor part event and localizes the part when needed.</summary>
-  /// <param name="eventType">The type of the event.</param>
-  /// <param name="part">The part being acted on.</param>
-  void OnEditorPartEvent(ConstructionEventType eventType, Part part) {
-    if (eventType == ConstructionEventType.PartCreated
-        || eventType == ConstructionEventType.PartCopied) {
-      HostedDebugLog.Info(part,
-          "EDITOR: Load localizations for a new part from {0}",
-          LibraryLoader.assemblyVersionStr);
-      UpdateLocalizationInPartModules(part);
-    }
-  }
-
-  /// <summary>Localizes a vessel which is laoded in the editor.</summary>
-  /// <param name="shipConstruct">The ship's parts data.</param>
-  /// <param name="loadType">Unused.</param>
-  void OnEditorLoad(ShipConstruct shipConstruct, CraftBrowserDialog.LoadType loadType) {
-    Debug.LogFormat("EDITOR: Load vessel localizations in \"{0}\" from {1}",
-                    shipConstruct.shipName, LibraryLoader.assemblyVersionStr);
-    shipConstruct.parts.ForEach(UpdateLocalizationInPartModules);
-  }
-
-  /// <summary>Reacts on creating a part from a proto.</summary>
-  /// <param name="action">The snapshot and node data.</param>
-  void OnProtoPartSnapshotLoad(GameEvents.FromToAction<ProtoPartSnapshot, ConfigNode> action) {
-    // The part instance is populeated after the event. Sometimes it may absent.
-    AsyncCall.CallOnEndOfFrame(this, () => {
-      if (action.from.partRef != null) {
-        HostedDebugLog.Info(action.from.partRef,
-            "FLIGHT: Localizing part modules from {0}", LibraryLoader.assemblyVersionStr);
-        UpdateLocalizationInPartModules(action.from.partRef);
-      }
-    });
-  }
-
-  /// <summary>Reacts on creating an EVA kerbal.</summary>
-  /// <remarks>
-  /// Kerbals are created in a different way from a regular vessel. So the regular update events are
-  /// not fired.
-  /// </remarks>
-  /// <param name="action">The source and target parts data.</param>
-  void OnCrewEva(GameEvents.FromToAction<Part, Part> action) {
-    HostedDebugLog.Info(action.to, "FLIGHT: Load kerbal localizations from: {0}",
-                        LibraryLoader.assemblyVersionStr);
-    UpdateLocalizationInPartModules(action.to);
-  }
-
   /// <summary>Invalidates all the localization caches and updates the current vessels.</summary>
   /// <remarks>It updates all the currently loaded vessels.</remarks>
   void OnUpdateLocalizationVersion() {
@@ -167,7 +129,7 @@ public class LocalizationLoader : MonoBehaviour {
     Debug.LogWarningFormat("Localization version is updated to {0} in: {1}",
                            LocalizableMessage.systemLocVersion, LibraryLoader.assemblyVersionStr);
 
-    // FLIGHT: Update the part modules in all the laoded vessels.
+    // FLIGHT: Update the part modules in all the loaded vessels.
     if (HighLogic.LoadedSceneIsFlight) {
       FlightGlobals.Vessels
           .Where(v => v.loaded)
@@ -176,7 +138,7 @@ public class LocalizationLoader : MonoBehaviour {
           .ForEach(UpdateLocalizationInPartModules);
     }
 
-    // EDITOR: Update the part modules in all the game object in the scene.
+    // EDITOR: Update the part modules in all the game objects in the scene.
     if (HighLogic.LoadedSceneIsEditor) {
       // It can be slow but we don't care - it's not a frequent operation.
       UnityEngine.SceneManagement.SceneManager.GetActiveScene().GetRootGameObjects()
@@ -189,52 +151,6 @@ public class LocalizationLoader : MonoBehaviour {
   #endregion
 
   #region Local utility methods
-  /// <summary>Loads the localized string(s) for a KSP field.</summary>
-  /// <param name="kspField">The field to load localization for.</param>
-  static void LocalizeKSPField(BaseField kspField) {
-    var locItems = kspField.FieldInfo.GetCustomAttributes(false)
-        .OfType<LocalizableItemAttribute>();
-    foreach (var locItem in locItems) {
-      if (string.IsNullOrEmpty(locItem.tag)) {
-        continue;  // Localization is disabled for the item.
-      }
-      if (string.IsNullOrEmpty(locItem.spec)) {
-        kspField.guiName = locItem.GetLocalizedString();
-      } else if (locItem.spec == KspFieldUnitsSpec) {
-        kspField.guiUnits = locItem.GetLocalizedString();
-      } else {
-        Debug.LogWarningFormat("Bad specialization tag for field {0}.{1}: {2}",
-                               kspField.FieldInfo.FieldType.FullName,
-                               kspField.FieldInfo.Name,
-                               locItem.spec);
-      }
-    }
-  }
-
-  /// <summary>Loads the localized string for a KSP event.</summary>
-  /// <param name="attrs">The attributes on the event.</param>
-  /// <param name="event">The event to localize.</param>
-  static void LocalizeKSPEvent(ICustomAttributeProvider attrs, BaseEvent @event) {
-    var locItem = attrs.GetCustomAttributes(false)
-        .OfType<LocalizableItemAttribute>()
-        .FirstOrDefault();
-    if (locItem != null && !string.IsNullOrEmpty(locItem.tag)) {
-      @event.guiName = locItem.GetLocalizedString();
-    }
-  }
-
-  /// <summary>Loads the localized string for a KSP action.</summary>
-  /// <param name="attrs">The attributes provider on the action.</param>
-  /// <param name="action">The action to localize.</param>
-  static void LocalizeKSPAction(ICustomAttributeProvider attrs, BaseAction action) {
-    var locItem = attrs.GetCustomAttributes(false)
-        .OfType<LocalizableItemAttribute>()
-        .FirstOrDefault();
-    if (locItem != null && !string.IsNullOrEmpty(locItem.tag)) {
-      action.guiName = locItem.GetLocalizedString();
-    }
-  }
-
   /// <summary>Localizes the modules in the part and in all of its children parts.</summary>
   /// <param name="rootPart">The root part to start from.</param>
   static void UpdateLocalizationInPartHierarchy(Part rootPart) {
@@ -247,14 +163,9 @@ public class LocalizationLoader : MonoBehaviour {
   /// <summary>Updates all the localizable strings in a part.</summary>
   /// <param name="part">The part to load the data in.</param>
   static void UpdateLocalizationInPartModules(Part part) {
-    part.Modules.Cast<PartModule>().ToList()
-        .ForEach(module => {
-          LocalizationLoader.LoadItemsInModule(module);
-          var hasContextMenu = module as IHasContextMenu;
-          if (hasContextMenu != null) {
-            hasContextMenu.UpdateContextMenu();
-          }
-        });
+    foreach (var module in part.Modules.OfType<IsLocalizableModule>()) {
+      module.LocalizeModule();
+    }
   }
   #endregion
 }
