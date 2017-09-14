@@ -483,6 +483,12 @@
   <HelpKINode Title="IsDestroyable.OnDestroy method" Url="html/M_KSPDev_KSPInterfaces_IsDestroyable_OnDestroy.htm" />
   <HelpKINode Title="isHold property" Url="html/P_KSPDev_InputUtils_KeyboardInputSwitch_isHold.htm" />
   <HelpKINode Title="IsJointUnlocked method" Url="html/M_KSPDev_KSPInterfaces_IKSPDevJointLockState_IsJointUnlocked.htm" />
+  <HelpKINode Title="IsLocalizableModule interface">
+    <HelpKINode Title="IsLocalizableModule Interface" Url="html/T_KSPDev_GUIUtils_IsLocalizableModule.htm" />
+    <HelpKINode Title="about IsLocalizableModule interface" Url="html/T_KSPDev_GUIUtils_IsLocalizableModule.htm" />
+    <HelpKINode Title="methods" Url="html/Methods_T_KSPDev_GUIUtils_IsLocalizableModule.htm" />
+  </HelpKINode>
+  <HelpKINode Title="IsLocalizableModule.LocalizeModule method" Url="html/M_KSPDev_GUIUtils_IsLocalizableModule_LocalizeModule.htm" />
   <HelpKINode Title="IsModifierCombinationPressed method" Url="html/M_KSPDev_InputUtils_EventChecker_IsModifierCombinationPressed.htm" />
   <HelpKINode Title="IsPackable interface">
     <HelpKINode Title="IsPackable Interface" Url="html/T_KSPDev_KSPInterfaces_IsPackable.htm" />
@@ -587,6 +593,7 @@
   <HelpKINode Title="KSPDev.GUIUtils.HintOverlay class" Url="html/T_KSPDev_GUIUtils_HintOverlay.htm" />
   <HelpKINode Title="KSPDev.GUIUtils.IHasContextMenu interface" Url="html/T_KSPDev_GUIUtils_IHasContextMenu.htm" />
   <HelpKINode Title="KSPDev.GUIUtils.IHasGUI interface" Url="html/T_KSPDev_GUIUtils_IHasGUI.htm" />
+  <HelpKINode Title="KSPDev.GUIUtils.IsLocalizableModule interface" Url="html/T_KSPDev_GUIUtils_IsLocalizableModule.htm" />
   <HelpKINode Title="KSPDev.GUIUtils.KeyboardEventType class" Url="html/T_KSPDev_GUIUtils_KeyboardEventType.htm" />
   <HelpKINode Title="KSPDev.GUIUtils.LocalizableItemAttribute class" Url="html/T_KSPDev_GUIUtils_LocalizableItemAttribute.htm" />
   <HelpKINode Title="KSPDev.GUIUtils.LocalizableMessage class" Url="html/T_KSPDev_GUIUtils_LocalizableMessage.htm" />
@@ -730,6 +737,7 @@
   <HelpKINode Title="LocalizationLoader.LoadItemsInModule method" Url="html/M_KSPDev_GUIUtils_LocalizationLoader_LoadItemsInModule.htm" />
   <HelpKINode Title="LocalizationLoader.LocalizationLoader constructor" Url="html/M_KSPDev_GUIUtils_LocalizationLoader__ctor.htm" />
   <HelpKINode Title="localizedTemplate property" Url="html/P_KSPDev_GUIUtils_LocalizableMessage_localizedTemplate.htm" />
+  <HelpKINode Title="LocalizeModule method" Url="html/M_KSPDev_GUIUtils_IsLocalizableModule_LocalizeModule.htm" />
   <HelpKINode Title="Log method" Url="html/M_KSPDev_LogUtils_HostedDebugLog_Log.htm" />
   <HelpKINode Title="Lookup method" Url="html/M_KSPDev_GUIUtils_MessageLookup_1_Lookup.htm" />
   <HelpKINode Title="MakeAbsPathForGameData method" Url="html/M_KSPDev_FSUtils_KspPaths_MakeAbsPathForGameData.htm" />
