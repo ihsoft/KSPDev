@@ -11,7 +11,7 @@
     "license"        : "public-domain",
     "author"         : ["IgorZ"],
     "$vref"          : "#/ckan/ksp-avc",
-    "$kref"          : "#/ckan/github/ihsoft/KSPDev",
+    "$kref"          : "#/ckan/github/ihsoft/KSPDev/asset_match/KSPDev_LogConsole_*",
     "x_netkan_version_edit" : "^logconsole_(?<version>.+)$",
     "x_netkan_epoch" : "1",
     "install"        : [
