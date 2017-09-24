@@ -123,7 +123,7 @@ class Controller : MonoBehaviour {
   const string ExportBtnFmtNotSelected = "<i>Select an assembly or a parts folder</i>";
   const string ExportBtnFmt =
       "Export strings from {0} part(s) and {1} assembly(-ies) into exported.cfg";
-  const string RefreshBtnFmtNotSelected = "<i>Select a localization</i>";
+  const string RefreshBtnFmtNotSelected = "<i>Select a localization file</i>";
   const string RefreshBtnFmt = "Reload {0} localization config(s) and update {1} part(s)";
   #endregion
 
