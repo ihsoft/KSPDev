@@ -115,7 +115,6 @@ class Controller : MonoBehaviour, IHasGUI {
   #region Window intermediate properties
   const int WindowId = 19410622;
   static Vector2 windowSize = new Vector2(430, 0);
-  static Rect titleBarRect = new Rect(0, 0, 10000, 20);
   static Rect windowRect;
   #endregion
 
@@ -264,11 +263,11 @@ class Controller : MonoBehaviour, IHasGUI {
       GUILayout.Button(MakeSelectionsForReloadTxt);
       GUI.enabled = true;
     }
-    GUI.DragWindow(titleBarRect);
 
     if (GUILayout.Button(UpdateAllPartsTxt)) {
       UpdateAllParts();
     }
+    GUI.DragWindow();
   }
 
   /// <summary>Saves the strings for the selected entities into a new file.</summary>
