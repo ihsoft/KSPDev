@@ -10,6 +10,7 @@ using KSPDev.InputUtils;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Reflection;
 using UnityEngine;
@@ -52,6 +53,7 @@ class Controller : MonoBehaviour {
   class AssemblyRecord : ScannedRecord {
     public Assembly assembly;
     public List<Type> types;
+    public string url;
 
     /// <inheritdoc/>
     public override string ToString() {
@@ -105,6 +107,9 @@ class Controller : MonoBehaviour {
 
   [PersistentField("lookupPrefix", group = SessionGroup)]
   string lookupPrefix = "";
+
+  [PersistentField("showNoModulesAssemblies", group = SessionGroup)]
+  bool allowNoModulesAssemblies;
   #endregion
 
   /// <summary>A list of actions to apply at the end of the GUI frame.</summary>
@@ -119,7 +124,8 @@ class Controller : MonoBehaviour {
 
   #region UI strings
   const string ExportBtnFmtNotSelected = "<i>Select an assembly or a parts folder</i>";
-  const string ExportBtnFmt = "Export strings from {0} part(s) and {1} module(s) into exported.cfg";
+  const string ExportBtnFmt =
+      "Export strings from {0} part(s) and {1} assembly(-ies) into exported.cfg";
   const string RefreshBtnFmtNotSelected = "<i>Select a localization</i>";
   const string RefreshBtnFmt = "Reload {0} localization config(s) and update {1} part(s)";
   #endregion
@@ -190,6 +196,13 @@ class Controller : MonoBehaviour {
       }
     }
 
+    GUI.changed = false;
+    allowNoModulesAssemblies =
+        GUILayout.Toggle(allowNoModulesAssemblies, "Show assemblies with no modules");
+    if (GUI.changed) {
+      guiActions.Add(() => GuiActionUpdateTargets(lookupPrefix));
+    }
+
     // Action buttons.
     var selectedModulesCount = targets.OfType<AssemblyRecord>()
         .Where(x => x.selected)
@@ -200,15 +213,17 @@ class Controller : MonoBehaviour {
     var selectedLocsCount = targets.OfType<ConfigRecord>()
         .Count(x => x.selected);
 
-    var selectedModules = targets.OfType<AssemblyRecord>().Where(x => x.selected);
+    var selectedAssemblies = targets.OfType<AssemblyRecord>().Where(x => x.selected);
     var selectedParts = targets.OfType<PartsRecord>().Where(x => x.selected);
     var selectedConfigs = targets.OfType<ConfigRecord>().Where(x => x.selected);
-    if (selectedPartsCount > 0 || selectedModulesCount > 0) {
+    if (selectedPartsCount > 0
+        || allowNoModulesAssemblies && selectedAssemblies.Any()
+        || !allowNoModulesAssemblies && selectedModulesCount > 0) {
       var title = string.Format(ExportBtnFmt,
                                 selectedParts.Sum(x => x.parts.Count),
-                                selectedModules.Sum(x => x.types.Count));
+                                selectedAssemblies.Count());
       if (GUILayout.Button(title)) {
-        GuiActionExportStrings(selectedParts, selectedModules);
+        GuiActionExportStrings(selectedParts, selectedAssemblies);
       }
     } else {
       GUI.enabled = false;
@@ -290,7 +305,7 @@ class Controller : MonoBehaviour {
 
     // Find part configs for the prefix.
     targets.AddRange(PartLoader.LoadedPartsList
-        .Where(x => x.partUrl.StartsWith(prefix, StringComparison.CurrentCultureIgnoreCase))
+        .Where(x => x.partUrl.StartsWith(prefix, StringComparison.OrdinalIgnoreCase))
         .GroupBy(x => {
           var pos = x.partUrl.LastIndexOf("/Parts", StringComparison.OrdinalIgnoreCase);
           return pos != -1 ? x.partUrl.Substring(0, pos + 6) : x.partUrl;
@@ -302,12 +317,18 @@ class Controller : MonoBehaviour {
         .Cast<ScannedRecord>());
 
     // Find assemblies for the prefix.
+    // Utility assemblies of the same version are loaded only once, but they are referred for every
+    // URL at which the assembly was found.
     targets.AddRange(AssemblyLoader.loadedAssemblies
-        .Where(x => x.url.StartsWith(prefix, StringComparison.CurrentCultureIgnoreCase)
-                    && x.types.Count > 0)
+        .Where(x =>
+            x.url.StartsWith(prefix, StringComparison.OrdinalIgnoreCase)
+            && KspPaths.MakeRelativePathToGameData(x.assembly.Location)
+                .StartsWith(prefix, StringComparison.OrdinalIgnoreCase)
+            && (allowNoModulesAssemblies || x.types.Count > 0))
         .Select(assembly => new AssemblyRecord() {
             assembly = assembly.assembly,
             types = assembly.types.SelectMany(x => x.Value).ToList(),
+            url = assembly.url,
         })
         .Cast<ScannedRecord>());
 
