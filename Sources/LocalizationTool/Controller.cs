@@ -125,6 +125,7 @@ class Controller : MonoBehaviour {
       "Export strings from {0} part(s) and {1} assembly(-ies) into exported.cfg";
   const string RefreshBtnFmtNotSelected = "<i>Select a localization file</i>";
   const string RefreshBtnFmt = "Reload {0} localization config(s) and update {1} part(s)";
+  const string UpdatePartsBtnMsg = "Update all the parts in the game DB";
   #endregion
 
   readonly List<ScannedRecord> targets = new List<ScannedRecord>();
@@ -139,9 +140,6 @@ class Controller : MonoBehaviour {
     ConfigAccessor.ReadFieldsInType(typeof(Controller), this, group: SessionGroup);
     toggleConsoleKeyEvent = Event.KeyboardEvent(toggleConsoleKey);
     windowRect = new Rect(windowPos, windowSize);
-    if (isUIVisible) {
-      StartCoroutine(CheckForSettingsChange());
-    }
   }
 
   /// <summary>Only stores session settings.</summary>
@@ -234,6 +232,10 @@ class Controller : MonoBehaviour {
       GUI.enabled = true;
     }
     GUI.DragWindow(titleBarRect);
+
+    if (GUILayout.Button(UpdatePartsBtnMsg)) {
+      UpdateAllParts();
+    }
   }
 
   /// <summary>Saves the strings for the selected entities into a new file.</summary>
@@ -342,24 +344,14 @@ class Controller : MonoBehaviour {
     }
   }
 
-  /// <summary>Monitors for the game settings change and triggers part prefabs update.</summary>
-  /// <returns>A enumerator for the co-routine.</returns>
-  IEnumerator CheckForSettingsChange() {
-    Debug.LogFormat("Start monitoring the game settings change...");
-    var currentTagsMode = GameSettings.SHOW_TRANSLATION_KEYS_ON_SCREEN;
-    while (isUIVisible) {
-      yield return new WaitForSeconds(0.1f);
-      if (currentTagsMode != GameSettings.SHOW_TRANSLATION_KEYS_ON_SCREEN) {
-        // Force all strings to recalculate in case of they were cached.
-        GameEvents.onLanguageSwitched.Fire();
-        Debug.LogWarningFormat("Update all the part prefabs due to the settings change");
-        PartLoader.LoadedPartsList
-            .ForEach(LocalizationManager.LocalizePartInfo);
-        LocalizationManager.LocalizePartMenus();
-        currentTagsMode = GameSettings.SHOW_TRANSLATION_KEYS_ON_SCREEN;
-      }
-    }
-    Debug.LogFormat("End monitoring the game settings change");
+  /// <summary>Triggers the part prefabs update.</summary>
+  void UpdateAllParts() {
+    // Force all strings to recalculate in case of they were cached.
+    GameEvents.onLanguageSwitched.Fire();
+    Debug.LogWarningFormat("Update all the part prefabs due to the settings change");
+    PartLoader.LoadedPartsList
+        .ForEach(LocalizationManager.LocalizePartInfo);
+    LocalizationManager.LocalizePartMenus();
   }
 }
 
