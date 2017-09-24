@@ -87,11 +87,8 @@ class Controller : MonoBehaviour {
   const string SessionGroup = "session";
 
   #region Mod's settings
-  [PersistentField("KeySwitch")]
-  static KeyboardInputSwitch switchKey = new KeyboardInputSwitch(KeyCode.LeftAlt);
-
-  [PersistentField("keyToggle")]
-  static KeyCode toggleKey = KeyCode.F8;
+  [PersistentField("toggleConsoleKey")]
+  static string toggleConsoleKey = "&f8";
 
   [PersistentField("scrollHeight")]
   static int scrollHeight = 150;
@@ -133,12 +130,14 @@ class Controller : MonoBehaviour {
   readonly List<ScannedRecord> targets = new List<ScannedRecord>();
   Vector2 partsScrollPos;
   string lastCachedLookupPrefix;
+  Event toggleConsoleKeyEvent;
 
   #region MonoBehaviour overrides 
   /// <summary>Only loads session settings.</summary>
   void Awake() {
     ConfigAccessor.ReadFieldsInType(typeof(Controller), null /* instance */);
     ConfigAccessor.ReadFieldsInType(typeof(Controller), this, group: SessionGroup);
+    toggleConsoleKeyEvent = Event.KeyboardEvent(toggleConsoleKey);
     windowRect = new Rect(windowPos, windowSize);
     if (isUIVisible) {
       StartCoroutine(CheckForSettingsChange());
@@ -151,18 +150,12 @@ class Controller : MonoBehaviour {
     ConfigAccessor.WriteFieldsFromType(typeof(Controller), this, group: SessionGroup);
   }
 
-  /// <summary>Only used to capture console toggle key.</summary>
-  void Update() {
-    if (switchKey.Update() && Input.GetKeyDown(toggleKey)) {
-      isUIVisible = !isUIVisible;
-      if (isUIVisible) {
-        StartCoroutine(CheckForSettingsChange());
-      }
-    }
-  }
-
   /// <summary>Actually renders the console window.</summary>
   void OnGUI() {
+    if (Event.current.Equals(toggleConsoleKeyEvent)) {
+      Event.current.Use();
+      isUIVisible = !isUIVisible;
+    }
     if (isUIVisible) {
       windowRect = GUILayout.Window(
           WindowId, windowRect, MakeConsoleWindow,
