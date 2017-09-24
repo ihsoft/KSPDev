@@ -20,7 +20,7 @@ namespace KSPDev.LocalizationTool {
 [PersistentFieldsFileAttribute("KSPDev/LocalizationTool/PluginData/settings.cfg", "UI")]
 [PersistentFieldsFileAttribute("KSPDev/LocalizationTool/PluginData/session.cfg", "UI",
                                Controller.SessionGroup)]
-class Controller : MonoBehaviour {
+class Controller : MonoBehaviour, IHasGUI {
   #region GUI scrollbox records
   /// <summary>Base class for the records that represent the extractor entities.</summary>
   abstract class ScannedRecord {
@@ -180,9 +180,11 @@ class Controller : MonoBehaviour {
     windowPos = windowRect.position;
     ConfigAccessor.WriteFieldsFromType(typeof(Controller), this, group: SessionGroup);
   }
+  #endregion
 
-  /// <summary>Actually renders the console window.</summary>
-  void OnGUI() {
+  #region IHasGUI implementation
+  /// <inheritdoc/>
+  public void OnGUI() {
     if (Event.current.Equals(toggleConsoleKeyEvent)) {
       Event.current.Use();
       isUIVisible = !isUIVisible;
