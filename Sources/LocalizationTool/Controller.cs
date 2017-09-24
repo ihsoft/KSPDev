@@ -18,6 +18,48 @@ namespace KSPDev.LocalizationTool {
 [PersistentFieldsFileAttribute("KSPDev/LocalizationTool/PluginData/session.cfg", "UI",
                                Controller.SessionGroup)]
 class Controller : MonoBehaviour, IHasGUI {
+  #region Localizable UI strings
+  static readonly Message<Version> MainWindowTitleTxt = new Message<Version>(
+      "#locTool_00000",
+      "KSPDev LocalizationTool v<<1>>");
+
+  static readonly Message MakeSelectionsForExportTxt = new Message(
+      "#locTool_00001",
+      "<i>EXPORT STRINGS: Select an assembly or a parts folder</i>");
+
+  static readonly Message<int, int> ExportBtnTxt = new Message<int, int>(
+      "#locTool_00002",
+      "Export strings from <<1>> parts and <<2>> assemblies into exported.cfg");
+
+  static readonly Message MakeSelectionsForReloadTxt = new Message(
+      "#locTool_00003",
+      "<i>RELOAD STRINGS: Select a localization file</i>");
+
+  static readonly Message<int, int> RefreshBtnTxt = new Message<int, int>(
+      "#locTool_00004",
+      "Reload <<1>> localization configs and update <<2>> parts");
+
+  static readonly Message UpdateAllPartsTxt = new Message(
+      "#locTool_00005",
+      "Update all the parts in the game DB");
+
+  static readonly Message TypePrefixToStartTxt = new Message(
+      "#locTool_00006",
+      "<i>...type 3 or more prefix characters...</i>");
+
+  static readonly Message NothingFoundForPrefixTxt = new Message(
+      "#locTool_00007",
+      "<i>...nothing found for the prefix...</i>");
+
+  static readonly Message UrlPrefixFieldCaptionTxt = new Message(
+      "#locTool_00008",
+      "URL prefix:");
+
+  static readonly Message AssembliesWithoutModulesToggleTxt = new Message(
+      "#locTool_00009",
+      "Show assemblies with no modules");
+  #endregion
+
   #region GUI scrollbox records
   /// <summary>Base class for the records that represent the extractor entities.</summary>
   abstract class ScannedRecord {
@@ -113,48 +155,6 @@ class Controller : MonoBehaviour, IHasGUI {
   const int WindowId = 19410622;
   static Vector2 windowSize = new Vector2(430, 0);
   static Rect windowRect;
-  #endregion
-
-  #region Localizable UI strings
-  static readonly Message<Version> MainWindowTitleTxt = new Message<Version>(
-      "#locTool_00000",
-      "KSPDev LocalizationTool v<<1>>");
-
-  static readonly Message MakeSelectionsForExportTxt = new Message(
-      "#locTool_00001",
-      "<i>EXPORT STRINGS: Select an assembly or a parts folder</i>");
-
-  static readonly Message<int, int> ExportBtnTxt = new Message<int, int>(
-      "#locTool_00002",
-      "Export strings from <<1>> parts and <<2>> assemblies into exported.cfg");
-
-  static readonly Message MakeSelectionsForReloadTxt = new Message(
-      "#locTool_00003",
-      "<i>RELOAD STRINGS: Select a localization file</i>");
-
-  static readonly Message<int, int> RefreshBtnTxt = new Message<int, int>(
-      "#locTool_00004",
-      "Reload <<1>> localization configs and update <<2>> parts");
-
-  static readonly Message UpdateAllPartsTxt = new Message(
-      "#locTool_00005",
-      "Update all the parts in the game DB");
-
-  static readonly Message TypePrefixToStartTxt = new Message(
-      "#locTool_00006",
-      "<i>...type 3 or more prefix characters...</i>");
-
-  static readonly Message NothingFoundForPrefixTxt = new Message(
-      "#locTool_00007",
-      "<i>...nothing found for the prefix...</i>");
-
-  static readonly Message UrlPrefixFieldCaptionTxt = new Message(
-      "#locTool_00008",
-      "URL prefix:");
-
-  static readonly Message AssembliesWithoutModulesToggleTxt = new Message(
-      "#locTool_00009",
-      "Show assemblies with no modules");
   #endregion
 
   readonly List<ScannedRecord> targets = new List<ScannedRecord>();
