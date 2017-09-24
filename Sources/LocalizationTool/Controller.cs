@@ -186,13 +186,11 @@ class Controller : MonoBehaviour {
     }
 
     // Found items scroll view.
-    using (new GUILayout.HorizontalScope(GUI.skin.box)) {
-      using (var scrollScope =
-             new GUILayout.ScrollViewScope(partsScrollPos, GUILayout.Height(scrollHeight))) {
-        partsScrollPos = scrollScope.scrollPosition;
-        foreach (var target in targets) {
-          target.GUIAddItem();
-        }
+    using (var scrollScope = new GUILayout.ScrollViewScope(
+        partsScrollPos, GUI.skin.box, GUILayout.Height(scrollHeight))) {
+      partsScrollPos = scrollScope.scrollPosition;
+      foreach (var target in targets) {
+        target.GUIAddItem();
       }
     }
 
