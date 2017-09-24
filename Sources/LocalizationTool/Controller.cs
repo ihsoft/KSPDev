@@ -119,13 +119,46 @@ class Controller : MonoBehaviour {
   static Rect windowRect;
   #endregion
 
-  #region UI strings
-  const string ExportBtnFmtNotSelected = "<i>Select an assembly or a parts folder</i>";
-  const string ExportBtnFmt =
-      "Export strings from {0} part(s) and {1} assembly(-ies) into exported.cfg";
-  const string RefreshBtnFmtNotSelected = "<i>Select a localization file</i>";
-  const string RefreshBtnFmt = "Reload {0} localization config(s) and update {1} part(s)";
-  const string UpdatePartsBtnMsg = "Update all the parts in the game DB";
+  #region Localizable UI strings
+  static readonly Message<Version> MainWindowTitleTxt = new Message<Version>(
+      "#locTool_00000",
+      "KSPDev LocalizationTool v<<1>>");
+
+  static readonly Message MakeSelectionsForExportTxt = new Message(
+      "#locTool_00001",
+      "<i>EXPORT STRINGS: Select an assembly or a parts folder</i>");
+
+  static readonly Message<int, int> ExportBtnTxt = new Message<int, int>(
+      "#locTool_00002",
+      "Export strings from <<1>> parts and <<2>> assemblies into exported.cfg");
+
+  static readonly Message MakeSelectionsForReloadTxt = new Message(
+      "#locTool_00003",
+      "<i>RELOAD STRINGS: Select a localization file</i>");
+
+  static readonly Message<int, int> RefreshBtnTxt = new Message<int, int>(
+      "#locTool_00004",
+      "Reload <<1>> localization configs and update <<2>> parts");
+
+  static readonly Message UpdateAllPartsTxt = new Message(
+      "#locTool_00005",
+      "Update all the parts in the game DB");
+
+  static readonly Message TypePrefixToStartTxt = new Message(
+      "#locTool_00006",
+      "<i>...type 3 or more prefix characters...</i>");
+
+  static readonly Message NothingFoundForPrefixTxt = new Message(
+      "#locTool_00007",
+      "<i>...nothing found for the prefix...</i>");
+
+  static readonly Message UrlPrefixFieldCaptionTxt = new Message(
+      "#locTool_00008",
+      "URL prefix:");
+
+  static readonly Message AssembliesWithoutModulesToggleTxt = new Message(
+      "#locTool_00009",
+      "Show assemblies with no modules");
   #endregion
 
   readonly List<ScannedRecord> targets = new List<ScannedRecord>();
@@ -157,7 +190,7 @@ class Controller : MonoBehaviour {
     if (isUIVisible) {
       windowRect = GUILayout.Window(
           WindowId, windowRect, MakeConsoleWindow,
-          "KSPDev LocalizationTool v" + GetType().Assembly.GetName().Version);
+          MainWindowTitleTxt.Format(GetType().Assembly.GetName().Version));
     }
   }
   #endregion
@@ -168,7 +201,7 @@ class Controller : MonoBehaviour {
     guiActions.ExecutePendingGuiActions();
     // Search prefix controls.
     using (new GUILayout.HorizontalScope(GUI.skin.box)) {
-      GUILayout.Label("URL prefix:", GUILayout.ExpandWidth(false));
+      GUILayout.Label(UrlPrefixFieldCaptionTxt, GUILayout.ExpandWidth(false));
       lookupPrefix = GUILayout.TextField(lookupPrefix, GUILayout.ExpandWidth(true)).TrimStart();
       if (lookupPrefix != lastCachedLookupPrefix) {
         lastCachedLookupPrefix = lookupPrefix;
@@ -187,7 +220,7 @@ class Controller : MonoBehaviour {
 
     GUI.changed = false;
     allowNoModulesAssemblies =
-        GUILayout.Toggle(allowNoModulesAssemblies, "Show assemblies with no modules");
+        GUILayout.Toggle(allowNoModulesAssemblies, AssembliesWithoutModulesToggleTxt);
     if (GUI.changed) {
       guiActions.Add(() => GuiActionUpdateTargets(lookupPrefix));
     }
@@ -208,32 +241,30 @@ class Controller : MonoBehaviour {
     if (selectedPartsCount > 0
         || allowNoModulesAssemblies && selectedAssemblies.Any()
         || !allowNoModulesAssemblies && selectedModulesCount > 0) {
-      var title = string.Format(ExportBtnFmt,
-                                selectedParts.Sum(x => x.parts.Count),
-                                selectedAssemblies.Count());
+      var title = ExportBtnTxt.Format(selectedParts.Sum(x => x.parts.Count),
+                                      selectedAssemblies.Count());
       if (GUILayout.Button(title)) {
         GuiActionExportStrings(selectedParts, selectedAssemblies);
       }
     } else {
       GUI.enabled = false;
-      GUILayout.Button(ExportBtnFmtNotSelected);
+      GUILayout.Button(MakeSelectionsForExportTxt);
       GUI.enabled = true;
     }
     if (selectedLocsCount > 0) {
-      var title = string.Format(RefreshBtnFmt,
-                                selectedConfigs.Count(),
-                                selectedParts.Sum(x => x.parts.Count));
+      var title = RefreshBtnTxt.Format(selectedConfigs.Count(),
+                                       selectedParts.Sum(x => x.parts.Count));
       if (GUILayout.Button(title)) {
         GuiActionRefreshStrings(selectedConfigs, selectedParts);
       }
     } else {
       GUI.enabled = false;
-      GUILayout.Button(RefreshBtnFmtNotSelected);
+      GUILayout.Button(MakeSelectionsForReloadTxt);
       GUI.enabled = true;
     }
     GUI.DragWindow(titleBarRect);
 
-    if (GUILayout.Button(UpdatePartsBtnMsg)) {
+    if (GUILayout.Button(UpdateAllPartsTxt)) {
       UpdateAllParts();
     }
   }
@@ -291,7 +322,7 @@ class Controller : MonoBehaviour {
     targets.Clear();
     if (prefix.Length < 3) {
       targets.Add(new StubRecord() {
-          stubText = "<i>...type 3 or more prefix characters...</i>",
+          stubText = TypePrefixToStartTxt,
       });
       return;
     }
@@ -339,7 +370,7 @@ class Controller : MonoBehaviour {
 
     if (targets.Count == 0) {
       targets.Add(new StubRecord() {
-          stubText = "<i>...nothing found for the prefix...</i>",
+          stubText = NothingFoundForPrefixTxt,
       });
     }
   }
