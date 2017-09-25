@@ -18,14 +18,6 @@ codebase.
 See [README.md](https://github.com/ihsoft/KSPDev/tree/master/Sources/Utils/README.md) for more
 information.
 
-## KSP Release Builder
-
-Flexible script that allows building mod releases for KSP quick and easy.
-Just define mod's structure and the script will manage everything else: from updating MinAVC
-version file to preparing final ZIP package.
-
-See more details in Wiki: https://github.com/ihsoft/KSPDev/wiki/ReleaseBuilder
-
 # Licensing
 
 All code and binaries are distributed under
