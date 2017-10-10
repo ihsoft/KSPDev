@@ -53,6 +53,31 @@ public static class HostedDebugLog {
     Log(LogType.Log, host, format, args);
   }
 
+  /// <summary>
+  /// Logs a formatted INFO message with a host identifier when the <i>verbose</i> logging mode is
+  /// enabled.
+  /// </summary>
+  /// <inheritdoc cref="Info(Part,string,object[])"/>
+  public static void Fine(Part host, string format, params object[] args) {
+    if (GameSettings.VERBOSE_DEBUG_LOG) {
+      Log(LogType.Log, host, format, args);
+    }
+  }
+
+  /// <inheritdoc cref="Info(Part,string,object[])"/>
+  public static void Fine(PartModule host, string format, params object[] args) {
+    if (GameSettings.VERBOSE_DEBUG_LOG) {
+      Log(LogType.Log, host, format, args);
+    }
+  }
+
+  /// <inheritdoc cref="Info(Part,string,object[])"/>
+  public static void Fine(Transform host, string format, params object[] args) {
+    if (GameSettings.VERBOSE_DEBUG_LOG) {
+      Log(LogType.Log, host, format, args);
+    }
+  }
+
   /// <summary>Logs a formatted WARNING message with a host identifier.</summary>
   /// <inheritdoc cref="Info(Part,string,object[])"/>
   public static void Warning(Part host, string format, params object[] args) {
