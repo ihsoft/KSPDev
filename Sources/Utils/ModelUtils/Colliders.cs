@@ -207,7 +207,7 @@ public static class Colliders {
     Debug.LogFormat("Set collision ignores between {0} and {1} to {2}",
                     DbgFormatter.PartId(part1), DbgFormatter.PartId(part2), ignore);
     SetCollisionIgnores(
-      Hierarchy.GetPartModelTransform(part1), Hierarchy.GetPartModelTransform(part2), ignore);
+        Hierarchy.GetPartModelTransform(part1), Hierarchy.GetPartModelTransform(part2), ignore);
   }
 }
 
