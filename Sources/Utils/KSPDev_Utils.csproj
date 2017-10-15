@@ -129,6 +129,7 @@
     <Compile Include="KSPInterfaces\IsPhysicalObject.cs" />
     <Compile Include="LibraryLoader.cs" />
     <Compile Include="LogUtils\DbgFormatter.cs" />
+    <Compile Include="LogUtils\DebugEx.cs" />
     <Compile Include="LogUtils\HostedDebugLog.cs" />
     <Compile Include="ModelUtils\AlignTransforms.cs" />
     <Compile Include="ModelUtils\Colliders.cs" />
