@@ -208,6 +208,13 @@ public static class Colliders {
     SetCollisionIgnores(
         Hierarchy.GetPartModelTransform(part1), Hierarchy.GetPartModelTransform(part2), ignore);
   }
+
+  public static void SetCollisionIgnores(Part part, Vessel vessel, bool ignore) {
+    DebugEx.Fine("Set collision ignores between {0} and {1} to {2}", part, vessel, ignore);
+    var modelRoot = Hierarchy.GetPartModelTransform(part);
+    vessel.parts.ForEach(
+        p => SetCollisionIgnores(modelRoot, Hierarchy.GetPartModelTransform(p), ignore));
+  }
 }
 
 }  // namespace
