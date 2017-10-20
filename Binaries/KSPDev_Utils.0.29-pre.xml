@@ -4141,6 +4141,12 @@
             <seealso href="https://docs.unity3d.com/ScriptReference/Physics.IgnoreCollision.html">
             Unity3D: Physics.IgnoreCollision</seealso>
         </member>
+        <member name="M:KSPDev.ModelUtils.Colliders.SetCollisionIgnores(Part,Vessel,System.Boolean)">
+            <summary>Disables/enables all the collidres between the part and a vessel.</summary>
+            <param name="part">The part to adjust colliders for.</param>
+            <param name="vessel">The vessel to start/stop colliding with.</param>
+            <param name="ignore">The desired state of the collision check.</param>
+        </member>
         <member name="T:KSPDev.ModelUtils.Colliders.PrimitiveCollider">
             <summary>Defines how collisions should be checked on a primitive.</summary>
         </member>

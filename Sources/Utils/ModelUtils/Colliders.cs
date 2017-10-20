@@ -209,6 +209,10 @@ public static class Colliders {
         Hierarchy.GetPartModelTransform(part1), Hierarchy.GetPartModelTransform(part2), ignore);
   }
 
+  /// <summary>Disables/enables all the collidres between the part and a vessel.</summary>
+  /// <param name="part">The part to adjust colliders for.</param>
+  /// <param name="vessel">The vessel to start/stop colliding with.</param>
+  /// <param name="ignore">The desired state of the collision check.</param>
   public static void SetCollisionIgnores(Part part, Vessel vessel, bool ignore) {
     DebugEx.Fine("Set collision ignores between {0} and {1} to {2}", part, vessel, ignore);
     var modelRoot = Hierarchy.GetPartModelTransform(part);
