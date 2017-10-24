@@ -35,8 +35,7 @@ public static class DebugEx {
   }
 
   /// <summary>
-  /// Logs a formatted INFO message with a host identifier when the <i>verbose</i> logging mode is
-  /// enabled.
+  /// Logs a formatted INFO message when the <i>verbose</i> logging mode is enabled.
   /// </summary>
   /// <inheritdoc cref="Info"/>
   public static void Fine(string format, params object[] args) {
@@ -78,17 +77,20 @@ public static class DebugEx {
   /// <summary>Helper method to make a user friendly object name for the logs.</summary>
   /// <remarks>
   /// This method is much more intelligent than a regular <c>ToString()</c>, it can detect some
-  /// common types and give a more context on them while keeping the output short. The currently
+  /// common types and give more context on them while keeping the output short. The currently
   /// supported object types are:
   /// <list type="bullet">
   /// <item>The primitive types and strings are returned as is.</item>
-  /// <item><see cref="Part"/>. The string will have a part ID.</item>
-  /// <item><see cref="PartModule"/>. The string will have a part ID and a module index.</item>
+  /// <item><see cref="Part"/>. The string will have the part ID.</item>
+  /// <item><see cref="PartModule"/>. The string will have a part ID and the module index.</item>
   /// <item>
-  /// <see cref="Component"/>. The string will have a full path in the game objects hirerachy.
+  /// <see cref="Component"/>. The string will have the full path in the game objects hirerachy.
   /// </item>
   /// </list>
-  /// <para>The other types are stringified via a regular <c>ToString()</c> call.</para>
+  /// <para>
+  /// The other types are stringified via a regular <c>ToString()</c> call, but the value is
+  /// prefixed with the type name.
+  /// </para>
   /// </remarks>
   /// <param name="obj">The object to stringify. It can be <c>null</c>.</param>
   /// <returns>A human friendly string or the original object.</returns>
