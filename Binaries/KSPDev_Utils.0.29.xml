@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <doc>
     <assembly>
-        <name>KSPDev_Utils.0.29-pre</name>
+        <name>KSPDev_Utils.0.29</name>
     </assembly>
     <members>
         <member name="T:KSPDev.ConfigUtils.AbstractCollectionTypeProto">
@@ -1311,39 +1311,29 @@
         </member>
         <member name="F:KSPDev.GUIUtils.MessageLookup`1.defaultMessage">
             <summary>Message to return when the requested key is not found.</summary>
-            <seealso cref="F:KSPDev.GUIUtils.MessageLookup`1.stockDefaultMessage"/>
-        </member>
-        <member name="F:KSPDev.GUIUtils.MessageLookup`1.stockDefaultMessage">
-            <summary>Default message to return when the requested key is not found.</summary>
-            <seealso cref="F:KSPDev.GUIUtils.MessageLookup`1.defaultMessage"/>
         </member>
         <member name="M:KSPDev.GUIUtils.MessageLookup`1.#ctor(System.Collections.Generic.Dictionary{`0,KSPDev.GUIUtils.Message},KSPDev.GUIUtils.Message)">
             <summary>Constructs a lookup from the provided dictionary.</summary>
             <remarks>
             It's encouraged to construct the dictionary from a statically defined messages instead of
-            creating them in place. The <c>LocalizationTool</c> cann only find the static messages.
+            creating them in place. The <c>LocalizationTool</c> can only find the static messages.
             </remarks>
             <param name="initDict">
             The dictionary to use as the lookup. If <c>null</c> when a new empty dictionary will be
             created for <see cref="F:KSPDev.GUIUtils.MessageLookup`1.messages"/>.
             </param>
             <param name="defaultMessage">
-            The message to return from the <see cref="M:KSPDev.GUIUtils.MessageLookup`1.Lookup(`0,System.Boolean)"/> method when no key found. If omitted then
-            the non-localizable  <see cref="F:KSPDev.GUIUtils.MessageLookup`1.stockDefaultMessage"/> will be returned.
+            The message to return from the <see cref="M:KSPDev.GUIUtils.MessageLookup`1.Lookup(`0)"/> method when no key found.
             </param>
-            <seealso cref="M:KSPDev.GUIUtils.MessageLookup`1.Lookup(`0,System.Boolean)"/>
+            <seealso cref="M:KSPDev.GUIUtils.MessageLookup`1.Lookup(`0)"/>
             <example><code source="Examples/GUIUtils/MessageLookup-Examples.cs" region="MessageLookupDemo_Simple"/></example>
         </member>
-        <member name="M:KSPDev.GUIUtils.MessageLookup`1.Lookup(`0,System.Boolean)">
-            <summary>Find and return a message for the provided key.</summary>
+        <member name="M:KSPDev.GUIUtils.MessageLookup`1.Lookup(`0)">
+            <summary>Finds and returns a message for the provided key.</summary>
             <param name="key">The key to find a message for.</param>
-            <param name="noDefault">
-            If <c>true</c> and no key was found, then <c>null</c> is returned instead of the
-            <see cref="F:KSPDev.GUIUtils.MessageLookup`1.defaultMessage"/>.
-            </param>
             <returns>
-            The relevant message if the <paramref name="key"/> is found. Otherwise, the
-            <see cref="F:KSPDev.GUIUtils.MessageLookup`1.defaultMessage"/> or <c>null</c>.
+            The relevant message if the <paramref name="key"/> is found. Otherwise, either the
+            <see cref="F:KSPDev.GUIUtils.MessageLookup`1.defaultMessage"/> or a string represenation of the key. It's never <c>null</c>. 
             </returns>
             <example><code source="Examples/GUIUtils/MessageLookup-Examples.cs" region="MessageLookupDemo_WithDefault"/></example>
             <example><code source="Examples/GUIUtils/MessageLookup-Examples.cs" region="MessageLookupDemo_WithStockDefault"/></example>
