@@ -155,10 +155,15 @@ public static class KspPaths {
   /// Instructs the method to create all the directories and subdirectories in the specified path,
   /// should they not already exist.
   /// </param>
+  /// <param name="subFolder">The optional sub-folder name to add to the path.</param>
   /// <returns>An absolute path.</returns>
   public static string GetModsDataFilePath(object obj, string fileName,
-                                           bool createMissingDirs = false) {
+                                           bool createMissingDirs = false,
+                                           string subFolder = null) {
     var dataDirectory = Path.Combine(GetModsPath(obj), PluginDataFolderName);
+    if (subFolder != null) {
+      dataDirectory = Path.Combine(dataDirectory, subFolder);
+    }
     Directory.CreateDirectory(dataDirectory);
     return Path.Combine(dataDirectory, fileName);
   }

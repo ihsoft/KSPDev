@@ -1,3 +1,10 @@
+# 0.29 (October 23rd, 2017):
+* [Enhancement] Add the `Fine()` logging methods to spit the logs when the game is set to the extending logging mode ("Verbose Logging"): [`LogUtils.HostedDebugLog`](http://ihsoft.github.io/KSPDev/Utils/html/T_KSPDev_LogUtils_HostedDebugLog.htm).
+* [Enhancement] Add an optional parameter `subFolder` to allow getting/creating the mods data folder: [`FSUtils.KspPaths`](http://ihsoft.github.io/KSPDev/Utils/html/T_KSPDev_FSUtils_KspPaths.htm).
+* [Enhancement] Add a full replacement for the stock logging methods with a new method `Fine` that can produce more logs when the user has requested it (via a stock game's setting): [`LogUtils.DebugEx`](http://ihsoft.github.io/KSPDev/Utils/html/T_KSPDev_LogUtils_DebugEx.htm).
+* [Enhancement] Add a method to disable collisions between a part and a vessel: [`Colliders.SetCollisionIgnores`](http://ihsoft.github.io/KSPDev/Utils/html/M_KSPDev_Colliders_SetCollisionIgnores__2.htm).
+* [Change] Drop `noDefault` parameter in [`GUIUtils.MessageLookup`](http://ihsoft.github.io/KSPDev/Utils/html/T_KSPDev_GUIUtils_MessageLookup_1.htm).
+
 # 0.28 (September 14th, 2017):
 * [Change] Drop the auto-localization feature. It's too error prone. The modules must explicitly call [`LocalizationLoader.LoadItemsInModule`](http://ihsoft.github.io/KSPDev/Utils/html/M_KSPDev_GUIUtils_LocalizationLoader_LoadItemsInModule.htm).
 * [Enhancement] Add an interface for the modules that need localization. [`GUIUtils.IsLocalizableModule`](http://ihsoft.github.io/KSPDev/Utils/html/T_KSPDev_GUIUtils_IsLocalizableModule.htm).
@@ -32,7 +39,7 @@
 * [Enhancement] Allow defining a message which won't try to localize. See [`GUIUtils.LocalizableMessage`](http://ihsoft.github.io/KSPDev/Utils/html/T_KSPDev_GUIUtils_LocalizableMessage.htm).
 * [Enhancement] Add a new utility class to deal with the GUI elements enabled state. See [`GUIUtils.GuiEnabledStateScope`](http://ihsoft.github.io/KSPDev/Utils/html/T_KSPDev_GUIUtils_GuiEnabledStateScope.htm).
 * [Enhancement] Add a new utility class to deal with the GUI elements colors. See [`GUIUtils.GuiColorScope`](http://ihsoft.github.io/KSPDev/Utils/html/T_KSPDev_GUIUtils_GuiColorScope.htm).
-* [Enhancement] Add a localization class to deal with enums and other ordinal types. See [`GUIUtils.MessageLookup`](http://ihsoft.github.io/KSPDev/Utils/html/T_KSPDev_GUIUtils_MessageLookup.htm).
+* [Enhancement] Add a localization class to deal with enums and other ordinal types. See [`GUIUtils.MessageLookup`](http://ihsoft.github.io/KSPDev/Utils/html/T_KSPDev_GUIUtils_MessageLookup_1.htm).
 
 # 0.24 (June 22nd, 2017):
 * [Change] Allow any state transition in `SimpleStateMachine` when the strict mode is OFF: [`ProcessingUtils.SimpleStateMachine`](http://ihsoft.github.io/KSPDev/Utils/html/T_KSPDev_ProcessingUtils_SimpleStateMachine_1.htm).

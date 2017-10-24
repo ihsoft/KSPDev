@@ -89,9 +89,7 @@ public class MessageLookupDemo3 : PartModule {
     Debug.Log(msg.Lookup(MyEnum.One));
     // Prints: "-ONE-"
     Debug.Log(msg.Lookup(MyEnum.Two));
-    // Prints: "#NONE#"
-    Debug.Log(msg.Lookup(MyEnum.Three, noDefault: true) == null ? "NOT found" : "FOUND");
-    // Prints: "NOT found"
+    // Prints: "Two"
   }
 }
 #endregion

@@ -94,7 +94,7 @@ public static class Colliders {
           ? Mathf.Max(combinedBounds.extents.x, combinedBounds.extents.y)
           : Mathf.Min(combinedBounds.extents.x, combinedBounds.extents.y);
     } else {
-      Debug.LogErrorFormat("Unsupported collider: {0}. Ignoring", type);
+      DebugEx.Error("Unsupported collider: {0}. Ignoring", type);
     }
   }
 
@@ -158,12 +158,12 @@ public static class Colliders {
         var collider = primitive.AddComponent<BoxCollider>();
         collider.size = meshSize;
       } else {
-        Debug.LogWarningFormat("Unknown primitive type {0}. Droppping collider.", shapeType.Value);
+        DebugEx.Warning("Unknown primitive type {0}. Droppping collider.", shapeType.Value);
       }
     } else if (colliderType == PrimitiveCollider.Bounds) {
       SetSimpleCollider(primitive, PrimitiveType.Cube, inscribeBoundaryIntoCollider: true);
     } else if (colliderType != PrimitiveCollider.None) {
-      Debug.LogWarningFormat(
+      DebugEx.Warning(
           "Unsupported collider type {0}. Droppping whatever collider part had", colliderType);
     }
   }
@@ -204,10 +204,20 @@ public static class Colliders {
   /// <seealso href="https://docs.unity3d.com/ScriptReference/Physics.IgnoreCollision.html">
   /// Unity3D: Physics.IgnoreCollision</seealso>
   public static void SetCollisionIgnores(Part part1, Part part2, bool ignore) {
-    Debug.LogFormat("Set collision ignores between {0} and {1} to {2}",
-                    DbgFormatter.PartId(part1), DbgFormatter.PartId(part2), ignore);
+    DebugEx.Fine("Set collision ignores between {0} and {1} to {2}", part1, part2, ignore);
     SetCollisionIgnores(
-      Hierarchy.GetPartModelTransform(part1), Hierarchy.GetPartModelTransform(part2), ignore);
+        Hierarchy.GetPartModelTransform(part1), Hierarchy.GetPartModelTransform(part2), ignore);
+  }
+
+  /// <summary>Disables/enables all the collidres between the part and a vessel.</summary>
+  /// <param name="part">The part to adjust colliders for.</param>
+  /// <param name="vessel">The vessel to start/stop colliding with.</param>
+  /// <param name="ignore">The desired state of the collision check.</param>
+  public static void SetCollisionIgnores(Part part, Vessel vessel, bool ignore) {
+    DebugEx.Fine("Set collision ignores between {0} and {1} to {2}", part, vessel, ignore);
+    var modelRoot = Hierarchy.GetPartModelTransform(part);
+    vessel.parts.ForEach(
+        p => SetCollisionIgnores(modelRoot, Hierarchy.GetPartModelTransform(p), ignore));
   }
 }
 
