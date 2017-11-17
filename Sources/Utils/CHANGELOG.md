@@ -1,3 +1,5 @@
+# 0.30 (alpha):
+
 # 0.29 (October 23rd, 2017):
 * [Enhancement] Add the `Fine()` logging methods to spit the logs when the game is set to the extending logging mode ("Verbose Logging"): [`LogUtils.HostedDebugLog`](http://ihsoft.github.io/KSPDev/Utils/html/T_KSPDev_LogUtils_HostedDebugLog.htm).
 * [Enhancement] Add an optional parameter `subFolder` to allow getting/creating the mods data folder: [`FSUtils.KspPaths`](http://ihsoft.github.io/KSPDev/Utils/html/T_KSPDev_FSUtils_KspPaths.htm).
