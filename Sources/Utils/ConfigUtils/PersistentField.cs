@@ -2,10 +2,10 @@
 // Author: igor.zavoychinskiy@gmail.com
 // This software is distributed under Public domain license.
 
+using KSPDev.LogUtils;
 using System;
 using System.Linq;
 using System.Reflection;
-using UnityEngine;
 
 namespace KSPDev.ConfigUtils {
 
@@ -48,9 +48,8 @@ sealed class PersistentField {
                && !ordinaryType.IsEnum);  // IsClass
 
     if (!isCompound && !simpleTypeProto.CanHandle(ordinaryType) && !isCustomSimpleType) {
-      Debug.LogErrorFormat(
-          "Proto {0} cannot handle value in field {1}.{2}",
-          ordinaryType.FullName, fieldInfo.DeclaringType.FullName, fieldInfo.Name);
+      DebugEx.Error("Proto {0} cannot handle value in field {1}.{2}",
+                    ordinaryType.FullName, fieldInfo.DeclaringType.FullName, fieldInfo.Name);
       isDisabled = true;
     }
 
@@ -68,30 +67,29 @@ sealed class PersistentField {
 
       // Disable if cannot deal with the field anyways.
       if (compoundTypeFields.Length == 0 && !typeof(IConfigNode).IsAssignableFrom(ordinaryType)) {
-        Debug.LogErrorFormat(
-            "Compound type in field {0}.{1} has no persistent fields and doesn't implement"
-            + " IConfigNode",
-            fieldInfo.DeclaringType.FullName, fieldInfo.Name);
+        DebugEx.Error("Compound type in field {0}.{1} has no persistent fields and doesn't"
+                      + " implement IConfigNode",
+                      fieldInfo.DeclaringType.FullName, fieldInfo.Name);
         isDisabled = true;
       }
     }
   }
 
-  /// <summary>Writes field into a config node.</summary>
+  /// <summary>Writes the field into a config node.</summary>
   /// <remarks>
   /// This method is not expected to fail since converting any type into string is expected to
-  /// succeeed on any value.
+  /// successful on any value.
   /// </remarks>
-  /// <param name="node">A node to write state to.</param>
-  /// <param name="instance">An owner of the field. Can be <c>null</c> for static fields.</param>
+  /// <param name="node">The node to write the state to.</param>
+  /// <param name="instance">
+  /// The owner of the field. Can be <c>null</c> for the static fields.
+  /// </param>
   public void WriteToConfig(ConfigNode node, object instance) {
     if (isDisabled) {
       return;  // Field is not supported.
     }
     var value = fieldInfo.GetValue(instance);
     if (value == null) {
-      Debug.LogWarningFormat("Skip writing field {0}.{1} due to its value is NULL",
-                             fieldInfo.DeclaringType.FullName, fieldInfo.Name);
       return;
     }
     if (collectionProto != null) {
@@ -129,8 +127,8 @@ sealed class PersistentField {
     if (collectionProto != null) {
       // For collection field use existing object and restore its items. 
       if (value == null) {
-        Debug.LogWarningFormat("Skip reading collection field {0}.{1} due to it's not initalized",
-                               fieldInfo.DeclaringType.FullName, fieldInfo.Name);
+        DebugEx.Warning("Skip reading collection field {0}.{1} due to it's not initalized",
+                        fieldInfo.DeclaringType.FullName, fieldInfo.Name);
         return;
       }
       collectionProto.ClearItems(value);
@@ -159,14 +157,14 @@ sealed class PersistentField {
               }
               collectionProto.AddItem(value, itemValue);
             } catch (Exception ex) {
-              Debug.LogErrorFormat("Cannot parse value \"{0}\" as {1}: {2}",
-                                   itemCfgs, collectionProto.GetItemType().FullName, ex.Message);
+              DebugEx.Error("Cannot parse value \"{0}\" as {1}: {2}",
+                            itemCfgs, collectionProto.GetItemType().FullName, ex.Message);
             }
           }
         }
       }
     } else {
-      // For ordinary field just restore value and assign it to the field.
+      // For ordinary field just restore the value and assign it to the field.
       if (isCompound) {
         if (value != null) {
           DeserializeCompoundFieldsFromNode(ConfigAccessor.GetNodeByPath(node, cfgPath), value);
@@ -188,8 +186,8 @@ sealed class PersistentField {
             }
             fieldInfo.SetValue(instance, fieldValue);
           } catch (Exception ex) {
-            Debug.LogErrorFormat("Cannot parse value \"{0}\" as {1}: {2}",
-                                 cfgValue, fieldInfo.FieldType.FullName, ex.Message);
+            DebugEx.Error("Cannot parse value \"{0}\" as {1}: {2}",
+                          cfgValue, fieldInfo.FieldType.FullName, ex.Message);
           }
         }
       }
@@ -214,8 +212,8 @@ sealed class PersistentField {
   }
   
   /// <summary>Sets a compound type field values from the config node.</summary>
-  /// <param name="node">Node to read values from.</param>
-  /// <param name="instance">Owner of the fields.</param>
+  /// <param name="node">The node to read values from. Cannot be <c>null</c>.</param>
+  /// <param name="instance">The owner of the fields. Cannot be <c>null</c>.</param>
   void DeserializeCompoundFieldsFromNode(ConfigNode node, object instance) {
     if (compoundTypeFields.Length > 0) {
       foreach (var compoundTypeField in compoundTypeFields) {
