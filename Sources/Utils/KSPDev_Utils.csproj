@@ -86,6 +86,7 @@
     <Compile Include="ConfigUtils\PersistentField.cs" />
     <Compile Include="ConfigUtils\PersistentFieldAttribute.cs" />
     <Compile Include="ConfigUtils\KspTypesProto.cs" />
+    <Compile Include="ConfigUtils\StdPersistentGroups.cs" />
     <Compile Include="Extensions\DictExtensions.cs" />
     <Compile Include="Extensions\PosAndRotExtensions.cs" />
     <Compile Include="Extensions\RectExtensions.cs" />
