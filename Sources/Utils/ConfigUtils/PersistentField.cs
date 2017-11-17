@@ -166,11 +166,17 @@ sealed class PersistentField {
     } else {
       // For ordinary field just restore the value and assign it to the field.
       if (isCompound) {
-        if (value != null) {
-          DeserializeCompoundFieldsFromNode(ConfigAccessor.GetNodeByPath(node, cfgPath), value);
-        } else {
-          Debug.LogWarningFormat("Skip reading compound field {0}.{1} due to it's not initalized",
-                                 fieldInfo.DeclaringType.FullName, fieldInfo.Name);
+        var cfgNode = ConfigAccessor.GetNodeByPath(node, cfgPath);
+        if (cfgNode != null) {
+          if (value == null) {
+            try {
+              value = Activator.CreateInstance(fieldInfo.FieldType);
+              fieldInfo.SetValue(instance, value);
+            } catch (Exception ex) {
+              DebugEx.Error("Cannot restore field of type {0}: {1}", fieldInfo.FieldType, ex.Message);
+            }
+          }
+          DeserializeCompoundFieldsFromNode(cfgNode, value);
         }
       } else {
         var cfgValue = ConfigAccessor.GetValueByPath(node, cfgPath);
