@@ -119,84 +119,16 @@ sealed class PersistentField {
     }
   }
 
-  /// <summary>Reads field from a config node.</summary>
-  /// <param name="node">A node to read state from.</param>
-  /// <param name="instance">An owner of the field. Can be <c>null</c> for static fields.</param>
+  /// <summary>Reads the field from a config node.</summary>
+  /// <param name="node">The node to read the state from.</param>
+  /// <param name="instance">
+  /// The owner of the field. It can be <c>null</c> for the static fields.
+  /// </param>
   public void ReadFromConfig(ConfigNode node, object instance) {
-    var value = fieldInfo.GetValue(instance);
     if (collectionProto != null) {
-      // For collection field use existing object and restore its items. 
-      if (value == null) {
-        DebugEx.Warning("Skip reading collection field {0}.{1} due to it's not initalized",
-                        fieldInfo.DeclaringType.FullName, fieldInfo.Name);
-        return;
-      }
-      collectionProto.ClearItems(value);
-      if (isCompound) {
-        // For compound items read nodes and have them parsed.
-        var itemCfgs = ConfigAccessor.GetNodesByPath(node, cfgPath);
-        if (itemCfgs != null) {
-          foreach (var itemCfg in itemCfgs) {
-            var itemValue = Activator.CreateInstance(collectionProto.GetItemType());
-            DeserializeCompoundFieldsFromNode(itemCfg, itemValue);
-            collectionProto.AddItem(value, itemValue);
-          }
-        }
-      } else {
-        // For ordinary items read strings and have them parsed. 
-        var itemCfgs = ConfigAccessor.GetValuesByPath(node, cfgPath);
-        if (itemCfgs != null) {
-          foreach (var itemCfg in itemCfgs) {
-            try {
-              object itemValue;
-              if (isCustomSimpleType) {
-                itemValue = Activator.CreateInstance(collectionProto.GetItemType());
-                ((IPersistentField)itemValue).ParseFromString(itemCfg);
-              } else {
-                itemValue = simpleTypeProto.ParseFromString(itemCfg, collectionProto.GetItemType());
-              }
-              collectionProto.AddItem(value, itemValue);
-            } catch (Exception ex) {
-              DebugEx.Error("Cannot parse value \"{0}\" as {1}: {2}",
-                            itemCfgs, collectionProto.GetItemType().FullName, ex.Message);
-            }
-          }
-        }
-      }
+      ReadCollectionFromConfig(node, instance);
     } else {
-      // For ordinary field just restore the value and assign it to the field.
-      if (isCompound) {
-        var cfgNode = ConfigAccessor.GetNodeByPath(node, cfgPath);
-        if (cfgNode != null) {
-          if (value == null) {
-            try {
-              value = Activator.CreateInstance(fieldInfo.FieldType);
-              fieldInfo.SetValue(instance, value);
-            } catch (Exception ex) {
-              DebugEx.Error("Cannot restore field of type {0}: {1}", fieldInfo.FieldType, ex.Message);
-            }
-          }
-          DeserializeCompoundFieldsFromNode(cfgNode, value);
-        }
-      } else {
-        var cfgValue = ConfigAccessor.GetValueByPath(node, cfgPath);
-        if (cfgValue != null) {
-          try {
-            object fieldValue;
-            if (isCustomSimpleType) {
-              // Prefer the existing instance of the field value when available.
-              fieldValue = value ?? Activator.CreateInstance(fieldInfo.FieldType);
-              ((IPersistentField)fieldValue).ParseFromString(cfgValue);
-            } else {
-              fieldValue = simpleTypeProto.ParseFromString(cfgValue, fieldInfo.FieldType);
-            }
-            fieldInfo.SetValue(instance, fieldValue);
-          } catch (Exception ex) {
-            DebugEx.Error("Cannot parse value \"{0}\" as {1}: {2}",
-                          cfgValue, fieldInfo.FieldType.FullName, ex.Message);
-          }
-        }
-      }
+      ReadOrdinaryFromConfig(node, instance);
     }
   }
 
@@ -228,7 +160,105 @@ sealed class PersistentField {
     }
     var configNode = instance as IConfigNode;
     if (configNode != null) {
-      configNode.Load(node);
+      try {
+        configNode.Load(node);
+      } catch (Exception ex) {
+        DebugEx.Error("Cannot parse value \"{0}\" as {1}: {2}",
+                      node, fieldInfo.FieldType.FullName, ex.Message); 
+      }
+    }
+  }
+
+  /// <summary>Restores a collection from the config node.</summary>
+  /// <remarks>This method never throws.</remarks>
+  /// <param name="node">The node to read the state from.</param>
+  /// <param name="instance">
+  /// The owner of the field. It can be <c>null</c> for the static fields.
+  /// </param>
+  void ReadCollectionFromConfig(ConfigNode node, object instance) {
+    var value = fieldInfo.GetValue(instance);
+    if (value == null) {
+      // Collections are the complex objects, they must exist in order to be restored.
+      DebugEx.Warning("Skip reading collection field {0}.{1} due to it's not initalized",
+                      fieldInfo.DeclaringType.FullName, fieldInfo.Name);
+      return;
+    }
+    collectionProto.ClearItems(value);
+    if (isCompound) {
+      // For compound items read nodes and have them parsed.
+      var itemCfgs = ConfigAccessor.GetNodesByPath(node, cfgPath);
+      if (itemCfgs != null) {
+        foreach (var itemCfg in itemCfgs) {
+          var itemValue = Activator.CreateInstance(collectionProto.GetItemType());
+          DeserializeCompoundFieldsFromNode(itemCfg, itemValue);
+          collectionProto.AddItem(value, itemValue);
+        }
+      }
+    } else {
+      // For ordinary items read strings and have them parsed. 
+      var itemCfgs = ConfigAccessor.GetValuesByPath(node, cfgPath);
+      if (itemCfgs != null) {
+        foreach (var itemCfg in itemCfgs) {
+          try {
+            object itemValue;
+            if (isCustomSimpleType) {
+              itemValue = Activator.CreateInstance(collectionProto.GetItemType());
+              ((IPersistentField)itemValue).ParseFromString(itemCfg);
+            } else {
+              itemValue = simpleTypeProto.ParseFromString(itemCfg, collectionProto.GetItemType());
+            }
+            collectionProto.AddItem(value, itemValue);
+          } catch (Exception ex) {
+            DebugEx.Error("Cannot parse value \"{0}\" as {1}: {2}",
+                          itemCfgs, collectionProto.GetItemType().FullName, ex.Message);
+          }
+        }
+      }
+    }
+  }
+
+  /// <summary>
+  /// Restores an ordinary value collection from the config node. The type can be compound.
+  /// </summary>
+  /// <remarks>This method never throws.</remarks>
+  /// <param name="node">The node to read the state from.</param>
+  /// <param name="instance">
+  /// The owner of the field. It can be <c>null</c> for the static fields.
+  /// </param>
+  void ReadOrdinaryFromConfig(ConfigNode node, object instance) {
+    var value = fieldInfo.GetValue(instance);
+    if (isCompound) {
+      var cfgNode = ConfigAccessor.GetNodeByPath(node, cfgPath);
+      if (cfgNode != null) {
+        if (value == null) {
+          // Try creating the instance using its default constructor.
+          try {
+            value = Activator.CreateInstance(fieldInfo.FieldType);
+            fieldInfo.SetValue(instance, value);
+          } catch (Exception ex) {
+            DebugEx.Error("Cannot restore field of type {0}: {1}", fieldInfo.FieldType, ex.Message);
+          }
+        }
+        DeserializeCompoundFieldsFromNode(cfgNode, value);
+      }
+    } else {
+      var cfgValue = ConfigAccessor.GetValueByPath(node, cfgPath);
+      if (cfgValue != null) {
+        try {
+          object fieldValue;
+          if (isCustomSimpleType) {
+            // Prefer the existing instance of the field value when available.
+            fieldValue = value ?? Activator.CreateInstance(fieldInfo.FieldType);
+            ((IPersistentField)fieldValue).ParseFromString(cfgValue);
+          } else {
+            fieldValue = simpleTypeProto.ParseFromString(cfgValue, fieldInfo.FieldType);
+          }
+          fieldInfo.SetValue(instance, fieldValue);
+        } catch (Exception ex) {
+          DebugEx.Error("Cannot parse value \"{0}\" as {1}: {2}",
+                        cfgValue, fieldInfo.FieldType.FullName, ex.Message);
+        }
+      }
     }
   }
 }
