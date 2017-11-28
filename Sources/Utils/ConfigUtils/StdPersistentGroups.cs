@@ -15,7 +15,7 @@ public static class StdPersistentGroups {
   public const string Default = "";
 
   /// <summary>
-  /// A public group that designates the fields that are saved/loaded durint the vessel persistense.
+  /// A public group that designates the fields that are saved/loaded during the vessel persistense.
   /// </summary>
   /// <remarks>
   /// The fields of this group are expected to be loaded/saved from the related <c>PartModule</c>
