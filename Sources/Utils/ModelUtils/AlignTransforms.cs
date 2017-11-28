@@ -23,7 +23,8 @@ public static class AlignTransforms {
   public static void SnapAlign(Transform source, Transform sourceChild, Transform target) {
     // Don't relay on the localRotation since the child may be not an immediate child.
     var localChildRot = source.rotation.Inverse() * sourceChild.rotation;
-    source.rotation = Quaternion.LookRotation(-target.forward, target.up) * localChildRot;
+    source.rotation =
+        Quaternion.LookRotation(-target.forward, -target.up) * localChildRot.Inverse();
     source.position = source.position - (sourceChild.position - target.position);
   }
 }
