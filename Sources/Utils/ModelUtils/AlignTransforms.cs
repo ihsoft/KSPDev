@@ -2,6 +2,7 @@
 // Author: igor.zavoychinskiy@gmail.com
 // This software is distributed under Public domain license.
 
+using System.Linq;
 using UnityEngine;
 
 namespace KSPDev.ModelUtils {
@@ -40,6 +41,7 @@ public static class AlignTransforms {
   /// <param name="vessel">The vessel to align.</param>
   /// <param name="vesselNode">The node at the vessel to align the target against.</param>
   /// <param name="targetNode">The node at the target to allign the vessel against.</param>
+  /// <seealso cref="PlaceVessel"/>
   public static void SnapAlignVessel(Vessel vessel, Transform vesselNode, Transform targetNode) {
     var localChildRot = vessel.vesselTransform.rotation.Inverse() * vesselNode.rotation;
     vessel.SetRotation(
@@ -49,6 +51,29 @@ public static class AlignTransforms {
     vessel.SetPosition(
         vessel.vesselTransform.position - (vesselNode.position - targetNode.position),
         usePristineCoords: true);
+  }
+
+  /// <summary>Places the vessel at the new position and resets the momentum on it.</summary>
+  /// <remarks>If the vessel had any angular velocity, it will be reset to zero.</remarks>
+  /// <param name="movingVessel">The vessel to place.</param>
+  /// <param name="newPosition">The new position of the vessel.</param>
+  /// <param name="newRotation">The new rotation of the vessel.</param>
+  /// <param name="refVessel">
+  /// The vessel to alignt the velocity with. If it's <c>null</c>, then the velocity on the moving
+  /// vessel will just be zeroed.
+  /// </param>
+  public static void PlaceVessel(
+      Vessel movingVessel, Vector3 newPosition, Quaternion newRotation, Vessel refVessel = null) {
+    movingVessel.SetPosition(newPosition, usePristineCoords: true);
+    movingVessel.SetRotation(newRotation);
+    var refVelocity = Vector3.zero;
+    if (refVessel != null) {
+      refVelocity = refVessel.rootPart.Rigidbody.velocity;
+    }
+    foreach (var p in movingVessel.parts.Where(p => p.rb != null)) {
+      p.rb.velocity = refVelocity;
+      p.rb.angularVelocity = Vector3.zero;
+    }
   }
 }
 
