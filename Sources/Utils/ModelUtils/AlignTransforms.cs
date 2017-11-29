@@ -27,6 +27,29 @@ public static class AlignTransforms {
         Quaternion.LookRotation(-target.forward, -target.up) * localChildRot.Inverse();
     source.position = source.position - (sourceChild.position - target.position);
   }
+
+  /// <summary>
+  /// Aligns the vessel so that its node is located <i>against</i> the target's node. I.e. they are
+  /// "looking" at the each other.
+  /// </summary>
+  /// <remarks>
+  /// This method only does the positioning, and it ignores any physical properties. To avoid the
+  /// physical consequences, the caller must take care of the physical differences (e.g. angular or
+  /// linear speed).
+  /// </remarks>
+  /// <param name="vessel">The vessel to align.</param>
+  /// <param name="vesselNode">The node at the vessel to align the target against.</param>
+  /// <param name="targetNode">The node at the target to allign the vessel against.</param>
+  public static void SnapAlignVessel(Vessel vessel, Transform vesselNode, Transform targetNode) {
+    var localChildRot = vessel.vesselTransform.rotation.Inverse() * vesselNode.rotation;
+    vessel.SetRotation(
+        Quaternion.LookRotation(-targetNode.forward, -targetNode.up) * localChildRot.Inverse());
+    // The vessel position must be calculated and updated *after* the rotation is set, since it can
+    // affect the vessel's node position.
+    vessel.SetPosition(
+        vessel.vesselTransform.position - (vesselNode.position - targetNode.position),
+        usePristineCoords: true);
+  }
 }
 
 }  // namespace

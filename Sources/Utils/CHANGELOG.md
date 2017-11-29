@@ -1,4 +1,5 @@
 # 0.30 (alpha):
+* [Enhancement] Add new method to align vessel via the nodes: [AlignTransforms.SnapAlignVessel](http://ihsoft.github.io/KSPDev/Utils/html/M_KSPDev_ModelUtils_AlignTransforms_SnapAlignVessel.htm).
 * [Fix] Handle persistent fields that are set tp NULL: silently don't store them, and create on restore if there is a config node. See [`ConfigUtils.PersistentFieldAttribute`](http://ihsoft.github.io/KSPDev/Utils/html/T_KSPDev_ConfigUtils_PersistentFieldAttribute.htm).
 * [Fix] Properly calculate the rotation in See [`ModelUtils.PersistentFieldAttribute.AlignTransforms.SnapAlign`](http://ihsoft.github.io/KSPDev/Utils/html/M_KSPDev_ModelUtils_AlignTransforms_SnapAlign.htm).
 
