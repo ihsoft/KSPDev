@@ -15,7 +15,7 @@ public static class AlignTransforms {
   /// </summary>
   /// <remarks>
   /// The object's "look" direction is a <see cref="Transform.forward"/> direction. The resulted
-  /// <see cref="Transform.up"/> direction of the source will be the same as on the target.
+  /// <see cref="Transform.up"/> direction of the source will be the opposite to the target.
   /// </remarks>
   /// <param name="source">The node to align.</param>
   /// <param name="sourceChild">The child node of the source to use as the align point.</param>
