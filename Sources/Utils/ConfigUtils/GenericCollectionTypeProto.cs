@@ -2,6 +2,7 @@
 // Author: igor.zavoychinskiy@gmail.com
 // This software is distributed under Public domain license.
 
+using KSPDev.LogUtils;
 using System;
 using System.Reflection;
 using System.Collections;
@@ -23,7 +24,7 @@ public sealed class GenericCollectionTypeProto : AbstractCollectionTypeProto {
   /// <inheritdoc/>
   public GenericCollectionTypeProto(Type containerType) : base(containerType) {
     if (!containerType.IsGenericType || containerType.GetGenericArguments().Length != 1) {
-      Debug.LogErrorFormat(
+      DebugEx.Error(
           "{0} requires generic container with one type parameter but found: {1}",
           GetType().FullName, containerType.FullName);
       throw new ArgumentException("Invalid container type");
@@ -32,12 +33,12 @@ public sealed class GenericCollectionTypeProto : AbstractCollectionTypeProto {
 
     addMethod = containerType.GetMethod("Add");
     if (addMethod == null) {
-      Debug.LogErrorFormat("Type {0} doesn't have Add() method", containerType.FullName);
+      DebugEx.Error("Type {0} doesn't have Add() method", containerType.FullName);
       throw new ArgumentException("Invalid container type");
     }
     clearMethod = containerType.GetMethod("Clear");
     if (clearMethod == null) {
-      Debug.LogErrorFormat("Type {0} doesn't have Clear() method", containerType.FullName);
+      DebugEx.Error("Type {0} doesn't have Clear() method", containerType.FullName);
       throw new ArgumentException("Invalid container type");
     }
   }

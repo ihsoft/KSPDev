@@ -2,6 +2,7 @@
 // Author: igor.zavoychinskiy@gmail.com
 // This software is distributed under Public domain license.
 
+using KSPDev.LogUtils;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -31,7 +32,7 @@ static class PersistentFieldsFactory {
         var persistentField = new PersistentField(fieldInfo, fieldAttr);
         result.Add(persistentField);
       } catch (Exception ex) {
-        Debug.LogErrorFormat(
+        DebugEx.Error(
             "Ignoring field {0}.{1}: {2}\n{3}",
             type.FullName, fieldInfo.Name, ex.Message, ex.StackTrace);
       }

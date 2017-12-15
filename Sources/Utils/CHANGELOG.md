@@ -1,8 +1,15 @@
+# 0.30 (December 14th, 2017):
+* [Enhancement] Add new method to align vessel via the nodes: [AlignTransforms.SnapAlignVessel](http://ihsoft.github.io/KSPDev/Utils/html/M_KSPDev_ModelUtils_AlignTransforms_SnapAlignVessel.htm).
+* [Enhancement] Add new method to place a vessel: [AlignTransforms.PlaceVessel](http://ihsoft.github.io/KSPDev/Utils/html/M_KSPDev_ModelUtils_AlignTransforms_PlaceVessel.htm).
+* [Change] Drop `traceUpdates` parameter in [`AsyncCall.WaitForPhysics`](http://ihsoft.github.io/KSPDev/Utils/html/M_KSPDev_ProcessingUtils_AsyncCall_WaitForPhysics.htm).
+* [Fix] Handle persistent fields that are set to NULL: silently don't store them, and create on restore if there is a config node. See [`ConfigUtils.PersistentFieldAttribute`](http://ihsoft.github.io/KSPDev/Utils/html/T_KSPDev_ConfigUtils_PersistentFieldAttribute.htm).
+* [Fix] Properly calculate the rotation in [`ModelUtils.PersistentFieldAttribute.AlignTransforms.SnapAlign`](http://ihsoft.github.io/KSPDev/Utils/html/M_KSPDev_ModelUtils_AlignTransforms_SnapAlign.htm).
+
 # 0.29 (October 23rd, 2017):
 * [Enhancement] Add the `Fine()` logging methods to spit the logs when the game is set to the extending logging mode ("Verbose Logging"): [`LogUtils.HostedDebugLog`](http://ihsoft.github.io/KSPDev/Utils/html/T_KSPDev_LogUtils_HostedDebugLog.htm).
 * [Enhancement] Add an optional parameter `subFolder` to allow getting/creating the mods data folder: [`FSUtils.KspPaths`](http://ihsoft.github.io/KSPDev/Utils/html/T_KSPDev_FSUtils_KspPaths.htm).
 * [Enhancement] Add a full replacement for the stock logging methods with a new method `Fine` that can produce more logs when the user has requested it (via a stock game's setting): [`LogUtils.DebugEx`](http://ihsoft.github.io/KSPDev/Utils/html/T_KSPDev_LogUtils_DebugEx.htm).
-* [Enhancement] Add a method to disable collisions between a part and a vessel: [`Colliders.SetCollisionIgnores`](http://ihsoft.github.io/KSPDev/Utils/html/M_KSPDev_Colliders_SetCollisionIgnores__2.htm).
+* [Enhancement] Add a method to disable collisions between a part and a vessel: [`Colliders.SetCollisionIgnores`](http://ihsoft.github.io/KSPDev/Utils/html/M_KSPDev_ModelUtils_Colliders_SetCollisionIgnores_1.htm).
 * [Change] Drop `noDefault` parameter in [`GUIUtils.MessageLookup`](http://ihsoft.github.io/KSPDev/Utils/html/T_KSPDev_GUIUtils_MessageLookup_1.htm).
 
 # 0.28 (September 14th, 2017):

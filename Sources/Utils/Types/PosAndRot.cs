@@ -2,10 +2,10 @@
 // Author: igor.zavoychinskiy@gmail.com
 // This software is distributed under Public domain license.
 
-using System;
-using System.Linq;
 using KSPDev.LogUtils;
 using KSPDev.ConfigUtils;
+using System;
+using System.Linq;
 using UnityEngine;
 
 namespace KSPDev.Types {
@@ -125,7 +125,7 @@ public sealed class PosAndRot : IPersistentField {
       if (failOnError) {
         throw;
       }
-      Debug.LogWarningFormat("Cannot parse PosAndRot, using default: {0}", ex.Message);
+      DebugEx.Warning("Cannot parse PosAndRot, using default: {0}", ex.Message);
     }
     return res;
   }

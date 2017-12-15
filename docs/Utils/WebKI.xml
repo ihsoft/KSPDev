@@ -46,7 +46,9 @@
     <HelpKINode Title="about AlignTransforms class" Url="html/T_KSPDev_ModelUtils_AlignTransforms.htm" />
     <HelpKINode Title="methods" Url="html/Methods_T_KSPDev_ModelUtils_AlignTransforms.htm" />
   </HelpKINode>
+  <HelpKINode Title="AlignTransforms.PlaceVessel method" Url="html/M_KSPDev_ModelUtils_AlignTransforms_PlaceVessel.htm" />
   <HelpKINode Title="AlignTransforms.SnapAlign method" Url="html/M_KSPDev_ModelUtils_AlignTransforms_SnapAlign.htm" />
+  <HelpKINode Title="AlignTransforms.SnapAlignVessel method" Url="html/M_KSPDev_ModelUtils_AlignTransforms_SnapAlignVessel.htm" />
   <HelpKINode Title="AngleType class">
     <HelpKINode Title="AngleType Class" Url="html/T_KSPDev_GUIUtils_AngleType.htm" />
     <HelpKINode Title="about AngleType class" Url="html/T_KSPDev_GUIUtils_AngleType.htm" />
@@ -196,7 +198,6 @@
   <HelpKINode Title="DebugEx.ObjectToString method" Url="html/M_KSPDev_LogUtils_DebugEx_ObjectToString.htm" />
   <HelpKINode Title="DebugEx.Warning method" Url="html/M_KSPDev_LogUtils_DebugEx_Warning.htm" />
   <HelpKINode Title="DecoupleAction method" Url="html/M_KSPDev_KSPInterfaces_IKSPActivateOnDecouple_DecoupleAction.htm" />
-  <HelpKINode Title="Default field" Url="html/F_KSPDev_ConfigUtils_StdPersistentGroups_Default.htm" />
   <HelpKINode Title="DefaultErrorTimeout field" Url="html/F_KSPDev_GUIUtils_ScreenMessaging_DefaultErrorTimeout.htm" />
   <HelpKINode Title="defaultMessage field" Url="html/F_KSPDev_GUIUtils_MessageLookup_1_defaultMessage.htm" />
   <HelpKINode Title="DefaultMessageTimeout field" Url="html/F_KSPDev_GUIUtils_ScreenMessaging_DefaultMessageTimeout.htm" />
@@ -593,7 +594,6 @@
   <HelpKINode Title="KSPDev.ConfigUtils.PersistentFieldsFileAttribute class" Url="html/T_KSPDev_ConfigUtils_PersistentFieldsFileAttribute.htm" />
   <HelpKINode Title="KSPDev.ConfigUtils.PrimitiveTypesProto class" Url="html/T_KSPDev_ConfigUtils_PrimitiveTypesProto.htm" />
   <HelpKINode Title="KSPDev.ConfigUtils.StandardOrdinaryTypesProto class" Url="html/T_KSPDev_ConfigUtils_StandardOrdinaryTypesProto.htm" />
-  <HelpKINode Title="KSPDev.ConfigUtils.StdPersistentGroups class" Url="html/T_KSPDev_ConfigUtils_StdPersistentGroups.htm" />
   <HelpKINode Title="KSPDev.Extensions namespace" Url="html/N_KSPDev_Extensions.htm" />
   <HelpKINode Title="KSPDev.Extensions.DictExtensions class" Url="html/T_KSPDev_Extensions_DictExtensions.htm" />
   <HelpKINode Title="KSPDev.Extensions.PosAndRotExtensions class" Url="html/T_KSPDev_Extensions_PosAndRotExtensions.htm" />
@@ -1025,6 +1025,7 @@
     <HelpKINode Title="constructor" Url="html/M_KSPDev_ConfigUtils_PersistentFieldsFileAttribute__ctor.htm" />
   </HelpKINode>
   <HelpKINode Title="PersistentFieldsFileAttribute.PersistentFieldsFileAttribute constructor" Url="html/M_KSPDev_ConfigUtils_PersistentFieldsFileAttribute__ctor.htm" />
+  <HelpKINode Title="PlaceVessel method" Url="html/M_KSPDev_ModelUtils_AlignTransforms_PlaceVessel.htm" />
   <HelpKINode Title="Play method" Url="html/M_KSPDev_GUIUtils_UISoundPlayer_Play.htm" />
   <HelpKINode Title="PluginDataFolderName field" Url="html/F_KSPDev_FSUtils_KspPaths_PluginDataFolderName.htm" />
   <HelpKINode Title="PluginFolderName field" Url="html/F_KSPDev_FSUtils_KspPaths_PluginFolderName.htm" />
@@ -1221,6 +1222,7 @@
   <HelpKINode Title="SimpleStateMachine&lt;T&gt;.SetTransitionConstraint method" Url="html/M_KSPDev_ProcessingUtils_SimpleStateMachine_1_SetTransitionConstraint.htm" />
   <HelpKINode Title="SimpleStateMachine&lt;T&gt;.SimpleStateMachine constructor" Url="html/M_KSPDev_ProcessingUtils_SimpleStateMachine_1__ctor.htm" />
   <HelpKINode Title="SnapAlign method" Url="html/M_KSPDev_ModelUtils_AlignTransforms_SnapAlign.htm" />
+  <HelpKINode Title="SnapAlignVessel method" Url="html/M_KSPDev_ModelUtils_AlignTransforms_SnapAlignVessel.htm" />
   <HelpKINode Title="SolidFuel field" Url="html/F_KSPDev_ResourceUtils_StockResourceNames_SolidFuel.htm" />
   <HelpKINode Title="SpatialSounds class">
     <HelpKINode Title="SpatialSounds Class" Url="html/T_KSPDev_SoundsUtils_SpatialSounds.htm" />
@@ -1240,12 +1242,6 @@
   <HelpKINode Title="StandardOrdinaryTypesProto.ParseFromString method" Url="html/M_KSPDev_ConfigUtils_StandardOrdinaryTypesProto_ParseFromString.htm" />
   <HelpKINode Title="StandardOrdinaryTypesProto.SerializeToString method" Url="html/M_KSPDev_ConfigUtils_StandardOrdinaryTypesProto_SerializeToString.htm" />
   <HelpKINode Title="StandardOrdinaryTypesProto.StandardOrdinaryTypesProto constructor" Url="html/M_KSPDev_ConfigUtils_StandardOrdinaryTypesProto__ctor.htm" />
-  <HelpKINode Title="StdPersistentGroups class">
-    <HelpKINode Title="StdPersistentGroups Class" Url="html/T_KSPDev_ConfigUtils_StdPersistentGroups.htm" />
-    <HelpKINode Title="about StdPersistentGroups class" Url="html/T_KSPDev_ConfigUtils_StdPersistentGroups.htm" />
-    <HelpKINode Title="fields" Url="html/Fields_T_KSPDev_ConfigUtils_StdPersistentGroups.htm" />
-  </HelpKINode>
-  <HelpKINode Title="StdPersistentGroups.Default field" Url="html/F_KSPDev_ConfigUtils_StdPersistentGroups_Default.htm" />
   <HelpKINode Title="StockResourceNames class">
     <HelpKINode Title="StockResourceNames Class" Url="html/T_KSPDev_ResourceUtils_StockResourceNames.htm" />
     <HelpKINode Title="about StockResourceNames class" Url="html/T_KSPDev_ResourceUtils_StockResourceNames.htm" />

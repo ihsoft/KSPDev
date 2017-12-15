@@ -2,6 +2,7 @@
 // Author: igor.zavoychinskiy@gmail.com
 // This software is distributed under Public domain license.
 
+using KSPDev.LogUtils;
 using UnityEngine;
 
 namespace KSPDev.ConfigUtils {
@@ -30,11 +31,11 @@ public static class PartConfig {
     }
     if (res == null) {
       if (partNode == null) {
-        Debug.LogWarningFormat("Cannot find config for module {0} in the config of part {1}",
-                               module.moduleName, module.part.name);
+        DebugEx.Warning("Cannot find config for module {0} in the config of part {1}",
+                        module.moduleName, module.part);
       } else {
-        Debug.LogWarningFormat("Cannot find config for module {0} in the custom's config: {1}",
-                               module.moduleName, partNode);
+        DebugEx.Warning("Cannot find config for module {0} in the custom's config: {1}",
+                        module.moduleName, partNode);
       }
       res = new ConfigNode("MODULE");
     }
