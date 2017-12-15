@@ -126,7 +126,6 @@ public static class AsyncCall {
   /// least once, and teh first call happens immediately. The argument tells how many frames the
   /// method was waiting so far. For the very first call it's, obviously, zero.
   /// </param>
-  /// <param name="traceUpdates">When <c>true</c> every wiating cycle will be logged.</param>
   /// <returns>Enumerator that can be used as coroutine target.</returns>
   /// <example>
   /// <code><![CDATA[
@@ -168,10 +167,9 @@ public static class AsyncCall {
       Func<bool> waitUntilFn,
       Action success = null,
       Action failure = null,
-      Action<int> update = null,
-      bool traceUpdates = false) {
+      Action<int> update = null) {
     return mono.StartCoroutine(
-        AsyncWaitForPhysics(maxFrames, waitUntilFn, success, failure, update, traceUpdates));
+        AsyncWaitForPhysics(maxFrames, waitUntilFn, success, failure, update));
   }
 
   /// <summary>Async version of <see cref="WaitForPhysics"/>.</summary>
@@ -190,7 +188,6 @@ public static class AsyncCall {
   /// least once, and teh first call happens immediately. The argument tells how many frames the
   /// method was waiting so far. For the very first call it's, obviously, zero.
   /// </param>
-  /// <param name="traceUpdates">When <c>true</c> every wiating cycle will be logged.</param>
   /// <returns>Enumerator that can be used as a coroutine target.</returns>
   /// <seealso cref="WaitForPhysics"/>
   /// <example>
@@ -217,17 +214,14 @@ public static class AsyncCall {
   public static IEnumerator AsyncWaitForPhysics(int maxFrames, Func<bool> waitUntilFn,
                                                 Action success = null,
                                                 Action failure = null,
-                                                Action<int> update = null,
-                                                bool traceUpdates = false) {
+                                                Action<int> update = null) {
     bool res = false;
     for (var i = 0; i < maxFrames; i++) {
       if (update != null) {
         update(i);
       }
       res = waitUntilFn();
-      if (traceUpdates) {
         Debug.LogFormat("Waiting for physics: frame={0}, condition={1}", i, res);
-      }
       if (res) {
         break;
       }
