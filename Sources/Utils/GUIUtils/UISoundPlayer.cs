@@ -2,6 +2,7 @@
 // Author: igor.zavoychinskiy@gmail.com
 // This software is distributed under Public domain license.
 
+using KSPDev.LogUtils;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -89,10 +90,10 @@ public sealed class UISoundPlayer : MonoBehaviour {
       return audio;
     }
     if (!GameDatabase.Instance.ExistsAudioClip(audioPath)) {
-      Debug.LogErrorFormat("Cannot locate audio clip: {0}", audioPath);
+      DebugEx.Error("Cannot locate audio clip: {0}", audioPath);
       return null;
     }
-    Debug.LogFormat("Loading sound audio clip: {0}", audioPath);
+    DebugEx.Fine("Loading sound audio clip: {0}", audioPath);
     audio = gameObject.AddComponent<AudioSource>();
     audio.volume = GameSettings.UI_VOLUME;
     audio.spatialBlend = 0;  // Set as 2D audiosource

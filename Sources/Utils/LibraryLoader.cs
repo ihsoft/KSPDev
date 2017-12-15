@@ -2,8 +2,9 @@
 // Author: igor.zavoychinskiy@gmail.com
 // This software is distributed under Public domain license.
 
-using KSPDev.GUIUtils;
 using KSPDev.FSUtils;
+using KSPDev.GUIUtils;
+using KSPDev.LogUtils;
 using System;
 using System.Linq;
 using UnityEngine;
@@ -39,7 +40,7 @@ class LibraryLoader : MonoBehaviour {
         "{0} (v{1})",
         KspPaths.MakeRelativePathToGameData(assembly.Location),
         assembly.GetName().Version);
-    Debug.LogFormat("Loading KSPDevUtils: {0}", assemblyVersionStr);
+    DebugEx.Info("Loading KSPDevUtils: {0}", assemblyVersionStr);
 
     // Install the localization callbacks. The object must not be destroyed.
     UnityEngine.Object.DontDestroyOnLoad(gameObject);

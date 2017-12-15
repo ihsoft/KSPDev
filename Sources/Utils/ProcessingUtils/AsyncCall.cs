@@ -2,6 +2,7 @@
 // Author: igor.zavoychinskiy@gmail.com
 // This software is distributed under Public domain license.
 
+using KSPDev.LogUtils;
 using System;
 using System.Collections;
 using UnityEngine;
@@ -221,7 +222,7 @@ public static class AsyncCall {
         update(i);
       }
       res = waitUntilFn();
-        Debug.LogFormat("Waiting for physics: frame={0}, condition={1}", i, res);
+      DebugEx.Fine("Waiting for physics: frame={0}, condition={1}", i, res);
       if (res) {
         break;
       }

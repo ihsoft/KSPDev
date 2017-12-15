@@ -218,7 +218,7 @@ public static class Hierarchy {
   public static Transform GetPartModelTransform(Part part) {
     var modelTransform = part.FindModelTransform("model");
     if (modelTransform == null) {
-      Debug.LogErrorFormat("Cannot find model on part {0}", part.name);
+      DebugEx.Error("Cannot find model on part {0}", part.name);
       return part.transform;
     }
     return modelTransform;

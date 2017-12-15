@@ -83,10 +83,10 @@ public class LocalizationLoader : MonoBehaviour {
         } else if (locItem.spec == KspFieldUnitsSpec) {
           field.guiUnits = locItem.GetLocalizedString();
         } else {
-          Debug.LogWarningFormat("Bad specialization tag for field {0}.{1}: {2}",
-                                 field.FieldInfo.FieldType.FullName,
-                                 field.FieldInfo.Name,
-                                 locItem.spec);
+          DebugEx.Warning("Bad specialization tag for field {0}.{1}: {2}",
+                          field.FieldInfo.FieldType.FullName,
+                          field.FieldInfo.Name,
+                          locItem.spec);
         }
       }
     }
@@ -126,8 +126,8 @@ public class LocalizationLoader : MonoBehaviour {
   /// <remarks>It updates all the currently loaded vessels.</remarks>
   void OnUpdateLocalizationVersion() {
     LocalizableMessage.systemLocVersion++;
-    Debug.LogWarningFormat("Localization version is updated to {0} in: {1}",
-                           LocalizableMessage.systemLocVersion, LibraryLoader.assemblyVersionStr);
+    DebugEx.Warning("Localization version is updated to {0} in: {1}",
+                    LocalizableMessage.systemLocVersion, LibraryLoader.assemblyVersionStr);
 
     // FLIGHT: Update the part modules in all the loaded vessels.
     if (HighLogic.LoadedSceneIsFlight) {

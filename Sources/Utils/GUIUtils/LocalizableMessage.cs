@@ -2,8 +2,9 @@
 // Author: igor.zavoychinskiy@gmail.com
 // This software is distributed under Public domain license.
 
-using System;
 using KSP.Localization;
+using KSPDev.LogUtils;
+using System;
 using UnityEngine;
 
 namespace KSPDev.GUIUtils {
@@ -101,8 +102,8 @@ public class LocalizableMessage {
     if (tag == null || !Localizer.TryGetStringByTag(tag, out _localizedTemplate)) {
       _localizedTemplate = defaultTemplate;
       if (tag != null && GameSettings.LOG_MISSING_KEYS_TO_FILE) {
-        Debug.LogWarningFormat("Cannot find localized content for: tag={0}, lang={1}",
-                               tag, Localizer.CurrentLanguage);
+        DebugEx.Warning("Cannot find localized content for: tag={0}, lang={1}",
+                        tag, Localizer.CurrentLanguage);
       }
     }
     loadedLocVersion = systemLocVersion;
