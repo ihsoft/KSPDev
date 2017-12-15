@@ -1,4 +1,4 @@
-# 0.30 (alpha):
+# 0.30 (December 14th, 2017):
 * [Enhancement] Add new method to align vessel via the nodes: [AlignTransforms.SnapAlignVessel](http://ihsoft.github.io/KSPDev/Utils/html/M_KSPDev_ModelUtils_AlignTransforms_SnapAlignVessel.htm).
 * [Enhancement] Add new method to place a vessel: [AlignTransforms.PlaceVessel](http://ihsoft.github.io/KSPDev/Utils/html/M_KSPDev_ModelUtils_AlignTransforms_PlaceVessel.htm).
 * [Change] Drop `traceUpdates` parameter in [`AsyncCall.WaitForPhysics`](http://ihsoft.github.io/KSPDev/Utils/html/M_KSPDev_ProcessingUtils_AsyncCall_WaitForPhysics.htm).
