@@ -160,11 +160,11 @@ public sealed class PosAndRot : IPersistentField {
   /// Ensures that all the angles are in the range of <c>[0; 360)</c>. 
   /// </summary>
   void NormlizeAngles() {
-    while (_euler.x > 360) _euler.x -= 360;
+    while (_euler.x >= 360) _euler.x -= 360;
     while (_euler.x < 0) _euler.x += 360;
-    while (_euler.y > 360) _euler.y -= 360;
+    while (_euler.y >= 360) _euler.y -= 360;
     while (_euler.y < 0) _euler.y += 360;
-    while (_euler.z > 360) _euler.z -= 360;
+    while (_euler.z >= 360) _euler.z -= 360;
     while (_euler.z < 0) _euler.z += 360;
   }
 }
