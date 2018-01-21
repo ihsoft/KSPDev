@@ -11,92 +11,69 @@ namespace KSPDev.ProcessingUtils {
 
 /// <summary>Set of tools to execute a delayed code.</summary>
 /// <remarks>
-/// Use these tools when code needs to be executed with some delay or at a specific moment of the
-/// game.
+/// Use these tools when the code needs to be executed with some delay or at the specific moment
+/// of time.
 /// </remarks>
 public static class AsyncCall {
-  /// <summary>Delays execution of the delegate till the end of the current frame.</summary>
+  /// <summary>Delays execution of the delegate till the end of the frame.</summary>
   /// <remarks>
-  /// Caller can continue executing its logic. The delegate will be called at the end of
-  /// the frame via Unity StartCoroutine mechanism. The delegate will be called only once.
+  /// The delegate will trigger at the end of the selected frame update.
+  /// If <paramref name="skipFrames"/> is set to <c>0</c>, then the delegate will be
+  /// called at the end of the current frame. Calling this method in the "end of frame" callback
+  /// will <i>not</i> schedule the callback on the next frame, the execution will just be placed at
+  /// the end of the current frame execution queue. This behavior can be used to execute a logic
+  /// that depends on some other delayed logic. In order to schedule the execution on the frame
+  /// different from the current, specify the <paramref name="skipFrames"/> parameter.
   /// </remarks>
   /// <param name="mono">
-  /// Unity object to run coroutine on. If this object dies then the async call will not be invoked.
+  /// The Unity object to run the coroutine on. If this object dies, then the async call will not be
+  /// invoked.
   /// </param>
-  /// <param name="action">Delegate to execute.</param>
-  /// <returns>Coroutine instance.</returns>
-  /// <example>
-  /// <code><![CDATA[
-  /// class MyComponent : MonoBehaviour {
-  ///   void Update() {
-  ///     // Call the method at the end of the current frame.
-  ///     AsyncCall.CallOnEndOfFrame(this, () => Debug.LogFormat("Async call!"));
-  ///   }
-  /// }
-  /// ]]></code>
-  /// </example>
+  /// <param name="action">The delegate to execute.</param>
+  /// <param name="skipFrames">The number of frames to skip.</param>
+  /// <returns>The coroutine instance.</returns>
   /// <seealso href="https://docs.unity3d.com/Manual/Coroutines.html">Unity 3D: Coroutines</seealso>
   /// <seealso href="https://docs.unity3d.com/ScriptReference/WaitForEndOfFrame.html">
   /// Unity 3D: WaitForEndOfFrame</seealso>
-  public static Coroutine CallOnEndOfFrame(MonoBehaviour mono, Action action) {
-    return mono.StartCoroutine(WaitForEndOfFrameCoroutine(action));
+  /// <example><code source="Examples/ProcessingUtils/AsyncCall-Examples.cs" region="EndOfFrame"/></example>
+  public static Coroutine CallOnEndOfFrame(MonoBehaviour mono, Action action, int skipFrames = 0) {
+    return mono.StartCoroutine(WaitForEndOfFrameCoroutine(action, skipFrames));
   }
 
   /// <summary>Delays execution of the delegate for the specified amount of time.</summary>
-  /// <remarks>
-  /// Caller can continue executing its logic. The delegate will be called once the timeout is
-  /// expired via Unity StartCoroutine mechanism. The delegate will be called only once.
-  /// <para>Using returned instance caller may cancel the call before the timeout expired.</para>
-  /// </remarks>
+  /// <remarks>The delegate will be called when the timeout is expired.</remarks>
   /// <param name="mono">
-  /// Unity object to run coroutine on. If this object dies then the async call will not be invoked.
+  /// The Unity object to run the coroutine on. If this object dies, then the async call will not be
+  /// invoked.
   /// </param>
-  /// <param name="seconds">Timeout in seconds.</param>
-  /// <param name="action">Delegate to execute.</param>
-  /// <returns>Coroutine instance.</returns>
-  /// <example>
-  /// <code><![CDATA[
-  /// class MyComponent : MonoBehaviour {
-  ///   void Update() {
-  ///     // Call the method at the end of the current frame.
-  ///     AsyncCall.CallOnTimeout(this, 5.0f, () => Debug.LogFormat("Async call!"));
-  ///   }
-  /// }
-  /// ]]></code>
-  /// </example>
+  /// <param name="seconds">The timeout in seconds.</param>
+  /// <param name="action">The delegate to execute.</param>
+  /// <returns>The coroutine instance.</returns>
   /// <seealso href="https://docs.unity3d.com/Manual/Coroutines.html">Unity 3D: Coroutines</seealso>
   /// <seealso href="https://docs.unity3d.com/ScriptReference/WaitForSeconds.html">
   /// Unity 3D: WaitForSeconds</seealso>
+  /// <example><code source="Examples/ProcessingUtils/AsyncCall-Examples.cs" region="CallOnTimeout"/></example>
   public static Coroutine CallOnTimeout(MonoBehaviour mono, float seconds, Action action) {
     return mono.StartCoroutine(WaitForSecondsCoroutine(seconds, action));
   }
 
   /// <summary>Delays execution of the delegate till the next fixed update.</summary>
   /// <remarks>
-  /// Caller can continue executing its logic. The delegate will be called at the beginning of the
-  /// next fixed (physics) update via Unity StartCoroutine mechanism. The delegate will be called
-  /// only once.
+  /// The delegate will be called during the following fixed (physics) update.
   /// </remarks>
   /// <param name="mono">
-  /// Unity object to run coroutine on. If this object dies then the async call will not be invoked.
+  /// The Unity object to run the coroutine on. If this object dies, then the async call will not be
+  /// invoked.
   /// </param>
-  /// <param name="action">Delegate to execute.</param>
-  /// <returns>Coroutine instance.</returns>
-  /// <example>
-  /// <code><![CDATA[
-  /// class MyComponent : MonoBehaviour {
-  ///   void Update() {
-  ///     // Call the method at the end of the current frame.
-  ///     AsyncCall.CallOnFixedUpdate(this, () => Debug.LogFormat("Async call!"));
-  ///   }
-  /// }
-  /// ]]></code>
-  /// </example>
+  /// <param name="action">The delegate to execute.</param>
+  /// <param name="skipFrames">The number of fixed frames to skip.</param>
+  /// <returns>The coroutine instance.</returns>
   /// <seealso href="https://docs.unity3d.com/Manual/Coroutines.html">Unity 3D: Coroutines</seealso>
   /// <seealso href="https://docs.unity3d.com/ScriptReference/WaitForFixedUpdate.html">
   /// Unity 3D: WaitForFixedUpdate</seealso>
-  public static Coroutine CallOnFixedUpdate(MonoBehaviour mono, Action action) {
-    return mono.StartCoroutine(WaitForFixedUpdateCoroutine(action));
+  /// <example><code source="Examples/ProcessingUtils/AsyncCall-Examples.cs" region="FixedFrame"/></example>
+  public static Coroutine CallOnFixedUpdate(MonoBehaviour mono, Action action, int skipFrames = 0) {
+    return mono.StartCoroutine(WaitForFixedUpdateCoroutine(action, skipFrames));
   }
 
   /// <summary>
@@ -104,65 +81,40 @@ public static class AsyncCall {
   /// number of fixed frame updates.
   /// </summary>
   /// <remarks>
-  /// Can be used when a particular state of the game is required to perform an action. Method
-  /// provides ability to define for how long to wait, what to do while waiting, and what to execute
-  /// when target state is reached or missed.
+  /// Can be used when the code expects some specific physical state of the game. The method
+  /// allows to define for how long to wait, what to do while waiting, and what to execute when
+  /// target state is reached or missed.
   /// </remarks>
   /// <param name="mono">
-  /// Unity object to run coroutine on. If this object dies then waiting will be aborted without
-  /// calling any callbacks.
+  /// The Unity object to run the coroutine on. If this object dies, then the async call will not be
+  /// invoked.
   /// </param>
-  /// <param name="maxFrames">Number of fixed frame updates to wait before giving up.</param>
+  /// <param name="maxFrames">The number of fixed frame updates to wait before giving up.</param>
   /// <param name="waitUntilFn">
-  /// State checking function. It should return <c>true</c> once target state is reached. The very
-  /// first execution happens immediately, <i>before</i> exiting from the method. If this
-  /// this execution returned <c>true</c> then the successful callback is also called immediately. 
+  /// The state checking function. It should return <c>true</c> once the target state is reached.
+  /// The very first execution happens immediately on the method call, <i>before</i> exiting from
+  /// the method. If this execution returns <c>true</c>, then the successful callback is also called
+  /// immediately.
   /// </param>
-  /// <param name="success">Callback to execute when state has been successfully reached.</param>
+  /// <param name="success">
+  /// The callback to execute when the state has been successfully reached.
+  /// </param>
   /// <param name="failure">
-  /// Callabck to execute when state has not been reached before frame update limit is exhausted.
+  /// The callabck to execute when the state has not been reached before the frame update limit is
+  /// exhausted.
   /// </param>
   /// <param name="update">
-  /// Callback to execute every fixed frame update while waiting. This callabck will be called at
-  /// least once, and teh first call happens immediately. The argument tells how many frames the
-  /// method was waiting so far. For the very first call it's, obviously, zero.
+  /// The callback to execute every fixed frame update while waiting. This callabck will be called
+  /// at least once, and the first call happens immediately. The argument tells how many frames the
+  /// method was waiting so far. For the very first call it's <c>0</c>.
   /// </param>
-  /// <returns>Enumerator that can be used as coroutine target.</returns>
-  /// <example>
-  /// <code><![CDATA[
-  /// class MyComponent : MonoBehaviour {
-  ///   void Awake() {
-  ///     var count = 5;
-  ///     Debug.Log("Before start waiting");
-  ///     AsyncCall.WaitForPhysics(
-  ///         this, 10,
-  ///         () => --count == 0,
-  ///         success: () => Debug.Log("Success!"),
-  ///         failure: () => Debug.Log("Failure!"),
-  ///         update: x => Debug.LogFormat("...waiting: {0}", x));
-  ///     Debug.Log("After start waiting");
-  ///   }
-  /// }
-  /// ]]></code>
-  /// <para>
-  /// This example will print the following:
-  /// </para>
-  /// <code><![CDATA[
-  /// // Before start waiting
-  /// // ...waiting: 0
-  /// // After start waiting
-  /// // ...waiting: 1
-  /// // ...waiting: 2
-  /// // ...waiting: 3
-  /// // ...waiting: 4
-  /// // Success!
-  /// ]]></code>
-  /// <para>If you adjust <c>count</c> to <c>11</c> then the last message will be "Failure!".</para>
-  /// </example>
+  /// <returns>The coroutine instance.</returns>
   /// <seealso cref="AsyncWaitForPhysics"/>
   /// <seealso href="https://docs.unity3d.com/Manual/Coroutines.html">Unity 3D: Coroutines</seealso>
   /// <seealso href="https://docs.unity3d.com/ScriptReference/WaitForFixedUpdate.html">
   /// Unity 3D: WaitForFixedUpdate</seealso>
+  /// <example><code source="Examples/ProcessingUtils/AsyncCall-Examples.cs" region="WaitForPhysics1"/></example>
+  /// <example><code source="Examples/ProcessingUtils/AsyncCall-Examples.cs" region="WaitForPhysics2"/></example>
   public static Coroutine WaitForPhysics(
       MonoBehaviour mono,  int maxFrames,
       Func<bool> waitUntilFn,
@@ -174,22 +126,26 @@ public static class AsyncCall {
   }
 
   /// <summary>Async version of <see cref="WaitForPhysics"/>.</summary>
-  /// <param name="maxFrames">Number of fixed frame updates to wait before giving up.</param>
+  /// <param name="maxFrames">The number of fixed frame updates to wait before giving up.</param>
   /// <param name="waitUntilFn">
-  /// State checking function. It should return <c>true</c> once target state is reached. The very
-  /// first execution happens immediately, <i>before</i> exiting from the method. If this
-  /// this execution returned <c>true</c> then the successful callback is also called immediately. 
+  /// The state checking function. It should return <c>true</c> once the target state is reached.
+  /// The very first execution happens immediately on the method call, <i>before</i> exiting from
+  /// the method. If this execution returns <c>true</c>, then the successful callback is also called
+  /// immediately.
   /// </param>
-  /// <param name="success">Callback to execute when state has been successfully reached.</param>
+  /// <param name="success">
+  /// The callback to execute when the state has been successfully reached.
+  /// </param>
   /// <param name="failure">
-  /// Callabck to execute when state has not been reached before frame update limit is exhausted.
+  /// The callabck to execute when the state has not been reached before the frame update limit is
+  /// exhausted.
   /// </param>
   /// <param name="update">
-  /// Callback to execute every fixed frame update while waiting. This callabck will be called at
-  /// least once, and teh first call happens immediately. The argument tells how many frames the
-  /// method was waiting so far. For the very first call it's, obviously, zero.
+  /// The callback to execute every fixed frame update while waiting. This callabck will be called
+  /// at least once, and the first call happens immediately. The argument tells how many frames the
+  /// method was waiting so far. For the very first call it's <c>0</c>.
   /// </param>
-  /// <returns>Enumerator that can be used as a coroutine target.</returns>
+  /// <returns>The enumerator that can be used as a coroutine target.</returns>
   /// <seealso cref="WaitForPhysics"/>
   /// <example>
   /// This method is useful when synchronous wait is needed within a coroutine. Instead of
@@ -240,7 +196,10 @@ public static class AsyncCall {
   }
 
   #region Coroutines
-  static IEnumerator WaitForEndOfFrameCoroutine(Action action) {
+  static IEnumerator WaitForEndOfFrameCoroutine(Action action, int skipFrames) {
+    while (skipFrames-- > 0) {
+      yield return null;
+    }
     yield return new WaitForEndOfFrame();
     action();
   }
@@ -250,7 +209,10 @@ public static class AsyncCall {
     action();
   }
 
-  static IEnumerator WaitForFixedUpdateCoroutine(Action action) {
+  static IEnumerator WaitForFixedUpdateCoroutine(Action action, int skipFrames) {
+    while (skipFrames-- > 0) {
+      yield return new WaitForFixedUpdate();
+    }
     yield return new WaitForFixedUpdate();
     action();
   }

@@ -89,6 +89,7 @@
     <Compile Include="GUIUtils\UISoundPlayer-Examples.cs" />
     <Compile Include="LogUtils\HostedDebugLog-Examples.cs" />
     <Compile Include="PartUtils\PartModuleUtils-Examples.cs" />
+    <Compile Include="ProcessingUtils\AsyncCall-Examples.cs" />
     <Compile Include="ProcessingUtils\SimpleStateMachine-Examples.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ResourceUtils\StockResourceNames-Examples.cs" />
