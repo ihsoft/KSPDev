@@ -72,8 +72,22 @@ public sealed class SimpleStateMachine<T> where T : struct, IConvertible {
   /// <example><code source="Examples/ProcessingUtils/SimpleStateMachine-Examples.cs" region="SimpleStateMachineFree"/></example>
   public delegate void OnStateChangeHandler(T? fromState, T? toState);
 
+  /// <summary>Event that fires before the state machine has changed its state.</summary>
+  /// <remarks>
+  /// The event is fired <i>before</i> the new state has been applied to the state machine and the
+  /// transition callbacks are called, but <i>after</i> the transition validation is done. I.e. this
+  /// event won't trigger if the transition failed due to the constraints.
+  /// </remarks>
+  /// <seealso cref="currentState"/>
+  /// <seealso cref="OnStateChangeHandler"/>
+  /// <example><code source="Examples/ProcessingUtils/SimpleStateMachine-Examples.cs" region="SimpleStateMachineFree"/></example>
+  public event OnStateChangeHandler onBeforeTransition;
+
   /// <summary>Event that fires when the state machine has changed its state.</summary>
-  /// <remarks>The event is fired <i>after</i> the actual state change.</remarks>
+  /// <remarks>
+  /// The event is fired <i>after</i> the new state has been applied to the state machine and all
+  /// the transition callbacks are handled.
+  /// </remarks>
   /// <seealso cref="currentState"/>
   /// <seealso cref="OnStateChangeHandler"/>
   /// <example><code source="Examples/ProcessingUtils/SimpleStateMachine-Examples.cs" region="SimpleStateMachineFree"/></example>
@@ -213,6 +227,9 @@ public sealed class SimpleStateMachine<T> where T : struct, IConvertible {
           throw new InvalidOperationException(string.Format(
               "Transition {0}=>{1} is not allowed", oldState.Value, newState.Value));
         }
+      }
+      if (onBeforeTransition != null) {
+        onBeforeTransition(oldState, newState);
       }
       if (oldState.HasValue) {
         FireLeaveState(newState);

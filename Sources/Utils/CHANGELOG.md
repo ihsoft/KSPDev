@@ -1,4 +1,5 @@
 # 0.31-pre:
+* [Enhancement] Add `onBeforeTransition` event into: [ProcessingUtils.SimpleStateMachine](http://ihsoft.github.io/KSPDev/Utils/html/T_KSPDev_ProcessingUtils_SimpleStateMachine_1).
 
 # 0.30 (December 14th, 2017):
 * [Enhancement] Add new method to align vessel via the nodes: [AlignTransforms.SnapAlignVessel](http://ihsoft.github.io/KSPDev/Utils/html/M_KSPDev_ModelUtils_AlignTransforms_SnapAlignVessel.htm).
