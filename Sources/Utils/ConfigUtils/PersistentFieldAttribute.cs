@@ -148,24 +148,9 @@ namespace KSPDev.ConfigUtils {
 /// }
 /// ]]></code>
 /// <para>
-/// It's important to note that complex (a.k.a. "compound") types like this are only handled when
-/// the field's value is not <c>null</c>. I.e. in the following example the value of <c>field1</c>
-/// will not be restored even if there is a node in the config file:
-/// </para>
-/// <code><![CDATA[
-/// class MyModule : PartModule {
-///   [PersistentField("field1")]
-///   public NodeCustomType field1;
-///
-///   [PersistentField("field2")]
-///   public NodeCustomType field2 = new NodeCustomType();
-/// }
-/// ]]></code>
-/// <para>
 /// In case of your type is really simple, and you can serialize it into a plain string, you may
 /// choose to implement <see cref="IPersistentField"/> instead. It works in a similar way but the
-/// source/target of the persistense is a string instead of a config node. Simple types deal with
-/// <c>null</c>'s in a different way (read the docs for the interface).
+/// source/target of the persistense is a string instead of a config node.
 /// </para>
 /// <para>
 /// If your custom type is a collection that cannot be handled by the standard proto you can provide
