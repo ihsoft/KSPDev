@@ -14,9 +14,9 @@ public static class PartConfig {
   /// It takes into account the module index, so in case of the part has multiple modules of the
   /// same type, the right module config will be returned.
   /// </remarks>
-  /// <param name="module">Module to get config for.</param>
+  /// <param name="module">The module to get config for.</param>
   /// <param name="partNode">
-  /// Part's config to use. If omitted then part's prefab config is used.
+  /// The part's config to use. If omitted then part's prefab config is used.
   /// </param>
   /// <returns>Either the found config node or an empty node. It's never <c>null</c>.</returns>
   public static ConfigNode GetModuleConfig(PartModule module, ConfigNode partNode = null) {
