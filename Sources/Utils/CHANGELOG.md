@@ -2,6 +2,7 @@
 * [Enhancement] Add `onBeforeTransition` event into: [ProcessingUtils.SimpleStateMachine](http://ihsoft.github.io/KSPDev/Utils/html/T_KSPDev_ProcessingUtils_SimpleStateMachine_1).
 * [Enhancement] Better print `Vector3` and `Quaternion` objects with better precission in [LogUtils.DebugEx](http://ihsoft.github.io/KSPDev/Utils/html/T_KSPDev_LogUtils_DebugEx.htm).
 * [Enhancement] Add optional paraemetrs to skip the specified number of frames [ProcessingUtils.AsyncCall](http://ihsoft.github.io/KSPDev/Utils/html/T_KSPDev_ProcessingUtils_AsyncCall.htm).
+* [Enhancement] Add methods to inject/withdraw part's menu events: [PartUtils.PartModuleUtils](http://ihsoft.github.io/KSPDev/Utils/html/T_KSPDev_PartUtils_PartModuleUtils.htm).
 
 # 0.30 (December 14th, 2017):
 * [Enhancement] Add new method to align vessel via the nodes: [AlignTransforms.SnapAlignVessel](http://ihsoft.github.io/KSPDev/Utils/html/M_KSPDev_ModelUtils_AlignTransforms_SnapAlignVessel.htm).
