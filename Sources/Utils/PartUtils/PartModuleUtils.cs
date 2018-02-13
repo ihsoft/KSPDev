@@ -112,7 +112,7 @@ public static class PartModuleUtils {
   /// </remarks>
   /// <param name="part">The part to add the event into.</param>
   /// <param name="partEvent">The event object.</param>
-  public static void AddCustomEvent(Part part, BaseEvent partEvent) {
+  public static void AddEvent(Part part, BaseEvent partEvent) {
     if (!part.Events.Contains(partEvent)) {
       part.Events.Add(partEvent);
       InvalidateContextMenu(part);
@@ -135,7 +135,7 @@ public static class PartModuleUtils {
   /// <param name="tgtModule">The part to inject the event into.</param>
   /// <returns></returns>
   public static bool InjectEvent(PartModule srcModule, Action srcEventFn, PartModule tgtModule) {
-    return SetupEvent(srcModule, srcEventFn, e => AddCustomEvent(tgtModule.part, e));
+    return SetupEvent(srcModule, srcEventFn, e => AddEvent(tgtModule.part, e));
   }
 
   /// <summary>Removes the specified event from the part.</summary>
