@@ -4,6 +4,7 @@
 * [Enhancement] Add optional paraemetrs to skip the specified number of frames [ProcessingUtils.AsyncCall](http://ihsoft.github.io/KSPDev/Utils/html/T_KSPDev_ProcessingUtils_AsyncCall.htm).
 * [Enhancement] Add methods to inject/withdraw part's menu events: [PartUtils.PartModuleUtils](http://ihsoft.github.io/KSPDev/Utils/html/T_KSPDev_PartUtils_PartModuleUtils.htm).
 * [Enhancement] Add a new method to align vessels via the attach nodes: [AlignTransforms.SnapAlignNodes](http://ihsoft.github.io/KSPDev/Utils/html/M_KSPDev_ModelUtils_AlignTransforms_SnapAlignNodes.htm).
+* [Enhancement] Allow restricting the state machine handlers to init/shutdown sequence: [SimpleStateMachine.AddStateHandlers](http://ihsoft.github.io/KSPDev/Utils/html/M_KSPDev_ProcessingUtils_SimpleStateMachine_1_AddStateHandlers.htm).
 
 # 0.30 (December 14th, 2017):
 * [Enhancement] Add new method to align vessel via the nodes: [AlignTransforms.SnapAlignVessel](http://ihsoft.github.io/KSPDev/Utils/html/M_KSPDev_ModelUtils_AlignTransforms_SnapAlignVessel.htm).

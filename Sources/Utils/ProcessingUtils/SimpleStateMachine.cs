@@ -93,8 +93,10 @@ public sealed class SimpleStateMachine<T> where T : struct, IConvertible {
   /// <example><code source="Examples/ProcessingUtils/SimpleStateMachine-Examples.cs" region="SimpleStateMachineFree"/></example>
   public event OnStateChangeHandler onAfterTransition;
 
-  readonly Dictionary<T, HashSet<OnChange>> enterHandlers = new Dictionary<T, HashSet<OnChange>>();
-  readonly Dictionary<T, HashSet<OnChange>> leaveHandlers = new Dictionary<T, HashSet<OnChange>>();
+  readonly Dictionary<T, OnChange> enterHandlersAny = new Dictionary<T, OnChange>();
+  readonly Dictionary<T, OnChange> enterHandlersInit = new Dictionary<T, OnChange>();
+  readonly Dictionary<T, OnChange> leaveHandlersAny = new Dictionary<T, OnChange>();
+  readonly Dictionary<T, OnChange> leaveHandlersShutdown = new Dictionary<T, OnChange>();
   readonly Dictionary<T, T[]> transitionContstraints = new Dictionary<T, T[]>();
 
   /// <summary>Constructs a new uninitialized state machine.</summary>
@@ -153,16 +155,44 @@ public sealed class SimpleStateMachine<T> where T : struct, IConvertible {
   /// is triggered <i>before</i> the state has actually changed. The callback's parameter is the
   /// <i>new</i> state, to which the machine is going to switch. 
   /// </param>
+  /// <param name="callOnInit">
+  /// Tells if this handler is allowed to be called when the state machine intitates from the
+  /// <c>null</c> state. This usually means the owning object is in process of loading its state.
+  /// Not all functionality can be availabe at this moment.
+  /// </param>
+  /// <param name="callOnShutdown">
+  /// Tells if this handler is allowed to be called when the state machine goes into the <c>null</c>
+  /// state. This usually means execution of the cleanup code, and the state of the owning object
+  /// can be reduced.
+  /// </param>
   /// <seealso cref="currentState"/>
   /// <example><code source="Examples/ProcessingUtils/SimpleStateMachine-Examples.cs" region="SimpleStateMachineFree"/></example>
-  public void AddStateHandlers(
-      T state, OnChange enterHandler = null, OnChange leaveHandler = null) {
+  public void AddStateHandlers(T state, OnChange enterHandler = null, OnChange leaveHandler = null,
+                               bool callOnInit = true, bool callOnShutdown = true) {
     CheckIsNotStarted();
     if (enterHandler != null) {
-      enterHandlers.SetDefault(state).Add(enterHandler);
+      if (callOnInit) {
+        if (!enterHandlersInit.ContainsKey(state)) {
+          enterHandlersInit.Add(state, null);
+        }
+        enterHandlersInit[state] += enterHandler;
+      }
+      if (!enterHandlersAny.ContainsKey(state)) {
+        enterHandlersAny.Add(state, null);
+      }
+      enterHandlersAny[state] += enterHandler;
     }
     if (leaveHandler != null) {
-      leaveHandlers.SetDefault(state).Add(leaveHandler);
+      if (callOnShutdown) {
+        if (!leaveHandlersShutdown.ContainsKey(state)) {
+          leaveHandlersShutdown.Add(state, null);
+        }
+        leaveHandlersShutdown[state] += leaveHandler;
+      }
+      if (!leaveHandlersAny.ContainsKey(state)) {
+        leaveHandlersAny.Add(state, null);
+      }
+      leaveHandlersAny[state] += leaveHandler;
     }
   }
 
@@ -173,11 +203,25 @@ public sealed class SimpleStateMachine<T> where T : struct, IConvertible {
   /// <param name="leaveHandler">The leave state handler to delete.</param>
   public void RemoveHandlers(T state, OnChange enterHandler = null, OnChange leaveHandler = null) {
     CheckIsNotStarted();
-    if (enterHandler != null && enterHandlers.ContainsKey(state)) {
-      enterHandlers[state].Remove(enterHandler);
+    if (enterHandler != null) {
+      if (enterHandlersAny.ContainsKey(state)) {
+        // disable once DelegateSubtraction
+        enterHandlersAny[state] -= enterHandler;
+      }
+      if (enterHandlersInit.ContainsKey(state)) {
+        // disable once DelegateSubtraction
+        enterHandlersInit[state] -= enterHandler;
+      }
     }
-    if (leaveHandler != null && leaveHandlers.ContainsKey(state)) {
-      leaveHandlers[state].Remove(leaveHandler);
+    if (leaveHandler != null) {
+      if (leaveHandlersAny.ContainsKey(state)) {
+        // disable once DelegateSubtraction
+        leaveHandlersAny[state] -= leaveHandler;
+      }
+      if (leaveHandlersShutdown.ContainsKey(state)) {
+        // disable once DelegateSubtraction
+        leaveHandlersShutdown[state] -= leaveHandler;
+      }
     }
   }
 
@@ -247,10 +291,14 @@ public sealed class SimpleStateMachine<T> where T : struct, IConvertible {
   /// <summary>Notifies all the handlers about leaving the current state.</summary>
   /// <param name="newState">The new state where the machine is going to.</param>
   void FireLeaveState(T? newState) {
-    HashSet<OnChange> handlers;
-    if (leaveHandlers.TryGetValue(_currentState.Value, out handlers)) {
-      foreach (var @event in handlers) {
-        @event.Invoke(newState);
+    OnChange @event;
+    if (!newState.HasValue) {
+      if (leaveHandlersShutdown.TryGetValue(_currentState.Value, out @event)) {
+        @event(newState);
+      }
+    } else {
+      if (leaveHandlersAny.TryGetValue(_currentState.Value, out @event)) {
+        @event(newState);
       }
     }
   }
@@ -258,10 +306,14 @@ public sealed class SimpleStateMachine<T> where T : struct, IConvertible {
   /// <summary>Notifies all the handlers about entering a new state.</summary>
   /// <param name="oldState">The old state where the machine is going from.</param>
   void FireEnterState(T? oldState) {
-    HashSet<OnChange> handlers;
-    if (enterHandlers.TryGetValue(_currentState.Value, out handlers)) {
-      foreach (var @event in handlers) {
-        @event.Invoke(oldState);
+    OnChange @event;
+    if (!oldState.HasValue) {
+      if (enterHandlersInit.TryGetValue(_currentState.Value, out @event)) {
+        @event(oldState);
+      }
+    } else {
+      if (enterHandlersAny.TryGetValue(_currentState.Value, out @event)) {
+        @event(oldState);
       }
     }
   }
