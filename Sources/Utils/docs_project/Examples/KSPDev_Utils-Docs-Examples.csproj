@@ -65,6 +65,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ConfigUtils\ConfigAccessor-Examples.cs" />
     <Compile Include="Extensions\DictExtensions-Examples.cs" />
     <Compile Include="Extensions\PosAndRotExtensions-Examples.cs" />
     <Compile Include="Extensions\RectExtensions-Examples.cs" />
@@ -99,6 +100,7 @@
     <Folder Include="GUIUtils\TypeFormatters" />
     <Folder Include="LogUtils" />
     <Folder Include="GUIUtils" />
+    <Folder Include="ConfigUtils" />
     <Folder Include="ResourceUtils" />
     <Folder Include="PartUtils" />
     <Folder Include="ProcessingUtils" />

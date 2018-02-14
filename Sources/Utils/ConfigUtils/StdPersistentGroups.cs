@@ -27,6 +27,15 @@ public static class StdPersistentGroups {
   /// </remarks>
   /// <seealso cref="PersistentFieldAttribute"/>
   public const string PartPersistant = "PartPersistant";
+
+  /// <summary>A public group for the feilds that needs to be loaded from a part config.</summary>
+  /// <remarks>
+  /// It's a very special group, never deal with it directly. The consumer code is only allowed to
+  /// use this group when defining the persistent fields via annotations.  
+  /// </remarks>
+  /// <seealso cref="PersistentFieldAttribute"/>
+  /// <seealso cref="ConfigAccessor.ReadPartConfig"/>
+  public const string PartConfigLoadGroup = "PartConfig";
 }
 
 }  // namespace

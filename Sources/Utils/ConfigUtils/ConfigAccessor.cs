@@ -117,6 +117,27 @@ public static class ConfigAccessor {
     }
   }
 
+  /// <summary>Reads custom type fileds from the part's config.</summary>
+  /// <remarks>
+  /// The consumer code must call this method from both the <c>OnAwake</c> and <c>OnLoad</c>
+  /// methods. Depending on the game scene, the part can be either created or cloned, and the fields
+  /// initalization is different depending on the case. See the example for more details.
+  /// </remarks>
+  /// <param name="module">The module to load the data for.</param>
+  /// <seealso cref="PersistentFieldAttribute"/>
+  /// <example>
+  /// <code source="Examples/ConfigUtils/ConfigAccessor-Examples.cs" region="ReadPartConfigExample"/>
+  /// </example>
+  public static void ReadPartConfig(PartModule module) {
+    if (module.part.partInfo != null
+        && module.part.partInfo.partConfig != null
+        && module.part.Modules.IndexOf(module) != -1) {
+      var moduleNode = PartConfig.GetModuleConfig(module);
+      ConfigAccessor.ReadFieldsFromNode(
+          moduleNode, module.GetType(), module, group: StdPersistentGroups.PartConfigLoadGroup);
+    }
+  }
+
   /// <summary>Writes values of the annotated persistent fields into a file.</summary>
   /// <remarks>
   /// All persitent values are <b>added</b> into the file provided. I.e. if node had already had a
