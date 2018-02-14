@@ -2,6 +2,8 @@
 // Author: igor.zavoychinskiy@gmail.com
 // This software is distributed under Public domain license.
 
+namespace KSPDev.ConfigUtils {
+
 /// <summary>Group names that have special meaning.</summary>
 /// <seealso cref="KSPDev.ConfigUtils.ConfigAccessor"/>
 /// <seealso cref="KSPDev.ConfigUtils.PersistentFieldAttribute"/>
@@ -25,3 +27,4 @@ public static class StdPersistentGroups {
   public const string PartPersistant = "PartPersistant";
 }
 
+}  // namespace
