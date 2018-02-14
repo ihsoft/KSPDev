@@ -14,6 +14,7 @@ public static class StdPersistentGroups {
   /// persistent fields with a specific save/load logic, then they need to have a group different
   /// from the default.
   /// </remarks>
+  /// <seealso cref="PersistentFieldAttribute"/>
   public const string Default = "";
 
   /// <summary>
@@ -24,6 +25,7 @@ public static class StdPersistentGroups {
   /// methods: <c>OnSave</c> and <c>OnLoad</c>. Dealing with them outside of this logic is highly
   /// discouraged.
   /// </remarks>
+  /// <seealso cref="PersistentFieldAttribute"/>
   public const string PartPersistant = "PartPersistant";
 }
 
