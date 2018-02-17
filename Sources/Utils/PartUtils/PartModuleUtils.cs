@@ -99,7 +99,7 @@ public static class PartModuleUtils {
         .ForEach(w => w.displayDirty = true);
   }
 
-  /// <summary>Add an event into a part.</summary>
+  /// <summary>Add an event into a part module.</summary>
   /// <remarks>
   /// <para>
   /// This method will not add the same event twice. So it's safe to call it multiple times for the
@@ -110,12 +110,12 @@ public static class PartModuleUtils {
   /// may be needed to not break the behavior of the part.
   /// </para>
   /// </remarks>
-  /// <param name="part">The part to add the event into.</param>
+  /// <param name="module">The part module to add the event into.</param>
   /// <param name="partEvent">The event object.</param>
-  public static void AddEvent(Part part, BaseEvent partEvent) {
-    if (!part.Events.Contains(partEvent)) {
-      part.Events.Add(partEvent);
-      InvalidateContextMenu(part);
+  public static void AddEvent(PartModule module, BaseEvent partEvent) {
+    if (!module.Events.Contains(partEvent)) {
+      module.Events.Add(partEvent);
+      InvalidateContextMenu(module.part);
     }
   }
 
@@ -135,19 +135,19 @@ public static class PartModuleUtils {
   /// <param name="tgtModule">The part to inject the event into.</param>
   /// <returns></returns>
   public static bool InjectEvent(PartModule srcModule, Action srcEventFn, PartModule tgtModule) {
-    return SetupEvent(srcModule, srcEventFn, e => AddEvent(tgtModule.part, e));
+    return SetupEvent(srcModule, srcEventFn, e => AddEvent(tgtModule, e));
   }
 
-  /// <summary>Removes the specified event from the part.</summary>
+  /// <summary>Removes the specified event from the part module.</summary>
   /// <remarks>
   /// It's ok if the event being removed doesn't exist on the part. The call will just silently
   /// return.
   /// </remarks>
-  /// <param name="part">The part to remove the event from.</param>
+  /// <param name="module">The part module to remove the event from.</param>
   /// <param name="partEvent">The event to remove.</param>
-  public static void DropEvent(Part part, BaseEvent partEvent) {
-    part.Events.Remove(partEvent);
-    InvalidateContextMenu(part);
+  public static void DropEvent(PartModule module, BaseEvent partEvent) {
+    module.Events.Remove(partEvent);
+    InvalidateContextMenu(module.part);
   }
 
   /// <summary>Removes an event that was previously injected.</summary>
@@ -159,7 +159,7 @@ public static class PartModuleUtils {
   /// <param name="srcEventFn">The event signature in the owner's module.</param>
   /// <param name="tgtModule">The part to withdraw the event from.</param>
   public static void WithdrawEvent(PartModule srcModule, Action srcEventFn, PartModule tgtModule) {
-    SetupEvent(srcModule, srcEventFn, e => DropEvent(tgtModule.part, e));
+    SetupEvent(srcModule, srcEventFn, e => DropEvent(tgtModule, e));
   }
 }
   
