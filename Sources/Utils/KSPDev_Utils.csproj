@@ -116,6 +116,7 @@
     <Compile Include="GUIUtils\TypeFormatters\PressureType.cs" />
     <Compile Include="GUIUtils\TypeFormatters\ResourceShortType.cs" />
     <Compile Include="GUIUtils\TypeFormatters\ResourceType.cs" />
+    <Compile Include="GUIUtils\TypeFormatters\VelocityType.cs" />
     <Compile Include="GUIUtils\UISoundPlayer.cs" />
     <Compile Include="InputUtils\EventChecker.cs" />
     <Compile Include="InputUtils\KeyboardInputSwitch.cs" />

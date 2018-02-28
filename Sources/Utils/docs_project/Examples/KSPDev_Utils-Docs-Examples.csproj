@@ -87,6 +87,7 @@
     <Compile Include="GUIUtils\TypeFormatters\PressureType-Examples.cs" />
     <Compile Include="GUIUtils\TypeFormatters\ResourceShortType-Examples.cs" />
     <Compile Include="GUIUtils\TypeFormatters\ResourceType-Examples.cs" />
+    <Compile Include="GUIUtils\TypeFormatters\VelocityType-Examples.cs" />
     <Compile Include="GUIUtils\UISoundPlayer-Examples.cs" />
     <Compile Include="LogUtils\HostedDebugLog-Examples.cs" />
     <Compile Include="PartUtils\PartModuleUtils-Examples.cs" />
