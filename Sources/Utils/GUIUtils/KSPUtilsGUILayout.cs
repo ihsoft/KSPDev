@@ -13,7 +13,7 @@ public static class KSPUtilsGUILayout {
   /// <summary>Makes a button that fires a callback when pressed or released.</summary>
   /// <remarks>
   /// The callabacks are only fired once for every state change, and are guarnteed to not be called
-  /// during the layout phase.
+  /// during the layout phase. The callback is called *after* the state is updated. 
   /// </remarks>
   /// <param name="btnState">The state to read and modify.</param>
   /// <param name="guiCnt">The GUI content to present as the button's caption.</param>
@@ -31,21 +31,26 @@ public static class KSPUtilsGUILayout {
     var state = GUILayout.RepeatButton(guiCnt, style, options);
     if (Event.current.type != EventType.Layout) {
       if (state && !btnState) {
-        fnPush();
         btnState = true;
+        fnPush();
       } else if (!state && btnState) {
-        fnRelease();
         btnState = false;
+        fnRelease();
       }
     }
   }
 
   /// <summary>Makes a toggle control that fires a callback when teh state changes.</summary>
   /// <remarks>
+  /// <para>
   /// The callabacks are only fired once for every state change, and are guarnteed to not be called
-  /// during the layout phase. The <c>GUI.changed</c> state is preserved by these control. I.e. if
-  /// the button state has changed, then <c>GUI.changed</c> will be <c>true</c>. Otherwise, it will
-  /// retain its value before entering the method.
+  /// during the layout phase. The callback is called *after* the state is updated.
+  /// </para>
+  /// <para>
+  /// The <c>GUI.changed</c> state is preserved by these control. I.e. if the button state has
+  /// changed, then <c>GUI.changed</c> will be <c>true</c>. Otherwise, it will retain its value
+  /// before entering the method.
+  /// </para>
   /// </remarks>
   /// <param name="btnState">The state to read and modify.</param>
   /// <param name="guiCnt">The GUI content to present as the button's caption.</param>
@@ -64,12 +69,12 @@ public static class KSPUtilsGUILayout {
     GUI.changed = false;
     var state = GUILayout.Toggle(btnState, guiCnt, style, options);
     if (Event.current.type != EventType.Layout && GUI.changed) {
+      btnState = state;
       if (btnState) {
         fnOn();
       } else {
         fnOff();
       }
-      btnState = state;
     }
     GUI.changed &= oldState;
   }
