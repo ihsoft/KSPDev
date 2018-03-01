@@ -47,12 +47,12 @@ public static class KSPUtilsGUILayout {
   /// the button state has changed, then <c>GUI.changed</c> will be <c>true</c>. Otherwise, it will
   /// retain its value before entering the method.
   /// </remarks>
-  /// <param name="btnState"></param>
-  /// <param name="guiCnt"></param>
-  /// <param name="style"></param>
-  /// <param name="options"></param>
-  /// <param name="fnOn"></param>
-  /// <param name="fnOff"></param>
+  /// <param name="btnState">The state to read and modify.</param>
+  /// <param name="guiCnt">The GUI content to present as the button's caption.</param>
+  /// <param name="style">The GUI style of the control.</param>
+  /// <param name="options">The GUILayout options to apply to the control.</param>
+  /// <param name="fnOn">The callback to call when the control is checked.</param>
+  /// <param name="fnOff">The callback to call when the control is released.</param>
   public static void ToggleButton(
       ref bool btnState,
       GUIContent guiCnt,
