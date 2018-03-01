@@ -93,6 +93,7 @@
     <Compile Include="FSUtils\KspPaths.cs" />
     <Compile Include="GUIUtils\IHasGUI.cs" />
     <Compile Include="GUIUtils\IsLocalizableModule.cs" />
+    <Compile Include="GUIUtils\KSPUtilsGUILayout.cs" />
     <Compile Include="GUIUtils\MessageLookup.cs" />
     <Compile Include="GUIUtils\GuiColorScope.cs" />
     <Compile Include="GUIUtils\GuiEnabledStateScope.cs" />

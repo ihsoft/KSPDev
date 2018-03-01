@@ -7,6 +7,7 @@
 * [Enhancement] Allow restricting the state machine handlers to init/shutdown sequence: [SimpleStateMachine.AddStateHandlers](http://ihsoft.github.io/KSPDev/Utils/html/M_KSPDev_ProcessingUtils_SimpleStateMachine_1_AddStateHandlers.htm).
 * [Enhancement] Add a new method to load custom fields from the part's config: [ConfigAccessor.ReadPartConfig](http://ihsoft.github.io/KSPDev/Utils/html/M_KSPDev_ConfigUtils_ConfigAccessor_ReadPartConfig.htm).
 * [Enhancement] Add a localization class to format a velocity value in a human friendly format: [`GUIUtils.VelocityType`](http://ihsoft.github.io/KSPDev/Utils/html/T_KSPDev_GUIUtils_VelocityType.htm).
+* [Enhancement] Add a utility class to create `PushButton` and `ToggleButton` controls: [`GUIUtils.KSPUtilsGUILayout`](http://ihsoft.github.io/KSPDev/Utils/html/T_KSPDev_GUIUtils_KSPUtilsGUILayout.htm).
 
 # 0.30 (December 14th, 2017):
 * [Enhancement] Add new method to align vessel via the nodes: [AlignTransforms.SnapAlignVessel](http://ihsoft.github.io/KSPDev/Utils/html/M_KSPDev_ModelUtils_AlignTransforms_SnapAlignVessel.htm).
