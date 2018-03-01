@@ -58,7 +58,10 @@ public class GuiActionsList {
   /// <summary>Adds an action to the pending list.</summary>
   /// <param name="actionFn">An action callback.</param>
   public void Add(GuiAction actionFn) {
-    guiActions.Add(actionFn);
+    // In the layout phase the controls are not supposed to trigger anything.
+    if (Event.current.type != EventType.Layout) {
+      guiActions.Add(actionFn);
+    }
   }
 
   /// <summary>Executes actions when it's safe to do the changes.</summary>
