@@ -64,7 +64,7 @@ public abstract class BasePersistentFieldAttribute : Attribute {
   /// The path is case-insensitive.
   /// </param>
   protected BasePersistentFieldAttribute(string cfgPath) {
-    this.path = cfgPath.Split('/');
+    this.path = ConfigAccessor.StrToPath(cfgPath);
   }
 }
 
