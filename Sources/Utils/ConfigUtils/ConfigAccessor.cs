@@ -20,6 +20,19 @@ public static class ConfigAccessor {
   static readonly StandardOrdinaryTypesProto standardTypesProto =
       new StandardOrdinaryTypesProto();
 
+  /// <summary>Transforms a URL-like string path into the nodes path.</summary>
+  /// <param name="strPath">
+  /// A list of path elements, separated by symbol "/". An empty string (no elements) addresses
+  /// the root node.
+  /// </param>
+  /// <returns>
+  /// The array of the path components. There will be no <c>null</c> or empty components.
+  /// </returns>
+  /// <seealso cref="GetNodeByPath(ConfigNode,string[],bool)"/>
+  public static string[] StrToPath(string strPath) {
+    return strPath.Split(new[] {'/'}, StringSplitOptions.RemoveEmptyEntries);
+  }
+
   /// <summary>Reads values of the annotated persistent fields from a config file.</summary>
   /// <param name="filePath">
   /// A relative or an absolute path to the file. It's resolved via
@@ -91,15 +104,15 @@ public static class ConfigAccessor {
     }
   }
   
-  /// <summary>
-  /// Reads persistent fields from the config files specified by the class annotation.
-  /// </summary>
-  /// <param name="type">A type to load fields for.</param>
-  /// <param name="instance">An instance of type <paramref name="type"/>. If it's <c>null</c> then
-  /// only static fields will be loaded.</param>
-  /// <param name="group">A group to load fields for. If <c>null</c> then all groups that are
-  /// defined in the class annotation via <see cref="PersistentFieldsFileAttribute"/> will be
-  /// loaded.</param>
+  /// <summary>Reads the persistent fields from the URI specified by the class annotation.</summary>
+  /// <param name="type">The type to load the fields for.</param>
+  /// <param name="instance">
+  /// The instance of type <paramref name="type"/>. If it's <c>null</c>, then only the static fields
+  /// will be loaded.
+  /// </param>
+  /// <param name="group">
+  /// The group to load the fields for. If <c>null</c>, then all the groups that are defined in the
+  /// class annotation via <see cref="PersistentFieldsFileAttribute"/> will be loaded.</param>
   /// <seealso cref="PersistentFieldAttribute"/>
   /// <seealso cref="PersistentFieldsFileAttribute"/>
   /// <seealso cref="PersistentFieldsDatabaseAttribute"/>
@@ -114,6 +127,27 @@ public static class ConfigAccessor {
       } else {
         ReadFieldsFromDatabase(attr.nodePath, type, instance, group);
       }
+    }
+  }
+
+  /// <summary>Reads custom type fileds from the part's config.</summary>
+  /// <remarks>
+  /// The consumer code must call this method from both the <c>OnAwake</c> and <c>OnLoad</c>
+  /// methods. Depending on the game scene, the part can be either created or cloned, and the fields
+  /// initalization is different depending on the case. See the example for more details.
+  /// </remarks>
+  /// <param name="module">The module to load the data for.</param>
+  /// <seealso cref="PersistentFieldAttribute"/>
+  /// <example>
+  /// <code source="Examples/ConfigUtils/ConfigAccessor-Examples.cs" region="ReadPartConfigExample"/>
+  /// </example>
+  public static void ReadPartConfig(PartModule module) {
+    if (module.part.partInfo != null
+        && module.part.partInfo.partConfig != null
+        && module.part.Modules.IndexOf(module) != -1) {
+      var moduleNode = PartConfig.GetModuleConfig(module);
+      ConfigAccessor.ReadFieldsFromNode(
+          moduleNode, module.GetType(), module, group: StdPersistentGroups.PartConfigLoadGroup);
     }
   }
 
@@ -218,7 +252,7 @@ public static class ConfigAccessor {
   /// <returns>String value or <c>null</c> if path or value is not present in the
   /// <paramref name="node"/>.</returns>
   public static string GetValueByPath(ConfigNode node, string path) {
-    return GetValueByPath(node, path.Split('/'));
+    return GetValueByPath(node, StrToPath(path));
   }
   
   /// <summary>Reads a value from config node by a path.</summary>
@@ -239,7 +273,7 @@ public static class ConfigAccessor {
   /// <returns>Array of string values or <c>null</c> if path is not present in the
   /// <paramref name="node"/>.</returns>
   public static string[] GetValuesByPath(ConfigNode node, string path) {
-    return GetValuesByPath(node, path.Split('/'));
+    return GetValuesByPath(node, StrToPath(path));
   }
   
   /// <summary>Reads repeated values from config node by a path.</summary>
@@ -264,8 +298,7 @@ public static class ConfigAccessor {
   /// <paramref name="node"/>.</returns>
   public static ConfigNode GetNodeByPath(ConfigNode node, string path,
                                          bool createIfMissing = false) {
-    var pathKeys = path.Split(new[] {'/'}, StringSplitOptions.RemoveEmptyEntries);
-    return GetNodeByPath(node, pathKeys, createIfMissing: createIfMissing);
+    return GetNodeByPath(node, StrToPath(path), createIfMissing: createIfMissing);
   }
 
   /// <summary>Reads a node from config node by a path.</summary>
@@ -298,8 +331,7 @@ public static class ConfigAccessor {
   /// <returns>Array of nodes or <c>null</c> if path is not present in the
   /// <paramref name="node"/>.</returns>
   public static ConfigNode[] GetNodesByPath(ConfigNode node, string path) {
-    var pathKeys = path.Split(new[] {'/'}, StringSplitOptions.RemoveEmptyEntries);
-    return GetNodesByPath(node, pathKeys);
+    return GetNodesByPath(node, StrToPath(path));
   }
 
   /// <summary>Reads repeated nodes from config node by a path.</summary>
@@ -320,7 +352,7 @@ public static class ConfigAccessor {
   /// symbol.</param>
   /// <param name="value">A string value to store.</param>
   public static void SetValueByPath(ConfigNode node, string path, string value) {
-    SetValueByPath(node, path.Split('/'), value);
+    SetValueByPath(node, StrToPath(path), value);
   }
   
   /// <summary>Sets a value in config node by a path.</summary>
@@ -340,8 +372,7 @@ public static class ConfigAccessor {
   /// symbol.</param>
   /// <param name="value">A config node to store.</param>
   public static void SetNodeByPath(ConfigNode node, string path, ConfigNode value) {
-    var pathKeys = path.Split(new[] {'/'}, StringSplitOptions.RemoveEmptyEntries);
-    SetNodeByPath(node, pathKeys, value);
+    SetNodeByPath(node, StrToPath(path), value);
   }
 
   /// <summary>Sets a node in config node by a path.</summary>
@@ -361,7 +392,7 @@ public static class ConfigAccessor {
   /// symbol.</param>
   /// <param name="value">A string value to add into the node.</param>
   public static void AddValueByPath(ConfigNode node, string path, string value) {
-    AddValueByPath(node, path.Split('/'), value);
+    AddValueByPath(node, StrToPath(path), value);
   }
   
   /// <summary>Adds a repeated value in config node by a path.</summary>
@@ -381,8 +412,7 @@ public static class ConfigAccessor {
   /// symbol.</param>
   /// <param name="value">A config node to add.</param>
   public static void AddNodeByPath(ConfigNode node, string path, ConfigNode value) {
-    var pathKeys = path.Split(new[] {'/'}, StringSplitOptions.RemoveEmptyEntries);
-    AddNodeByPath(node, pathKeys, value);
+    AddNodeByPath(node, StrToPath(path), value);
   }
   
   /// <summary>Adds a repeated node in the config by a path.</summary>
@@ -411,7 +441,7 @@ public static class ConfigAccessor {
   /// <exception cref="ArgumentException">If type cannot be handled by the proto.</exception>
   public static void SetValueByPath<T>(ConfigNode node, string path, T value,
                                        AbstractOrdinaryValueTypeProto typeProto = null) {
-    SetValueByPath(node, path.Split('/'), value, typeProto);
+    SetValueByPath(node, StrToPath(path), value, typeProto);
   }
   
   /// <summary>
@@ -456,7 +486,7 @@ public static class ConfigAccessor {
   /// <exception cref="ArgumentException">If type cannot be handled by the proto.</exception>
   public static bool GetValueByPath<T>(ConfigNode node, string path, ref T value,
                                        AbstractOrdinaryValueTypeProto typeProto = null) {
-    return GetValueByPath(node, path.Split('/'), ref value, typeProto);
+    return GetValueByPath(node, StrToPath(path), ref value, typeProto);
   }
 
   /// <summary>

@@ -65,6 +65,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ConfigUtils\ConfigAccessor-Examples.cs" />
     <Compile Include="Extensions\DictExtensions-Examples.cs" />
     <Compile Include="Extensions\PosAndRotExtensions-Examples.cs" />
     <Compile Include="Extensions\RectExtensions-Examples.cs" />
@@ -86,9 +87,11 @@
     <Compile Include="GUIUtils\TypeFormatters\PressureType-Examples.cs" />
     <Compile Include="GUIUtils\TypeFormatters\ResourceShortType-Examples.cs" />
     <Compile Include="GUIUtils\TypeFormatters\ResourceType-Examples.cs" />
+    <Compile Include="GUIUtils\TypeFormatters\VelocityType-Examples.cs" />
     <Compile Include="GUIUtils\UISoundPlayer-Examples.cs" />
     <Compile Include="LogUtils\HostedDebugLog-Examples.cs" />
     <Compile Include="PartUtils\PartModuleUtils-Examples.cs" />
+    <Compile Include="ProcessingUtils\AsyncCall-Examples.cs" />
     <Compile Include="ProcessingUtils\SimpleStateMachine-Examples.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ResourceUtils\StockResourceNames-Examples.cs" />
@@ -98,6 +101,7 @@
     <Folder Include="GUIUtils\TypeFormatters" />
     <Folder Include="LogUtils" />
     <Folder Include="GUIUtils" />
+    <Folder Include="ConfigUtils" />
     <Folder Include="ResourceUtils" />
     <Folder Include="PartUtils" />
     <Folder Include="ProcessingUtils" />

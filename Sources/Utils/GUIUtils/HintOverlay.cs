@@ -8,17 +8,20 @@ using UnityEngine;
 
 namespace KSPDev.GUIUtils {
 
-/// <summary>A wrapper class to present simple overlay window with text.</summary>
+/// <summary>A wrapper class to present a simple overlay window with some text.</summary>
 /// <remarks>
-/// <para>Overlay windows doesn't have border or title. Main purpose of such windows is "hints".
-/// I.e. short lived piece of information presented for the current context. The hint won't be shown
-/// in UI until explicitly requsted via call to a <c>ShowAt*</c> method.</para>
-/// <para>Keep in mind that this window contains graphics objects that will be destroyed on scene
-/// re-loading. I.e. it must be re-created on every scene change.</para>
+/// <para>The overlay windows don't have a border or title. The main purpose of such windows is
+/// present the "hints". I.e. short a lived piece of information presented for the current context.
+/// The hint won't be shown in UI until explicitly requsted via a call to the <c>ShowAt*</c> method.
+/// </para>
+/// <para>
+/// Keep in mind that this window resources will be destroyed when the scene is re-loaded. I.e. the
+/// hint window must be re-created on every scene change.
+/// </para>
 /// </remarks>
 /// <example>
-/// In a common case initialization of the hint window is done on the game object awakening, and
-/// it's either shown or hidden in <c>OnGUI</c> method.
+/// In a common case, the initialization of the hint window is done on the game object awakening,
+/// and it's either shown or hidden in the <c>OnGUI</c> method.
 /// <code>
 /// class MyMod : MonoBehaviour {
 ///   HintOverlay hint;

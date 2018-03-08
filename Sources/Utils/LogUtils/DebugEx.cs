@@ -67,7 +67,7 @@ public static class DebugEx {
   /// <seealso cref="ObjectToString"/>
   public static void Log(LogType type, string format, params object[] args) {
     try {
-      Debug.logger.LogFormat(type, format, args.Select(x => ObjectToString(x)).ToArray());
+      Debug.unityLogger.LogFormat(type, format, args.Select(x => ObjectToString(x)).ToArray());
     } catch (Exception e) {
       Debug.LogErrorFormat(
           "Failed to format logging string: {0}.\n{1}", format, e.StackTrace.ToString());
@@ -118,6 +118,15 @@ public static class DebugEx {
     if (componentHost != null) {
       return "[" + componentHost.GetType().Name + ":"
           + DbgFormatter.TranformPath(componentHost.transform) + "]";
+    }
+    if (obj is Vector3) {
+      var vec = (Vector3)obj;
+      return string.Format("[Vector3:{0:0.0###},{1:0.0###},{2:0.0###}]", vec.x, vec.y, vec.z); 
+    }
+    if (obj is Quaternion) {
+      var rot = (Quaternion)obj;
+      return string.Format("[Quaternion:{0:0.0###}, {1:0.0###}, {2:0.0###}, {3:0.0###}]",
+                           rot.x, rot.y, rot.z, rot.w);
     }
     return obj.ToString();
   }

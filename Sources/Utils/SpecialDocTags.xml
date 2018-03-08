@@ -24,6 +24,7 @@
   <seealso cref="ResourceShortType"/>
   <seealso cref="MassType"/>
   <seealso cref="ResourceType"/>
+  <seealso cref="VelocityType"/>
 </MessageArgumentType>
 
 <Lingoona>

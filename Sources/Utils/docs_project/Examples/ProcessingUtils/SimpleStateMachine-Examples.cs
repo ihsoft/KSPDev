@@ -161,24 +161,34 @@ class SimpleStateMachineFree {
         State.One,
         enterHandler: oldState => Debug.Log("Now in state ONE"),
         leaveHandler: newState => Debug.LogFormat("Going into state: {0}", newState));
+    sm.onBeforeTransition += (from, to) => Debug.LogFormat(
+        "Before move: current={0}, new={1}",
+        DbgFormatter.Nullable(sm.currentState), DbgFormatter.Nullable(to));
     sm.onAfterTransition += (from, to) => Debug.LogFormat(
-        "Move from {0} to {1}", DbgFormatter.Nullable(from), DbgFormatter.Nullable(to));
+        "After move: old={0}, current={1}",
+        DbgFormatter.Nullable(from), DbgFormatter.Nullable(sm.currentState));
 
     sm.currentState = State.One;  // Start the machine.
     // Logs:
     // Now in state ONE
-    // Move from NULL to One
+    // Before move: current=NULL, new=One
+    // After move: old=NULL, current=One
 
     sm.currentState = State.Two;
     // Logs:
     // Going into state: Two
-    // Move from One to Two
+    // Before move: current=One, new=Two
+    // After move: old=One, current=Two
 
     sm.currentState = State.Three;
-    // Logs: Move from Two to Three
+    // Logs:
+    // Before move: current=Two, new=Three
+    // After move: old=Two, current=Three
 
     sm.currentState = null;  // Stop the machine.
-    // Logs: Move Three to NULL
+    // Logs:
+    // Before move: current=Three, new=NULL
+    // After move: old=Three, current=NULL
   }
 }
 #endregion

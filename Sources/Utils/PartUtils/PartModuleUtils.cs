@@ -4,6 +4,7 @@
 
 using KSPDev.LogUtils;
 using System;
+using System.Linq;
 
 namespace KSPDev.PartUtils {
 
@@ -85,6 +86,80 @@ public static class PartModuleUtils {
     }
     setupFn.Invoke(moduleEvent);
     return true;
+  }
+
+  /// <summary>Forces the context menu of the part to refresh itself.</summary>
+  /// <remarks>Use it when the GUI fields/events list is changed.</remarks>
+  /// <param name="part">The part to refresh the menu for.</param>
+  public static void InvalidateContextMenu(Part part) {
+    UnityEngine.Object.FindObjectsOfType(typeof(UIPartActionWindow))
+        .Cast<UIPartActionWindow>()
+        .Where(w => w.part == part)
+        .ToList()
+        .ForEach(w => w.displayDirty = true);
+  }
+
+  /// <summary>Add an event into a part module.</summary>
+  /// <remarks>
+  /// <para>
+  /// This method will not add the same event twice. So it's safe to call it multiple times for the
+  /// same event object.
+  /// </para>
+  /// <para>
+  /// The name of the event may be used by the other modules to get the event. So keeping it unique
+  /// may be needed to not break the behavior of the part.
+  /// </para>
+  /// </remarks>
+  /// <param name="module">The part module to add the event into.</param>
+  /// <param name="partEvent">The event object.</param>
+  public static void AddEvent(PartModule module, BaseEvent partEvent) {
+    if (!module.Events.Contains(partEvent)) {
+      module.Events.Add(partEvent);
+      InvalidateContextMenu(module.part);
+    }
+  }
+
+  /// <summary>Injects an event from one part to another.</summary>
+  /// <remarks>
+  /// <para>
+  /// This method will not add the same event twice. So it's safe to call it multiple times for the
+  /// same event object.
+  /// </para>
+  /// <para>
+  /// The name of the event in the target part will be the same as in the original part. It may make
+  /// troubles in case of the name conflict.
+  /// </para>
+  /// </remarks>
+  /// <param name="srcModule">The module that originally owns the event.</param>
+  /// <param name="srcEventFn">The event signature in the owner's module.</param>
+  /// <param name="tgtModule">The part to inject the event into.</param>
+  /// <returns><c>true</c> if the event has been successfully injected.</returns>
+  public static bool InjectEvent(PartModule srcModule, Action srcEventFn, PartModule tgtModule) {
+    return SetupEvent(srcModule, srcEventFn, e => AddEvent(tgtModule, e));
+  }
+
+  /// <summary>Removes the specified event from the part module.</summary>
+  /// <remarks>
+  /// It's ok if the event being removed doesn't exist on the part. The call will just silently
+  /// return.
+  /// </remarks>
+  /// <param name="module">The part module to remove the event from.</param>
+  /// <param name="partEvent">The event to remove.</param>
+  public static void DropEvent(PartModule module, BaseEvent partEvent) {
+    module.Events.Remove(partEvent);
+    InvalidateContextMenu(module.part);
+  }
+
+  /// <summary>Removes an event that was previously injected.</summary>
+  /// <remarks>
+  /// It's ok if the event being removed doesn't exist on the part. The call will just silently
+  /// return.
+  /// </remarks>
+  /// <param name="srcModule">The module that originally owns the event.</param>
+  /// <param name="srcEventFn">The event signature in the owner's module.</param>
+  /// <param name="tgtModule">The part to withdraw the event from.</param>
+  public static void WithdrawEvent(PartModule srcModule, Action srcEventFn, PartModule tgtModule) {
+    SetupEvent(srcModule, srcEventFn, e => DropEvent(tgtModule, e));
   }
 }
   

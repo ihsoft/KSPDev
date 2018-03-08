@@ -16,11 +16,11 @@ namespace KSPDev.GUIUtils {
 /// <para>
 /// Use this player when the source of the sound is a GUI object (e.g. a GUI control). This class
 /// implements all the boilerplate to load and play the sound resources. All the sounds are cached
-/// wihtin the scene, so repeating requests to the same sound won't add extra latency.
+/// within the scene, so repeating requests to the same sound won't add extra latency.
 /// </para>
 /// <para>
-/// In case of the very first usage of the sound is latency restricted, the sound resource can be
-/// pre-cached via the <see cref="CacheSound"/> method. It will increase the loading time, though.
+/// If latency is ciritcal for the caller, then the sound resource can be pre-cached via the
+/// <see cref="CacheSound"/> method. It will increase the scene loading time, though.
 /// </para>
 /// <para>This module is initialized from the KSPDev Utils loader.</para>
 /// </remarks>
