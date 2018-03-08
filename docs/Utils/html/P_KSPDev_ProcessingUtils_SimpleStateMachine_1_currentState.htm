@@ -2,7 +2,7 @@
     <strong>Namespace:</strong> 
    <a href="N_KSPDev_ProcessingUtils.htm">KSPDev.ProcessingUtils</a><br />
     <strong>Assembly:</strong>
-   KSPDev_Utils.0.30 (in KSPDev_Utils.0.30.dll) Version: 0.30 for KSP v1.3+<div class="collapsibleAreaRegion"><span class="collapsibleRegionTitle" onclick="SectionExpandCollapse('ID1RB')" onkeypress="SectionExpandCollapse_CheckKey('ID1RB', event)" tabindex="0"><img id="ID1RBToggle" class="collapseToggle" src="../icons/SectionExpanded.png" />Syntax</span></div><div id="ID1RBSection" class="collapsibleSection"><div class="codeSnippetContainer"><div class="codeSnippetContainerTabs"><div id="ID0EACA_tab1" class="codeSnippetContainerTabSingle">C#</div></div><div class="codeSnippetContainerCodeContainer"><div class="codeSnippetToolBar"><div class="codeSnippetToolBarText"><a id="ID0EACA_copyCode" href="#" class="copyCodeSnippet" onclick="javascript:CopyToClipboard('ID0EACA');return false;" title="Copy">Copy</a></div></div><div id="ID0EACA_code_Div1" class="codeSnippetContainerCode" style="display: block"><pre xml:space="preserve"><span class="keyword">public</span> <span class="identifier">Nullable</span>&lt;T&gt; <span class="identifier">currentState</span> { <span class="keyword">get</span>; <span class="keyword">set</span>; }</pre></div></div></div><script type="text/javascript">AddLanguageTabSet("ID0EACA");</script><a id="HT_RequestExampleLink" href="https://github.com/ihsoft/KSPDev/issues/new" target="_blank" class="button" title="Request an example for this topic">Request Example</a>
+   KSPDev_Utils.0.31 (in KSPDev_Utils.0.31.dll) Version: 0.31 for KSP v1.4<div class="collapsibleAreaRegion"><span class="collapsibleRegionTitle" onclick="SectionExpandCollapse('ID1RB')" onkeypress="SectionExpandCollapse_CheckKey('ID1RB', event)" tabindex="0"><img id="ID1RBToggle" class="collapseToggle" src="../icons/SectionExpanded.png" />Syntax</span></div><div id="ID1RBSection" class="collapsibleSection"><div class="codeSnippetContainer"><div class="codeSnippetContainerTabs"><div id="ID0EACA_tab1" class="codeSnippetContainerTabSingle">C#</div></div><div class="codeSnippetContainerCodeContainer"><div class="codeSnippetToolBar"><div class="codeSnippetToolBarText"><a id="ID0EACA_copyCode" href="#" class="copyCodeSnippet" onclick="javascript:CopyToClipboard('ID0EACA');return false;" title="Copy">Copy</a></div></div><div id="ID0EACA_code_Div1" class="codeSnippetContainerCode" style="display: block"><pre xml:space="preserve"><span class="keyword">public</span> <span class="identifier">Nullable</span>&lt;T&gt; <span class="identifier">currentState</span> { <span class="keyword">get</span>; <span class="keyword">set</span>; }</pre></div></div></div><script type="text/javascript">AddLanguageTabSet("ID0EACA");</script><a id="HT_RequestExampleLink" href="https://github.com/ihsoft/KSPDev/issues/new" target="_blank" class="button" title="Request an example for this topic">Request Example</a>
 		<script type="text/javascript">
 		var HT_requestExampleLink = document.getElementById("HT_RequestExampleLink");
 		var HT_requestExampleLinkText = HT_requestExampleLink.innerHTML;
@@ -40,24 +40,34 @@
 <span class="highlight-spacerShort"></span>        State.One,
 <span class="highlight-spacerShort"></span>        enterHandler: oldState =&gt; Debug.Log(<span class="highlight-literal">"Now in state ONE"</span>),
 <span class="highlight-spacerShort"></span>        leaveHandler: newState =&gt; Debug.LogFormat(<span class="highlight-literal">"Going into state: {0}"</span>, newState));
+<span class="highlight-spacerShort"></span>    sm.onBeforeTransition += (<span class="highlight-keyword">from</span>, to) =&gt; Debug.LogFormat(
+<span class="highlight-spacerShort"></span>        <span class="highlight-literal">"Before move: current={0}, new={1}"</span>,
+<span class="highlight-spacerShort"></span>        DbgFormatter.Nullable(sm.currentState), DbgFormatter.Nullable(to));
 <span class="highlight-spacerShort"></span>    sm.onAfterTransition += (<span class="highlight-keyword">from</span>, to) =&gt; Debug.LogFormat(
-<span class="highlight-spacerShort"></span>        <span class="highlight-literal">"Move from {0} to {1}"</span>, DbgFormatter.Nullable(<span class="highlight-keyword">from</span>), DbgFormatter.Nullable(to));
+<span class="highlight-spacerShort"></span>        <span class="highlight-literal">"After move: old={0}, current={1}"</span>,
+<span class="highlight-spacerShort"></span>        DbgFormatter.Nullable(<span class="highlight-keyword">from</span>), DbgFormatter.Nullable(sm.currentState));
 <span class="highlight-spacerShort"></span>
 <span class="highlight-spacerShort"></span>    sm.currentState = State.One;  <span class="highlight-comment">// Start the machine.</span>
 <span class="highlight-spacerShort"></span>    <span class="highlight-comment">// Logs:</span>
 <span class="highlight-spacerShort"></span>    <span class="highlight-comment">// Now in state ONE</span>
-<span class="highlight-spacerShort"></span>    <span class="highlight-comment">// Move from NULL to One</span>
+<span class="highlight-spacerShort"></span>    <span class="highlight-comment">// Before move: current=NULL, new=One</span>
+<span class="highlight-spacerShort"></span>    <span class="highlight-comment">// After move: old=NULL, current=One</span>
 <span class="highlight-spacerShort"></span>
 <span class="highlight-spacerShort"></span>    sm.currentState = State.Two;
 <span class="highlight-spacerShort"></span>    <span class="highlight-comment">// Logs:</span>
 <span class="highlight-spacerShort"></span>    <span class="highlight-comment">// Going into state: Two</span>
-<span class="highlight-spacerShort"></span>    <span class="highlight-comment">// Move from One to Two</span>
+<span class="highlight-spacerShort"></span>    <span class="highlight-comment">// Before move: current=One, new=Two</span>
+<span class="highlight-spacerShort"></span>    <span class="highlight-comment">// After move: old=One, current=Two</span>
 <span class="highlight-spacerShort"></span>
 <span class="highlight-spacerShort"></span>    sm.currentState = State.Three;
-<span class="highlight-spacerShort"></span>    <span class="highlight-comment">// Logs: Move from Two to Three</span>
+<span class="highlight-spacerShort"></span>    <span class="highlight-comment">// Logs:</span>
+<span class="highlight-spacerShort"></span>    <span class="highlight-comment">// Before move: current=Two, new=Three</span>
+<span class="highlight-spacerShort"></span>    <span class="highlight-comment">// After move: old=Two, current=Three</span>
 <span class="highlight-spacerShort"></span>
 <span class="highlight-spacerShort"></span>    sm.currentState = <span class="highlight-keyword">null</span>;  <span class="highlight-comment">// Stop the machine.</span>
-<span class="highlight-spacerShort"></span>    <span class="highlight-comment">// Logs: Move Three to NULL</span>
+<span class="highlight-spacerShort"></span>    <span class="highlight-comment">// Logs:</span>
+<span class="highlight-spacerShort"></span>    <span class="highlight-comment">// Before move: current=Three, new=NULL</span>
+<span class="highlight-spacerShort"></span>    <span class="highlight-comment">// After move: old=Three, current=NULL</span>
 <span class="highlight-spacerShort"></span>  }
 <span class="highlight-spacerShort"></span>}</pre></div></div></div><script type="text/javascript">AddLanguageTabSet("ID0EAAABA");</script></div><div class="collapsibleAreaRegion" id="seeAlsoSection"><span class="collapsibleRegionTitle" onclick="SectionExpandCollapse('ID4RB')" onkeypress="SectionExpandCollapse_CheckKey('ID4RB', event)" tabindex="0"><img id="ID4RBToggle" class="collapseToggle" src="../icons/SectionExpanded.png" />See Also</span></div><div id="ID4RBSection" class="collapsibleSection"><h4 class="subHeading">Reference</h4><div class="seeAlsoStyle"><a href="T_KSPDev_ProcessingUtils_SimpleStateMachine_1.htm">SimpleStateMachine<span id="LSTBA43BC4_5"></span><script type="text/javascript">AddLanguageSpecificTextSet("LSTBA43BC4_5?cs=&lt;|vb=(Of |cpp=&lt;|nu=(|fs=&lt;'");</script>T<span id="LSTBA43BC4_6"></span><script type="text/javascript">AddLanguageSpecificTextSet("LSTBA43BC4_6?cs=&gt;|vb=)|cpp=&gt;|nu=)|fs=&gt;");</script> Class</a></div><div class="seeAlsoStyle"><a href="N_KSPDev_ProcessingUtils.htm">KSPDev.ProcessingUtils Namespace</a></div><div class="seeAlsoStyle"><a href="P_KSPDev_ProcessingUtils_SimpleStateMachine_1_isStrict.htm">SimpleStateMachine<span id="LSTBA43BC4_7"></span><script type="text/javascript">AddLanguageSpecificTextSet("LSTBA43BC4_7?cs=&lt;|vb=(Of |cpp=&lt;|nu=(|fs=&lt;'");</script>T<span id="LSTBA43BC4_8"></span><script type="text/javascript">AddLanguageSpecificTextSet("LSTBA43BC4_8?cs=&gt;|vb=)|cpp=&gt;|nu=)|fs=&gt;");</script><span id="LSTBA43BC4_9"></span><script type="text/javascript">AddLanguageSpecificTextSet("LSTBA43BC4_9?cs=.|vb=.|cpp=::|nu=.|fs=.");</script>isStrict</a></div></div></div></div><div id="pageFooter" class="pageFooter"><div class="feedbackLink">Send comments on this topic to
         <a id="HT_MailLink" href="mailto:igor.zavoychinskiy%40gmail.com?Subject=KSPDev Client utilities">igor.zavoychinskiy@gmail.com</a></div>
