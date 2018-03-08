@@ -14,7 +14,9 @@
     "Plugins" : [
       "{COMPILED_BINARY}",
       "{MINIAVC_VERSION_FILE}",
-      "/Binaries/*",
+      "/Binaries/KSPDev_Utils.0.31.*",
+      "/Binaries/KSPDev_Utils_License.*",
+      "/Binaries/MiniAVC*",
       "-*.xml"
     ],
     "Plugins/PluginData" : [
