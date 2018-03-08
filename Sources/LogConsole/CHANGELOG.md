@@ -1,6 +1,9 @@
-# 0.16 (March 7th, 2018):
+# 0.17 (March 7th, 2018):
 * [Change] KSP 1.4.0 compatibility.
 * [Change] Use KSPDev_Utils `KSPDev Utils v0.31`.
+
+# 0.16 (December 14th, 2017):
+* [Change] Use KSPDev_Utils `KSPDev Utils v0.30`.
 
 # 0.15 (July 15th, 2017):
 * [Enhancement #14] Allow three fixed window size modes: top, bottom, or center.
