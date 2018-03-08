@@ -67,7 +67,7 @@ public static class DebugEx {
   /// <seealso cref="ObjectToString"/>
   public static void Log(LogType type, string format, params object[] args) {
     try {
-      Debug.logger.LogFormat(type, format, args.Select(x => ObjectToString(x)).ToArray());
+      Debug.unityLogger.LogFormat(type, format, args.Select(x => ObjectToString(x)).ToArray());
     } catch (Exception e) {
       Debug.LogErrorFormat(
           "Failed to format logging string: {0}.\n{1}", format, e.StackTrace.ToString());

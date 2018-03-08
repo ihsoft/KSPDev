@@ -211,7 +211,6 @@ public static class Meshes {
     mesh.normals = normals;
     mesh.RecalculateBounds();
     mesh.RecalculateNormals();
-    mesh.Optimize();  // We're not going to modify it further.
     meshFilter.sharedMesh = mesh;
   }
 }

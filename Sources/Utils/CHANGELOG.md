@@ -1,4 +1,5 @@
 # 0.31-pre:
+* [Chage] KSP 1.4.0 compatibility.
 * [Enhancement] Add `onBeforeTransition` event into: [ProcessingUtils.SimpleStateMachine](http://ihsoft.github.io/KSPDev/Utils/html/T_KSPDev_ProcessingUtils_SimpleStateMachine_1).
 * [Enhancement] Better print `Vector3` and `Quaternion` objects with better precission in [LogUtils.DebugEx](http://ihsoft.github.io/KSPDev/Utils/html/T_KSPDev_LogUtils_DebugEx.htm).
 * [Enhancement] Add optional paraemetrs to skip the specified number of frames [ProcessingUtils.AsyncCall](http://ihsoft.github.io/KSPDev/Utils/html/T_KSPDev_ProcessingUtils_AsyncCall.htm).
