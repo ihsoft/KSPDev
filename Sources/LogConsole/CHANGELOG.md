@@ -1,4 +1,4 @@
-# 0.16 (December 14th, 2017):
+# 0.16 (March 7th, 2018):
 * [Change] KSP 1.4.0 compatibility.
 * [Change] Use KSPDev_Utils `KSPDev Utils v0.31`.
 
