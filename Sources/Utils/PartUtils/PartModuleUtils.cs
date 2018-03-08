@@ -133,7 +133,7 @@ public static class PartModuleUtils {
   /// <param name="srcModule">The module that originally owns the event.</param>
   /// <param name="srcEventFn">The event signature in the owner's module.</param>
   /// <param name="tgtModule">The part to inject the event into.</param>
-  /// <returns></returns>
+  /// <returns><c>true</c> if the event has been successfully injected.</returns>
   public static bool InjectEvent(PartModule srcModule, Action srcEventFn, PartModule tgtModule) {
     return SetupEvent(srcModule, srcEventFn, e => AddEvent(tgtModule, e));
   }
