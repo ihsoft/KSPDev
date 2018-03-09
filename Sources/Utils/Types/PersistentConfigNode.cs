@@ -13,7 +13,7 @@ namespace KSPDev.Types {
 /// <seealso cref="ConfigUtils.PersistentFieldAttribute"/>
 public class PersistentConfigNode : ConfigNode, IConfigNode {
   #region IConfigNode implementation
-  /// <summary>Copies valus from a node.</summary>
+  /// <summary>Copies values from a node.</summary>
   /// <param name="node">The node to copy from.</param>
   public void Load(ConfigNode node) {
     node.CopyTo(this);
