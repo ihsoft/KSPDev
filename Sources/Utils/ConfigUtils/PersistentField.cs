@@ -120,11 +120,20 @@ sealed class PersistentField {
   }
 
   /// <summary>Reads the field from a config node.</summary>
+  /// <remarks>
+  /// The readonly fields will be refused. In spite of they can be changed via reflections, there
+  /// are the edge cases, which this code won't handle. 
+  /// </remarks>
   /// <param name="node">The node to read the state from.</param>
   /// <param name="instance">
   /// The owner of the field. It can be <c>null</c> for the static fields.
   /// </param>
   public void ReadFromConfig(ConfigNode node, object instance) {
+    if (fieldInfo.IsInitOnly) {
+      DebugEx.Warning("Readonly fields cannot be read from a config! Field is ignored: {0}.{1}",
+                      fieldInfo.DeclaringType.FullName, fieldInfo.Name);
+      return;
+    }
     if (collectionProto != null) {
       ReadCollectionFromConfig(node, instance);
     } else {

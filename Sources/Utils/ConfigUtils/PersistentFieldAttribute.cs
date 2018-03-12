@@ -9,6 +9,10 @@ namespace KSPDev.ConfigUtils {
 /// <summary>A simple attribute for the fields that need (de)serialization.</summary>
 /// <remarks>
 /// <para>
+/// The readonly fields cannot be restored from a persistent state. However, they can be written
+/// out.
+/// </para>
+/// <para>
 /// By default the ordinal values are handled via <see cref="StandardOrdinaryTypesProto"/>
 /// and the collection fields via <see cref="GenericCollectionTypeProto"/>. These proto handlers can
 /// be changed in the annotation by assigning properties
