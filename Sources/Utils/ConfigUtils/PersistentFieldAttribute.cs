@@ -8,9 +8,6 @@ namespace KSPDev.ConfigUtils {
 
 /// <summary>A simple attribute for the fields that need (de)serialization.</summary>
 /// <remarks>
-/// This form allows adjusting any <see cref="BasePersistentFieldAttribute"/> property
-/// in the annotation, and has a shortcut to mark a field as a collection
-/// (<c><see cref="isCollection"/> = true</c>).
 /// <para>
 /// By default the ordinal values are handled via <see cref="StandardOrdinaryTypesProto"/>
 /// and the collection fields via <see cref="GenericCollectionTypeProto"/>. These proto handlers can
