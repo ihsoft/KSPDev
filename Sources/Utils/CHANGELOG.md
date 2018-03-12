@@ -1,3 +1,5 @@
+# 0.32 (pre-release):
+
 # 0.31 (March 7th, 2018):
 * [Chage] KSP 1.4.0 compatibility.
 * [Enhancement] Add `onBeforeTransition` event into: [`ProcessingUtils.SimpleStateMachine`](http://ihsoft.github.io/KSPDev/Utils/html/T_KSPDev_ProcessingUtils_SimpleStateMachine_1.htm).
