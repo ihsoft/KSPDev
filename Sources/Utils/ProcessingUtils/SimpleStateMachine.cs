@@ -100,13 +100,13 @@ public sealed class SimpleStateMachine<T> where T : struct, IConvertible {
   readonly Dictionary<T, T[]> transitionContstraints = new Dictionary<T, T[]>();
 
   /// <summary>Constructs a new uninitialized state machine.</summary>
-  /// <param name="strict">Tells if all the transitions must be excplicitly declared.</param>
+  /// <param name="strict">Tells if all the transitions must be explicitly declared.</param>
   /// <seealso cref="isStrict"/>
   /// <seealso cref="currentState"/>
   /// <seealso cref="SetTransitionConstraint"/>
   /// <example><code source="Examples/ProcessingUtils/SimpleStateMachine-Examples.cs" region="SimpleStateMachineStrict"/></example>
   /// <example><code source="Examples/ProcessingUtils/SimpleStateMachine-Examples.cs" region="SimpleStateMachineFree"/></example>
-  public SimpleStateMachine(bool strict) {
+  public SimpleStateMachine(bool strict = true) {
     isStrict = strict;
   }
 
