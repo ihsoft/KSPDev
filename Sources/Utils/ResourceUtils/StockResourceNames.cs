@@ -2,6 +2,8 @@
 // Author: igor.zavoychinskiy@gmail.com
 // This software is distributed under Public domain license.
 
+using KSP.Localization;
+
 namespace KSPDev.ResourceUtils {
 
 /// <summary>
@@ -71,20 +73,38 @@ public static class StockResourceNames {
   }
 
   /// <summary>Returns a user friendly name of the resource.</summary>
+  /// <remarks>
+  /// This could be a rather expensive call. Cach the result if the timing is critical.
+  /// </remarks>
   /// <param name="resourceName">The resource common name.</param>
+  /// <param name="removeLingoonaTags">
+  /// Specifies if any Lingoona tags on the name must be removed. Keep it default if the name is
+  /// intended to be used 'as-is". If the name is to be used as a parameter to localizable phrase,
+  /// then the tags should be kept.
+  /// </param>
   /// <returns>A user friendly string that identifies the resource.</returns>
   /// <code source="Examples/ResourceUtils/StockResourceNames-Examples.cs" region="StockResourceNames1"/>
-  public static string GetResourceTitle(string resourceName) {
-    return GetResourceTitle(GetId(resourceName));
+  public static string GetResourceTitle(string resourceName, bool removeLingoonaTags = true) {
+    return GetResourceTitle(GetId(resourceName), removeLingoonaTags);
   }
 
   /// <summary>Returns a user friendly name of the resource.</summary>
+  /// <remarks>
+  /// This could be a rather expensive call. Cach the result if the timing is critical.
+  /// </remarks>
   /// <param name="resourceId">The resource ID.</param>
+  /// <param name="removeLingoonaTags">
+  /// Specifies if any Lingoona tags on the name must be removed. Keep it default if the name is
+  /// intended to be used 'as-is". If the name is to be used as a parameter to localizable phrase,
+  /// then the tags should be kept.
+  /// </param>
   /// <returns>A user friendly string that identifies the resource.</returns>
   /// <code source="Examples/ResourceUtils/StockResourceNames-Examples.cs" region="StockResourceNames1"/>
-  public static string GetResourceTitle(int resourceId) {
+  public static string GetResourceTitle(int resourceId, bool removeLingoonaTags = true) {
     var res = PartResourceLibrary.Instance.GetDefinition(resourceId);
-    return res == null ? "Res#" + resourceId : res.displayName;
+    return res == null
+        ? "Res#" + resourceId
+        : removeLingoonaTags ? Localizer.Format("<<1>>", res.displayName) : res.displayName;
   }
 
   /// <summary>Returns a user friendly name of the resource bsort name (abbreviation).</summary>
@@ -93,25 +113,40 @@ public static class StockResourceNames {
   /// are returned.
   /// </remarks>
   /// <param name="resourceName">The resource common name.</param>
+  /// <param name="removeLingoonaTags">
+  /// Specifies if any Lingoona tags on the name must be removed. Keep it default if the name is
+  /// intended to be used 'as-is". If the name is to be used as a parameter to localizable phrase,
+  /// then the tags should be kept.
+  /// </param>
   /// <returns>A user friendly string that identifies the resource.</returns>
   /// <code source="Examples/ResourceUtils/StockResourceNames-Examples.cs" region="StockResourceNames1"/>
-  public static string GetResourceAbbreviation(string resourceName) {
+  public static string GetResourceAbbreviation(
+      string resourceName, bool removeLingoonaTags = true) {
     return GetResourceAbbreviation(GetId(resourceName));
   }
 
   /// <summary>Returns a user friendly name of the resource bsort name (abbreviation).</summary>
   /// <remarks>
   /// If the abbreviation is not set for the resource, then the first 3 letters of its display name
-  /// are returned.
+  /// are returned.  This could be a rather expensive call. Cach the result if the timing is
+  /// critical.
   /// </remarks>
   /// <param name="resourceId">The resource ID.</param>
+  /// <param name="removeLingoonaTags">
+  /// Specifies if any Lingoona tags on the name must be removed. Keep it default if the name is
+  /// intended to be used 'as-is". If the name is to be used as a parameter to localizable phrase,
+  /// then the tags should be kept.
+  /// </param>
   /// <returns>A user friendly string that identifies the resource.</returns>
   /// <code source="Examples/ResourceUtils/StockResourceNames-Examples.cs" region="StockResourceNames1"/>
-  public static string GetResourceAbbreviation(int resourceId) {
+  public static string GetResourceAbbreviation(int resourceId, bool removeLingoonaTags = true) {
     var res = PartResourceLibrary.Instance.GetDefinition(resourceId);
-    return res == null
-        ? "Res#" + resourceId
-        : res.abbreviation.Length > 0 ? res.abbreviation : res.displayName.Substring(0, 3);
+    if (res == null) {
+      return "Res#" + resourceId;
+    } else {
+      var str = res.abbreviation.Length > 0 ? res.abbreviation : res.displayName.Substring(0, 3);
+      return removeLingoonaTags ? Localizer.Format("<<1>>", str) : str;
+    }
   }
 }
 
