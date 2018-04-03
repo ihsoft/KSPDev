@@ -1,4 +1,5 @@
 # 0.32 (pre-release):
+* [Enhancement] Upgrade `LocalizedMessage` to allow GUI hints to be passed from the localziation files into the mods: [GUIUtils.LocalizableMessage](http://ihsoft.github.io/KSPDev/Utils/html/T_KSPDev_GUIUtils_LocalizableMessage.htm).
 
 # 0.31 (March 7th, 2018):
 * [Chage] KSP 1.4.0 compatibility.
