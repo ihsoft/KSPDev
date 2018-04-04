@@ -135,6 +135,7 @@
     <Compile Include="LogUtils\DbgFormatter.cs" />
     <Compile Include="LogUtils\DebugEx.cs" />
     <Compile Include="LogUtils\HostedDebugLog.cs" />
+    <Compile Include="MathUtils\Mathd.cs" />
     <Compile Include="ModelUtils\AlignTransforms.cs" />
     <Compile Include="ModelUtils\Colliders.cs" />
     <Compile Include="ModelUtils\Hierarchy.cs" />
@@ -161,6 +162,7 @@
     <Folder Include="FSUtils" />
     <Folder Include="ModelUtils" />
     <Folder Include="InputUtils" />
+    <Folder Include="MathUtils" />
     <Folder Include="PartUtils" />
     <Folder Include="SoundUtils" />
     <Folder Include="ResourceUtils" />
