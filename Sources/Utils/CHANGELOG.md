@@ -1,5 +1,6 @@
 # 0.32 (pre-release):
 * [Change] Properly handle the localized stock resources names: [ResourceUtils.StockResourceNames](http://ihsoft.github.io/KSPDev/Utils/html/T_KSPDev_ResourceUtils_StockResourceNames.htm).
+* [Change] Deprecate `KSPUtilsGUILayout` class. Use `GUILayoutButtons` instead.
 * [Enhancement] Upgrade `LocalizedMessage` to allow GUI hints to be passed from the localziation files into the mods: [GUIUtils.LocalizableMessage](http://ihsoft.github.io/KSPDev/Utils/html/T_KSPDev_GUIUtils_LocalizableMessage.htm).
 * [Enhancement] Add a new GUI layout class, the strings table: [GUIUtils.GUILayoutStringTable](http://ihsoft.github.io/KSPDev/Utils/html/T_KSPDev_GUIUtils_GUILayoutStringTable.htm).
 * [Enhancement] Add a new GUI layout class for tyhe buttons: [GUIUtils.GUILayoutButtons](http://ihsoft.github.io/KSPDev/Utils/html/T_KSPDev_GUIUtils_GUILayoutButtons.htm).
