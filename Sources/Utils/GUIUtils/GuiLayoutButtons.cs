@@ -56,8 +56,6 @@ public static class GUILayoutButtons {
   /// <param name="fnOn">The callback to call when the control is checked.</param>
   /// <param name="fnOff">The callback to call when the control is released.</param>
   /// <returns>The new button toggle state.</returns>
-  /// FIXME: handle disabled state , fix comments
-//    if (Event.current.type != EventType.Layout && GUI.changed || btnState && !GUI.enabled) {
   public static bool Toggle(bool btnState, GUIContent guiCnt, GUIStyle style,
                             GUILayoutOption[] options, Action fnOn, Action fnOff) {
     GUI.changed = false;
