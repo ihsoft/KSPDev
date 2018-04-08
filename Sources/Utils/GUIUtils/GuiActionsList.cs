@@ -49,15 +49,12 @@ namespace KSPDev.GUIUtils {
 /// <seealso href="http://docs.unity3d.com/ScriptReference/EventType.html"/>
 /// </example>
 public class GuiActionsList {
-  /// <summary>GUI action type.</summary>
-  public delegate void GuiAction();
-  
   /// <summary>A list of pending actions.</summary>
-  private readonly List<GuiAction> guiActions = new List<GuiAction>();
+  private readonly List<Action> guiActions = new List<Action>();
 
   /// <summary>Adds an action to the pending list.</summary>
   /// <param name="actionFn">An action callback.</param>
-  public void Add(GuiAction actionFn) {
+  public void Add(Action actionFn) {
     // In the layout phase the controls are not supposed to trigger anything.
     if (Event.current.type != EventType.Layout) {
       guiActions.Add(actionFn);
