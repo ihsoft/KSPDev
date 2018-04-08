@@ -20,11 +20,21 @@ public static class GUILayoutButtons {
   /// <param name="options">
   /// The GUILayout options to apply to the control. It can be <c>null</c>.
   /// </param>
-  /// <param name="fnPush">The callback to call when the button is pressed.</param>
-  /// <param name="fnRelease">The callback to call when the button is released.</param>
+  /// <param name="fnPush">
+  /// The callback to call when the button is pressed. Can be <c>null</c>.
+  /// </param>
+  /// <param name="fnRelease">
+  /// The callback to call when the button is released. Can be <c>null</c>.
+  /// </param>
+  /// <param name="actionsList">
+  /// The action list to add to use to fire a callback. If the list is onitted, then the callback is
+  /// fired right away.
+  /// </param>
   /// <returns>The new button press state.</returns>
+  /// <seealso cref="GuiActionsList"/>
   public static bool Push(bool btnState, GUIContent guiCnt, GUIStyle style,
-                          GUILayoutOption[] options, Action fnPush, Action fnRelease) {
+                          GUILayoutOption[] options, Action fnPush, Action fnRelease,
+                          GuiActionsList actionsList = null) {
     var state = GUILayout.RepeatButton(guiCnt, style, options);
     if (Event.current.type != EventType.Layout) {
       if (!GUI.enabled) {
@@ -33,9 +43,21 @@ public static class GUILayoutButtons {
       if (state != btnState) {
         btnState = state;
         if (btnState) {
-          fnPush();
+          if (fnPush != null) {
+            if (actionsList == null) {
+              fnPush();
+            } else {
+              actionsList.Add(fnPush);
+            }
+          }
         } else {
-          fnRelease();
+          if (fnRelease != null) {
+            if (actionsList == null) {
+              fnRelease();
+            } else {
+              actionsList.Add(fnRelease);
+            }
+          }
         }
       }
     }
@@ -53,11 +75,20 @@ public static class GUILayoutButtons {
   /// <param name="options">
   /// The GUILayout options to apply to the control. It can be <c>null</c>.
   /// </param>
-  /// <param name="fnOn">The callback to call when the control is checked.</param>
-  /// <param name="fnOff">The callback to call when the control is released.</param>
+  /// <param name="fnOn">
+  /// The callback to call when the control is checked. Can be <c>null</c>.
+  /// </param>
+  /// <param name="fnOff">The callback to call when the control is checked. Can be <c>null</c>.
+  /// </param>
+  /// <param name="actionsList">
+  /// The action list to add to use to fire a callback. If the list is onitted, then the callback is
+  /// fired right away.
+  /// </param>
   /// <returns>The new button toggle state.</returns>
+  /// <seealso cref="GuiActionsList"/>
   public static bool Toggle(bool btnState, GUIContent guiCnt, GUIStyle style,
-                            GUILayoutOption[] options, Action fnOn, Action fnOff) {
+                            GUILayoutOption[] options, Action fnOn, Action fnOff,
+                            GuiActionsList actionsList = null) {
     GUI.changed = false;
     var state = GUILayout.Toggle(btnState, guiCnt, style, options);
     if (Event.current.type != EventType.Layout) {
@@ -67,9 +98,21 @@ public static class GUILayoutButtons {
       if (btnState != state) {
         btnState = state;
         if (btnState) {
-          fnOn();
+          if (fnOn != null) {
+            if (actionsList == null) {
+              fnOn();
+            } else {
+              actionsList.Add(fnOn);
+            }
+          }
         } else {
-          fnOff();
+          if (fnOff != null) {
+            if (actionsList == null) {
+              fnOff();
+            } else {
+              actionsList.Add(fnOff);
+            }
+          }
         }
       }
     }
