@@ -24,7 +24,7 @@ public static class Mathd {
   /// </returns>
   public static bool Approximately(double a, double b) {
     return Math.Abs(b - a) < Math.Max(
-        1E-06 * Math.Max(Math.Abs(a), Math.Abs(b)), Mathd.Epsilon * 8f);
+        1E-06 * Math.Max(Math.Abs(a), Math.Abs(b)), Mathd.Epsilon * 8.0);
   }
 
   /// <summary>Tells if the two double are the same, allowing some small error.</summary>
