@@ -20,10 +20,38 @@ namespace KSPDev.GUIUtils {
 /// cached and reused in the subsequent calls. The cache can be reset by incrementing the
 /// <see cref="systemLocVersion"/>.
 /// </para>
+/// <para>
+/// The template of the messages supports special tags that may give a hint to the caller code on
+/// how the messages should be rendered. Those tags must be palced at the beginning of the template.
+/// For the available tags see <see cref="GuiTags"/>.
+/// </para>
 /// </remarks>
 /// <seealso cref="LocalizableItemAttribute"/>
 /// <seealso cref="systemLocVersion"/>
 public class LocalizableMessage {
+  /// <summary>Various values that give hints on how the messages should be presented in GUI.</summary>
+  /// <remarks>
+  /// It's up to the caller to handle theses settings. They improve the appearence, but are not
+  /// required for the proper content presentation.
+  /// </remarks>
+  public class GuiTags {
+    /// <summary>Minimum width of the area in GUI.</summary>
+    /// <remarks>Defined via tag: &lt;gui:min:width,heigth&gt;</remarks>
+    public float minWidth = 0;
+
+    /// <summary>Minimum height of the area in GUI.</summary>
+    /// <remarks>Defined via tag: &lt;gui:min:width,heigth&gt;</remarks>
+    public float minHeight = 0;
+
+    /// <summary>Maximum width of the area in GUI.</summary>
+    /// <remarks>Defined via tag: &lt;gui:max:width,heigth&gt;</remarks>
+    public float maxWidth = float.PositiveInfinity;
+
+    /// <summary>Maximum height of the area in GUI.</summary>
+    /// <remarks>Defined via tag: &lt;gui:max:width,heigth&gt;</remarks>
+    public float maxHeight = float.PositiveInfinity;
+  }
+
   /// <summary>Current version of the loaded localizations.</summary>
   /// <remarks>Increase it to have all the caches to invalidate.</remarks>
   /// <seealso cref="localizedTemplate"/>
@@ -54,6 +82,15 @@ public class LocalizableMessage {
   /// </remarks>
   /// <include file="KSPAPI_HelpIndex.xml" path="//item[@name='T:KSP.Localization.Localizer']"/>
   public readonly string tag;
+
+  /// <summary>GUI specific settings that suggest how to show the message.</summary>
+  /// <remarks>
+  /// Due to the lazzy update nature of the localized messages, these settings are <i>not</i>
+  /// loaded until the message is used at least once. The caller code may ensure the values are
+  /// updated by calling to <see cref="LoadLocalization"/>, or by simply getting the
+  /// <see cref="localizedTemplate"/> value.
+  /// </remarks>
+  public GuiTags guiTags = new GuiTags();
 
   /// <summary>Localized Lingoona Grammar template for the <c>tag</c>.</summary>
   /// <remarks>
@@ -106,6 +143,7 @@ public class LocalizableMessage {
                         tag, Localizer.CurrentLanguage);
       }
     }
+    HandleSpecialTags();
     loadedLocVersion = systemLocVersion;
   }
 
@@ -142,6 +180,37 @@ public class LocalizableMessage {
     this.defaultTemplate = defaultTemplate ?? tag ?? "";
     this.description = description ?? "";
     this.example = example ?? "";
+  }
+
+  /// <summary>Handles any special tags that can prefix the actual template.</summary>
+  void HandleSpecialTags() {
+    guiTags = new GuiTags();  // Reset to default.
+    while (_localizedTemplate.StartsWith("<gui:", StringComparison.Ordinal)) {
+      var endOfSpecial = _localizedTemplate.IndexOf('>');
+      if (endOfSpecial == -1) {
+        DebugEx.Error("[{0}] Bad syntax of the GUI settings specification: {1}",
+                      tag, _localizedTemplate);
+        return;
+      }
+      var special = _localizedTemplate.Substring(5, endOfSpecial - 5);
+      _localizedTemplate = _localizedTemplate.Substring(endOfSpecial + 1);
+      var endOfTag = special.IndexOf(':');
+      if (endOfTag == -1) {
+        DebugEx.Error("[{0}] Bad syntax of the GUI special tag: {1}", tag, special);
+        return;
+      }
+      var specialTag = special.Substring(0, endOfTag);
+      var specialValue = special.Substring(endOfTag + 1);
+      if (specialTag == "min") {
+        var minSize = ConfigNode.ParseVector2(specialValue);
+        guiTags.minWidth = minSize.x;
+        guiTags.minHeight = minSize.y;
+      } else if (specialTag == "max") {
+        var minSize = ConfigNode.ParseVector2(specialValue);
+        guiTags.maxWidth = minSize.x;
+        guiTags.maxHeight = minSize.y;
+      } 
+    }
   }
 }
 

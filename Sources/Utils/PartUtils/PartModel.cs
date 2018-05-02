@@ -43,7 +43,7 @@ public static class PartModel {
     }
     if (part != null && part.HighlightRenderer != null) {
       var partModel = Hierarchy.GetPartModelTransform(part);
-      // Drop the renderers that have left the part's model. 
+      // Drop the renderers that have left the part's model.
       part.HighlightRenderer.RemoveAll(x => x == null || !x.transform.IsChildOf(partModel));
       // Add the renderers that came into the part's model.
       part.HighlightRenderer.AddRange(

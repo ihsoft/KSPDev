@@ -76,6 +76,8 @@ public static class ConfigAccessor {
     var node = GameDatabase.Instance.GetConfigNode(nodePath);
     if (node != null) {
       ReadFieldsFromNode(node, type, instance, group: group);
+    } else {
+      DebugEx.Warning("Cannot find node in the database: {0}", nodePath);
     }
   }
 

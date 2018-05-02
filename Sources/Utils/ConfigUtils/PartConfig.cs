@@ -3,7 +3,6 @@
 // This software is distributed under Public domain license.
 
 using KSPDev.LogUtils;
-using UnityEngine;
 
 namespace KSPDev.ConfigUtils {
 

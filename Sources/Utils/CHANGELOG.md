@@ -1,3 +1,12 @@
+# 0.32 (May 5th, 2018):
+* [Change] Properly handle the localized stock resources names: [ResourceUtils.StockResourceNames](http://ihsoft.github.io/KSPDev/Utils/html/T_KSPDev_ResourceUtils_StockResourceNames.htm).
+* [Change] Deprecate `KSPUtilsGUILayout` class. Use `GUILayoutButtons` instead.
+* [Change] Use stock `Action` as a callback in [GUIUtils.GuiActionsList](http://ihsoft.github.io/KSPDev/Utils/html/T_KSPDev_GUIUtils_GuiActionsList.htm).
+* [Enhancement] Upgrade `LocalizedMessage` to allow GUI hints to be passed from the localziation files into the mods: [GUIUtils.LocalizableMessage](http://ihsoft.github.io/KSPDev/Utils/html/T_KSPDev_GUIUtils_LocalizableMessage.htm).
+* [Enhancement] Add a new GUI layout class, the strings table: [GUIUtils.GUILayoutStringTable](http://ihsoft.github.io/KSPDev/Utils/html/T_KSPDev_GUIUtils_GUILayoutStringTable.htm).
+* [Enhancement] Add a new GUI layout class for tyhe buttons: [GUIUtils.GUILayoutButtons](http://ihsoft.github.io/KSPDev/Utils/html/T_KSPDev_GUIUtils_GUILayoutButtons.htm).
+* [Enhancement] Add a new math class: [MathUtils.Mathd](http://ihsoft.github.io/KSPDev/Utils/html/T_KSPDev_MathUtils_Mathd.htm).
+
 # 0.31 (March 7th, 2018):
 * [Chage] KSP 1.4.0 compatibility.
 * [Enhancement] Add `onBeforeTransition` event into: [`ProcessingUtils.SimpleStateMachine`](http://ihsoft.github.io/KSPDev/Utils/html/T_KSPDev_ProcessingUtils_SimpleStateMachine_1.htm).

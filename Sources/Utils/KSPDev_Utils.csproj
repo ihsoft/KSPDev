@@ -6,7 +6,7 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <OutputType>Library</OutputType>
     <RootNamespace>KSPDev</RootNamespace>
-    <AssemblyName>KSPDev_Utils.0.31</AssemblyName>
+    <AssemblyName>KSPDev_Utils.0.32</AssemblyName>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <TargetFrameworkProfile />
@@ -91,9 +91,10 @@
     <Compile Include="Extensions\PosAndRotExtensions.cs" />
     <Compile Include="Extensions\RectExtensions.cs" />
     <Compile Include="FSUtils\KspPaths.cs" />
+    <Compile Include="GUIUtils\GuiLayoutButtons.cs" />
+    <Compile Include="GUIUtils\GuiLayoutStringTable.cs" />
     <Compile Include="GUIUtils\IHasGUI.cs" />
     <Compile Include="GUIUtils\IsLocalizableModule.cs" />
-    <Compile Include="GUIUtils\KSPUtilsGUILayout.cs" />
     <Compile Include="GUIUtils\MessageLookup.cs" />
     <Compile Include="GUIUtils\GuiColorScope.cs" />
     <Compile Include="GUIUtils\GuiEnabledStateScope.cs" />
@@ -134,6 +135,7 @@
     <Compile Include="LogUtils\DbgFormatter.cs" />
     <Compile Include="LogUtils\DebugEx.cs" />
     <Compile Include="LogUtils\HostedDebugLog.cs" />
+    <Compile Include="MathUtils\Mathd.cs" />
     <Compile Include="ModelUtils\AlignTransforms.cs" />
     <Compile Include="ModelUtils\Colliders.cs" />
     <Compile Include="ModelUtils\Hierarchy.cs" />
@@ -160,6 +162,7 @@
     <Folder Include="FSUtils" />
     <Folder Include="ModelUtils" />
     <Folder Include="InputUtils" />
+    <Folder Include="MathUtils" />
     <Folder Include="PartUtils" />
     <Folder Include="SoundUtils" />
     <Folder Include="ResourceUtils" />
