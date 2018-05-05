@@ -1,3 +1,5 @@
+# 0.33 (pre-release):
+
 # 0.32 (May 5th, 2018):
 * [Change] Properly handle the localized stock resources names: [ResourceUtils.StockResourceNames](http://ihsoft.github.io/KSPDev/Utils/html/T_KSPDev_ResourceUtils_StockResourceNames.htm).
 * [Change] Deprecate `KSPUtilsGUILayout` class. Use `GUILayoutButtons` instead.
