@@ -129,11 +129,6 @@ sealed class PersistentField {
   /// The owner of the field. It can be <c>null</c> for the static fields.
   /// </param>
   public void ReadFromConfig(ConfigNode node, object instance) {
-    if (fieldInfo.IsInitOnly) {
-      DebugEx.Warning("Readonly fields cannot be read from a config! Field is ignored: {0}.{1}",
-                      fieldInfo.DeclaringType.FullName, fieldInfo.Name);
-      return;
-    }
     if (collectionProto != null) {
       ReadCollectionFromConfig(node, instance);
     } else {
@@ -241,6 +236,12 @@ sealed class PersistentField {
       if (cfgNode != null) {
         if (value == null) {
           // Try creating the instance using its default constructor.
+          if (fieldInfo.IsInitOnly) {
+            DebugEx.Warning(
+                "Cannot assign to a NULL readonly compound field! Field is ignored: {0}.{1}",
+                fieldInfo.DeclaringType.FullName, fieldInfo.Name);
+            return;
+          }
           try {
             value = Activator.CreateInstance(fieldInfo.FieldType);
             fieldInfo.SetValue(instance, value);
@@ -251,6 +252,11 @@ sealed class PersistentField {
         DeserializeCompoundFieldsFromNode(cfgNode, value);
       }
     } else {
+      if (fieldInfo.IsInitOnly) {
+        DebugEx.Warning("Cannot assign to a readonly field! Field is ignored: {0}.{1}",
+                        fieldInfo.DeclaringType.FullName, fieldInfo.Name);
+        return;
+      }
       var cfgValue = ConfigAccessor.GetValueByPath(node, cfgPath);
       if (cfgValue != null) {
         try {
