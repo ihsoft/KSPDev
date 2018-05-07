@@ -1,3 +1,7 @@
+# 0.33 (May 6th, 2018):
+* [Fix] Fix the search in [Hierarchy.FindPartModelByPath](http://ihsoft.github.io/KSPDev/Utils/html/M_KSPDev_ModelUtils_Hierarchy_FindPartModelByPath.htm). It supposed to do the "breadth-first" search, but in fact was implementing the "depth-first" one. Now it's true BFS.
+* [Fix] Fix reading of the initalized compound and collection fields: don't complain about the readonly fields.
+
 # 0.32 (May 5th, 2018):
 * [Change] Properly handle the localized stock resources names: [ResourceUtils.StockResourceNames](http://ihsoft.github.io/KSPDev/Utils/html/T_KSPDev_ResourceUtils_StockResourceNames.htm).
 * [Change] Deprecate `KSPUtilsGUILayout` class. Use `GUILayoutButtons` instead.

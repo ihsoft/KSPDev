@@ -128,10 +128,11 @@ public static class Hierarchy {
   /// </item>
   /// <item>
   /// <c>**</c> - any <i>path</i> matches. What will eventually be found depends on the pattern to
-  /// the right of <c>**</c>. The path match pattern does a "breadth-first" search, i.e. it tries to
-  /// find the shortest path possible. E.g. <c>**/a/b</c> will go through all the nodes starting
-  /// from the parent until path <c>a/b</c> is found. Be careful with this pattern since in case of
-  /// not matching anything it will walk thought the <i>whole</i> hirerachy.
+  /// the right of <c>**</c>. E.g. <c>**/a/b</c> will go through all the nodes starting from the
+  /// parent until path <c>a/b</c> is found. If multiple paths have matched the pattern, then the
+  /// shortest path will be returned. Be careful with this pattern since in case of not matching
+  /// anything it will walk thought the <i>whole</i> hirerachy, starting from
+  /// <paramref name="parent"/>.
   /// </item>
   /// </list>
   /// <para>
@@ -155,7 +156,7 @@ public static class Hierarchy {
   /// <returns>Transform or <c>null</c> if nothing found.</returns>
   /// <example>
   /// Given the following hierarchy:
-  /// <code lang="c++"><![CDATA[
+  /// <code><![CDATA[
   /// // a
   /// // + b
   /// // | + c
@@ -167,29 +168,33 @@ public static class Hierarchy {
   /// // |       + e1
   /// // + abc
   /// ]]></code>
-  /// <para>The following pattern/output will be possible:</para>
+  /// <para>Here are some matching examples:</para>
   /// <code><![CDATA[
-  /// // a/b/c/d/e/e1 => node "e1"
-  /// // a/b/*/d/e/e1 => node "e1"
-  /// // a/b/*/*/e/e1 => node "e1"
-  /// // a/b/c/c1 => node "с1"
-  /// // a/b/*:0 => branch "a/b/c/c1", node "c"
-  /// // a/b/*:1 => branch "a/b/c/d/e/e1", node "c"
-  /// // a/b/c:1/d => branch "a/b/c/d/e/e1", node "d"
-  /// // **/e1 => node "e1"
-  /// // **/c1 => node "c1"
-  /// // **/c/d => AMBIGUITY! The first found branch will be taken
-  /// // a/**/e1 => node "e1"
-  /// // *bc => node "abc"
-  /// // ab* => node "abc"
-  /// // *b* => node "abc"
+  /// // a/b/c/d/e/e1 => a/b/c/d/e/e1
+  /// // a/b/c/c1 => a/b/c/c1
+  /// // a/b/*/d/e/e1 => a/b/c/d/e/e1
+  /// // a/b/*/*/e/e1 => a/b/c/d/e/e1
+  /// // a/b/* => a/b/c, branch a/b/c/c1/d (the first match)
+  /// // a/b/*:0 => a/b/c, branch a/b/c/c1/d
+  /// // a/b/*:1 => a/b/c, branch a/b/c/d/e/e1
+  /// // a/b/c:1/d => a/b/c/d, branch a/b/c/d/e/e1
+  /// // **/e1 => a/b/c/d/e/e1
+  /// // **/c1 => a/b/c/c1
+  /// // **/c/d => a/b/c/d, branch a/b/c/d
+  /// // **/*c => a/abc. The other matched branch (a/b/c) will be refused due to the length. 
+  /// // a/**/e1 => a/b/c/d/e/e1
+  /// // *bc => a/abc
+  /// // ab* => a/abc
+  /// // *b* => a/abc
   /// ]]></code>
   /// </example>
   /// <seealso cref="UnescapeName"/>
   /// <include file="Unity3D_HelpIndex.xml" path="//item[@name='T:UnityEngine.Transform']/*"/>
   public static Transform FindTransformByPath(Transform parent, string[] path,
                                               Transform defValue = null) {
-    var obj = FindTransformByPathInternal(parent, path);
+    Transform obj = null;
+    int minPathLength = int.MaxValue;
+    FindTransformByPathInternal(parent, path, 0, ref minPathLength, ref obj);
     if (obj == null && defValue != null) {
       HostedDebugLog.Warning(parent, "Cannot find path: {0}. Using a fallback: {1}",
                              MakePath(path), DbgFormatter.TranformPath(defValue));
@@ -305,42 +310,57 @@ public static class Hierarchy {
     }
   }
 
-  static Transform FindTransformByPathInternal(Transform parent, string[] names) {
-    if (names.Length == 0) {
-      return parent;
+  /// <summary>Searches thru the nodes, implementing the BFS algorithm.</summary>
+  static void FindTransformByPathInternal(
+      Transform parent, string[] names, int currentLevel,
+      ref int bestMatchPathLength, ref Transform bestMatchNode) {
+    if (currentLevel >= bestMatchPathLength) {
+      return;
     }
+    if (names.Length == 0) {
+      if (currentLevel < bestMatchPathLength) {
+        bestMatchPathLength = currentLevel;
+        bestMatchNode = parent;
+      }
+      return;
+    }
+
     // Try each child of the parent.
     var pair = names[0].Split(':');  // Separate index specifier if any.
     var pattern = pair[0];
     var reducedNames = names.Skip(1).ToArray();
+    
+    // Try the "any level" pattern on the own children first.
+    if (pattern == "**") {
+      // Wildcards after "**" make no sense.
+      reducedNames = reducedNames.SkipWhile(p => p == "*" || p == "**").ToArray();
+      if (reducedNames.Length == 0) {
+        return;  // It's an ambiguty.
+      }
+      FindTransformByPathInternal(parent, reducedNames, currentLevel,
+                                  ref bestMatchPathLength, ref bestMatchNode);
+      for (var i = 0; i < parent.childCount; ++i) {
+        FindTransformByPathInternal(parent.GetChild(i), names, currentLevel + 1,
+                                    ref bestMatchPathLength, ref bestMatchNode);
+      }
+      return;
+    }
+
+    // Work with the single level pattern.
     var index = pair.Length > 1 ? Math.Abs(int.Parse(pair[1])) : -1;
     for (var i = 0; i < parent.childCount; ++i) {
       var child = parent.GetChild(i);
-      Transform branch = null;
-      // "**" means "zero or more levels", so try parent's level first.
-      if (pattern == "**") { 
-        branch = FindTransformByPathInternal(parent, reducedNames);
-      }
-      // Try all children treating "**" as "*" (one level).
-      if (branch == null
-          && (pattern == "*" || pattern == "**" || PatternMatch(pattern, child.name))) {
-        if (index == -1 || index-- == 0) {
-          branch = FindTransformByPathInternal(child, reducedNames);
+      if (pattern == "*" || PatternMatch(pattern, child.name)) {
+        if (index == -1) {
+          FindTransformByPathInternal(child, reducedNames, currentLevel + 1,
+                                      ref bestMatchPathLength, ref bestMatchNode);
+        } else if (index-- == 0) {
+          FindTransformByPathInternal(child, reducedNames, currentLevel + 1,
+                                      ref bestMatchPathLength, ref bestMatchNode);
+          break;  // For the indexed we always pick exactly one value.
         }
       }
-      if (branch != null) {
-        return branch;
-      }
     }
-
-    // If "**" didn't match at this level the try it at the lover levels. For this just make a new
-    // path "*/**" to go thru all the children and try "**" on them.
-    if (pattern == "**") {
-      var extendedNames = names.ToList();
-      extendedNames.Insert(0, "*");
-      return FindTransformByPathInternal(parent, extendedNames.ToArray());
-    }
-    return null;
   }
   #endregion
 }
