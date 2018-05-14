@@ -45,7 +45,7 @@ static class PersistentFieldsFactory {
   }
 
   /// <summary>Finds and returns peristent fields of the requested group.</summary>
-  private static IEnumerable<FieldInfo> FindAnnotatedFields(
+  static IEnumerable<FieldInfo> FindAnnotatedFields(
       IReflect type, bool needStatic, bool needInstance, string group = null) {
     var flags = BindingFlags.NonPublic | BindingFlags.Public | BindingFlags.FlattenHierarchy;
     if (needStatic) {
@@ -58,7 +58,7 @@ static class PersistentFieldsFactory {
   }
 
   /// <summary>Filters only persitent fields of the required group.</summary>
-  private static bool FieldFilter(ICustomAttributeProvider fieldInfo, string group) {
+  static bool FieldFilter(ICustomAttributeProvider fieldInfo, string group) {
     // We need descendants of AbstractPersistentFieldAttribute as well.
     var attributes = fieldInfo.GetCustomAttributes(typeof(BasePersistentFieldAttribute), true)
         as BasePersistentFieldAttribute[];

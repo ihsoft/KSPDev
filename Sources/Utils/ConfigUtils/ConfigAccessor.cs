@@ -105,7 +105,7 @@ public static class ConfigAccessor {
       field.ReadFromConfig(node, instance);
     }
   }
-  
+
   /// <summary>Reads the persistent fields from the URI specified by the class annotation.</summary>
   /// <param name="type">The type to load the fields for.</param>
   /// <param name="instance">
