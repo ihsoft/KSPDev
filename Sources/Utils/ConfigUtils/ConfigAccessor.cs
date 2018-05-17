@@ -155,6 +155,29 @@ public static class ConfigAccessor {
     }
   }
 
+  /// <summary>Copies the custom part fields from the prefab into the instance.</summary>
+  /// <remarks>
+  /// The consumer code must call this method from the <c>OnAwake</c> method to esnure the custom
+  /// fields are properly intialized.
+  /// </remarks>
+  /// <param name="tgtModule">The module to copy the fields into.</param>
+  /// <seealso cref="ReadPartConfig"/>
+  /// <example>
+  /// <code source="Examples/ConfigUtils/ConfigAccessor-Examples.cs" region="ReadPartConfigExample"/>
+  /// </example>
+  public static void CopyPartConfigFromPrefab(PartModule tgtModule) {
+    var fields = PersistentFieldsFactory.GetPersistentFields(
+        tgtModule.GetType(), false /* needStatic */, true /* needInstance */,
+        StdPersistentGroups.PartConfigLoadGroup);
+    if (PartLoader.Instance.IsReady()) {
+      var part = tgtModule.part;
+      var srcModule = part.partInfo.partPrefab.Modules[part.Modules.IndexOf(tgtModule)];
+      foreach (var field in fields) {
+        field.fieldInfo.SetValue(tgtModule, field.fieldInfo.GetValue(srcModule));
+      }
+    }
+  }
+
   /// <summary>Writes values of the annotated persistent fields into a file.</summary>
   /// <remarks>
   /// All persitent values are <b>added</b> into the file provided. I.e. if node had already had a

@@ -1,6 +1,7 @@
 # 0.34 (pre-release):
 * [Fix] Fix handling of the "contains" pattern in [`Hierarchy.PatternMatch`](http://ihsoft.github.io/KSPDev/Utils/html/M_KSPDev_ModelUtils_Hierarchy_PatternMatch.htm). It didn't work.
 * [Change] For compatibility with `KSP 1.4.3` deprecate [`PartConfig.GetModuleConfig`].
+* [Enhancement] Add custom fields copy method: [`ConfigAccessor.CopyPartConfigFromPrefab`](http://ihsoft.github.io/KSPDev/Utils/html/M_KSPDev_ConfigUtils_ConfigAccessor_CopyPartConfigFromPrefab.htm).
 
 # 0.33 (May 6th, 2018):
 * [Fix] Fix the search in [Hierarchy.FindPartModelByPath](http://ihsoft.github.io/KSPDev/Utils/html/M_KSPDev_ModelUtils_Hierarchy_FindPartModelByPath.htm). It supposed to do the "breadth-first" search, but in fact was implementing the "depth-first" one. Now it's true BFS.
