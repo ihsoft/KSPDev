@@ -166,10 +166,10 @@ public static class ConfigAccessor {
   /// <code source="Examples/ConfigUtils/ConfigAccessor-Examples.cs" region="ReadPartConfigExample"/>
   /// </example>
   public static void CopyPartConfigFromPrefab(PartModule tgtModule) {
-    var fields = PersistentFieldsFactory.GetPersistentFields(
-        tgtModule.GetType(), false /* needStatic */, true /* needInstance */,
-        StdPersistentGroups.PartConfigLoadGroup);
     if (PartLoader.Instance.IsReady()) {
+      var fields = PersistentFieldsFactory.GetPersistentFields(
+          tgtModule.GetType(), false /* needStatic */, true /* needInstance */,
+          StdPersistentGroups.PartConfigLoadGroup);
       var part = tgtModule.part;
       var srcModule = part.partInfo.partPrefab.Modules[part.Modules.IndexOf(tgtModule)];
       foreach (var field in fields) {
