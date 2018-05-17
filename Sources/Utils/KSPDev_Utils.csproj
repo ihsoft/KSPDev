@@ -75,7 +75,6 @@
     <Compile Include="ConfigUtils\BasePersistentFieldAttribute.cs" />
     <Compile Include="ConfigUtils\AbstractPersistentFieldsFileAttribute.cs" />
     <Compile Include="ConfigUtils\IPersistentField.cs" />
-    <Compile Include="ConfigUtils\PartConfig.cs" />
     <Compile Include="ConfigUtils\PersistentFieldsDatabaseAttribute.cs" />
     <Compile Include="ConfigUtils\PersistentFieldsFileAttribute.cs" />
     <Compile Include="ConfigUtils\GenericCollectionTypeProto.cs" />
