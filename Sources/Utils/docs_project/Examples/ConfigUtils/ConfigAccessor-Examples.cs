@@ -10,14 +10,14 @@ namespace ConfigUtils.Examples {
 public class ReadPartConfigExample : PartModule {
   public override void OnAwake() {
     base.OnAwake();
-    // Load part's config custom fields in teh scenes that create the parts.
-    ConfigAccessor.ReadPartConfig(this);
+    // get hthe custom fields from the prefab.
+    ConfigAccessor.CopyPartConfigFromPrefab(this);
   }
 
   public override void OnLoad(ConfigNode node) {
     base.OnLoad(node);
-    // Load part's config custom fields in teh scenes that clone the parts.
-    ConfigAccessor.ReadPartConfig(this);
+    // Load part's config custom fields in the scenes that clone the parts.
+    ConfigAccessor.ReadPartConfig(this, node);
   }
 }
 #endregion

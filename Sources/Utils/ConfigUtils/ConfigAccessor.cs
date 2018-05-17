@@ -105,7 +105,7 @@ public static class ConfigAccessor {
       field.ReadFromConfig(node, instance);
     }
   }
-  
+
   /// <summary>Reads the persistent fields from the URI specified by the class annotation.</summary>
   /// <param name="type">The type to load the fields for.</param>
   /// <param name="instance">
@@ -134,22 +134,47 @@ public static class ConfigAccessor {
 
   /// <summary>Reads custom type fileds from the part's config.</summary>
   /// <remarks>
-  /// The consumer code must call this method from both the <c>OnAwake</c> and <c>OnLoad</c>
-  /// methods. Depending on the game scene, the part can be either created or cloned, and the fields
-  /// initalization is different depending on the case. See the example for more details.
+  /// <para>
+  /// The consumer code must call this method from the <c>OnLoad</c> method to capture the
+  /// PartLoader initalization. This method automatically detects the game loading phase, so it's
+  /// safe to call it in every <c>OnLoad</c> inovacation.
+  /// </para>
   /// </remarks>
   /// <param name="module">The module to load the data for.</param>
+  /// <param name="cfgNode">The config node, passed by the game to the module.</param>
   /// <seealso cref="PersistentFieldAttribute"/>
+  /// <seealso cref="StdPersistentGroups.PartConfigLoadGroup"/>
+  /// <seealso cref="CopyPartConfigFromPrefab"/>
   /// <example>
   /// <code source="Examples/ConfigUtils/ConfigAccessor-Examples.cs" region="ReadPartConfigExample"/>
   /// </example>
-  public static void ReadPartConfig(PartModule module) {
-    if (module.part.partInfo != null
-        && module.part.partInfo.partConfig != null
-        && module.part.Modules.IndexOf(module) != -1) {
-      var moduleNode = PartConfig.GetModuleConfig(module);
+  public static void ReadPartConfig(PartModule module, ConfigNode cfgNode) {
+    if (!PartLoader.Instance.IsReady()) {
       ConfigAccessor.ReadFieldsFromNode(
-          moduleNode, module.GetType(), module, group: StdPersistentGroups.PartConfigLoadGroup);
+          cfgNode, module.GetType(), module, group: StdPersistentGroups.PartConfigLoadGroup);
+    }
+  }
+
+  /// <summary>Copies the custom part fields from the prefab into the instance.</summary>
+  /// <remarks>
+  /// The consumer code must call this method from the <c>OnAwake</c> method to esnure the custom
+  /// fields are properly intialized.
+  /// </remarks>
+  /// <param name="tgtModule">The module to copy the fields into.</param>
+  /// <seealso cref="ReadPartConfig"/>
+  /// <example>
+  /// <code source="Examples/ConfigUtils/ConfigAccessor-Examples.cs" region="ReadPartConfigExample"/>
+  /// </example>
+  public static void CopyPartConfigFromPrefab(PartModule tgtModule) {
+    if (PartLoader.Instance.IsReady()) {
+      var fields = PersistentFieldsFactory.GetPersistentFields(
+          tgtModule.GetType(), false /* needStatic */, true /* needInstance */,
+          StdPersistentGroups.PartConfigLoadGroup);
+      var part = tgtModule.part;
+      var srcModule = part.partInfo.partPrefab.Modules[part.Modules.IndexOf(tgtModule)];
+      foreach (var field in fields) {
+        field.fieldInfo.SetValue(tgtModule, field.fieldInfo.GetValue(srcModule));
+      }
     }
   }
 

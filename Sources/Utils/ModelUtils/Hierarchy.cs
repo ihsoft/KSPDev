@@ -56,14 +56,14 @@ public static class Hierarchy {
   /// <param name="target">The target string to check.</param>
   /// <returns><c>true</c> if pattern matches the target.</returns>
   public static bool PatternMatch(string pattern, string target) {
+    if (pattern.Length > 1 && pattern[0] == '*' && pattern[pattern.Length - 1] == '*') {
+      return target.Contains(pattern.Substring(1, pattern.Length - 2));
+    }
     if (pattern.Length > 0 && pattern[0] == '*') {
       return target.EndsWith(pattern.Substring(1), StringComparison.Ordinal);
     }
     if (pattern.Length > 0 && pattern[pattern.Length - 1] == '*') {
       return target.StartsWith(pattern.Substring(0, pattern.Length - 1), StringComparison.Ordinal);
-    }
-    if (pattern.Length > 1 && pattern[0] == '*' && pattern[pattern.Length - 1] == '*') {
-      return target.Contains(pattern.Substring(1, pattern.Length - 2));
     }
     return target == pattern;
   }

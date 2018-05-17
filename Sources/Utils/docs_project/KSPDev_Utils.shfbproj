@@ -57,11 +57,12 @@ sources-->
 <NamespaceSummaryItem name="KSPDev.Types" isDocumented="True">Various custom types for the KSP mods.</NamespaceSummaryItem>
 <NamespaceSummaryItem name="KSPDev.ResourceUtils" isDocumented="True">A set of methods and constants to deal with the stock game resources.</NamespaceSummaryItem>
 <NamespaceSummaryItem name="KSPDev.SoundsUtils" isDocumented="True">A set of methods to deal with the sounds playing.</NamespaceSummaryItem>
-<NamespaceSummaryItem name="KSPDev.PartUtils" isDocumented="True">Offers a variety of methods to deal with the model on the part.</NamespaceSummaryItem></NamespaceSummaries>
+<NamespaceSummaryItem name="KSPDev.PartUtils" isDocumented="True">Offers a variety of methods to deal with the model on the part.</NamespaceSummaryItem>
+<NamespaceSummaryItem name="KSPDev.MathUtils" isDocumented="True">Gives similar functional to the game's Mathf, but deals with teh deouble values.</NamespaceSummaryItem></NamespaceSummaries>
     <WebsiteSdkLinkType>Msdn</WebsiteSdkLinkType>
     <HtmlSdkLinkType>Msdn</HtmlSdkLinkType>
-    <IncludeFavorites>True</IncludeFavorites>
-    <BinaryTOC>True</BinaryTOC>
+    <IncludeFavorites>False</IncludeFavorites>
+    <BinaryTOC>False</BinaryTOC>
     <VisibleItems>Attributes, ExplicitInterfaceImplementations, Protected, SealedProtected, ProtectedInternalAsProtected, PublicCompilerGenerated</VisibleItems>
     <PlugInConfigurations>
       <PlugInConfig id="Additional Reference Links" enabled="True">

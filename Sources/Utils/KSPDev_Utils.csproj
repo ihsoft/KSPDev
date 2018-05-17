@@ -6,7 +6,7 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <OutputType>Library</OutputType>
     <RootNamespace>KSPDev</RootNamespace>
-    <AssemblyName>KSPDev_Utils.0.33</AssemblyName>
+    <AssemblyName>KSPDev_Utils.0.34</AssemblyName>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <TargetFrameworkProfile />
@@ -75,7 +75,6 @@
     <Compile Include="ConfigUtils\BasePersistentFieldAttribute.cs" />
     <Compile Include="ConfigUtils\AbstractPersistentFieldsFileAttribute.cs" />
     <Compile Include="ConfigUtils\IPersistentField.cs" />
-    <Compile Include="ConfigUtils\PartConfig.cs" />
     <Compile Include="ConfigUtils\PersistentFieldsDatabaseAttribute.cs" />
     <Compile Include="ConfigUtils\PersistentFieldsFileAttribute.cs" />
     <Compile Include="ConfigUtils\GenericCollectionTypeProto.cs" />
