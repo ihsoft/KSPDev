@@ -145,6 +145,7 @@
   </HelpKINode>
   <HelpKINode Title="ConfigAccessor.AddNodeByPath method" Url="html/Overload_KSPDev_ConfigUtils_ConfigAccessor_AddNodeByPath.htm" />
   <HelpKINode Title="ConfigAccessor.AddValueByPath method" Url="html/Overload_KSPDev_ConfigUtils_ConfigAccessor_AddValueByPath.htm" />
+  <HelpKINode Title="ConfigAccessor.CopyPartConfigFromPrefab method" Url="html/M_KSPDev_ConfigUtils_ConfigAccessor_CopyPartConfigFromPrefab.htm" />
   <HelpKINode Title="ConfigAccessor.GetNodeByPath method" Url="html/Overload_KSPDev_ConfigUtils_ConfigAccessor_GetNodeByPath.htm" />
   <HelpKINode Title="ConfigAccessor.GetNodesByPath method" Url="html/Overload_KSPDev_ConfigUtils_ConfigAccessor_GetNodesByPath.htm" />
   <HelpKINode Title="ConfigAccessor.GetValueByPath method" Url="html/Overload_KSPDev_ConfigUtils_ConfigAccessor_GetValueByPath.htm" />
@@ -161,6 +162,7 @@
   <HelpKINode Title="ConfigAccessor.WriteFieldsIntoFile method" Url="html/M_KSPDev_ConfigUtils_ConfigAccessor_WriteFieldsIntoFile.htm" />
   <HelpKINode Title="ConfigAccessor.WriteFieldsIntoNode method" Url="html/M_KSPDev_ConfigUtils_ConfigAccessor_WriteFieldsIntoNode.htm" />
   <HelpKINode Title="configFilePath field" Url="html/F_KSPDev_ConfigUtils_AbstractPersistentFieldsFileAttribute_configFilePath.htm" />
+  <HelpKINode Title="CopyPartConfigFromPrefab method" Url="html/M_KSPDev_ConfigUtils_ConfigAccessor_CopyPartConfigFromPrefab.htm" />
   <HelpKINode Title="CostType class">
     <HelpKINode Title="CostType Class" Url="html/T_KSPDev_GUIUtils_CostType.htm" />
     <HelpKINode Title="about CostType class" Url="html/T_KSPDev_GUIUtils_CostType.htm" />
@@ -349,7 +351,6 @@
   <HelpKINode Title="GetLocalizedString method" Url="html/M_KSPDev_GUIUtils_LocalizableItemAttribute_GetLocalizedString.htm" />
   <HelpKINode Title="GetModsDataFilePath method" Url="html/M_KSPDev_FSUtils_KspPaths_GetModsDataFilePath.htm" />
   <HelpKINode Title="GetModsPath method" Url="html/Overload_KSPDev_FSUtils_KspPaths_GetModsPath.htm" />
-  <HelpKINode Title="GetModuleConfig method" Url="html/M_KSPDev_ConfigUtils_PartConfig_GetModuleConfig.htm" />
   <HelpKINode Title="GetModuleTitle method" Url="html/M_KSPDev_KSPInterfaces_IKSPDevModuleInfo_GetModuleTitle.htm" />
   <HelpKINode Title="GetNodeByPath method" Url="html/Overload_KSPDev_ConfigUtils_ConfigAccessor_GetNodeByPath.htm" />
   <HelpKINode Title="GetNodesByPath method" Url="html/Overload_KSPDev_ConfigUtils_ConfigAccessor_GetNodesByPath.htm" />
@@ -622,7 +623,6 @@
   <HelpKINode Title="KSPDev.ConfigUtils.GenericCollectionTypeProto class" Url="html/T_KSPDev_ConfigUtils_GenericCollectionTypeProto.htm" />
   <HelpKINode Title="KSPDev.ConfigUtils.IPersistentField interface" Url="html/T_KSPDev_ConfigUtils_IPersistentField.htm" />
   <HelpKINode Title="KSPDev.ConfigUtils.KspTypesProto class" Url="html/T_KSPDev_ConfigUtils_KspTypesProto.htm" />
-  <HelpKINode Title="KSPDev.ConfigUtils.PartConfig class" Url="html/T_KSPDev_ConfigUtils_PartConfig.htm" />
   <HelpKINode Title="KSPDev.ConfigUtils.PersistentFieldAttribute class" Url="html/T_KSPDev_ConfigUtils_PersistentFieldAttribute.htm" />
   <HelpKINode Title="KSPDev.ConfigUtils.PersistentFieldsDatabaseAttribute class" Url="html/T_KSPDev_ConfigUtils_PersistentFieldsDatabaseAttribute.htm" />
   <HelpKINode Title="KSPDev.ConfigUtils.PersistentFieldsFileAttribute class" Url="html/T_KSPDev_ConfigUtils_PersistentFieldsFileAttribute.htm" />
@@ -1037,12 +1037,6 @@
     <HelpKINode Title="KspLayer Enumeration" Url="html/T_KSPDev_ModelUtils_KspLayer.htm" />
     <HelpKINode Title="KspLayerMask Enumeration" Url="html/T_KSPDev_ModelUtils_KspLayerMask.htm" />
   </HelpKINode>
-  <HelpKINode Title="PartConfig class">
-    <HelpKINode Title="PartConfig Class" Url="html/T_KSPDev_ConfigUtils_PartConfig.htm" />
-    <HelpKINode Title="about PartConfig class" Url="html/T_KSPDev_ConfigUtils_PartConfig.htm" />
-    <HelpKINode Title="methods" Url="html/Methods_T_KSPDev_ConfigUtils_PartConfig.htm" />
-  </HelpKINode>
-  <HelpKINode Title="PartConfig.GetModuleConfig method" Url="html/M_KSPDev_ConfigUtils_PartConfig_GetModuleConfig.htm" />
   <HelpKINode Title="PartConfigLoadGroup field" Url="html/F_KSPDev_ConfigUtils_StdPersistentGroups_PartConfigLoadGroup.htm" />
   <HelpKINode Title="PartId method" Url="html/M_KSPDev_LogUtils_DbgFormatter_PartId.htm" />
   <HelpKINode Title="PartModel class">
