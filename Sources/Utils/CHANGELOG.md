@@ -1,3 +1,5 @@
+# 0.34.1 (TBD):
+
 # 0.34 (May 16th, 2018):
 * [Fix] Fix handling of the "contains" pattern in [`Hierarchy.PatternMatch`](http://ihsoft.github.io/KSPDev/Utils/html/M_KSPDev_ModelUtils_Hierarchy_PatternMatch.htm). It didn't work.
 * [Change] For compatibility with `KSP 1.4.3` deprecate [`PartConfig.GetModuleConfig`].
