@@ -1,4 +1,4 @@
-# 0.34.1 (TBD):
+# 0.34.1 (May 19th, 2018):
 * [Fix] Make the custom fields copy method as safe as possible. There are too many edge cases.
 
 # 0.34 (May 16th, 2018):
