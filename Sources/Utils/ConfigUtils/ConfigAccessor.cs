@@ -166,12 +166,27 @@ public static class ConfigAccessor {
   /// <code source="Examples/ConfigUtils/ConfigAccessor-Examples.cs" region="ReadPartConfigExample"/>
   /// </example>
   public static void CopyPartConfigFromPrefab(PartModule tgtModule) {
+    var part = tgtModule.part;
     if (PartLoader.Instance.IsReady()) {
+      var moduleIdx = part.Modules.IndexOf(tgtModule);
+      if (moduleIdx == -1) {
+        // Modules in the unloaded parts awake before being added into part.
+        moduleIdx = part.Modules.Count;
+      }
+      if (moduleIdx >= part.partInfo.partPrefab.Modules.Count) {
+        HostedDebugLog.Error(
+            tgtModule, "The prefab part doesn't have the module at {0}", moduleIdx);
+        return;
+      }
+      var srcModule = part.partInfo.partPrefab.Modules[moduleIdx];
+      if (srcModule.moduleName != tgtModule.moduleName) {
+        HostedDebugLog.Error(
+            tgtModule, "The module in prefab at {0} is: {1}", moduleIdx, srcModule);
+        return;
+      }
       var fields = PersistentFieldsFactory.GetPersistentFields(
           tgtModule.GetType(), false /* needStatic */, true /* needInstance */,
           StdPersistentGroups.PartConfigLoadGroup);
-      var part = tgtModule.part;
-      var srcModule = part.partInfo.partPrefab.Modules[part.Modules.IndexOf(tgtModule)];
       foreach (var field in fields) {
         field.fieldInfo.SetValue(tgtModule, field.fieldInfo.GetValue(srcModule));
       }
