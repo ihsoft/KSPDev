@@ -157,7 +157,7 @@ public static class ConfigAccessor {
 
   /// <summary>Copies the custom part fields from the prefab into the instance.</summary>
   /// <remarks>
-  /// The consumer code must call this method from the <c>OnAwake</c> method to esnure the custom
+  /// The consumer code must call this method from the <c>OnAwake</c> method to ensure the custom
   /// fields are properly intialized.
   /// </remarks>
   /// <param name="tgtModule">The module to copy the fields into.</param>

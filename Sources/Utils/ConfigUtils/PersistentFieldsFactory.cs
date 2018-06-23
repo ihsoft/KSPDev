@@ -7,13 +7,13 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-using UnityEngine;
 
 namespace KSPDev.ConfigUtils {
 
 /// <summary>A helper class to gather persistent field attributes.</summary>
 static class PersistentFieldsFactory {
   /// <summary>Gathers persitent fields for a type.</summary>
+  /// <remarks>It will only find the persistent fields of the same Utils version!</remarks>
   /// <param name="type">A type of to gather persistent fields for.</param>
   /// <param name="needStatic">Specifies if static fields need to be returned.</param>
   /// <param name="needInstance">Specifies if non-static fields need to be returned.</param>
