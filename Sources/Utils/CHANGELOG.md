@@ -1,4 +1,5 @@
 # 0.35.0 (pre-release):
+* [Fix] Make a value copy of the persistent fields when copying config from the prefab: [`ConfigAccessor.CopyPartConfigFromPrefab`](http://ihsoft.github.io/KSPDev/Utils/html/M_KSPDev_ConfigUtils_ConfigAccessor_CopyPartConfigFromPrefab.htm).
 * [Change] Move specification tag constant from `LocalizationManager` into a specialized class [`GUIUtils.StdSpecTags`](http://ihsoft.github.io/KSPDev/Utils/html/T_KSPDev_GUIUtils_StdSpecTags.htm).
 * [Enhancement] Expose the localization tags from the type formatters (e.g. [`GUIUtils.MassType`](http://ihsoft.github.io/KSPDev/Utils/html/T_KSPDev_GUIUtils_MassType.htm)).
 

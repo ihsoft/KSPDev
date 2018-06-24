@@ -188,7 +188,10 @@ public static class ConfigAccessor {
           tgtModule.GetType(), false /* needStatic */, true /* needInstance */,
           StdPersistentGroups.PartConfigLoadGroup);
       foreach (var field in fields) {
-        field.fieldInfo.SetValue(tgtModule, field.fieldInfo.GetValue(srcModule));
+        // We need a copy, so get it thru the persistance.
+        var copyNode = new ConfigNode();
+        field.WriteToConfig(copyNode, srcModule);
+        field.ReadFromConfig(copyNode, tgtModule);
       }
     }
   }
