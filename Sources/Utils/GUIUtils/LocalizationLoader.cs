@@ -24,16 +24,6 @@ namespace KSPDev.GUIUtils {
 /// <example><code source="Examples/GUIUtils/LocalizationLoader-Examples.cs" region="LocalizationLoaderDemo1"/></example>
 /// <example><code source="Examples/GUIUtils/LocalizationLoader-Examples.cs" region="LocalizationLoaderDemo2"/></example>
 public class LocalizationLoader : MonoBehaviour {
-  /// <summary>
-  /// Specification for the <see cref="KSPField"/> <c>guiUnits</c> localization. 
-  /// </summary>
-  /// <remarks>
-  /// Use it when specifying a <see cref="LocalizableItemAttribute"/> for a field with the units.
-  /// </remarks>
-  /// <example><code source="Examples/GUIUtils/LocalizableItemAttribute-Examples.cs" region="ItemField_WithUnits"/></example>
-  /// <include file="KSPAPI_HelpIndex.xml" path="//item[@name='T:KSPField']"/>
-  public const string KspFieldUnitsSpec = "units";
-
   /// <summary>Localizes the <see cref="PartModule"/> items.</summary>
   /// <remarks>
   /// <para>
@@ -42,7 +32,7 @@ public class LocalizationLoader : MonoBehaviour {
   /// <list type="bullet">
   /// <item>
   /// <see cref="KSPField"/>. This type may have multiple localization items: for <c>guiName</c>
-  /// (spec=<c>null</c>) and for <c>guiUnits</c> (spec=<see cref="KspFieldUnitsSpec"/>).
+  /// (spec=<c>null</c>) and for <c>guiUnits</c> (spec=<see cref="StdSpecTags.Units"/>).
   /// </item>
   /// <item><see cref="KSPEvent"/>.</item>
   /// <item><see cref="KSPAction"/>.</item>
@@ -80,7 +70,7 @@ public class LocalizationLoader : MonoBehaviour {
         }
         if (string.IsNullOrEmpty(locItem.spec)) {
           field.guiName = locItem.GetLocalizedString();
-        } else if (locItem.spec == KspFieldUnitsSpec) {
+        } else if (locItem.spec == StdSpecTags.Units) {
           field.guiUnits = locItem.GetLocalizedString();
         } else {
           DebugEx.Warning("Bad specialization tag for field {0}.{1}: {2}",

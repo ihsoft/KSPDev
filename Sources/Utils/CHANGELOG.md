@@ -1,4 +1,5 @@
 # 0.35.0 (pre-release):
+* [Change] Move specification tag constant from `LocalizationManager` into a specialized class [`GUIUtils.StdSpecTags`](http://ihsoft.github.io/KSPDev/Utils/html/T_KSPDev_GUIUtils_StdSpecTags.htm).
 
 # 0.34.1 (May 19th, 2018):
 * [Fix] Make the custom fields copy method as safe as possible. There are too many edge cases.
