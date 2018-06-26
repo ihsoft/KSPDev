@@ -19,9 +19,9 @@
     "NAME": "KSPDev LogConsole", 
     "URL": "https://raw.githubusercontent.com/ihsoft/KSPDev/master/KSPDev_LogConsole.version", 
     "VERSION": {
-        "BUILD": 6640, 
+        "BUILD": 6750, 
         "MAJOR": 0, 
-        "MINOR": 17, 
-        "PATCH": 40068
+        "MINOR": 18, 
+        "PATCH": 36657
     }
 }

@@ -23,7 +23,7 @@
     <SourceAnalysisOverrideSettingsFile>C:\Users\IH\AppData\Roaming\ICSharpCode\SharpDevelop5\Settings.SourceAnalysis</SourceAnalysisOverrideSettingsFile>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Platform)' == 'AnyCPU' ">
-    <PlatformTarget>AnyCPU</PlatformTarget>
+    <PlatformTarget>x64</PlatformTarget>
     <BaseAddress>4194304</BaseAddress>
     <RegisterForComInterop>False</RegisterForComInterop>
     <GenerateSerializationAssemblies>Auto</GenerateSerializationAssemblies>
@@ -46,14 +46,15 @@
     <Optimize>True</Optimize>
     <CheckForOverflowUnderflow>False</CheckForOverflowUnderflow>
     <DefineConstants>TRACE</DefineConstants>
+    <BaseIntermediateOutputPath>obj\</BaseIntermediateOutputPath>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Assembly-CSharp">
       <HintPath>Q:\KSP_Data\Managed\Assembly-CSharp.dll</HintPath>
       <Private>False</Private>
     </Reference>
-    <Reference Include="KSPDev_Utils.0.31">
-      <HintPath>..\..\Binaries\KSPDev_Utils.0.31.dll</HintPath>
+    <Reference Include="KSPDev_Utils.0.35">
+      <HintPath>..\..\Binaries\KSPDev_Utils.0.35.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core">
