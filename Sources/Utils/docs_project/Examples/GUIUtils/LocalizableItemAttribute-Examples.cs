@@ -34,8 +34,8 @@ public class LocalizableItemAttributeDemo1 : PartModule {
       defaultTemplate = "English text 1",
       description = "A field which demonstrates a localizable GUI string")]
   [LocalizableItem(
-      tag = "#tag1_units",
-      spec = LocalizationLoader.KspFieldUnitsSpec,
+      tag = DistanceType.MeterLocTag,
+      spec = StdSpecTags.Units,
       defaultTemplate = "meters",
       description = "Units for the field which demonstrates a localizable GUI string")]
   public string field3 = "";

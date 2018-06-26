@@ -25,19 +25,28 @@ namespace KSPDev.GUIUtils {
 /// <example><code source="Examples/GUIUtils/TypeFormatters/MassType-Examples.cs" region="MassTypeDemo2_FormatWithScale"/></example>
 /// <example><code source="Examples/GUIUtils/TypeFormatters/MassType-Examples.cs" region="MassTypeDemo2_FormatFixed"/></example>
 public sealed class MassType {
+  /// <summary>Localization tag for the "gram" units.</summary>
+  public const string GramLocTag = "#autoLOC_7001412";
+  
+  /// <summary>Localization tag for the "kilogram" units.</summary>
+  public const string KilogramLocTag = "#autoLOC_7001403";
+
+  /// <summary>Localization tag for the "ton" units.</summary>
+  public const string TonLocTag = "#autoLOC_7001407";
+
   /// <summary>Localized suffix for the "gram" units. Scale <c>0.000001</c>.</summary>
   public static readonly Message gram = new Message(
-      "#autoLOC_7001412", defaultTemplate: " grams",
+      GramLocTag, defaultTemplate: " grams",
       description: "Gram unit for a mass value");
 
   /// <summary>Localized suffix for the "kilogram" untis. Scale <c>0.001</c></summary>
   public static readonly Message kilogram = new Message(
-      "#autoLOC_7001403", defaultTemplate: " kg",
+      KilogramLocTag, defaultTemplate: " kg",
       description: "Kilogram unit for a mass value");
 
   /// <summary>Localized suffix for the "ton" untis. Scale <c>1.0</c>.</summary>
   public static readonly Message ton = new Message(
-      "#autoLOC_7001407", defaultTemplate: " t",
+      TonLocTag, defaultTemplate: " t",
       description: "Ton unit for a mass value");
 
   /// <summary>A wrapped numeric value.</summary>

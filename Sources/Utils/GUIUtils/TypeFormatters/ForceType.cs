@@ -24,9 +24,12 @@ namespace KSPDev.GUIUtils {
 /// <example><code source="Examples/GUIUtils/TypeFormatters/ForceType-Examples.cs" region="ForceTypeDemo2_FormatDefault"/></example>
 /// <example><code source="Examples/GUIUtils/TypeFormatters/ForceType-Examples.cs" region="ForceTypeDemo2_FormatFixed"/></example>
 public sealed class ForceType {
-  /// <summary>Localized suffix for the "kilonewton" untis. Scale x1.</summary>
+  /// <summary>Localization tag for the "kilonewton" units.</summary>
+  public const string KilonewtonLocTag = "#autoLOC_7001408";
+  
+  /// <summary>Localized suffix for the "kilonewton" units. Scale x1.</summary>
   public static readonly Message kiloNewton = new Message(
-      "#autoLOC_7001408", defaultTemplate: " kN",
+      KilonewtonLocTag, defaultTemplate: " kN",
       description: "Kilonewton unit for a force value");
 
   /// <summary>A wrapped numeric value.</summary>

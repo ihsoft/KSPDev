@@ -26,7 +26,7 @@ public class LocalizationLoaderDemo2 : PartModule, IsLocalizableModule {
   [KSPField(guiActive = true)]
   [LocalizableItem(tag = "#tag1", defaultTemplate = "Field1")]
   [LocalizableItem(tag = "#tag2", defaultTemplate = "units",
-                   spec = LocalizationLoader.KspFieldUnitsSpec)]
+                   spec = StdSpecTags.Units)]
   public string field1 = "";
 
   #region IsLocalizableModule implementation

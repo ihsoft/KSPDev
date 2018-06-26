@@ -24,9 +24,12 @@ namespace KSPDev.GUIUtils {
 /// <example><code source="Examples/GUIUtils/TypeFormatters/PressureType-Examples.cs" region="PressureTypeDemo2_FormatDefault"/></example>
 /// <example><code source="Examples/GUIUtils/TypeFormatters/PressureType-Examples.cs" region="PressureTypeDemo2_FormatFixed"/></example>
 public sealed class PressureType {
+  /// <summary>Localization tag for the "kilopascal" units.</summary>
+  public const string KilopascalLocTag = "#autoLOC_7001408";
+
   /// <summary>Localized suffix for the "kilopascal" units. Scale x1.</summary>
   public static readonly Message kiloPascal = new Message(
-      "#autoLOC_7001408",
+      KilopascalLocTag,
       defaultTemplate: " kPa",
       description: "Kilopascal unit for a pressure value");
 

@@ -24,9 +24,12 @@ namespace KSPDev.GUIUtils {
 /// <example><code source="Examples/GUIUtils/TypeFormatters/VelocityType-Examples.cs" region="VelocityTypeDemo2_FormatDefault"/></example>
 /// <example><code source="Examples/GUIUtils/TypeFormatters/VelocityType-Examples.cs" region="VelocityTypeDemo2_FormatFixed"/></example>
 public sealed class VelocityType {
+  /// <summary>Localization tag for the "meter per second" units.</summary>
+  public const string MeterPerSecondLocTag = "#autoLOC_7001415";
+
   /// <summary>Localized suffix for the "metre per second" units. Scale x1.</summary>
   public static readonly Message metrePerSecond = new Message(
-      "#autoLOC_7001415",
+      MeterPerSecondLocTag,
       defaultTemplate: " m/s",
       description: "Metre per second unit for a velocity value");
 

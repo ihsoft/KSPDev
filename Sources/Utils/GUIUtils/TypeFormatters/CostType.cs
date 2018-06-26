@@ -19,6 +19,10 @@ namespace KSPDev.GUIUtils {
 /// <example><code source="Examples/GUIUtils/TypeFormatters/CostType-Examples.cs" region="CostTypeDemo2_FormatDefault"/></example>
 /// <example><code source="Examples/GUIUtils/TypeFormatters/CostType-Examples.cs" region="CostTypeDemo2_FormatFixed"/></example>
 public sealed class CostType {
+  /// <summary>The prefix to use to denote the "money" cost values.</summary>
+  /// <remarks>This is an icon, so it's not localizable.</remarks>
+  public const string FundPrefix = "√ ";
+
   /// <summary>A wrapped numeric value.</summary>
   /// <remarks>This is the original non-rounded and unscaled value.</remarks>
   public readonly double value;
@@ -69,7 +73,7 @@ public sealed class CostType {
   /// <example><code source="Examples/GUIUtils/TypeFormatters/CostType-Examples.cs" region="CostTypeDemo2_FormatDefault"/></example>
   /// <example><code source="Examples/GUIUtils/TypeFormatters/CostType-Examples.cs" region="CostTypeDemo2_FormatFixed"/></example>
   public static string Format(double value, string format = null) {
-    return "√ " + value.ToString("#,##0.00");  // Simulate the editor's behavior.
+    return FundPrefix + value.ToString("#,##0.00");  // Simulate the editor's behavior.
   }
 
   /// <summary>Returns a string formatted as a human friendly volume specification.</summary>
