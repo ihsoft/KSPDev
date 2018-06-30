@@ -90,11 +90,26 @@ public class LocalizationLoader : MonoBehaviour {
           field.guiName = locItem.GetLocalizedString();
         } else if (locItem.spec == StdSpecTags.Units) {
           field.guiUnits = locItem.GetLocalizedString();
-        } else {
-          DebugEx.Warning("Bad specialization tag for field {0}.{1}: {2}",
+        } else if (locItem.spec == StdSpecTags.ToggleEnabled
+                   || locItem.spec == StdSpecTags.ToggleDisabled) {
+          var toggle = field.uiControlFlight as UI_Toggle;
+          if (toggle != null) {
+            if (locItem.spec == StdSpecTags.ToggleEnabled) {
+              toggle.enabledText = locItem.tag;
+            } else {
+              toggle.disabledText = locItem.tag;
+            }
+          } else {
+            DebugEx.Error("Field {0}.{1} is not a UI_Toggle. Cannot handle specifier: {2}",
                           field.FieldInfo.FieldType.FullName,
                           field.FieldInfo.Name,
                           locItem.spec);
+          }
+        } else {
+          DebugEx.Error("Bad specialization tag for field {0}.{1}: {2}",
+                        field.FieldInfo.FieldType.FullName,
+                        field.FieldInfo.Name,
+                        locItem.spec);
         }
       }
     }
