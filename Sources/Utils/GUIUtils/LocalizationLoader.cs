@@ -208,6 +208,12 @@ public class LocalizationLoader : MonoBehaviour {
       if (localizableModule != null) {
         localizableModule.LocalizeModule();
       }
+
+      // Refresh the context menu.
+      var hasContextMenu = module as IHasContextMenu;
+      if (hasContextMenu != null) {
+        hasContextMenu.UpdateContextMenu();
+      }
     }
   }
 

@@ -1,4 +1,5 @@
 # 0.36.0 (pre-release):
+* [Enhancement] Auto update modules that implement [`GUIUtils.IHasContextMenu`](http://ihsoft.github.io/KSPDev/Utils/html/T_KSPDev_GUIUtils_IHasContextMenu.htm).
 
 # 0.35.0 (June 25th, 2018):
 * [Fix] Make a value copy of the persistent fields when copying config from the prefab: [`ConfigAccessor.CopyPartConfigFromPrefab`](http://ihsoft.github.io/KSPDev/Utils/html/M_KSPDev_ConfigUtils_ConfigAccessor_CopyPartConfigFromPrefab.htm).
