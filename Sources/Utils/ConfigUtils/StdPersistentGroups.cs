@@ -36,6 +36,17 @@ public static class StdPersistentGroups {
   /// <seealso cref="PersistentFieldAttribute"/>
   /// <seealso cref="ConfigAccessor.ReadPartConfig"/>
   public const string PartConfigLoadGroup = "PartConfig";
+
+  /// <summary>
+  /// A public group of the persistent fields which need to persist their values between the game
+  /// scene changes. Including the game reload. 
+  /// </summary>
+  /// <remarks>
+  /// It's a good idea to store these values to a file, located in the "PlugindData" folder.
+  /// Otherwise, this any changes to this file will trigger a full game database update on the game
+  /// load.
+  /// </remarks>
+  public const string SessionGroup = "Session";
 }
 
 }  // namespace
