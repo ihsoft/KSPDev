@@ -2,6 +2,8 @@
 // Author: igor.zavoychinskiy@gmail.com
 // This software is distributed under Public domain license.
 
+using System;
+
 namespace KSPDev.GUIUtils {
 
 /// <summary>
@@ -105,9 +107,10 @@ public sealed class DistanceType {
     if (format != null && !scale.HasValue) {
       scale = 1.0;  // No scale detection.
     }
+    var testValue = Math.Abs(value);
     if (!scale.HasValue) {
       // Auto detect the best scale.
-      if (value > 1000) {
+      if (testValue > 1000) {
         scale = 1000;
       } else {
         scale = 1.0;
