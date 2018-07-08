@@ -1,4 +1,5 @@
 # 0.19 (pre-release):
+* [Change] Use KSPDev_Utils `KSPDev Utils v0.36`.
 
 # 0.18 (June 25th, 2018):
 * [Change] Use KSPDev_Utils `KSPDev Utils v0.35`.

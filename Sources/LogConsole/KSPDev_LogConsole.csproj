@@ -53,8 +53,8 @@
       <HintPath>Q:\KSP_Data\Managed\Assembly-CSharp.dll</HintPath>
       <Private>False</Private>
     </Reference>
-    <Reference Include="KSPDev_Utils.0.35">
-      <HintPath>..\..\Binaries\KSPDev_Utils.0.35.dll</HintPath>
+    <Reference Include="KSPDev_Utils.0.36">
+      <HintPath>..\..\Binaries\KSPDev_Utils.0.36.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core">
