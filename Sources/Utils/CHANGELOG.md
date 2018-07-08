@@ -4,6 +4,7 @@
 * [Enhancement] Support localization for the `UI_Toggle` attribute: [`GUIUtils.StdSpecTags](http://ihsoft.github.io/KSPDev/Utils/html/T_KSPDev_GUIUtils_StdSpecTags.htm).
 * [Enhancement] On language version change, update the events and menus even when the part doesn't have a config: [`GUIUtils.LocalizationLoader](http://ihsoft.github.io/KSPDev/Utils/html/T_KSPDev_GUIUtils_LocalizationLoader.htm).
 * [Enhancement] Add `session` group to teh standard persistent groups: [`ConfigUtils.StdPersistentGroups](http://ihsoft.github.io/KSPDev/Utils/html/T_KSPDev_ConfigUtils_StdPersistentGroups.htm).
+* [Enhancement] Support `km/s` and `Mm/s` units in `VelocityType`: [`GUIUtils.VelocityType](http://ihsoft.github.io/KSPDev/Utils/html/T_KSPDev_GUIUtils_VelocityType.htm).
 
 # 0.35.0 (June 25th, 2018):
 * [Fix] Make a value copy of the persistent fields when copying config from the prefab: [`ConfigAccessor.CopyPartConfigFromPrefab`](http://ihsoft.github.io/KSPDev/Utils/html/M_KSPDev_ConfigUtils_ConfigAccessor_CopyPartConfigFromPrefab.htm).
