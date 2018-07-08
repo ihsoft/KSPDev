@@ -1,4 +1,4 @@
-# 0.36.0 (pre-release):
+# 0.36.0 (July 7th, 2018):
 * [Fix] Fix handling the negative values in all of the type formatters. E.g. [`GUIUtils.AngleType`](http://ihsoft.github.io/KSPDev/Utils/html/T_KSPDev_GUIUtils_AngleType.htm).
 * [Enhancement] Auto update modules that implement [`GUIUtils.IHasContextMenu`](http://ihsoft.github.io/KSPDev/Utils/html/T_KSPDev_GUIUtils_IHasContextMenu.htm).
 * [Enhancement] Support localization for the `UI_Toggle` attribute: [`GUIUtils.StdSpecTags](http://ihsoft.github.io/KSPDev/Utils/html/T_KSPDev_GUIUtils_StdSpecTags.htm).
