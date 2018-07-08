@@ -29,8 +29,14 @@ namespace KSPDev.GUIUtils {
 public interface IsLocalizableModule {
   /// <summary>A callback which is called when the localization vesion has changed.</summary>
   /// <remarks>
+  /// <para>
+  /// This method can be called before the module is fully initialized! A very common use-case is
+  /// calling this method from the part module <c>OnAwake()</c> method.
+  /// </para>
+  /// <para>
   /// Unless the implementing class is <i>sealed</i>, the method must be declared as <i>virtual</i>.
   /// The descendants may want to react on the callback as well.
+  /// </para>
   /// </remarks>
   /// <example><code source="Examples/GUIUtils/LocalizationLoader-Examples.cs" region="LocalizationLoaderDemo2"/></example>
   void LocalizeModule();

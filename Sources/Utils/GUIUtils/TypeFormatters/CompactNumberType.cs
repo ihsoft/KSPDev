@@ -2,6 +2,8 @@
 // Author: igor.zavoychinskiy@gmail.com
 // This software is distributed under Public domain license.
 
+using System;
+
 namespace KSPDev.GUIUtils {
 
 /// <summary>
@@ -65,19 +67,20 @@ public sealed class CompactNumberType {
     if (format != null) {
       return value.ToString(format);
     }
-    if (value < double.Epsilon) {
+    var testValue = Math.Abs(value);
+    if (testValue < double.Epsilon) {
       return "0";  // Zero is zero.
     }
-    if (value < 1.0) {
+    if (testValue < 1.0) {
       return value.ToString("#,##0.000");
     }
-    if (value < 10.0) {
+    if (testValue < 10.0) {
       return value.ToString("#,##0.00#");
     }
-    if (value < 100.0) {
+    if (testValue < 100.0) {
       return value.ToString("#,##0.0#");
     }
-    if (value < 1000.0) {
+    if (testValue < 1000.0) {
       return value.ToString("#,##0.#");
     }
     return value.ToString("#,##0");

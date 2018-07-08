@@ -2,6 +2,8 @@
 // Author: igor.zavoychinskiy@gmail.com
 // This software is distributed under Public domain license.
 
+using System;
+
 namespace KSPDev.GUIUtils {
 
 /// <summary>
@@ -69,16 +71,17 @@ public sealed class PercentType {
     if (format != null) {
       return scaledValue.ToString(format) + unitName;
     }
-    if (scaledValue < double.Epsilon) {
+    var testValue = Math.Abs(scaledValue);
+    if (testValue < double.Epsilon) {
       return "0" + unitName;  // Zero is zero.
     }
-    if (scaledValue < 1.0) {
+    if (testValue < 1.0) {
       return scaledValue.ToString("0.00") + unitName;
     }
-    if (scaledValue < 10.0) {
+    if (testValue < 10.0) {
       return scaledValue.ToString("0.0#") + unitName;
     }
-    return value.ToString("0") + unitName;
+    return scaledValue.ToString("0") + unitName;
   }
 
   /// <summary>Returns a string formatted as a human friendly percentage specification.</summary>

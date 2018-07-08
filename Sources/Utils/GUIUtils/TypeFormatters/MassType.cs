@@ -2,6 +2,8 @@
 // Author: igor.zavoychinskiy@gmail.com
 // This software is distributed under Public domain license.
 
+using System;
+
 namespace KSPDev.GUIUtils {
 
 /// <summary>
@@ -114,11 +116,12 @@ public sealed class MassType {
     if (format != null && !scale.HasValue) {
       scale = 1.0;  // No scale detection.
     }
+    var testValue = Math.Abs(value);
     if (!scale.HasValue) {
       // Auto detect the best scale.
-      if (value < 0.001) {
+      if (testValue < 0.001) {
         scale = 0.000001; 
-      } else if (value < 1.0) {
+      } else if (testValue < 1.0) {
         scale = 0.001; 
       } else {
         scale = 1.0;

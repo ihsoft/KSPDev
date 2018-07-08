@@ -90,11 +90,26 @@ public class LocalizationLoader : MonoBehaviour {
           field.guiName = locItem.GetLocalizedString();
         } else if (locItem.spec == StdSpecTags.Units) {
           field.guiUnits = locItem.GetLocalizedString();
-        } else {
-          DebugEx.Warning("Bad specialization tag for field {0}.{1}: {2}",
+        } else if (locItem.spec == StdSpecTags.ToggleEnabled
+                   || locItem.spec == StdSpecTags.ToggleDisabled) {
+          var toggle = field.uiControlFlight as UI_Toggle;
+          if (toggle != null) {
+            if (locItem.spec == StdSpecTags.ToggleEnabled) {
+              toggle.enabledText = locItem.tag;
+            } else {
+              toggle.disabledText = locItem.tag;
+            }
+          } else {
+            DebugEx.Error("Field {0}.{1} is not a UI_Toggle. Cannot handle specifier: {2}",
                           field.FieldInfo.FieldType.FullName,
                           field.FieldInfo.Name,
                           locItem.spec);
+          }
+        } else {
+          DebugEx.Error("Bad specialization tag for field {0}.{1}: {2}",
+                        field.FieldInfo.FieldType.FullName,
+                        field.FieldInfo.Name,
+                        locItem.spec);
         }
       }
     }
@@ -182,31 +197,33 @@ public class LocalizationLoader : MonoBehaviour {
   /// <summary>Updates all the localizable strings in a part.</summary>
   /// <param name="part">The part to load the data in.</param>
   static void UpdateLocalizationInPartModules(Part part) {
-    if (part.partInfo == null || part.partInfo.partConfig == null) {
-      return;  // Parts can have no prefab or config. E.g. the kerbals.
-    }
     DebugEx.Fine("Reload part {0}...", part);
-
-    // At this point the prefab is expected to be updated (e.g. by the KSPDev Localization Tool).
-    var moduleConfigs = part.partInfo.partConfig.GetNodes("MODULE");
-    for (var i = 0 ; i < part.Modules.Count && i < moduleConfigs.Length; i++) {
-      var module = part.Modules[i];
-      if (!IsModuleOfThisVersion(module)) {
-        continue;  // Not our version, not our problem.
+    if (part.partInfo != null && part.partInfo.partConfig != null) {
+      var moduleConfigs = part.partInfo.partConfig.GetNodes("MODULE");
+      for (var i = 0 ; i < part.Modules.Count && i < moduleConfigs.Length; i++) {
+        var module = part.Modules[i];
+        if (!IsModuleOfThisVersion(module)) {
+          continue;  // Not our version, not our problem.
+        }
+        var moduleConfig = moduleConfigs[i];
+        // Update the stock KSPField fields from the prefab.
+        LoadKSPFieldsFromNode(module, moduleConfig);
+        // Update the custom PersistentField fields from the prefab.
+        ConfigAccessor.ReadFieldsFromNode(
+            moduleConfig, module.GetType(), module,
+            group: StdPersistentGroups.PartConfigLoadGroup);
       }
-
-      var moduleConfig = moduleConfigs[i];
-      // Update the stock KSPField fields from the prefab.
-      LoadKSPFieldsFromNode(module, moduleConfig);
-      // Update the custom PersistentField fields from the prefab.
-      ConfigAccessor.ReadFieldsFromNode(
-          moduleConfig, module.GetType(), module,
-          group: StdPersistentGroups.PartConfigLoadGroup);
-
+    }
+    foreach (var module in part.Modules) {
       // Notify the localizable modules about the change.
       var localizableModule = module as IsLocalizableModule;
       if (localizableModule != null) {
         localizableModule.LocalizeModule();
+      }
+      // Refresh the context menu.
+      var hasContextMenu = module as IHasContextMenu;
+      if (hasContextMenu != null) {
+        hasContextMenu.UpdateContextMenu();
       }
     }
   }

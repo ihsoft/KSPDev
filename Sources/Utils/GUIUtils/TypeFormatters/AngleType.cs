@@ -2,6 +2,8 @@
 // Author: igor.zavoychinskiy@gmail.com
 // This software is distributed under Public domain license.
 
+using System;
+
 namespace KSPDev.GUIUtils {
 
 /// <summary>
@@ -65,16 +67,17 @@ public sealed class AngleType {
     if (format != null) {
       return value.ToString(format) + unitName;
     }
-    if (value < double.Epsilon) {
+    var testValue = Math.Abs(value);
+    if (testValue < double.Epsilon) {
       return "0" + unitName;  // Zero is zero.
     }
-    if (value < 1.0) {
+    if (testValue < 1.0) {
       return value.ToString("0.0#") + unitName;
     }
-    if (value < 10.0) {
+    if (testValue < 10.0) {
       return value.ToString("0.#") + unitName;
     }
-    return value.ToString("0") + unitName;
+    return testValue.ToString("0") + unitName;
   }
 
   /// <summary>Returns a string formatted as a human friendly angle specification.</summary>

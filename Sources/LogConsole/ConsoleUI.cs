@@ -15,32 +15,25 @@ namespace KSPDev.LogConsole {
 [KSPAddon(KSPAddon.Startup.Instantly, true /*once*/)]
 [PersistentFieldsFileAttribute("KSPDev/LogConsole/Plugins/PluginData/settings.cfg", "UI")]
 [PersistentFieldsFileAttribute("KSPDev/LogConsole/Plugins/PluginData/session.cfg", "UI",
-                               ConsoleUI.SessionGroup)]
+                               StdPersistentGroups.SessionGroup)]
 sealed class ConsoleUI : MonoBehaviour {
-  /// <summary>Name of the persistent group to keep session settings in.</summary>
-  /// <remarks>
-  /// Session keeps current UI and layout settings. They get changed frequently and saved/loaded on
-  /// every scene.
-  /// </remarks>
-  const string SessionGroup = "session";
-
   #region Session settings
-  [PersistentField("showInfo", group = SessionGroup)]
+  [PersistentField("showInfo", group = StdPersistentGroups.SessionGroup)]
   static bool showInfo = false;
 
-  [PersistentField("showWarning", group = SessionGroup)]
+  [PersistentField("showWarning", group = StdPersistentGroups.SessionGroup)]
   static bool showWarning = true;
 
-  [PersistentField("showErrors", group = SessionGroup)]
+  [PersistentField("showErrors", group = StdPersistentGroups.SessionGroup)]
   static bool showError = true;
 
-  [PersistentField("showExceptions", group = SessionGroup)]
+  [PersistentField("showExceptions", group = StdPersistentGroups.SessionGroup)]
   static bool showException = true;
 
-  [PersistentField("logMode", group = SessionGroup)]
+  [PersistentField("logMode", group = StdPersistentGroups.SessionGroup)]
   static ShowMode logShowMode = ShowMode.Smart;
 
-  [PersistentField("quickFilter", group = SessionGroup)]
+  [PersistentField("quickFilter", group = StdPersistentGroups.SessionGroup)]
   static string quickFilterStr = "";
   #endregion  
 
@@ -189,12 +182,14 @@ sealed class ConsoleUI : MonoBehaviour {
 
     // Load UI configs.
     ConfigAccessor.ReadFieldsInType(typeof(ConsoleUI), null /* instance */);
-    ConfigAccessor.ReadFieldsInType(typeof(ConsoleUI), this, group: SessionGroup);
+    ConfigAccessor.ReadFieldsInType(
+        typeof(ConsoleUI), this, group: StdPersistentGroups.SessionGroup);
   }
   
   /// <summary>Only stores the session settings.</summary>
   void OnDestroy() {
-    ConfigAccessor.WriteFieldsFromType(typeof(ConsoleUI), this, group: SessionGroup);
+    ConfigAccessor.WriteFieldsFromType(
+        typeof(ConsoleUI), this, group: StdPersistentGroups.SessionGroup);
   }
   #endregion
 
