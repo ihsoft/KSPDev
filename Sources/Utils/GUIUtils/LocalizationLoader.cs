@@ -136,7 +136,7 @@ public class LocalizationLoader : MonoBehaviour {
                     LocalizableMessage.systemLocVersion, LibraryLoader.assemblyVersionStr);
 
     // PREFAB: Update the prefab modules.
-    DebugEx.Info("PREFAB: Reload part prefabs from...");
+    DebugEx.Info("PREFAB: Reload part prefabs...");
     PartLoader.LoadedPartsList
         .Select(a => a.partPrefab)
         .Where(p => p.Modules.Cast<PartModule>().Any(IsModuleOfThisVersion))
