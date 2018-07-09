@@ -199,12 +199,22 @@ public class LocalizationLoader : MonoBehaviour {
       // Notify the localizable modules about the change.
       var localizableModule = module as IsLocalizableModule;
       if (localizableModule != null) {
-        localizableModule.LocalizeModule();
+        try {
+          localizableModule.LocalizeModule();
+        } catch (Exception ex) {
+          DebugEx.Error(
+              "Exception in LocalizeModule of module {0}: {1}", localizableModule, ex.Message);
+        }
       }
       // Refresh the context menu.
       var hasContextMenu = module as IHasContextMenu;
       if (hasContextMenu != null) {
-        hasContextMenu.UpdateContextMenu();
+        try {
+          hasContextMenu.UpdateContextMenu();
+        } catch (Exception ex) {
+          DebugEx.Error(
+              "Exception in UpdateContextMenu of module {0}: {1}", localizableModule, ex.Message);
+        }
       }
     }
   }

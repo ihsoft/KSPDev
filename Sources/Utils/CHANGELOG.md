@@ -1,5 +1,6 @@
 # 0.37.0 (pre-release):
 * [Change] Don't reload the `KSPField` fields on language change to improve stability. Delegate it to the `Localization Tool`.
+* [Enhancement] Protect the localization calls with `try/catch` to not fail when a single module behaves wrong.
 
 # 0.36.0 (July 7th, 2018):
 * [Fix] Fix handling the negative values in all of the type formatters. E.g. [`GUIUtils.AngleType`](http://ihsoft.github.io/KSPDev/Utils/html/T_KSPDev_GUIUtils_AngleType.htm).
