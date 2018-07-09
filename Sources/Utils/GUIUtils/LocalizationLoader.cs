@@ -25,23 +25,6 @@ namespace KSPDev.GUIUtils {
 /// <example><code source="Examples/GUIUtils/LocalizationLoader-Examples.cs" region="LocalizationLoaderDemo1"/></example>
 /// <example><code source="Examples/GUIUtils/LocalizationLoader-Examples.cs" region="LocalizationLoaderDemo2"/></example>
 public class LocalizationLoader : MonoBehaviour {
-
-  /// <summary>
-  /// The stock method from ConfigNode to transform string values to the game supported types.
-  /// </summary>
-  /// <remarks>
-  /// This method is private and we extract it via reflection. This is an error prone way (not to
-  /// mention how bad it is from the coding practices standpoint), so there is a fallback strategy:
-  /// if the method with the proper signature cannot be extracted, then only update the string
-  /// values since don't need conversion.
-  /// </remarks>
-  /// <seealso cref="GetTransformValueMethod"/>
-  static MethodInfo cachedReadValueMethod;
-
-  /// <summary>Tells if the transform method existence has already been checked.</summary>
-  /// <remarks>For the performance purpose only.</remarks>
-  static bool readValueMethodChecked;
-
   /// <summary>Localizes the <see cref="PartModule"/> items.</summary>
   /// <remarks>
   /// <para>
@@ -206,8 +189,6 @@ public class LocalizationLoader : MonoBehaviour {
           continue;  // Not our version, not our problem.
         }
         var moduleConfig = moduleConfigs[i];
-        // Update the stock KSPField fields from the prefab.
-        LoadKSPFieldsFromNode(module, moduleConfig);
         // Update the custom PersistentField fields from the prefab.
         ConfigAccessor.ReadFieldsFromNode(
             moduleConfig, module.GetType(), module,
@@ -236,73 +217,6 @@ public class LocalizationLoader : MonoBehaviour {
   static bool IsModuleOfThisVersion(PartModule module) {
     return module.GetType().Assembly.GetReferencedAssemblies()
         .Any(a => a.FullName == typeof(LocalizationLoader).Assembly.FullName);
-  }
-
-  /// <summary>Reloads the [KSPField] annotated fields from the provided config.</summary>
-  /// <remarks>
-  /// This method tries to reload all the fields in the module using the stock methods. However, the
-  /// stock game libraries can change and become incompatible, in which case this method will only
-  /// update the string fields. Updating only the strings is enough in 99% of the localization
-  /// cases.
-  /// </remarks>
-  /// <param name="module">The module to reload the fields for.</param>
-  /// <param name="node">The config node to geth te values from.</param>
-  static void LoadKSPFieldsFromNode(PartModule module, ConfigNode node) {
-    // Try using the stock method that can read value of any type. It's private, so we have to use
-    // a hack (reflection).
-    var transformFieldValueMethod = GetTransformValueMethod();
-    foreach (var field in module.Fields.Cast<BaseField>()) {
-      var strValue = node.GetValue(field.name);
-      if (strValue != null) {
-        var objValue = transformFieldValueMethod(field.FieldInfo.FieldType, strValue);
-        if (objValue != null) {
-          field.SetValue(objValue, module);
-        } else {
-          DebugEx.Warning("Skipping NULL value for field {0} in module {1}", field.name, module);
-        }
-      }
-    }
-  }
-
-  /// <summary>Gets a method that transforms a string value into the provided type.</summary>
-  /// <returns>
-  /// The method which returns the converted value or <c>null</c> if the conversion is failed or not
-  /// possible.
-  /// </returns>
-  static Func<Type, string, object> GetTransformValueMethod() {
-    if (!readValueMethodChecked) {
-      readValueMethodChecked = true;
-      cachedReadValueMethod = typeof(ConfigNode).GetMethod(
-          "ReadValue", BindingFlags.Static | BindingFlags.NonPublic | BindingFlags.Public);
-      if (cachedReadValueMethod != null
-          && cachedReadValueMethod.GetParameters().Length == 2
-          && cachedReadValueMethod.ReturnType == typeof(object)) {
-        var methodParams = cachedReadValueMethod.GetParameters();
-        if (methodParams[0].ParameterType != typeof(Type)
-            || methodParams[1].ParameterType != typeof(string)) {
-          DebugEx.Warning(
-              "Found method ConfigNode.ReadValue, but it has incompatible signature: {0}",
-              DbgFormatter.C2S(methodParams, predicate: x => x.ParameterType.ToString()));
-          cachedReadValueMethod = null;
-        } else {
-          DebugEx.Warning(
-              "Found stock method to parse KSPField values. Using it for the fields reload.");
-        }
-      } else {
-        DebugEx.Warning("Cannot find `static object ConfigNode.ReadValue(Type, string)` method."
-                        + " Fallback to the copy-only-strings approach.");
-      }
-    }
-    if (cachedReadValueMethod != null) {
-      // The stock method can deal with any KSPField annotated type.
-      return (fieldType, strValue) => cachedReadValueMethod.Invoke(null, new object[] {
-        fieldType,
-        strValue
-      });
-    }
-    // When stock method is not available, only handle the string fields. This will cover 99% of
-    // the localization needs.
-    return (fieldType, strValue) => fieldType != typeof(string) ? null : strValue;
   }
   #endregion
 }
