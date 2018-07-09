@@ -50,26 +50,6 @@
     <BaseIntermediateOutputPath>obj\</BaseIntermediateOutputPath>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Assembly-CSharp">
-      <HintPath>Q:\KSP_Data\Managed\Assembly-CSharp.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="Assembly-CSharp-firstpass">
-      <HintPath>Q:\KSP_Data\Managed\Assembly-CSharp-firstpass.dll</HintPath>
-    </Reference>
-    <Reference Include="System" />
-    <Reference Include="System.Core">
-      <RequiredTargetFramework>3.5</RequiredTargetFramework>
-    </Reference>
-    <Reference Include="UnityEngine">
-      <HintPath>Q:\KSP_Data\Managed\UnityEngine.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="UnityEngine.UI">
-      <HintPath>Q:\KSP_Data\Managed\UnityEngine.UI.dll</HintPath>
-    </Reference>
-  </ItemGroup>
-  <ItemGroup>
     <Compile Include="ConfigUtils\AbstractCollectionTypeProto.cs" />
     <Compile Include="ConfigUtils\AbstractOrdinaryValueTypeProto.cs" />
     <Compile Include="ConfigUtils\BasePersistentFieldAttribute.cs" />
@@ -173,6 +153,23 @@
     <None Include="KSPAPI_HelpIndex.xml" />
     <None Include="SpecialDocTags.xml" />
     <None Include="Unity3D_HelpIndex.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="Assembly-CSharp">
+      <HintPath>Q:\KSP_x64_Data\Managed\Assembly-CSharp.dll</HintPath>
+    </Reference>
+    <Reference Include="Assembly-CSharp-firstpass">
+      <HintPath>Q:\KSP_x64_Data\Managed\Assembly-CSharp-firstpass.dll</HintPath>
+    </Reference>
+    <Reference Include="System">
+      <HintPath>Q:\KSP_x64_Data\Managed\System.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine">
+      <HintPath>Q:\KSP_x64_Data\Managed\UnityEngine.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.UI">
+      <HintPath>Q:\KSP_x64_Data\Managed\UnityEngine.UI.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
