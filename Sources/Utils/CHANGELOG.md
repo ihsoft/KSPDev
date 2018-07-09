@@ -1,3 +1,8 @@
+# 0.37.0 (July 8th, 2018):
+* [Change] Don't reload the `KSPField` fields on language change to improve stability. Delegate it to the `Localization Tool`.
+* [Change] Migrate to x64 profile. The 32-bit game mode is no more supported!
+* [Enhancement] Protect the localization calls with `try/catch` to not fail when a single module behaves wrong.
+
 # 0.36.0 (July 7th, 2018):
 * [Fix] Fix handling the negative values in all of the type formatters. E.g. [`GUIUtils.AngleType`](http://ihsoft.github.io/KSPDev/Utils/html/T_KSPDev_GUIUtils_AngleType.htm).
 * [Enhancement] Auto update modules that implement [`GUIUtils.IHasContextMenu`](http://ihsoft.github.io/KSPDev/Utils/html/T_KSPDev_GUIUtils_IHasContextMenu.htm).
