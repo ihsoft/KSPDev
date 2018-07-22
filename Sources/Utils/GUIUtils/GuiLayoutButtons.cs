@@ -27,8 +27,8 @@ public static class GUILayoutButtons {
   /// The callback to call when the button is released. Can be <c>null</c>.
   /// </param>
   /// <param name="actionsList">
-  /// The action list to add to use to fire a callback. If the list is onitted, then the callback is
-  /// fired right away.
+  /// The action list to execute the callbacks thru. If the list is omitted, then the callback is
+  /// fired right away. Otherwise, it's added to the list and executed when the list is triggered.
   /// </param>
   /// <returns>The new button press state.</returns>
   /// <seealso cref="GuiActionsList"/>
@@ -81,8 +81,8 @@ public static class GUILayoutButtons {
   /// <param name="fnOff">The callback to call when the control is checked. Can be <c>null</c>.
   /// </param>
   /// <param name="actionsList">
-  /// The action list to add to use to fire a callback. If the list is onitted, then the callback is
-  /// fired right away.
+  /// The action list to execute the callbacks thru. If the list is omitted, then the callback is
+  /// fired right away. Otherwise, it's added to the list and executed when the list is triggered.
   /// </param>
   /// <returns>The new button toggle state.</returns>
   /// <seealso cref="GuiActionsList"/>

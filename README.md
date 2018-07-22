@@ -2,13 +2,6 @@
 
 It's a set of projects that help developing and debugging mods for Kerbal Space Program.
 
-## LogConsole
-
-Advanced console for in-game logging system. Supports persistense, filtering, records grouping, and
-many more.
-
-See more details in Wiki: https://github.com/ihsoft/KSPDev_LogConsole/wiki
-
 ## Utils
 
 Big library with various classes and methods that simplify coding common tasks. This library can be
