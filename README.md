@@ -1,3 +1,11 @@
+# Deprecation warning!
+
+Some of the mods in this repository have been moved into own repositories:
+
+* `KSPDev ReleaseBuilder` is now located in: https://github.com/ihsoft/KSPDev_ReleaseBuilder.
+* `KSPDev LogConsole` is now located in: https://github.com/ihsoft/KSPDev_LogConsole.
+* `KSPDev LocalizationTool` is now located in: https://github.com/ihsoft/KSPDev_LocalizationTool.
+
 # KSPDev: Kerbal Development tools
 
 It's a set of projects that help developing and debugging mods for Kerbal Space Program.
