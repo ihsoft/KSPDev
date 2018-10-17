@@ -28,7 +28,7 @@ public sealed class PercentType {
 
   /// <summary>Constructs a precentage type object.</summary>
   /// <param name="value">
-  /// The numeric value which defines the ratio. Value <c>0.0</c> is <c>100%</c>.
+  /// The numeric value which defines the ratio. Value <c>1.0</c> is <c>100%</c>.
   /// </param>
   /// <seealso cref="Format"/>
   /// <example><code source="Examples/GUIUtils/TypeFormatters/PercentType-Examples.cs" region="PercentTypeDemo1"/></example>
