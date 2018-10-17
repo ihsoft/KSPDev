@@ -50,7 +50,7 @@ public sealed class VelocityType {
   /// <summary>Localized suffix for the "megameter per second" units. Scale x1000000.</summary>
   public static readonly Message megameterPerSecond = new Message(
       MegameterPerSecondLocTag,
-      defaultTemplate: " km/s",
+      defaultTemplate: " Mm/s",
       description: "Megameter per second unit for a velocity value");
 
   /// <summary>A wrapped numeric value.</summary>
