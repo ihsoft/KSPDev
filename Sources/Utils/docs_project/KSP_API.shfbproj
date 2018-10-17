@@ -18,22 +18,22 @@
     <HtmlHelpName>KSP_API</HtmlHelpName>
     <Language>en-US</Language>
     <DocumentationSources>
-      <DocumentationSource sourceFile="Q:\KSP_Data\Managed\Assembly-CSharp.dll" />
-      <DocumentationSource sourceFile="Q:\KSP_Data\Managed\Assembly-CSharp.xml" />
-      <DocumentationSource sourceFile="Q:\KSP_Data\Managed\Assembly-CSharp-firstpass.dll" />
-      <DocumentationSource sourceFile="Q:\KSP_Data\Managed\Boo.Lang.dll" />
-      <DocumentationSource sourceFile="Q:\KSP_Data\Managed\KSPAssets.dll" />
-      <DocumentationSource sourceFile="Q:\KSP_Data\Managed\Mono.Cecil.dll" />
-      <DocumentationSource sourceFile="Q:\KSP_Data\Managed\Mono.Security.dll" />
-      <DocumentationSource sourceFile="Q:\KSP_Data\Managed\TDx.TDxInput.dll" />
-      <DocumentationSource sourceFile="Q:\KSP_Data\Managed\TrackIRUnity.dll" />
-      <DocumentationSource sourceFile="Q:\KSP_Data\Managed\UnityEngine.dll" />
-      <DocumentationSource sourceFile="Q:\KSP_Data\Managed\UnityEngine.xml" />
-      <DocumentationSource sourceFile="Q:\KSP_Data\Managed\UnityEngine.Networking.dll" />
-      <DocumentationSource sourceFile="Q:\KSP_Data\Managed\UnityEngine.UI.dll" />
-      <DocumentationSource sourceFile="Q:\KSP_Data\Managed\UnityScript.Lang.dll" />
-      <DocumentationSource sourceFile="Q:\KSP_Data\Managed\Assembly-UnityScript.dll" />
-      <DocumentationSource sourceFile="Q:\KSP_Data\Managed\Assembly-UnityScript-firstpass.dll" />
+      <DocumentationSource sourceFile="Q:\KSP_x64_Data\Managed\Assembly-CSharp.dll" />
+      <DocumentationSource sourceFile="Q:\KSP_x64_Data\Managed\Assembly-CSharp.xml" />
+      <DocumentationSource sourceFile="Q:\KSP_x64_Data\Managed\Assembly-CSharp-firstpass.dll" />
+      <DocumentationSource sourceFile="Q:\KSP_x64_Data\Managed\Boo.Lang.dll" />
+      <DocumentationSource sourceFile="Q:\KSP_x64_Data\Managed\KSPAssets.dll" />
+      <DocumentationSource sourceFile="Q:\KSP_x64_Data\Managed\Mono.Cecil.dll" />
+      <DocumentationSource sourceFile="Q:\KSP_x64_Data\Managed\Mono.Security.dll" />
+      <DocumentationSource sourceFile="Q:\KSP_x64_Data\Managed\TDx.TDxInput.dll" />
+      <DocumentationSource sourceFile="Q:\KSP_x64_Data\Managed\TrackIRUnity.dll" />
+      <DocumentationSource sourceFile="Q:\KSP_x64_Data\Managed\UnityEngine.dll" />
+      <DocumentationSource sourceFile="Q:\KSP_x64_Data\Managed\UnityEngine.xml" />
+      <DocumentationSource sourceFile="Q:\KSP_x64_Data\Managed\UnityEngine.Networking.dll" />
+      <DocumentationSource sourceFile="Q:\KSP_x64_Data\Managed\UnityEngine.UI.dll" />
+      <DocumentationSource sourceFile="Q:\KSP_x64_Data\Managed\UnityScript.Lang.dll" />
+      <DocumentationSource sourceFile="Q:\KSP_x64_Data\Managed\Assembly-UnityScript.dll" />
+      <DocumentationSource sourceFile="Q:\KSP_x64_Data\Managed\Assembly-UnityScript-firstpass.dll" />
     </DocumentationSources>
     <WarnOnMissingSourceContext>False</WarnOnMissingSourceContext>
     <WorkingPath>Help\Working\KSP-API\</WorkingPath>
