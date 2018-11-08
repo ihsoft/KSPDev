@@ -1,3 +1,5 @@
+# 0.38 (pre-release):
+
 # 0.37.0 (July 8th, 2018):
 * [Change] Don't reload the `KSPField` fields on language change to improve stability. Delegate it to the `Localization Tool`.
 * [Change] Migrate to x64 profile. The 32-bit game mode is no more supported!
