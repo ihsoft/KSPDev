@@ -115,6 +115,11 @@ public static class Hierarchy {
   /// Every element of the path may specify an exact transform name or a partial match pattern:
   /// <list type="bullet">
   /// <item>
+  /// To find an element that contains symbol <c>/</c> (the path components separator), simply
+  /// double it. E.g. "a//b" will be looking for component, named "a/b" instead fo seacrhing for
+  /// child "b" in the parent "a".
+  /// </item>
+  /// <item>
   /// <c>*</c> - any name matches. Such patterns can be nested to specify the desired level of
   /// nesting. E.g. <c>*/*/a</c> will look for name <c>a</c> in the grandchildren.
   /// </item>

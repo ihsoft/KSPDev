@@ -42,7 +42,7 @@ public static class Meshes {
   }
 
   /// <summary>
-  /// Sets the specified values to material of all the renderers in the part's model.
+  /// Sets the specified values to material of all the child renderers in the parent's object.
   /// </summary>
   /// <remarks>
   /// Shared material is affected, so if there are unrelated meshes that use the same material then

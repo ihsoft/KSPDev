@@ -97,7 +97,7 @@ public sealed class SimpleStateMachine<T> where T : struct, IConvertible {
   readonly Dictionary<T, OnChange> enterHandlersInit = new Dictionary<T, OnChange>();
   readonly Dictionary<T, OnChange> leaveHandlersAny = new Dictionary<T, OnChange>();
   readonly Dictionary<T, OnChange> leaveHandlersShutdown = new Dictionary<T, OnChange>();
-  readonly Dictionary<T, T[]> transitionContstraints = new Dictionary<T, T[]>();
+  readonly Dictionary<T, T[]> transitionConstraints = new Dictionary<T, T[]>();
 
   /// <summary>Constructs a new uninitialized state machine.</summary>
   /// <param name="strict">Tells if all the transitions must be explicitly declared.</param>
@@ -121,8 +121,8 @@ public sealed class SimpleStateMachine<T> where T : struct, IConvertible {
   /// <example><code source="Examples/ProcessingUtils/SimpleStateMachine-Examples.cs" region="SimpleStateMachineStrict"/></example>
   public void SetTransitionConstraint(T fromState, T[] toStates) {
     CheckIsNotStarted();
-    transitionContstraints.Remove(fromState);
-    transitionContstraints.Add(fromState, toStates);
+    transitionConstraints.Remove(fromState);
+    transitionConstraints.Add(fromState, toStates);
   }
 
   /// <summary>Clears the transitions for the source state if any.</summary>
@@ -130,7 +130,7 @@ public sealed class SimpleStateMachine<T> where T : struct, IConvertible {
   /// <seealso cref="SetTransitionConstraint"/>
   public void ResetTransitionConstraint(T fromState) {
     CheckIsNotStarted();
-    transitionContstraints.Remove(fromState);
+    transitionConstraints.Remove(fromState);
   }
 
   /// <summary>Adds a state change event.</summary>
@@ -233,8 +233,8 @@ public sealed class SimpleStateMachine<T> where T : struct, IConvertible {
   /// <example><code source="Examples/ProcessingUtils/SimpleStateMachine-Examples.cs" region="SimpleStateMachineStrict"/></example>
   public bool CheckCanSwitchTo(T newState) {
     return !isStrict
-        || transitionContstraints.ContainsKey(_currentState.Value)
-           && transitionContstraints[_currentState.Value].IndexOf(newState) != -1;
+        || transitionConstraints.ContainsKey(_currentState.Value)
+           && transitionConstraints[_currentState.Value].IndexOf(newState) != -1;
   }
 
   #region Local utility methods
