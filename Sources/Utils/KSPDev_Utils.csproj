@@ -96,6 +96,7 @@
     <Compile Include="GUIUtils\TypeFormatters\MassType.cs" />
     <Compile Include="GUIUtils\TypeFormatters\PartType.cs" />
     <Compile Include="GUIUtils\TypeFormatters\PercentType.cs" />
+    <Compile Include="GUIUtils\TypeFormatters\PercentFixedType.cs" />
     <Compile Include="GUIUtils\TypeFormatters\PressureType.cs" />
     <Compile Include="GUIUtils\TypeFormatters\ResourceShortType.cs" />
     <Compile Include="GUIUtils\TypeFormatters\ResourceType.cs" />
