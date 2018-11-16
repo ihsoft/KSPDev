@@ -1,4 +1,5 @@
 # 0.38 (pre-release):
+* [Enhancement] Add a type formatter for the part argument: [`GUIUtils.PartType`](http://ihsoft.github.io/KSPDev/Utils/html/T_KSPDev_GUIUtils_PartType.htm).
 
 # 0.37.0 (July 8th, 2018):
 * [Change] Don't reload the `KSPField` fields on language change to improve stability. Delegate it to the `Localization Tool`.
