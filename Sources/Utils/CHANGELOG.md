@@ -2,6 +2,7 @@
 * [Enhancement] Add a type formatter for the part argument: [`GUIUtils.PartType`](http://ihsoft.github.io/KSPDev/Utils/html/T_KSPDev_GUIUtils_PartType.htm).
 * [Enhancement] Add a type formatter for the fixed percent form: [`GUIUtils.PercentFixedType`](http://ihsoft.github.io/KSPDev/Utils/html/T_KSPDev_GUIUtils_PercentFixedType.htm).
 * [Enhancement] Introduce "Hermetic GUI controls" concept: [`GUIUtils.AbstractHermeticGUIControl`](http://ihsoft.github.io/KSPDev/Utils/html/T_KSPDev_GUIUtils_AbstractHermeticGUIControl.htm).
+* [Enhancement] Introduce "Debug Adjustable Members" concept to allow editing classes via GUI on the fly: [`DebugUtils.DebugGui`](http://ihsoft.github.io/KSPDev/Utils/html/T_KSPDev_DebugUtils_DebugGui.htm).
 
 # 0.37.0 (July 8th, 2018):
 * [Change] Don't reload the `KSPField` fields on language change to improve stability. Delegate it to the `Localization Tool`.

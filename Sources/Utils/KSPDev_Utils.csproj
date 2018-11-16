@@ -67,6 +67,8 @@
     <Compile Include="ConfigUtils\KspTypesProto.cs" />
     <Compile Include="ConfigUtils\StdPersistentGroups.cs" />
     <Compile Include="ConfigUtils\StdSpecTags.cs" />
+    <Compile Include="DebugUtils\DebugAdjustableAttribute.cs" />
+    <Compile Include="DebugUtils\DebugGui.cs" />
     <Compile Include="Extensions\DictExtensions.cs" />
     <Compile Include="Extensions\PosAndRotExtensions.cs" />
     <Compile Include="Extensions\RectExtensions.cs" />
@@ -140,6 +142,7 @@
     <Compile Include="Types\PosAndRot.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="DebugUtils" />
     <Folder Include="Extensions" />
     <Folder Include="GUIUtils" />
     <Folder Include="GUIUtils\TypeFormatters" />
