@@ -71,9 +71,14 @@
     <Compile Include="Extensions\PosAndRotExtensions.cs" />
     <Compile Include="Extensions\RectExtensions.cs" />
     <Compile Include="FSUtils\KspPaths.cs" />
+    <Compile Include="GUIUtils\AbstractHermeticGUIControl.cs" />
     <Compile Include="GUIUtils\GuiLayoutButtons.cs" />
     <Compile Include="GUIUtils\GuiLayoutStringTable.cs" />
+    <Compile Include="GUIUtils\HermeticGUIControlBoolean.cs" />
+    <Compile Include="GUIUtils\HermeticGUIControlSwitch.cs" />
+    <Compile Include="GUIUtils\HermeticGUIControlText.cs" />
     <Compile Include="GUIUtils\IHasGUI.cs" />
+    <Compile Include="GUIUtils\IRenderableGUIControl.cs" />
     <Compile Include="GUIUtils\IsLocalizableModule.cs" />
     <Compile Include="GUIUtils\MessageLookup.cs" />
     <Compile Include="GUIUtils\GuiColorScope.cs" />
