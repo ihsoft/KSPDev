@@ -40,7 +40,7 @@ public class GUILayoutStringTable {
     lastFrameColumnWidths = new float[columns];
   }
 
-  /// <summary>Updates the table state each frame toremember the best column size values.</summary>
+  /// <summary>Updates the table state each frame to remember the best column size values.</summary>
   /// <remarks>
   /// This method is only interested in the <c>EventType.Layout</c> phase, so no need to call it on
   /// each GUI event when there is a cheap way to detect it.
@@ -63,7 +63,7 @@ public class GUILayoutStringTable {
   /// <param name="style">
   /// The style to apply to the text. If not set, then <c>GUI.skin.label</c> is used.
   /// </param>
-  public void AddTextColumn(String text, GUIStyle style = null) {
+  public void AddTextColumn(string text, GUIStyle style = null) {
     AddTextColumn(new GUIContent(text), style ?? GUI.skin.label);
   }
 
@@ -74,7 +74,7 @@ public class GUILayoutStringTable {
   /// The style to apply to the text. If not set, then <c>GUI.skin.label</c> is used.
   /// </param>
   /// <seealso cref="LocalizableMessage"/>
-  public void AddTextColumn(String text, LocalizableMessage message, GUIStyle style = null) {
+  public void AddTextColumn(string text, LocalizableMessage message, GUIStyle style = null) {
     AddTextColumn(new GUIContent(text), style ?? GUI.skin.label,
                   minWidth: message.guiTags.minWidth, maxWidth: message.guiTags.maxWidth);
   }
@@ -88,7 +88,7 @@ public class GUILayoutStringTable {
   /// <param name="style">
   /// The style to apply to the text. If not set, then <c>GUI.skin.label</c> is used.
   /// </param>
-  public void AddTextColumn(String text, String tooltip, GUIStyle style = null) {
+  public void AddTextColumn(string text, string tooltip, GUIStyle style = null) {
     AddTextColumn(new GUIContent(text, tooltip), style ?? GUI.skin.label);
   }
 
@@ -103,7 +103,7 @@ public class GUILayoutStringTable {
   /// The style to apply to the text. If not set, then <c>GUI.skin.label</c> is used.
   /// </param>
   /// <seealso cref="LocalizableMessage"/>
-  public void AddTextColumn(String text, String tooltip, LocalizableMessage message,
+  public void AddTextColumn(string text, string tooltip, LocalizableMessage message,
                             GUIStyle style = null) {
     AddTextColumn(new GUIContent(text, tooltip), style ?? GUI.skin.label,
                   minWidth: message.guiTags.minWidth, maxWidth: message.guiTags.maxWidth);

@@ -7,7 +7,7 @@ using UnityEngine;
 
 namespace KSPDev.GUIUtils {
 
-/// <summary>A utility class to render big disabled bloacks of GUI.</summary>
+/// <summary>A utility class to render a big disabled block in GUI.</summary>
 /// <example><code source="Examples/GUIUtils/GuiEnabledStateScope-Examples.cs" region="GuiEnabledStateScopeDemo1_OnGUI"/></example>
 public class GuiEnabledStateScope : IDisposable {
   readonly bool oldState;

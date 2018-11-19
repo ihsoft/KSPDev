@@ -76,7 +76,7 @@
     <Compile Include="Extensions\RectExtensions.cs" />
     <Compile Include="FSUtils\KspPaths.cs" />
     <Compile Include="GUIUtils\AbstractHermeticGUIControl.cs" />
-    <Compile Include="GUIUtils\GuiLayoutButtons.cs" />
+    <Compile Include="GUIUtils\GUILayoutButtons.cs" />
     <Compile Include="GUIUtils\GuiLayoutStringTable.cs" />
     <Compile Include="GUIUtils\GUILayoutVerticalScrollView.cs" />
     <Compile Include="GUIUtils\HermeticGUIControlBoolean.cs" />
