@@ -78,6 +78,7 @@
     <Compile Include="GUIUtils\AbstractHermeticGUIControl.cs" />
     <Compile Include="GUIUtils\GuiLayoutButtons.cs" />
     <Compile Include="GUIUtils\GuiLayoutStringTable.cs" />
+    <Compile Include="GUIUtils\GUILayoutVerticalScrollView.cs" />
     <Compile Include="GUIUtils\HermeticGUIControlBoolean.cs" />
     <Compile Include="GUIUtils\HermeticGUIControlSwitch.cs" />
     <Compile Include="GUIUtils\HermeticGUIControlText.cs" />
