@@ -3,7 +3,7 @@
 * [Enhancement] Add a type formatter for the fixed percent form: [`GUIUtils.PercentFixedType`](http://ihsoft.github.io/KSPDev/Utils/html/T_KSPDev_GUIUtils_PercentFixedType.htm).
 * [Enhancement] Introduce "Hermetic GUI controls" concept: [`GUIUtils.AbstractHermeticGUIControl`](http://ihsoft.github.io/KSPDev/Utils/html/T_KSPDev_GUIUtils_AbstractHermeticGUIControl.htm).
 * [Enhancement] Introduce "Debug Adjustable Members" concept to allow editing classes via GUI on the fly: [`DebugUtils.DebugGui`](http://ihsoft.github.io/KSPDev/Utils/html/T_KSPDev_DebugUtils_DebugGui.htm).
-* [Enhancement] Add debug GUI universal control: [`DebugUtils.StdTypesDebugGuiControl`](http://ihsoft.github.io/KSPDev/Utils/html/T_KSPDev_DebugUtilsStdTypesDebugGuiControl.htm).
+* [Enhancement] Add debug GUI universal control: [`DebugUtils.StdTypesDebugGuiControl`](http://ihsoft.github.io/KSPDev/Utils/html/T_KSPDev_DebugUtils_DebugUtilsStdTypesDebugGuiControl.htm).
 * [Enhancement] Add adaptive GUI scroll control: [`GUIUtils.GUILayoutVerticalScrollView`](http://ihsoft.github.io/KSPDev/Utils/html/T_KSPDev_GUIUtils_GUILayoutVerticalScrollView.htm).
 
 # 0.37.0 (July 8th, 2018):
