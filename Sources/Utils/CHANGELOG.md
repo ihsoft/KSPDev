@@ -5,6 +5,7 @@
 * [Enhancement] Introduce "Debug Adjustable Members" concept to allow editing classes via GUI on the fly: [`DebugUtils.DebugGui`](http://ihsoft.github.io/KSPDev/Utils/html/T_KSPDev_DebugUtils_DebugGui.htm).
 * [Enhancement] Add debug GUI universal control: [`DebugUtils.StdTypesDebugGuiControl`](http://ihsoft.github.io/KSPDev/Utils/html/T_KSPDev_DebugUtils_DebugUtilsStdTypesDebugGuiControl.htm).
 * [Enhancement] Add adaptive GUI scroll control: [`GUIUtils.GUILayoutVerticalScrollView`](http://ihsoft.github.io/KSPDev/Utils/html/T_KSPDev_GUIUtils_GUILayoutVerticalScrollView.htm).
+* [Enhancement] Add debug GUI for parts adjusting: [`DebugGui.MakePartDebugDialog`](http://ihsoft.github.io/KSPDev/Utils/html/T_KSPDev_DebugGui_MakePartDebugDialog.htm).
 
 # 0.37.0 (July 8th, 2018):
 * [Change] Don't reload the `KSPField` fields on language change to improve stability. Delegate it to the `Localization Tool`.
