@@ -117,16 +117,22 @@ public sealed class PartDebugAdjustmentDialog : MonoBehaviour,
   void SetPart(Part part) {
     parentPart = part;
     if (part != null) {
-      adjustableModules = part.Modules
-          .Cast<PartModule>()
-          .Select(m => new KeyValuePair<string, IRenderableGUIControl[]>(
-              m.moduleName,
-              DebugGui.GetAdjustableFields(m)
-                  .Select(f => new StdTypesDebugGuiControl(f.attr.caption, m, f.fieldInfo))
-                  .ToArray()))
-          .Where(r => r.Value.Length > 0)
-          .OrderBy(r => r.Key)
-          .ToArray();
+      var adjustables = new List<KeyValuePair<string, IRenderableGUIControl[]>>();
+      foreach (var module in part.Modules.Cast<PartModule>()) {
+        var moduleControls = new List<DebugGui.DebugMemberInfo>()
+            .Concat(DebugGui.GetAdjustableFields(module))
+            .Concat(DebugGui.GetAdjustableProperties(module))
+            .Select(m => new StdTypesDebugGuiControl(
+                m.attr.caption, module,
+                fieldInfo: m.fieldInfo, propertyInfo: m.propertyInfo)
+            )
+            .ToArray();
+        if (moduleControls.Length > 0) {
+          adjustables.Add(new KeyValuePair<string, IRenderableGUIControl[]>(
+              module.moduleName, moduleControls));
+        }
+      }
+      adjustableModules = adjustables.ToArray();
     } else {
       adjustableModules = null;
     }

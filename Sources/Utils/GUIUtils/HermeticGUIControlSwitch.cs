@@ -57,9 +57,10 @@ public sealed class HermeticGUIControlSwitch : AbstractHermeticGUIControl {
   }
   #endregion
 
-  /// <summary>Creates a control, bound to a field.</summary>
-  /// <param name="instance">The class instance that owns the field to control.</param>
-  /// <param name="fieldInfo">The field information of thefield to control.</param>
+  /// <summary>Creates a control, bound to a member.</summary>
+  /// <param name="instance">The class instance that owns the member to manage.</param>
+  /// <param name="fieldInfo">The field to manage.</param>
+  /// <param name="propertyInfo">The property to manage.</param>
   /// <param name="onUpdate">The callback to call when the value is changed.</param>
   /// <param name="useOwnLayout">
   /// If <c>false</c>, then the control will start own horizontal section to align the input field
@@ -70,10 +71,11 @@ public sealed class HermeticGUIControlSwitch : AbstractHermeticGUIControl {
   /// value is simply converted into string via <c>ToString()</c>.
   /// </param>
   /// <seealso cref="ConfigUtils.StandardOrdinaryTypesProto"/>
-  public HermeticGUIControlSwitch(object instance, FieldInfo fieldInfo,
+  public HermeticGUIControlSwitch(object instance,
+                                  FieldInfo fieldInfo = null, PropertyInfo propertyInfo = null,
                                   Action onUpdate = null, bool useOwnLayout = true,
                                   Func<object, string> toStringConverter = null)
-      : base(instance, fieldInfo, onUpdate: onUpdate) {
+      : base(instance, fieldInfo, propertyInfo, onUpdate) {
     this.useOwnLayout = useOwnLayout;
     this.toStringConverter = toStringConverter != null ? toStringConverter : x => x.ToString();
     if (!GetMemberType().IsEnum) {

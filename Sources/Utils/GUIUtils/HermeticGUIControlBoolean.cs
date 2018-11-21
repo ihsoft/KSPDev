@@ -30,13 +30,15 @@ public sealed class HermeticGUIControlBoolean : AbstractHermeticGUIControl {
 
   /// <summary>Creates the control.</summary>
   /// <param name="caption">The boolean control caption.</param>
-  /// <param name="instance">The class instance that owns the field to control.</param>
-  /// <param name="fieldInfo">The field information of thefield to control.</param>
+  /// <param name="instance">The class instance that owns the member to control.</param>
+  /// <param name="fieldInfo">The field to control.</param>
+  /// <param name="propertyInfo">The property to control.</param>
   /// <param name="onUpdate">The callback to call when the value is changed.</param>
   /// <seealso cref="ConfigUtils.StandardOrdinaryTypesProto"/>
-  public HermeticGUIControlBoolean(string caption, object instance, FieldInfo fieldInfo,
-                                   Action onUpdate = null)
-    : base(instance, fieldInfo, onUpdate) {
+  public HermeticGUIControlBoolean(
+      string caption, object instance,
+      FieldInfo fieldInfo = null, PropertyInfo propertyInfo = null, Action onUpdate = null)
+      : base(instance, fieldInfo, propertyInfo, onUpdate) {
     this.caption = caption;
     if (GetMemberType() != typeof(bool)) {
       throw new ArgumentException(string.Format(

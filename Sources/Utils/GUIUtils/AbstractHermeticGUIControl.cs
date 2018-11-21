@@ -29,6 +29,7 @@ public abstract class AbstractHermeticGUIControl : IRenderableGUIControl {
   #region Initialization settings.
   readonly object instance;
   readonly FieldInfo fieldInfo;
+  readonly PropertyInfo propertyInfo;
   readonly Action onUpdate;
   #endregion
 
@@ -38,27 +39,46 @@ public abstract class AbstractHermeticGUIControl : IRenderableGUIControl {
       GuiActionsList actionsList, GUIStyle layoutStyle, GUILayoutOption[] layoutOptions);
   #endregion
 
-  /// <summary>Creates a control, bound to a field.</summary>
-  /// <param name="instance">The class instance that owns the field to control.</param>
-  /// <param name="fieldInfo">The field information of thefield to control.</param>
-  /// <param name="onUpdate">The callback to call when the value is changed.</param>
-  protected AbstractHermeticGUIControl(object instance, FieldInfo fieldInfo,
-                                       Action onUpdate = null) {
+  /// <summary>Creates a control, bound to a member.</summary>
+  /// <param name="instance">The class instance that owns the member to manage.</param>
+  /// <param name="fieldInfo">
+  /// The field to manage. It must be <c>null</c> if <paramref name="propertyInfo"/> is set.
+  /// </param>
+  /// <param name="propertyInfo">
+  /// The property to manage. It's ignored if <paramref name="fieldInfo"/> is not <c>null</c>.
+  /// </param>
+  /// <param name="onUpdate">
+  /// The callback to call when the value is changed. It can be <c>null</c> if no update callback is
+  /// needed.
+  /// </param>
+  protected AbstractHermeticGUIControl(
+      object instance,
+      FieldInfo fieldInfo,
+      PropertyInfo propertyInfo,
+      Action onUpdate) {
     this.instance = instance;
     this.fieldInfo = fieldInfo;
+    this.propertyInfo = propertyInfo;
     this.onUpdate = onUpdate;
+    if (propertyInfo != null && !propertyInfo.CanRead) {
+      throw new ArgumentException(string.Format(
+          "Property not readable: {0}.{1} => {2}",
+          propertyInfo.DeclaringType.FullName, propertyInfo.Name, propertyInfo.PropertyType));
+    }
   }
 
   /// <summary>Returns the type of the member value.</summary>
   /// <returns></returns>
   protected Type GetMemberType() {
-    return fieldInfo.FieldType;
+    return fieldInfo != null ? fieldInfo.FieldType : propertyInfo.PropertyType;
   }
 
   /// <summary>Get the value from the controlled member.</summary>
   /// <returns>The value of the member.</returns>
   protected T GetMemberValue<T>() {
-    return (T) fieldInfo.GetValue(instance);
+    return (T) (fieldInfo != null
+        ? fieldInfo.GetValue(instance)
+        : propertyInfo.GetValue(instance, null));
   }
 
   /// <summary>Sets value to the controlled member.</summary>
@@ -69,13 +89,9 @@ public abstract class AbstractHermeticGUIControl : IRenderableGUIControl {
   /// </param>
   protected void SetMemberValue<T>(T value, GuiActionsList actionsList = null) {
     if (actionsList != null) {
-      actionsList.Add(() => {
-        fieldInfo.SetValue(instance, value);
-        UpdateMemberInstance();
-      });
+      actionsList.Add(() => SetMemberValueInternal(value));
     } else {
-      fieldInfo.SetValue(instance, value);
-      UpdateMemberInstance();
+      SetMemberValueInternal(value);
     }
   }
 
@@ -89,6 +105,23 @@ public abstract class AbstractHermeticGUIControl : IRenderableGUIControl {
         DebugEx.Error("Exception in the update method: {0}", ex);
       }
     }
+  }
+
+  /// <summary>Implemnet actual setting logic.</summary>
+  /// <param name="value">The value to set.</param>
+  void SetMemberValueInternal<T>(T value) {
+    if (fieldInfo != null) {
+      fieldInfo.SetValue(instance, value);
+    } else {
+      if (propertyInfo.CanWrite) {
+        propertyInfo.SetValue(instance, value, null);
+      } else {
+        DebugEx.Error(
+            "Property not writable: {0}.{1} => {2}",
+            propertyInfo.DeclaringType.FullName, propertyInfo.Name, propertyInfo.PropertyType);
+      }
+    }
+    UpdateMemberInstance();
   }
 }
 

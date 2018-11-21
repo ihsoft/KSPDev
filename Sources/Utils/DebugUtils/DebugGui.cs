@@ -51,10 +51,27 @@ public static class DebugGui {
     var attrType = typeof(DebugAdjustableAttribute);
     return obj.GetType()
         .GetFields(flags)
-        .Where(f => f.GetCustomAttributes(attrType, true).Length > 0)
-        .Select(f => new DebugMemberInfo() {
-          attr = f.GetCustomAttributes(attrType, true)[0] as DebugAdjustableAttribute,
-          fieldInfo = f
+        .Where(m => m.GetCustomAttributes(attrType, true).Length > 0)
+        .Select(m => new DebugMemberInfo() {
+            attr = m.GetCustomAttributes(attrType, true)[0] as DebugAdjustableAttribute,
+            fieldInfo = m
+        })
+        .ToList();
+  }
+
+  /// <summary>Gets the properties, available for debugging.</summary>
+  /// <param name="obj">The instance to get the fielda from.</param>
+  /// <returns>The member metainfo for all the available fields.</returns>
+  public static List<DebugMemberInfo> GetAdjustableProperties(object obj) {
+    var flags = BindingFlags.NonPublic | BindingFlags.Public | BindingFlags.FlattenHierarchy
+                | BindingFlags.Instance;
+    var attrType = typeof(DebugAdjustableAttribute);
+    return obj.GetType()
+        .GetProperties(flags)
+        .Where(m => m.GetCustomAttributes(attrType, true).Length > 0)
+        .Select(m => new DebugMemberInfo() {
+            attr = m.GetCustomAttributes(attrType, true)[0] as DebugAdjustableAttribute,
+            propertyInfo = m
         })
         .ToList();
   }

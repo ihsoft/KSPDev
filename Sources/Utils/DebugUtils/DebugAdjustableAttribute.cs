@@ -11,7 +11,7 @@ namespace KSPDev.DebugUtils {
 /// debugging GUI.
 /// </summary>
 /// <seealso cref="DebugGui"/>
-[AttributeUsage(AttributeTargets.Field)]
+[AttributeUsage(AttributeTargets.Field | AttributeTargets.Property)]
 public class DebugAdjustableAttribute : Attribute {
 
   /// <summary>User friendly name of the field. It will be presented in GUI.</summary>

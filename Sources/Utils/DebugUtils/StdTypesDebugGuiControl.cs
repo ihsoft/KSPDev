@@ -31,8 +31,10 @@ public sealed class StdTypesDebugGuiControl : IRenderableGUIControl {
   /// <param name="instance">
   /// The instance of the object that holds the field to be adjusted via GUI.
   /// </param>
-  /// <param name="fieldInfo">The field info the target.</param>
-  public StdTypesDebugGuiControl(string caption, object instance, FieldInfo fieldInfo) {
+  /// <param name="fieldInfo">The field info of the target member.</param>
+  /// <param name="propertyInfo">The property info of the target member.</param>
+  public StdTypesDebugGuiControl(string caption, object instance,
+                                 FieldInfo fieldInfo = null, PropertyInfo propertyInfo = null) {
     this.caption = caption + ":";
     try {
       Action onValueUpdatedCallback = null;
@@ -40,19 +42,32 @@ public sealed class StdTypesDebugGuiControl : IRenderableGUIControl {
       if (adjustable != null) {
         onValueUpdatedCallback = adjustable.OnDebugAdjustablesUpdated;
       }
-      if (fieldInfo.FieldType == typeof(bool)) {
+      var type = fieldInfo != null ? fieldInfo.FieldType : propertyInfo.PropertyType;
+      if (type == typeof(bool)) {
         this.control = new HermeticGUIControlBoolean(
-            caption, instance, fieldInfo, onUpdate: onValueUpdatedCallback);
-      } else if (fieldInfo.FieldType.IsEnum) {
+            caption, instance,
+            fieldInfo: fieldInfo, propertyInfo: propertyInfo, onUpdate: onValueUpdatedCallback);
+      } else if (type.IsEnum) {
         this.control = new HermeticGUIControlSwitch(
-            instance, fieldInfo, onUpdate: onValueUpdatedCallback, useOwnLayout: false);
+            instance,
+            fieldInfo: fieldInfo, propertyInfo: propertyInfo, onUpdate: onValueUpdatedCallback,
+            useOwnLayout: false);
       } else {
         this.control = new HermeticGUIControlText(
-            instance, fieldInfo, onUpdate: onValueUpdatedCallback, useOwnLayout: false);
+            instance,
+            fieldInfo: fieldInfo, propertyInfo: propertyInfo, onUpdate: onValueUpdatedCallback,
+            useOwnLayout: false);
       }
     } catch (Exception ex) {
-      DebugEx.Error("Failed to bind to {0}.{1} => {2}: {3}",
-                    fieldInfo.DeclaringType.FullName, fieldInfo.Name, fieldInfo.FieldType, ex);
+      if (fieldInfo != null) {
+        DebugEx.Error(
+            "Failed to bind to field {0}.{1} => {2}: {3}",
+            fieldInfo.DeclaringType.FullName, fieldInfo.Name, fieldInfo.FieldType, ex);
+      } else {
+        DebugEx.Error(
+            "Failed to bind to property {0}.{1} => {2}: {3}",
+            propertyInfo.DeclaringType.FullName, propertyInfo.Name, propertyInfo.PropertyType, ex);
+      }
       this.control = null;
     }
   }
