@@ -7,14 +7,14 @@ using System;
 namespace KSPDev.DebugUtils {
 
 /// <summary>
-/// Attribute to mark a member as available for the runtime changing. It may be exposed in the
+/// Attribute to mark a member as available for the runtime interaction. It may be exposed in the
 /// debugging GUI.
 /// </summary>
 /// <seealso cref="DebugGui"/>
-[AttributeUsage(AttributeTargets.Field | AttributeTargets.Property)]
+[AttributeUsage(AttributeTargets.Field | AttributeTargets.Property | AttributeTargets.Method)]
 public class DebugAdjustableAttribute : Attribute {
 
-  /// <summary>User friendly name of the field. It will be presented in GUI.</summary>
+  /// <summary>User friendly name of the member. It will be presented in GUI.</summary>
   public readonly string caption;
 
   /// <summary>

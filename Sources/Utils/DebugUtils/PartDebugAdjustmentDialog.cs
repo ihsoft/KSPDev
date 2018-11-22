@@ -122,9 +122,10 @@ public sealed class PartDebugAdjustmentDialog : MonoBehaviour,
         var moduleControls = new List<DebugGui.DebugMemberInfo>()
             .Concat(DebugGui.GetAdjustableFields(module))
             .Concat(DebugGui.GetAdjustableProperties(module))
+            .Concat(DebugGui.GetAdjustableActions(module))
             .Select(m => new StdTypesDebugGuiControl(
                 m.attr.caption, module,
-                fieldInfo: m.fieldInfo, propertyInfo: m.propertyInfo)
+                fieldInfo: m.fieldInfo, propertyInfo: m.propertyInfo, methodInfo: m.methodInfo)
             )
             .ToArray();
         if (moduleControls.Length > 0) {

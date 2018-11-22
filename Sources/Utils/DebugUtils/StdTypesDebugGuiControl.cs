@@ -26,6 +26,8 @@ public sealed class StdTypesDebugGuiControl : IRenderableGUIControl {
   /// <summary>The actual control that handles the value.</summary>
   readonly IRenderableGUIControl control;
 
+  readonly Action action;
+
   /// <summary>Creates a debug adjustment control for the basic type.</summary>
   /// <param name="caption">The field caption to show in the dialog.</param>
   /// <param name="instance">
@@ -33,42 +35,57 @@ public sealed class StdTypesDebugGuiControl : IRenderableGUIControl {
   /// </param>
   /// <param name="fieldInfo">The field info of the target member.</param>
   /// <param name="propertyInfo">The property info of the target member.</param>
+  /// <param name="methodInfo">The action member info.</param>
   public StdTypesDebugGuiControl(string caption, object instance,
-                                 FieldInfo fieldInfo = null, PropertyInfo propertyInfo = null) {
-    this.caption = caption + ":";
+                                 FieldInfo fieldInfo = null,
+                                 PropertyInfo propertyInfo = null,
+                                 MethodInfo methodInfo = null) {
+    Action onValueUpdatedCallback = null;
+    var adjustable = instance as IHasDebugAdjustables;
+    if (adjustable != null) {
+      onValueUpdatedCallback = adjustable.OnDebugAdjustablesUpdated;
+    }
     try {
-      Action onValueUpdatedCallback = null;
-      var adjustable = instance as IHasDebugAdjustables;
-      if (adjustable != null) {
-        onValueUpdatedCallback = adjustable.OnDebugAdjustablesUpdated;
-      }
-      var type = fieldInfo != null ? fieldInfo.FieldType : propertyInfo.PropertyType;
-      if (type == typeof(bool)) {
-        this.control = new HermeticGUIControlBoolean(
-            caption, instance,
-            fieldInfo: fieldInfo, propertyInfo: propertyInfo, onUpdate: onValueUpdatedCallback);
-      } else if (type.IsEnum) {
-        this.control = new HermeticGUIControlSwitch(
-            instance,
-            fieldInfo: fieldInfo, propertyInfo: propertyInfo, onUpdate: onValueUpdatedCallback,
-            useOwnLayout: false);
+      if (methodInfo != null) {
+        if (methodInfo.GetParameters().Length > 0) {
+          throw new ArgumentException("Debug action method must be parameterless");
+        }
+        this.caption = caption;
+        this.action = () => methodInfo.Invoke(instance, new object[0]);
       } else {
-        this.control = new HermeticGUIControlText(
-            instance,
-            fieldInfo: fieldInfo, propertyInfo: propertyInfo, onUpdate: onValueUpdatedCallback,
-            useOwnLayout: false);
+        this.caption = caption + ":";
+        this.action = null;
+        var type = fieldInfo != null ? fieldInfo.FieldType : propertyInfo.PropertyType;
+        if (type == typeof(bool)) {
+          this.control = new HermeticGUIControlBoolean(
+              caption, instance,
+              fieldInfo: fieldInfo, propertyInfo: propertyInfo, onUpdate: onValueUpdatedCallback);
+        } else if (type.IsEnum) {
+          this.control = new HermeticGUIControlSwitch(
+              instance,
+              fieldInfo: fieldInfo, propertyInfo: propertyInfo, onUpdate: onValueUpdatedCallback,
+              useOwnLayout: false);
+        } else {
+          this.control = new HermeticGUIControlText(
+              instance,
+              fieldInfo: fieldInfo, propertyInfo: propertyInfo, onUpdate: onValueUpdatedCallback,
+              useOwnLayout: false);
+        }
       }
     } catch (Exception ex) {
       if (fieldInfo != null) {
         DebugEx.Error(
             "Failed to bind to field {0}.{1} => {2}: {3}",
             fieldInfo.DeclaringType.FullName, fieldInfo.Name, fieldInfo.FieldType, ex);
-      } else {
+      } else if (propertyInfo != null) {
         DebugEx.Error(
             "Failed to bind to property {0}.{1} => {2}: {3}",
             propertyInfo.DeclaringType.FullName, propertyInfo.Name, propertyInfo.PropertyType, ex);
+      } else {
+        DebugEx.Error(
+            "Failed to bind to method {0}.{1} => {2}: {3}",
+            methodInfo.DeclaringType.FullName, methodInfo.Name, methodInfo.ReturnType, ex);
       }
-      this.control = null;
     }
   }
 
@@ -83,6 +100,14 @@ public sealed class StdTypesDebugGuiControl : IRenderableGUIControl {
           GUILayout.Label(caption);
           GUILayout.FlexibleSpace();
           control.RenderControl(actionsList, layoutStyle, options);
+        }
+      }
+    } else if (action != null) {
+      if (GUILayout.Button(caption)) {
+        if (actionsList != null) {
+          actionsList.Add(action);
+        } else {
+          action();
         }
       }
     }
