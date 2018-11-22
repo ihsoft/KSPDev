@@ -42,7 +42,9 @@ public sealed class PartDebugAdjustmentDialog : MonoBehaviour,
 
   /// <summary>Scroll view for the adjustable modules.</summary>
   GUILayoutVerticalScrollView mainScrollView = new GUILayoutVerticalScrollView();
+  #endregion
 
+  #region Dialog configurable settings
   /// <summary>Dialog title.</summary>
   internal string dialogTitle = "";
 
@@ -51,6 +53,9 @@ public sealed class PartDebugAdjustmentDialog : MonoBehaviour,
 
   /// <summary>Size of the controls for the values.</summary>
   internal float dialogValueSize = 250.0f;
+
+  /// <summary>Controls group to show.</summary>
+  internal string controlsGroup = "";
   #endregion
 
   #region IHasGUI implementation
@@ -85,23 +90,27 @@ public sealed class PartDebugAdjustmentDialog : MonoBehaviour,
 
     // Render the adjustable fields.
     if (parentPart != null && adjustableModules != null) {
-      mainScrollView.BeginView(GUI.skin.box, Screen.height - 100);
-      for (var i = 0; i < adjustableModules.Length; i++) {
-        var isSelected = selectedModule == i;
-        var module = adjustableModules[i];
-        var toggleCaption = (isSelected ? "\u25b2 " : "\u25bc ") + module.Key;
-        if (GUILayout.Button(toggleCaption)) {
-          var selectedModuleSnapshot = selectedModule == i ? -1 : i;  // Make a copy for lambda!
-          guiActions.Add(() => selectedModule = selectedModuleSnapshot);
-        }
-        if (isSelected) {
-          foreach (var control in module.Value) {
-            control.RenderControl(
-                guiActions, GUI.skin.label, new[] { GUILayout.Width(dialogValueSize) });
+      if (adjustableModules.Length > 0) {
+        mainScrollView.BeginView(GUI.skin.box, Screen.height - 100);
+        for (var i = 0; i < adjustableModules.Length; i++) {
+          var isSelected = selectedModule == i;
+          var module = adjustableModules[i];
+          var toggleCaption = (isSelected ? "\u25b2 " : "\u25bc ") + module.Key;
+          if (GUILayout.Button(toggleCaption)) {
+            var selectedModuleSnapshot = selectedModule == i ? -1 : i;  // Make a copy for lambda!
+            guiActions.Add(() => selectedModule = selectedModuleSnapshot);
+          }
+          if (isSelected) {
+            foreach (var control in module.Value) {
+              control.RenderControl(
+                  guiActions, GUI.skin.label, new[] { GUILayout.Width(dialogValueSize) });
+            }
           }
         }
+        mainScrollView.EndView();
+      } else {
+        GUILayout.Box("No adjustable members found");
       }
-      mainScrollView.EndView();
     }
 
     if (GUILayout.Button("Close", GUILayout.ExpandWidth(false))) {
@@ -120,9 +129,9 @@ public sealed class PartDebugAdjustmentDialog : MonoBehaviour,
       var adjustables = new List<KeyValuePair<string, IRenderableGUIControl[]>>();
       foreach (var module in part.Modules.Cast<PartModule>()) {
         var moduleControls = new List<DebugGui.DebugMemberInfo>()
-            .Concat(DebugGui.GetAdjustableFields(module))
-            .Concat(DebugGui.GetAdjustableProperties(module))
-            .Concat(DebugGui.GetAdjustableActions(module))
+            .Concat(DebugGui.GetAdjustableFields(module, group: controlsGroup))
+            .Concat(DebugGui.GetAdjustableProperties(module, group: controlsGroup))
+            .Concat(DebugGui.GetAdjustableActions(module, group: controlsGroup))
             .Select(m => new StdTypesDebugGuiControl(
                 m.attr.caption, module,
                 fieldInfo: m.fieldInfo, propertyInfo: m.propertyInfo, methodInfo: m.methodInfo)

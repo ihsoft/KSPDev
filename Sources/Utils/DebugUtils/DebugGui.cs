@@ -44,9 +44,12 @@ public static class DebugGui {
 
   /// <summary>Gets the fields, available for debugging.</summary>
   /// <param name="obj">The instance to get the fields from.</param>
+  /// <param name="group">
+  /// The group to get the controls for. If empty, then all the controls are returned.
+  /// </param>
   /// <returns>The member meta info for all the available fields.</returns>
   /// <seealso cref="DebugAdjustableAttribute"/>
-  public static List<DebugMemberInfo> GetAdjustableFields(object obj) {
+  public static List<DebugMemberInfo> GetAdjustableFields(object obj, string group = "") {
     var flags = BindingFlags.NonPublic | BindingFlags.Public | BindingFlags.FlattenHierarchy
                 | BindingFlags.Instance;
     var attrType = typeof(DebugAdjustableAttribute);
@@ -57,14 +60,18 @@ public static class DebugGui {
             attr = m.GetCustomAttributes(attrType, true)[0] as DebugAdjustableAttribute,
             fieldInfo = m
         })
+        .Where(m => group == "" || m.attr.group == group)
         .ToList();
   }
 
   /// <summary>Gets the properties, available for debugging.</summary>
   /// <param name="obj">The instance to get the properties from.</param>
+  /// <param name="group">
+  /// The group to get the controls for. If empty, then all the controls are returned.
+  /// </param>
   /// <returns>The member meta info for all the available properties.</returns>
   /// <seealso cref="DebugAdjustableAttribute"/>
-  public static List<DebugMemberInfo> GetAdjustableProperties(object obj) {
+  public static List<DebugMemberInfo> GetAdjustableProperties(object obj, string group = "") {
     var flags = BindingFlags.NonPublic | BindingFlags.Public | BindingFlags.FlattenHierarchy
                 | BindingFlags.Instance;
     var attrType = typeof(DebugAdjustableAttribute);
@@ -81,9 +88,12 @@ public static class DebugGui {
   /// <summary>Gets the methods, available for calling from the debugging GUI.</summary>
   /// <remarks>The atributed method must have zero parameters.</remarks>
   /// <param name="obj">The instance to get the methods from.</param>
+  /// <param name="group">
+  /// The group to get the controls for. If empty, then all the controls are returned.
+  /// </param>
   /// <returns>The member meta info for all the available methods.</returns>
   /// <seealso cref="DebugAdjustableAttribute"/>
-  public static List<DebugMemberInfo> GetAdjustableActions(object obj) {
+  public static List<DebugMemberInfo> GetAdjustableActions(object obj, string group = "") {
     var flags = BindingFlags.NonPublic | BindingFlags.Public | BindingFlags.FlattenHierarchy
                 | BindingFlags.Instance;
     var attrType = typeof(DebugAdjustableAttribute);
@@ -105,15 +115,19 @@ public static class DebugGui {
   /// <param name="valueColumnWidth">
   /// The width of the value changing controls. If omitted, then the code will decide.
   /// </param>
+  /// <param name="group">
+  /// The group of the controls to present. If empty, then all the controls are shown.
+  /// </param>
   /// <returns>The created dialog.</returns>
   /// <seealso cref="DestroyPartDebugDialog"/>
   /// <seealso cref="DebugAdjustableAttribute"/>
   public static PartDebugAdjustmentDialog MakePartDebugDialog(
-      string title, float? dialogWidth = null, float? valueColumnWidth = null) {
+      string title, float? dialogWidth = null, float? valueColumnWidth = null, string group = "") {
     var dlg = dialogsRoot.AddComponent<PartDebugAdjustmentDialog>();
     dlg.dialogTitle = title;
     dlg.dialogWidth = dialogWidth ?? dlg.dialogWidth;
     dlg.dialogValueSize = valueColumnWidth ?? dlg.dialogValueSize;
+    dlg.controlsGroup = group;
     DebugEx.Info("Created debug dialog: {0}", title);
     return dlg;
   }
