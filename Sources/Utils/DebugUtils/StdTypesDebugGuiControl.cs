@@ -2,10 +2,11 @@
 // Author: igor.zavoychinskiy@gmail.com
 // This software is distributed under Public domain license.
 
-using System;
-using System.Reflection;
+using KSPDev.ConfigUtils;
 using KSPDev.GUIUtils;
 using KSPDev.LogUtils;
+using System;
+using System.Reflection;
 using UnityEngine;
 
 namespace KSPDev.DebugUtils {
@@ -33,15 +34,21 @@ public sealed class StdTypesDebugGuiControl : IRenderableGUIControl {
   /// <param name="instance">
   /// The instance of the object that holds the field to be adjusted via GUI.
   /// </param>
+  /// <param name="host">
+  /// The class that should get the member change notifications. If not set, then
+  /// <paramref name="instance"/> will be the target.
+  /// </param>
   /// <param name="fieldInfo">The field info of the target member.</param>
   /// <param name="propertyInfo">The property info of the target member.</param>
   /// <param name="methodInfo">The action member info.</param>
   public StdTypesDebugGuiControl(string caption, object instance,
+                                 IHasDebugAdjustables host = null,
                                  FieldInfo fieldInfo = null,
                                  PropertyInfo propertyInfo = null,
                                  MethodInfo methodInfo = null) {
     Action onValueUpdatedCallback = null;
-    var adjustable = instance as IHasDebugAdjustables;
+    var adjustable = (host as IHasDebugAdjustables)
+        ?? (instance as IHasDebugAdjustables);
     if (adjustable != null) {
       onValueUpdatedCallback = adjustable.OnDebugAdjustablesUpdated;
     }
@@ -66,10 +73,18 @@ public sealed class StdTypesDebugGuiControl : IRenderableGUIControl {
               fieldInfo: fieldInfo, propertyInfo: propertyInfo, onUpdate: onValueUpdatedCallback,
               useOwnLayout: false);
         } else {
-          this.control = new HermeticGUIControlText(
-              instance,
-              fieldInfo: fieldInfo, propertyInfo: propertyInfo, onUpdate: onValueUpdatedCallback,
-              useOwnLayout: false);
+          var proto = new StandardOrdinaryTypesProto();
+          if (proto.CanHandle(type)) {
+            this.control = new HermeticGUIControlText(
+                instance,
+                fieldInfo: fieldInfo, propertyInfo: propertyInfo, onUpdate: onValueUpdatedCallback,
+                useOwnLayout: false);
+          } else {
+            this.control = new HermeticGUIControlClass(
+                "Group: " + caption, instance,
+                fieldInfo: fieldInfo, propertyInfo: propertyInfo,
+                onUpdate: onValueUpdatedCallback);
+          }
         }
       }
     } catch (Exception ex) {
@@ -93,7 +108,7 @@ public sealed class StdTypesDebugGuiControl : IRenderableGUIControl {
   public void RenderControl(
       GuiActionsList actionsList, GUIStyle layoutStyle, GUILayoutOption[] options) {
     if (control != null) {
-      if (control is HermeticGUIControlBoolean) {
+      if (control is HermeticGUIControlClass || control is HermeticGUIControlBoolean) {
         control.RenderControl(actionsList, layoutStyle, options);
       } else {
         using (new GUILayout.HorizontalScope(GUI.skin.box)) {
