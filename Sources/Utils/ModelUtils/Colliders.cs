@@ -127,7 +127,7 @@ public static class Colliders {
   /// <remarks>
   /// Type of the primitive collider is chosen basing on the primitive type.
   /// </remarks>
-  /// <param name="primitive">Primitive game object to adjust.</param>
+  /// <param name="primitive">The primitive game object to adjust.</param>
   /// <param name="meshSize">
   /// The size of the collider in local units. Depending on <paramref name="shapeType"/> the meaning
   /// of the components is different. If the shape has a "round" component, then it's a "diameter"
@@ -135,7 +135,7 @@ public static class Colliders {
   /// </param>
   /// <param name="colliderType">Determines how a collider type should be selected.</param>
   /// <param name="shapeType">
-  /// Type of the primitive when <paramref name="colliderType"/> is
+  /// The type of the primitive when <paramref name="colliderType"/> is
   /// <see cref="PrimitiveCollider.Shape"/>. It will determine the type of the collider. Only
   /// <see cref="PrimitiveType.Cylinder"/>, <see cref="PrimitiveType.Sphere"/>, and
   /// <see cref="PrimitiveType.Cube"/> are supported.

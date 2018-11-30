@@ -33,7 +33,7 @@ public sealed class PartDebugAdjustmentDialog : MonoBehaviour,
   /// <summary>Tells if the parent part capture mode is enabled.</summary>
   bool parentPartTracking;
 
-  /// <summary>Array of the moduels, available for the debug dialog.</summary>
+  /// <summary>Array of the modules, available for the debug dialog.</summary>
   /// <remarks>The key of the pair is the module name.</remarks>
   KeyValuePair<string, IRenderableGUIControl[]>[] adjustableModules;
 

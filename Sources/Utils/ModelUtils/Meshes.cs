@@ -142,14 +142,14 @@ public static class Meshes {
   /// <see cref="Colliders.AdjustCollider"/> to setup the right collider when needed.
   /// </para>
   /// </remarks>
-  /// <param name="type">Type of the primitive.</param>
+  /// <param name="type">The type of the primitive.</param>
   /// <param name="meshScale">
-  /// Scale to bring all mesh vertices to. New primitive have base size of 1m but some shapes may
-  /// have exceptions (e.g. height of a cylinder is 2m). The scale is applied on the mesh, i.e. it's
-  /// applied on the vertices, not the transform.</param>
-  /// <param name="material">Material to use for the primitive.</param>
-  /// <param name="parent">Parent transform to attach primitive to.</param>
-  /// <returns>Game object of the new primitive.</returns>
+  /// The scale to bring all the mesh vertices to. The scale is applied on the mesh, i.e. it's
+  /// applied on the vertices, not the transform.
+  /// </param>
+  /// <param name="material">The material to use for the primitive.</param>
+  /// <param name="parent">The parent transform to attach the primitive to.</param>
+  /// <returns>The game object of the new primitive.</returns>
   /// <seealso href="https://docs.unity3d.com/ScriptReference/GameObject.CreatePrimitive.html">
   /// Unity3D: GameObject.CreatePrimitive</seealso>
   /// <seealso href="https://docs.unity3d.com/ScriptReference/Material.html">Unity3D: Material
