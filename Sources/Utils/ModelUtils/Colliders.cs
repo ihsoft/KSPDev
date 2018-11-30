@@ -128,7 +128,11 @@ public static class Colliders {
   /// Type of the primitive collider is chosen basing on the primitive type.
   /// </remarks>
   /// <param name="primitive">Primitive game object to adjust.</param>
-  /// <param name="meshSize">Size of the collider in local units.</param>
+  /// <param name="meshSize">
+  /// The size of the collider in local units. Depending on <paramref name="shapeType"/> the meaning
+  /// of the components is different. If the shape has a "round" component, then it's a "diameter"
+  /// in this vector.
+  /// </param>
   /// <param name="colliderType">Determines how a collider type should be selected.</param>
   /// <param name="shapeType">
   /// Type of the primitive when <paramref name="colliderType"/> is
@@ -150,10 +154,10 @@ public static class Colliders {
         var collider = primitive.AddComponent<CapsuleCollider>();
         collider.direction = 2;  // Z axis
         collider.height = meshSize.z;  // It's now length.
-        collider.radius = meshSize.x;
+        collider.radius = meshSize.x / 2.0f;
       } else if (shapeType.Value == PrimitiveType.Sphere) {
         var collider = primitive.AddComponent<SphereCollider>();
-        collider.radius = meshSize.x;
+        collider.radius = meshSize.x / 2.0f;
       } else if (shapeType.Value == PrimitiveType.Cube) {
         var collider = primitive.AddComponent<BoxCollider>();
         collider.size = meshSize;
