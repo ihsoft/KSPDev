@@ -91,11 +91,11 @@ public sealed class PartDebugAdjustmentDialog : MonoBehaviour,
     // Render the adjustable fields.
     if (parentPart != null && adjustableModules != null) {
       if (adjustableModules.Length > 0) {
-        mainScrollView.BeginView(GUI.skin.box, Screen.height - 100);
+        mainScrollView.BeginView(GUI.skin.box, Screen.height - 200);
         for (var i = 0; i < adjustableModules.Length; i++) {
           var isSelected = selectedModule == i;
           var module = adjustableModules[i];
-          var toggleCaption = (isSelected ? "\u25b2 " : "\u25bc ") + module.Key;
+          var toggleCaption = (isSelected ? "\u25b2 " : "\u25bc ") + "Module: " + module.Key;
           if (GUILayout.Button(toggleCaption)) {
             var selectedModuleSnapshot = selectedModule == i ? -1 : i;  // Make a copy for lambda!
             guiActions.Add(() => selectedModule = selectedModuleSnapshot);
