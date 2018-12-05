@@ -1,5 +1,6 @@
 # 0.38 (pre-release):
 * [Fix] Properly adjust the collider dimensions for sphere and cylinder: [`Colliders.AdjustCollider`](http://ihsoft.github.io/KSPDev/Utils/html/T_KSPDev_ModelUtils_Colliders_AdjustCollider.htm).
+* [Change] Move all formatting types into own namespace: [`GUIUtils.TypeFormatters`](http://ihsoft.github.io/KSPDev/Utils/html/N_KSPDev_GUIUtils_TypeFormatters.htm).
 * [Enhancement] Add a type formatter for the part argument: [`GUIUtils.PartType`](http://ihsoft.github.io/KSPDev/Utils/html/T_KSPDev_GUIUtils_PartType.htm).
 * [Enhancement] Add a type formatter for the fixed percent form: [`GUIUtils.PercentFixedType`](http://ihsoft.github.io/KSPDev/Utils/html/T_KSPDev_GUIUtils_PercentFixedType.htm).
 * [Enhancement] Introduce "Hermetic GUI controls" concept: [`GUIUtils.AbstractHermeticGUIControl`](http://ihsoft.github.io/KSPDev/Utils/html/T_KSPDev_GUIUtils_AbstractHermeticGUIControl.htm).

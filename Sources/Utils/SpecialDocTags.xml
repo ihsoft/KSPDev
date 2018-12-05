@@ -12,19 +12,19 @@
 </MessageTypeWithArg>
 
 <MessageArgumentType>
-  <seealso cref="AngleType"/>
-  <seealso cref="CompactNumberType"/>
-  <seealso cref="CostType"/>
-  <seealso cref="DistanceType"/>
-  <seealso cref="ForceType"/>
-  <seealso cref="KeyboardEventType"/>
-  <seealso cref="MassType"/>
-  <seealso cref="PercentType"/>
-  <seealso cref="PressureType"/>
-  <seealso cref="ResourceShortType"/>
-  <seealso cref="MassType"/>
-  <seealso cref="ResourceType"/>
-  <seealso cref="VelocityType"/>
+  <seealso cref="TypeFormatters.AngleType"/>
+  <seealso cref="TypeFormatters.CompactNumberType"/>
+  <seealso cref="TypeFormatters.CostType"/>
+  <seealso cref="TypeFormatters.DistanceType"/>
+  <seealso cref="TypeFormatters.ForceType"/>
+  <seealso cref="TypeFormatters.KeyboardEventType"/>
+  <seealso cref="TypeFormatters.MassType"/>
+  <seealso cref="TypeFormatters.PercentFixedType"/>
+  <seealso cref="TypeFormatters.PercentType"/>
+  <seealso cref="TypeFormatters.PressureType"/>
+  <seealso cref="TypeFormatters.ResourceShortType"/>
+  <seealso cref="TypeFormatters.ResourceType"/>
+  <seealso cref="TypeFormatters.VelocityType"/>
 </MessageArgumentType>
 
 <Lingoona>

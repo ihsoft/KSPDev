@@ -6,7 +6,7 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace KSPDev.GUIUtils {
+namespace KSPDev.GUIUtils.TypeFormatters {
 
 /// <summary>Localized message formatting class for a Unity keyboard event.</summary>
 /// <remarks>

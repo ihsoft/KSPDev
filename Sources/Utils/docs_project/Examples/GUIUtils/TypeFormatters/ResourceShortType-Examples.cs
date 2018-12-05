@@ -3,6 +3,7 @@
 // This software is distributed under Public domain license.
 
 using KSPDev.GUIUtils;
+using KSPDev.GUIUtils.TypeFormatters;
 using KSPDev.ResourceUtils;
 using UnityEngine;
 

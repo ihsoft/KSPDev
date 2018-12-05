@@ -60,7 +60,8 @@ public sealed class Message : LocalizableMessage {
 /// <para>
 /// The arguments can be complex types that override the <c>ToString()</c> method. This approach
 /// can be used to customize the output format of the specific argument types. E.g. such values as
-/// "distance" can be formatted in a user friendly manner using <see cref="DistanceType"/>.
+/// "distance" can be formatted in a user friendly manner using
+/// <see cref="TypeFormatters.DistanceType"/>.
 /// </para>
 /// </remarks>
 /// <example><code source="Examples/GUIUtils/Message-Examples.cs" region="Message1Demo"/></example>
@@ -116,7 +117,8 @@ public sealed class Message<T1> : LocalizableMessage {
 /// <para>
 /// The arguments can be complex types that override the <c>ToString()</c> method. This approach
 /// can be used to customize the output format of the specific argument types. E.g. such values as
-/// "distance" can be formatted in a user friendly manner using <see cref="DistanceType"/>.
+/// "distance" can be formatted in a user friendly manner using
+/// <see cref="TypeFormatters.DistanceType"/>.
 /// </para>
 /// </remarks>
 /// <example><code source="Examples/GUIUtils/Message-Examples.cs" region="Message2Demo"/></example>
@@ -174,7 +176,8 @@ public class Message<T1, T2> : LocalizableMessage {
 /// <para>
 /// The arguments can be complex types that override the <c>ToString()</c> method. This approach
 /// can be used to customize the output format of the specific argument types. E.g. such values as
-/// "distance" can be formatted in a user friendly manner using <see cref="DistanceType"/>.
+/// "distance" can be formatted in a user friendly manner using
+/// <see cref="TypeFormatters.DistanceType"/>.
 /// </para>
 /// </remarks>
 /// <example><code source="Examples/GUIUtils/Message-Examples.cs" region="Message3Demo"/></example>
@@ -234,7 +237,8 @@ public class Message<T1, T2, T3> : LocalizableMessage {
 /// <para>
 /// The arguments can be complex types that override the <c>ToString()</c> method. This approach
 /// can be used to customize the output format of the specific argument types. E.g. such values as
-/// "distance" can be formatted in a user friendly manner using <see cref="DistanceType"/>.
+/// "distance" can be formatted in a user friendly manner using
+/// <see cref="TypeFormatters.DistanceType"/>.
 /// </para>
 /// </remarks>
 /// <example><code source="Examples/GUIUtils/Message-Examples.cs" region="Message4Demo"/></example>
@@ -296,7 +300,8 @@ public class Message<T1, T2, T3, T4> : LocalizableMessage {
 /// <para>
 /// The arguments can be complex types that override the <c>ToString()</c> method. This approach
 /// can be used to customize the output format of the specific argument types. E.g. such values as
-/// "distance" can be formatted in a user friendly manner using <see cref="DistanceType"/>.
+/// "distance" can be formatted in a user friendly manner using
+/// <see cref="TypeFormatters.DistanceType"/>.
 /// </para>
 /// </remarks>
 /// <example><code source="Examples/GUIUtils/Message-Examples.cs" region="Message5Demo"/></example>

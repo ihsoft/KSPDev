@@ -4,7 +4,7 @@
 
 using System;
 
-namespace KSPDev.GUIUtils {
+namespace KSPDev.GUIUtils.TypeFormatters {
 
 /// <summary>
 /// Localized message formatting class for a numeric value that represents a <i>velocity</i>. The

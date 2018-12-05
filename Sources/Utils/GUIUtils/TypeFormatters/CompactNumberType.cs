@@ -4,7 +4,7 @@
 
 using System;
 
-namespace KSPDev.GUIUtils {
+namespace KSPDev.GUIUtils.TypeFormatters {
 
 /// <summary>
 /// Message formatting class for a numeric value. For the values below <c>1000</c> the resulted

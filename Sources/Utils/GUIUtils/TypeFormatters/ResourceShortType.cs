@@ -4,7 +4,7 @@
 
 using KSPDev.ResourceUtils;
 
-namespace KSPDev.GUIUtils {
+namespace KSPDev.GUIUtils.TypeFormatters {
 
 /// <summary>
 /// Localized message formatting class for a string value that represents an

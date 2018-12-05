@@ -2,7 +2,7 @@
 // Author: igor.zavoychinskiy@gmail.com
 // This software is distributed under Public domain license.
 
-namespace KSPDev.GUIUtils {
+namespace KSPDev.GUIUtils.TypeFormatters {
 
 /// <summary>
 /// Localized message formatting class for a numeric value that represents a <i>pressure</i>. The
