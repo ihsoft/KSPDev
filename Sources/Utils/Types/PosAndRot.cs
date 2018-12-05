@@ -16,7 +16,7 @@ namespace KSPDev.Types {
 /// <list type="bullet">
 /// <item>The first triplet is a position: x, y, z.</item>
 /// <item>
-/// The second triplet is a Euler rotaion around each axis: x, y, z.
+/// The second triplet is a Euler rotation around each axis: x, y, z.
 /// </item>
 /// </list>
 /// </remarks>
