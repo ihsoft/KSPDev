@@ -30,6 +30,9 @@ public sealed class HermeticGUIControlText : AbstractHermeticGUIControl {
   /// <summary>Tells if <see cref="currentTxt"/> can be applied to the field.</summary>
   bool isValid;
 
+  /// <summary>String literal that sets or represents the <c>NULL</c> value.</summary>
+  const string NullValue = "<NULL>";
+
   #region IRenderableGUIControl implementation
   /// <inheritdoc/>
   public override void RenderControl(
@@ -39,7 +42,7 @@ public sealed class HermeticGUIControlText : AbstractHermeticGUIControl {
     }
 
     var value = GetMemberValue<object>();
-    var valueTxt = valueTypeProto.SerializeToString(value);
+    var valueTxt = value != null ? valueTypeProto.SerializeToString(value) : NullValue;
     if (currentTxt == null) {
       currentTxt = valueTxt;
       isValid = true;
@@ -48,7 +51,9 @@ public sealed class HermeticGUIControlText : AbstractHermeticGUIControl {
     if (changed) {
       isValid = true;
       try {
-        valueTypeProto.ParseFromString(currentTxt, GetMemberType());
+        if (currentTxt.Trim() != NullValue) {
+          valueTypeProto.ParseFromString(currentTxt, GetMemberType());
+        }
       } catch (Exception) {
         isValid = false;
       }
@@ -59,8 +64,13 @@ public sealed class HermeticGUIControlText : AbstractHermeticGUIControl {
     using (new GuiEnabledStateScope(changed)) {
       using (new GuiEnabledStateScope(changed && isValid)) {
         if (GUILayout.Button("S", GUILayout.ExpandWidth(false))) {
-          value = valueTypeProto.ParseFromString(currentTxt, GetMemberType());
-          currentTxt = valueTypeProto.SerializeToString(value);
+          if (currentTxt.Trim() != NullValue) {
+            value = valueTypeProto.ParseFromString(currentTxt, GetMemberType());
+            currentTxt = valueTypeProto.SerializeToString(value);
+          } else {
+            value = null;
+            currentTxt = NullValue;
+          }
           SetMemberValue(value);
         }
       }
