@@ -35,13 +35,17 @@ public sealed class HermeticGUIControlClass : AbstractHermeticGUIControl {
   public override void RenderControl(
       GuiActionsList actionsList, GUIStyle layoutStyle, GUILayoutOption[] layoutOptions) {
     using (new GUILayout.VerticalScope(GUI.skin.box)) {
-      var toggleCaption = (isExpanded ? "\u25b2 " : "\u25bc ") + caption;
-      if (GUILayout.Button(toggleCaption)) {
-        if (actionsList != null) {
-          var isExpandedCopy = isExpanded; // Lambda needs a copy!
-          actionsList.Add(() => isExpanded = !isExpanded);
-        } else {
-          isExpanded = !isExpanded;
+      using (new GUILayout.HorizontalScope(GUIStyle.none)) {
+        GUILayout.Label(caption);
+        GUILayout.FlexibleSpace();
+        var toggleCaption = isExpanded ? "\u25b2 Collapse Group" : "\u25bc Expand Group";
+        if (GUILayout.Button(toggleCaption, layoutOptions)) {
+          if (actionsList != null) {
+            var isExpandedCopy = isExpanded;  // Lambda needs a copy!
+            actionsList.Add(() => isExpanded = !isExpanded);
+          } else {
+            isExpanded = !isExpanded;
+          }
         }
       }
       if (isExpanded) {

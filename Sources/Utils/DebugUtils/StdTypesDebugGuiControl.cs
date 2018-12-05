@@ -81,7 +81,7 @@ public sealed class StdTypesDebugGuiControl : IRenderableGUIControl {
                 useOwnLayout: false);
           } else {
             this.control = new HermeticGUIControlClass(
-                "Group: " + caption, instance,
+                caption, instance,
                 fieldInfo: fieldInfo, propertyInfo: propertyInfo,
                 onUpdate: onValueUpdatedCallback);
           }
