@@ -61,7 +61,11 @@ public sealed class HermeticGUIControlSwitch : AbstractHermeticGUIControl {
   /// <param name="instance">The class instance that owns the member to manage.</param>
   /// <param name="fieldInfo">The field to manage.</param>
   /// <param name="propertyInfo">The property to manage.</param>
-  /// <param name="onUpdate">The callback to call when the value is changed.</param>
+  /// <param name="onBeforeUpdate">
+  /// The callback to call before changing the value. <see cref="InvalidOperationException"/> can be
+  /// throws form this action to prevent the change.
+  /// </param>
+  /// <param name="onAfterUpdate">The callback to call when the value is changed.</param>
   /// <param name="useOwnLayout">
   /// If <c>false</c>, then the control will start own horizontal section to align the input field
   /// and buttons.
@@ -73,9 +77,10 @@ public sealed class HermeticGUIControlSwitch : AbstractHermeticGUIControl {
   /// <seealso cref="ConfigUtils.StandardOrdinaryTypesProto"/>
   public HermeticGUIControlSwitch(object instance,
                                   FieldInfo fieldInfo = null, PropertyInfo propertyInfo = null,
-                                  Action onUpdate = null, bool useOwnLayout = true,
+                                  Action onBeforeUpdate = null, Action onAfterUpdate = null,
+                                  bool useOwnLayout = true,
                                   Func<object, string> toStringConverter = null)
-      : base(instance, fieldInfo, propertyInfo, onUpdate) {
+      : base(instance, fieldInfo, propertyInfo, onBeforeUpdate, onAfterUpdate) {
     this.useOwnLayout = useOwnLayout;
     this.toStringConverter = toStringConverter != null ? toStringConverter : x => x.ToString();
     if (!GetMemberType().IsEnum) {

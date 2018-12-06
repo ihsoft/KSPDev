@@ -62,11 +62,15 @@ public sealed class HermeticGUIControlClass : AbstractHermeticGUIControl {
   /// <param name="instance">The class instance that owns the member to manage.</param>
   /// <param name="fieldInfo">The field to manage.</param>
   /// <param name="propertyInfo">The property to manage.</param>
-  /// <param name="onUpdate">The callback to call when the value is changed.</param>
+  /// <param name="onBeforeUpdate">
+  /// The callback to call before changing the value. <see cref="InvalidOperationException"/> can be
+  /// throws form this action to prevent the change.
+  /// </param>
+  /// <param name="onAfterUpdate">The callback to call when the value is changed.</param>
   public HermeticGUIControlClass(string caption, object instance,
                                  FieldInfo fieldInfo = null, PropertyInfo propertyInfo = null,
-                                 Action onUpdate = null)
-      : base(instance, fieldInfo, propertyInfo, onUpdate) {
+                                 Action onBeforeUpdate = null, Action onAfterUpdate = null)
+      : base(instance, fieldInfo, propertyInfo, onBeforeUpdate, onAfterUpdate) {
     this.caption = caption;
     if (!GetMemberType().IsClass) {
       throw new ArgumentException("Unsupported type: " + GetMemberType());

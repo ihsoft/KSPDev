@@ -33,12 +33,17 @@ public sealed class HermeticGUIControlBoolean : AbstractHermeticGUIControl {
   /// <param name="instance">The class instance that owns the member to control.</param>
   /// <param name="fieldInfo">The field to control.</param>
   /// <param name="propertyInfo">The property to control.</param>
-  /// <param name="onUpdate">The callback to call when the value is changed.</param>
+  /// <param name="onBeforeUpdate">
+  /// The callback to call before changing the value. <see cref="InvalidOperationException"/> can be
+  /// throws form this action to prevent the change.
+  /// </param>
+  /// <param name="onAfterUpdate">The callback to call when the value is changed.</param>
   /// <seealso cref="ConfigUtils.StandardOrdinaryTypesProto"/>
   public HermeticGUIControlBoolean(
       string caption, object instance,
-      FieldInfo fieldInfo = null, PropertyInfo propertyInfo = null, Action onUpdate = null)
-      : base(instance, fieldInfo, propertyInfo, onUpdate) {
+      FieldInfo fieldInfo = null, PropertyInfo propertyInfo = null,
+      Action onBeforeUpdate = null, Action onAfterUpdate = null)
+      : base(instance, fieldInfo, propertyInfo, onBeforeUpdate, onAfterUpdate) {
     this.caption = caption;
     if (GetMemberType() != typeof(bool)) {
       throw new ArgumentException(string.Format(

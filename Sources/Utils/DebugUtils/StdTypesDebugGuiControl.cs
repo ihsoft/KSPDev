@@ -46,11 +46,13 @@ public sealed class StdTypesDebugGuiControl : IRenderableGUIControl {
                                  FieldInfo fieldInfo = null,
                                  PropertyInfo propertyInfo = null,
                                  MethodInfo methodInfo = null) {
-    Action onValueUpdatedCallback = null;
+    Action onBeforeValueUpdateCallback = null;
+    Action onAfterValueUpdateCallback = null;
     var adjustable = (host as IHasDebugAdjustables)
         ?? (instance as IHasDebugAdjustables);
     if (adjustable != null) {
-      onValueUpdatedCallback = adjustable.OnDebugAdjustablesUpdated;
+      onBeforeValueUpdateCallback = adjustable.OnBeforeDebugAdjustablesUpdate;
+      onAfterValueUpdateCallback = adjustable.OnDebugAdjustablesUpdated;
     }
     try {
       if (methodInfo != null) {
@@ -66,24 +68,31 @@ public sealed class StdTypesDebugGuiControl : IRenderableGUIControl {
         if (type == typeof(bool)) {
           this.control = new HermeticGUIControlBoolean(
               caption, instance,
-              fieldInfo: fieldInfo, propertyInfo: propertyInfo, onUpdate: onValueUpdatedCallback);
+              fieldInfo: fieldInfo, propertyInfo: propertyInfo,
+              onBeforeUpdate: onBeforeValueUpdateCallback,
+              onAfterUpdate: onAfterValueUpdateCallback);
         } else if (type.IsEnum) {
           this.control = new HermeticGUIControlSwitch(
               instance,
-              fieldInfo: fieldInfo, propertyInfo: propertyInfo, onUpdate: onValueUpdatedCallback,
+              fieldInfo: fieldInfo, propertyInfo: propertyInfo,
+              onBeforeUpdate: onBeforeValueUpdateCallback,
+              onAfterUpdate: onAfterValueUpdateCallback,
               useOwnLayout: false);
         } else {
           var proto = new StandardOrdinaryTypesProto();
           if (proto.CanHandle(type)) {
             this.control = new HermeticGUIControlText(
                 instance,
-                fieldInfo: fieldInfo, propertyInfo: propertyInfo, onUpdate: onValueUpdatedCallback,
+                fieldInfo: fieldInfo, propertyInfo: propertyInfo,
+                onBeforeUpdate: onBeforeValueUpdateCallback,
+                onAfterUpdate: onAfterValueUpdateCallback,
                 useOwnLayout: false);
           } else {
             this.control = new HermeticGUIControlClass(
                 caption, instance,
                 fieldInfo: fieldInfo, propertyInfo: propertyInfo,
-                onUpdate: onValueUpdatedCallback);
+                onBeforeUpdate: onBeforeValueUpdateCallback,
+                onAfterUpdate: onAfterValueUpdateCallback);
           }
         }
       }

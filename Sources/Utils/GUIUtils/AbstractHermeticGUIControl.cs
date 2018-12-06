@@ -30,7 +30,8 @@ public abstract class AbstractHermeticGUIControl : IRenderableGUIControl {
   readonly object instance;
   readonly FieldInfo fieldInfo;
   readonly PropertyInfo propertyInfo;
-  readonly Action onUpdate;
+  readonly Action onBeforeUpdate;
+  readonly Action onAfterUpdate;
   #endregion
 
   #region IRenderableGUIControl implementation
@@ -47,19 +48,22 @@ public abstract class AbstractHermeticGUIControl : IRenderableGUIControl {
   /// <param name="propertyInfo">
   /// The property to manage. It's ignored if <paramref name="fieldInfo"/> is not <c>null</c>.
   /// </param>
-  /// <param name="onUpdate">
-  /// The callback to call when the value is changed. It can be <c>null</c> if no update callback is
-  /// needed.
+  /// <param name="onBeforeUpdate">
+  /// The callback to call before changing the value. <see cref="InvalidOperationException"/> can be
+  /// throws form this action to prevent the change.
   /// </param>
+  /// <param name="onAfterUpdate">The callback to call when the value is changed.</param>
   protected AbstractHermeticGUIControl(
       object instance,
       FieldInfo fieldInfo,
       PropertyInfo propertyInfo,
-      Action onUpdate) {
+      Action onBeforeUpdate,
+      Action onAfterUpdate) {
     this.instance = instance;
     this.fieldInfo = fieldInfo;
     this.propertyInfo = propertyInfo;
-    this.onUpdate = onUpdate;
+    this.onBeforeUpdate = onBeforeUpdate;
+    this.onAfterUpdate = onAfterUpdate;
     if (propertyInfo != null && !propertyInfo.CanRead) {
       throw new ArgumentException(string.Format(
           "Property not readable: {0}.{1} => {2}",
@@ -98,9 +102,9 @@ public abstract class AbstractHermeticGUIControl : IRenderableGUIControl {
   /// <summary>Calls the customized update method.</summary>
   /// <remarks>It's fail proof.</remarks>
   protected void UpdateMemberInstance() {
-    if (onUpdate != null) {
+    if (onAfterUpdate != null) {
       try {
-        onUpdate();
+        onAfterUpdate();
       } catch (Exception ex) {
         DebugEx.Error("Exception in the update method: {0}", ex);
       }
@@ -110,6 +114,14 @@ public abstract class AbstractHermeticGUIControl : IRenderableGUIControl {
   /// <summary>Implemnet actual setting logic.</summary>
   /// <param name="value">The value to set.</param>
   void SetMemberValueInternal<T>(T value) {
+    if (onBeforeUpdate != null) {
+      try {
+        onBeforeUpdate();
+      } catch (InvalidOperationException ex) {
+        ScreenMessaging.ShowErrorScreenMessage(ex.Message);
+        return;
+      }
+    }
     if (fieldInfo != null) {
       fieldInfo.SetValue(instance, value);
     } else {
