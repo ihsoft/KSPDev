@@ -5,6 +5,7 @@
 using System;
 using System.Collections.Generic;
 using KSPDev.Extensions;
+using KSPDev.LogUtils;
 
 namespace KSPDev.ProcessingUtils {
 
@@ -272,18 +273,25 @@ public sealed class SimpleStateMachine<T> where T : struct, IConvertible {
               "Transition {0}=>{1} is not allowed", oldState.Value, newState.Value));
         }
       }
-      if (onBeforeTransition != null) {
-        onBeforeTransition(oldState, newState);
-      }
-      if (oldState.HasValue) {
-        FireLeaveState(newState);
-      }
-      _currentState = newState;
-      if (newState.HasValue) {
-        FireEnterState(oldState);
-      }
-      if (onAfterTransition != null) {
-        onAfterTransition(oldState, newState);
+      try {
+        if (onBeforeTransition != null) {
+          onBeforeTransition(oldState, newState);
+        }
+        if (oldState.HasValue) {
+          FireLeaveState(newState);
+        }
+        _currentState = newState;
+        if (newState.HasValue) {
+          FireEnterState(oldState);
+        }
+        if (onAfterTransition != null) {
+          onAfterTransition(oldState, newState);
+        }
+      } catch (Exception ex) {
+        var msg = string.Format("Exception thrown when doing transition: {0} => {1}",
+                                oldState != null ? oldState.ToString() : "[NULL]",
+                                newState != null ? newState.ToString() : "[NULL]");
+        throw new InvalidOperationException(msg, ex);
       }
     }
   }
