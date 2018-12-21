@@ -33,7 +33,7 @@ public static class Hierarchy {
     var position = newPosition ?? child.localPosition;
     var rotation = newRotation ?? child.localRotation;
     var scale = newScale ?? child.localScale;
-    child.parent = parent;
+    child.SetParent(parent, false);
     child.localPosition = position;
     child.localRotation = rotation;
     child.localScale = scale;
