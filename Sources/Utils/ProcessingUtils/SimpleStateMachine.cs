@@ -273,56 +273,82 @@ public sealed class SimpleStateMachine<T> where T : struct, IConvertible {
               "Transition {0}=>{1} is not allowed", oldState.Value, newState.Value));
         }
       }
-      try {
-        if (onBeforeTransition != null) {
-          onBeforeTransition(oldState, newState);
-        }
-        if (oldState.HasValue) {
-          FireLeaveState(newState);
-        }
-        _currentState = newState;
-        if (newState.HasValue) {
-          FireEnterState(oldState);
-        }
-        if (onAfterTransition != null) {
-          onAfterTransition(oldState, newState);
-        }
-      } catch (Exception ex) {
-        var msg = string.Format("Exception thrown when doing transition: {0} => {1}",
-                                oldState != null ? oldState.ToString() : "[NULL]",
-                                newState != null ? newState.ToString() : "[NULL]");
-        throw new InvalidOperationException(msg, ex);
+      FireTransitionEvent(oldState, newState, isBefore: true);
+      if (oldState.HasValue) {
+        FireLeaveState(oldState, newState);
       }
+      _currentState = newState;
+      if (newState.HasValue) {
+        FireEnterState(oldState, newState);
+      }
+      FireTransitionEvent(oldState, newState, isBefore: false);
     }
   }
 
   /// <summary>Notifies all the handlers about leaving the current state.</summary>
-  /// <param name="newState">The new state where the machine is going to.</param>
-  void FireLeaveState(T? newState) {
+  /// <param name="oldState">The state from which the machine is leaving.</param>
+  /// <param name="newState">The new state which the machine is entering.</param>
+  void FireLeaveState(T? oldState, T? newState) {
     OnChange @event;
-    if (!newState.HasValue) {
-      if (leaveHandlersShutdown.TryGetValue(_currentState.Value, out @event)) {
-        @event(newState);
+    try {
+      if (!newState.HasValue) {
+        if (leaveHandlersShutdown.TryGetValue(_currentState.Value, out @event)) {
+          @event(newState);
+        }
+      } else {
+        if (leaveHandlersAny.TryGetValue(_currentState.Value, out @event)) {
+          @event(newState);
+        }
       }
-    } else {
-      if (leaveHandlersAny.TryGetValue(_currentState.Value, out @event)) {
-        @event(newState);
-      }
+    } catch (Exception ex) {
+      var msg = string.Format("Enexpected exception when leaving state: {0}",
+                              oldState != null ? oldState.ToString() : "[NULL]");
+      throw new InvalidOperationException(msg, ex);
     }
   }
 
   /// <summary>Notifies all the handlers about entering a new state.</summary>
-  /// <param name="oldState">The old state where the machine is going from.</param>
-  void FireEnterState(T? oldState) {
+  /// <param name="oldState">The state from which the machine is leaving.</param>
+  /// <param name="newState">The new state which the machine is entering.</param>
+  void FireEnterState(T? oldState, T? newState) {
     OnChange @event;
-    if (!oldState.HasValue) {
-      if (enterHandlersInit.TryGetValue(_currentState.Value, out @event)) {
-        @event(oldState);
+    try {
+      if (!oldState.HasValue) {
+        if (enterHandlersInit.TryGetValue(_currentState.Value, out @event)) {
+          @event(oldState);
+        }
+      } else {
+        if (enterHandlersAny.TryGetValue(_currentState.Value, out @event)) {
+          @event(oldState);
+        }
       }
-    } else {
-      if (enterHandlersAny.TryGetValue(_currentState.Value, out @event)) {
-        @event(oldState);
+    } catch (Exception ex) {
+      var msg = string.Format("Enexpected exception when entering state: {0}",
+                              newState != null ? newState.ToString() : "[NULL]");
+      throw new InvalidOperationException(msg, ex);
+    }
+  }
+
+  /// <summary>Notifies the transitions listeners about the state change.</summary>
+  /// <param name="oldState">The state from which the machine is leaving.</param>
+  /// <param name="newState">The new state which the machine is entering.</param>
+  /// <param name="isBefore">
+  /// Tells if the transition is about to happen or has already happen.
+  /// </param>
+  void FireTransitionEvent(T? oldState, T? newState, bool isBefore) {
+    try {
+      if (isBefore && onBeforeTransition != null) {
+        onBeforeTransition(oldState, newState);
+      } else if (!isBefore && onAfterTransition != null) {
+          onAfterTransition(oldState, newState);
       }
+    } catch (Exception ex) {
+      var msg = string.Format(
+          "Unexpected exception in transition handler: {0} => {1}, isBefore={2}",
+          oldState != null ? oldState.ToString() : "[NULL]",
+          newState != null ? newState.ToString() : "[NULL]",
+          isBefore);
+      throw new InvalidOperationException(msg, ex);
     }
   }
   #endregion
