@@ -33,7 +33,7 @@ public static class PartModel {
   /// <summary>Refreshes the highlighters on the part.</summary>
   /// <remarks>
   /// It goes thru the highlighters cache and drops all the renderers that are no more in the part's
-  /// model hierarchy. Then, it gets all the renderers in the hierarchy and enusrrs all of them are
+  /// model hierarchy. Then, it gets all the renderers in the hierarchy and ensures all of them are
   /// in the cache. It's not a cheap operation performance wise.
   /// </remarks>
   /// <param name="part">The part to refresh the highlighters for. It can be <c>null</c>.</param>
