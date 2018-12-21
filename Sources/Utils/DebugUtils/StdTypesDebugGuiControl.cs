@@ -117,8 +117,12 @@ public sealed class StdTypesDebugGuiControl : IRenderableGUIControl {
   public void RenderControl(
       GuiActionsList actionsList, GUIStyle layoutStyle, GUILayoutOption[] options) {
     if (control != null) {
-      if (control is HermeticGUIControlClass || control is HermeticGUIControlBoolean) {
+      if (control is HermeticGUIControlClass) {
         control.RenderControl(actionsList, layoutStyle, options);
+      } else if (control is HermeticGUIControlBoolean) {
+        using (new GUILayout.HorizontalScope(GUI.skin.box)) {
+          control.RenderControl(actionsList, layoutStyle, options);
+        }
       } else {
         using (new GUILayout.HorizontalScope(GUI.skin.box)) {
           GUILayout.Label(caption);
@@ -127,11 +131,13 @@ public sealed class StdTypesDebugGuiControl : IRenderableGUIControl {
         }
       }
     } else if (action != null) {
-      if (GUILayout.Button(caption)) {
-        if (actionsList != null) {
-          actionsList.Add(action);
-        } else {
-          action();
+      using (new GUILayout.HorizontalScope(GUI.skin.box)) {
+        if (GUILayout.Button(caption)) {
+          if (actionsList != null) {
+            actionsList.Add(action);
+          } else {
+            action();
+          }
         }
       }
     }
