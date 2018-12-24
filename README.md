@@ -1,6 +1,6 @@
 # This repository is DEPRECATED!!!
 
-Here are the new locations of the modules that used to live imn this repository:
+Here are the new locations of the modules that used to live in this repository:
 
 * [KSPDev Utils](https://github.com/ihsoft/KSPDev_Utils)
 * [KPSDev LogConsole](https://github.com/ihsoft/KSPDev_LogConsole)
